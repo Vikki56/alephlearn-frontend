@@ -1005,3 +1005,122 @@ body::after{
   .section{ padding: 62px 0; }
   .lp-footer-hero{ padding: 22px; }
 }
+/* =========================
+   📱 MOBILE RESPONSIVE
+   ========================= */
+
+   @media (max-width: 768px) {
+
+    /* NAV */
+    .nav-links {
+      display: none;
+    }
+  
+    .burger {
+      display: block;
+    }
+  
+    .nav-inner {
+      padding: 12px 16px;
+    }
+  
+    /* HERO */
+    .hero {
+      padding-top: 90px;
+    }
+  
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  
+    .hero-left h1 {
+      font-size: 34px;
+      line-height: 1.25;
+    }
+  
+    .hero-left .sub {
+      font-size: 15px;
+    }
+  
+    .hero-actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .hero-actions .btn {
+      width: 100%;
+      text-align: center;
+    }
+  
+    /* STATS */
+    .stats {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+  
+    /* HERO CARD */
+    .hero-right {
+      width: 100%;
+    }
+  
+    .preview-card {
+      transform: none;
+    }
+  
+    /* FEATURES */
+    .grid3 {
+      grid-template-columns: 1fr;
+    }
+  
+    /* MODULES */
+    .modules {
+      grid-template-columns: 1fr;
+    }
+  
+    /* STEPS */
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  
+    /* PRICING */
+    .pricing {
+      grid-template-columns: 1fr;
+    }
+  
+    /* FOOTER */
+    .lp-footer-bottom {
+      flex-direction: column;
+      gap: 24px;
+    }
+  
+    .lp-links {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+  }
+  
+  /* 📱 SMALL PHONES */
+  @media (max-width: 480px) {
+  
+    .hero-left h1 {
+      font-size: 28px;
+    }
+  
+    .pill {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  
+    .lp-links {
+      grid-template-columns: 1fr;
+    }
+  
+    .price-tag {
+      font-size: 28px;
+    }
+  }

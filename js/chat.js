@@ -1,16 +1,9 @@
 
-// --- API BASE (dev vs prod) ---
-// ✅ Dev: http://localhost:8080
-// ✅ Prod: Render backend (or later api.alephlearn.com)
-window.API_BASE = window.API_BASE || 'http://localhost:8080';
+window.API_BASE = window.API_BASE || 'https://alephlearn-backend.onrender.com';
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-const looksLikeProd = /(^|\.)alephlearn\.com$/.test(location.hostname) || location.hostname.endsWith('.pages.dev');
-const PROD_BACKEND = 'https://alephlearn-backend.onrender.com';
-
-const API_BASE = ORIGIN_OVERRIDE
-  || (isFile || looksLikeDev ? 'http://localhost:8080' : (looksLikeProd ? PROD_BACKEND : location.origin));
+const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? 'http://localhost:8080' : location.origin);
 window.API_BASE = API_BASE;
 let currentProfileUserId = null;
 const reportModal = document.getElementById('reportModal');
@@ -89,7 +82,7 @@ async function initNotifications() {
     }
 
     // get my userId from backend
-    const meRes = await authFetch(`${API_BASE}/api/profile/me`);
+    const meRes = await authFetch(`/api/profile/me`);
     if (!meRes || !meRes.ok) {
       console.warn("Can't start notifications: /api/profile/me failed", meRes?.status, meRes?.statusText);
       return;
@@ -1138,11 +1131,6 @@ function showConfirmModal({
 window.ensureConfirmModal = ensureConfirmModal;
 window.showConfirmModal   = showConfirmModal;
 // ========= /Confirm Modal =========
-// ===== /Confirm Modal =====
-// expose to global so console/tests can call it
-window.ensureConfirmModal = ensureConfirmModal;
-window.showConfirmModal   = showConfirmModal;
-// ===== /Confirm Modal =====
 
 
 
@@ -3383,7 +3371,7 @@ function setComposerVisible(visible) {
 
 
 async function qaOpen(qid){
-  try { window.__qaOpenQuestionId = id; } catch {}
+  try { window.__qaOpenQuestionId = qid; } catch {}
 
   const modal = document.getElementById('qaViewModal');
   if (!modal) { console.error('Missing #qaViewModal in chat.html'); alert('Internal error'); return; }
@@ -5517,6 +5505,12 @@ async function start(){
 
   await initBackendOrSim();
   await joinRoom(currentRoom);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.body.classList.remove("al-boot");
+      // document.documentElement.classList.remove("al-preload");
+    });
+  });
   setTimeout(() => loadPinned(currentRoom), 1000);
 }
 start();

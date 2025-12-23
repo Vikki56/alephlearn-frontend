@@ -1,184 +1,70 @@
-// --- CONFIG ---
-// Single source of truth for backend base URL.
-// - Dev:   http://localhost:8080
-// - Prod:  https://alephlearn-backend.onrender.com  (until you move to https://api.alephlearn.com)
-const isFile = location.origin === 'null' || location.protocol === 'file:';
-const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-const looksLikeProd = /(^|\.)alephlearn\.com$/.test(location.hostname) || location.hostname.endsWith('.pages.dev');
+// AlephLearn API helper (PROD-safe)
+// Single source of truth for API base URL across pages.
 
-export const API_BASE = (
-  (window.API_BASE && String(window.API_BASE).trim())
-  || (localStorage.getItem('backendOrigin') || '').trim()
-  || (isFile || looksLikeDev ? 'http://localhost:8080' : (looksLikeProd ? 'https://alephlearn-backend.onrender.com' : location.origin))
-);
+const isFile = location.protocol === "file:";
+const looksLikeDev =
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1" ||
+  location.port === "5500" || location.port === "5173" || location.port === "3000";
 
-// --- TOAST ---
-export function showToast(message, type = "info", ms = 2200) {
-  let stack = document.getElementById("toast-stack");
-  if (!stack) {
-    stack = document.createElement("div");
-    stack.id = "toast-stack";
-    stack.setAttribute("aria-live", "polite");
-    stack.setAttribute("aria-atomic", "true");
-    document.body.appendChild(stack);
-  }
+const ORIGIN_OVERRIDE =
+  localStorage.getItem("backendOrigin") ||
+  sessionStorage.getItem("backendOrigin") ||
+  window.API_BASE;
 
-  const t = document.createElement("div");
-  t.className = `toast ${type}`;
-  t.textContent = message;
-  stack.appendChild(t);
+const PROD_API_BASE = "https://alephlearn-backend.onrender.com";
+export const API_BASE = (ORIGIN_OVERRIDE || (isFile || looksLikeDev ? "http://localhost:8080" : PROD_API_BASE))
+  .replace(/\/$/, "");
 
-  const remove = () => {
-    t.style.animation = "toast-out .18s ease-in forwards";
-    setTimeout(() => t.remove(), 180);
-  };
-  setTimeout(remove, ms);
-  t.addEventListener("click", remove);
+// expose for legacy scripts
+window.API_BASE = API_BASE;
+
+function getToken() {
+  return localStorage.getItem("token") || localStorage.getItem("jwt") || "";
 }
 
-// --- ERROR NORMALIZER ---
-function normalizeError(statusText, text) {
-  try {
-    const j = JSON.parse(text);
-    return j.message || statusText || "Something went wrong.";
-  } catch {
-    if (text && /<\/?[a-z][\s\S]*>/i.test(text))
-      return statusText || "Request failed.";
-    return text || statusText || "Request failed.";
+export async function apiFetch(path, opts = {}) {
+  const url = path.startsWith("http") ? path : `${API_BASE}${path.startsWith("/") ? "" : "/"}${path}`;
+  const headers = new Headers(opts.headers || {});
+  if (!headers.has("Content-Type") && opts.body && !(opts.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
   }
+  const res = await fetch(url, { ...opts, headers });
+  return res;
 }
 
-async function handleResponse(res) {
+export async function authFetch(path, opts = {}) {
+  const token = getToken();
+  const headers = new Headers(opts.headers || {});
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  return apiFetch(path, { ...opts, headers });
+}
+
+export async function readJsonSafe(res) {
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
   const text = await res.text();
-  if (!res.ok) throw new Error(normalizeError(res.statusText, text));
-  return text ? JSON.parse(text) : {};
-}
-
-// --- BASIC FETCH WRAPPERS ---
-export async function apiGet(path) {
-  try {
-    const res = await fetch(`${API_BASE}${path}`);
-    return await handleResponse(res);
-  } catch (e) {
-    throw new Error(e.message || "Network error");
+  if (!text) return null;
+  if (ct.includes("application/json")) {
+    try { return JSON.parse(text); } catch { return { _raw: text }; }
   }
+  // if HTML came back, return raw text so caller can show a useful error
+  return { _raw: text };
 }
 
-export async function apiPost(path, data) {
-  try {
-    const res = await fetch(`${API_BASE}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data ?? {}),
-    });
-    return await handleResponse(res);
-  } catch (e) {
-    throw new Error(e.message || "Network error");
-  }
+export async function getJson(path, opts = {}) {
+  const res = await authFetch(path, { ...opts, method: "GET" });
+  const data = await readJsonSafe(res);
+  if (!res.ok) throw new Error(data?.message || data?.error || res.statusText || "Request failed");
+  return data;
 }
 
-// --- AUTH STORAGE + UTIL ---
-const KEY_TOKEN = "token";
-const KEY_USER  = "user";
-
-export function saveAuth(token, email) {
-  localStorage.setItem(KEY_TOKEN, token);
-  localStorage.setItem(KEY_USER, email);
-}
-export function getToken() {
-  return localStorage.getItem(KEY_TOKEN);
-}
-export function getUserEmail() {
-  return localStorage.getItem(KEY_USER);
-}
-export function clearAuth() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("jwt");
-  localStorage.removeItem("user");
-  localStorage.removeItem("email");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("role");
-  localStorage.removeItem("userId");
-}
-
-export function authHeader() {
-  const t = getToken();
-  return t ? { Authorization: `Bearer ${t}` } : {};
-}
-
-/* 🔹 NEW: fetchWithAuth usable from non-module scripts (like leaderboard.js) */
-export async function fetchWithAuth(input, options = {}) {
-  const url = typeof input === "string" ? input : input;
-  const headers = { ...(options.headers || {}), ...authHeader() };
-
-  return fetch(url, { ...options, headers });
-}
-
-// expose globally so <script src="leaderboard.js"> can see it
-if (typeof window !== "undefined") {
-  window.fetchWithAuth = fetchWithAuth;
-}
-
-// Auth-aware fetch you can reuse anywhere
-export async function authFetch(path, options = {}) {
-  const url = path.startsWith("http") ? path : `${API_BASE}${path}`;
-  const headers = { ...(options.headers || {}), ...authHeader() };
-
-  const res = await fetch(url, { ...options, headers });
-
-  // read body once
-  const text = await res.text();
-
-  // ✅ 401 => normal logout (already)
-  if (res.status === 401) {
-    clearAuth();
-    const next = encodeURIComponent(location.pathname + location.search + location.hash);
-    location.replace(`Auth.html#login?next=${next}`);
-    throw new Error("Unauthorized");
-  }
-
-  // ✅ 403 => BLOCKED/BANNED => forced logout + popup
-  if (res.status === 403) {
-    let msg = "Your account is blocked/banned. Contact admin.";
-    try {
-      const j = text ? JSON.parse(text) : null;
-      msg = j?.message || msg;
-    } catch {
-      if (text) msg = text;
-    }
-
-    // store message for Auth.html to show
-    sessionStorage.setItem("blocked_msg", msg);
-
-    // logout + redirect
-    clearAuth();
-    const next = encodeURIComponent(location.pathname + location.search + location.hash);
-    location.replace(`Auth.html#login?blocked=1&next=${next}`);
-
-    throw new Error(msg);
-  }
-
-  // other errors
-  if (!res.ok) throw new Error(text || res.statusText || "Request failed");
-  return text ? JSON.parse(text) : {};
-}
-
-// POST helper with JWT
-export function apiAuthPost(path, data) {
-  return authFetch(path, {
+export async function postJson(path, body, opts = {}) {
+  const res = await authFetch(path, {
+    ...opts,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data ?? {}),
+    body: body instanceof FormData ? body : JSON.stringify(body ?? {})
   });
-}
-
-// --- CLEAR PASSWORD FIELDS ---
-export function clearPasswords() {
-  ["spass", "scpass", "lpass"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.value = "";
-      el.type = "password";
-    }
-  });
+  const data = await readJsonSafe(res);
+  if (!res.ok) throw new Error(data?.message || data?.error || res.statusText || "Request failed");
+  return data;
 }

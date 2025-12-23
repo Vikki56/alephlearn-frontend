@@ -4,13 +4,19 @@ import { getToken, clearAuth, authFetch } from "./api.js";
 
 
 function parseJwt(t){ try{ return JSON.parse(atob(t.split(".")[1]||"")); }catch{return null;} }
+const PROD_API_BASE = "https://alephlearn-backend.onrender.com";
+const isFile = location.protocol === "file:";
+const looksLikeDev = location.hostname==="localhost" || location.hostname==="127.0.0.1" || location.port==="5500" || location.port==="5173" || location.port==="3000";
+const ORIGIN_OVERRIDE = localStorage.getItem("backendOrigin") || sessionStorage.getItem("backendOrigin") || window.API_BASE;
+const API_BASE = (ORIGIN_OVERRIDE || (isFile || looksLikeDev ? "http://localhost:8080" : PROD_API_BASE)).replace(/\/$/,"");
+window.API_BASE = API_BASE;
 function isTokenValid(t){ const p=parseJwt(t); return t && (!p?.exp || Date.now()<p.exp*1000); }
 
 
 
 async function verifyWithServer(token){
   try{
-    const res = await fetch("https://alephlearn-backend.onrender.com/api/ping", {
+    const res = await fetch(`${API_BASE}/api/ping`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.ok;

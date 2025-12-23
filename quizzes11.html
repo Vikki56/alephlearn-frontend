@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AlephLearn • Quizzes</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="Hamberger.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+<body data-page="quizzes">
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="logo">A</div>lephLearn</div>
+    <!-- FX Animated Hamburger (mobile only) -->
+<button id="fx-burger" class="fx-burger" aria-label="Toggle menu" aria-expanded="false">
+  <input id="fx-burger-check" type="checkbox" />
+  <div id="fx-wrap">
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+  </div>
+</button>
+    <nav class="links">
+      <a href="index.html">Dashboard</a>
+      <a href="doubts.html">Doubts</a>
+      <a href="chat.html">Chat</a>
+      <a href="quizzes.html">Quizzes</a>
+      <a href="previous-papers.html">Previous Papers</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="profile.html">Profile</a>
+            <button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+    </nav>
+    <div class="avatar">JS</div>
+  </div>
+</header>
+<!-- Mobile Drawer -->
+<nav class="fx-drawer" id="mobile-drawer">
+  <div id="fx-backdrop" class="fx-backdrop"></div>
+  <div class="fx-drawer-head">
+    <h3>Menu</h3>
+    <button class="fx-drawer-close">✕</button>
+  </div>
+  <div class="fx-drawer-links">
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="doubts.html">💬 Doubts</a>
+    <a href="chat.html">💭 Chat</a>
+    <a href="quizzes.html">🧠 Quizzes</a>
+    <a href="previous-papers.html">📄 Previous Papers</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="profile.html">👤 Profile</a>
+      <button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+  </div>
+</nav>
+<main class="container">
+  <h1 class="h1">🧠 Interactive Quizzes</h1>
+  <p class="sub">Test your knowledge and compete with peers!</p>
+
+  <section class="grid" style="grid-template-columns: 1.2fr .8fr;">
+    <div class="card">
+      <div class="timer">Data Structures Quiz • Question 3 of 10 <span style="float:right">12:14</span></div>
+      <div style="padding:16px;">
+        <h2>What is the time complexity of searching in a balanced binary search tree?</h2>
+      </div>
+      <div class="options">
+        <button class="opt">O(n)</button>
+        <button class="opt">O(log n)</button>
+        <button class="opt">O(n²)</button>
+        <button class="opt">O(1)</button>
+      </div>
+      <div class="qfooter">
+        <button class="btn" style="background:#e6ebff; color:#0b1a4a">← Previous</button>
+        <button class="btn">Next Question →</button>
+      </div>
+    </div>
+
+    <aside class="card" style="padding:12px;">
+      <h3>Live Rankings</h3>
+      <div class="item">1. Sarah Chen — 96 pts</div>
+      <div class="item">2. Mike Johnson — 88 pts</div>
+      <div class="item">3. You — 82 pts</div>
+      <div class="sub" style="margin-top:10px;">15 students taking quiz</div>
+    </aside>
+  </section>
+</main>
+
+<!-- Connect to backend -->
+<script type="module" src="./js/api.js"></script>
+<script type="module" src="./app.js"></script>
+<script type="module" src="H1.js"></script>
+ <script type="module" src="./js/protect.js"></script>
+<!-- Main logic for all pages -->
+
+
+</body>
+</html>

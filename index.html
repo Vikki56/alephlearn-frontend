@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <title>AlephLearn • Dashboard</title>
+  
+    <!-- Favicon: preload + PNG + SVG -->
+    <link rel="preload" as="image" href="assets/alephlearn-icon-32.png">
+  
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/alephlearn-icon-32.png">
+    <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
+    <link rel="shortcut icon" href="assets/alephlearn-icon-32.png">
+  
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Hamberger.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="header-unified.css">
+    <!-- <link rel="stylesheet" href="quizzes.css"> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  </head>
+<body data-page="index">
+  
+  <header class="nav">
+    <div class="nav-inner">
+  
+      <!-- MOBILE: Burger (LEFT) -->
+      <button id="al-burger" class="al-burger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+  
+      <!-- CENTER: Logo -->
+      <div class="brand">
+        <a href="index.html">
+          <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
+        </a>
+      </div>
+  
+      <!-- DESKTOP: Links (mobile pe hide ho jayenge) -->
+      <nav class="links">
+        <a href="index.html">Dashboard</a>
+        <a href="doubts.html">Doubts</a>
+        <a href="chat.html">Chat</a>
+        <a href="quizzes.html">Quizzes</a>
+        <a href="previous-papers.html">Library</a>
+        <a href="profile.html">Profile</a>
+        <a href="admin.html" id="adminTab" style="display:none;">Admin</a>
+        <button class="logout-btn-desktop js-logout">Logout</button>
+      </nav>
+  
+      <!-- RIGHT: Avatar -->
+      <div class="navbar-avatar" id="navbarAvatar">?</div>
+  
+    </div>
+  </header>
+
+
+<nav class="al-drawer" id="al-drawer">
+  <div class="al-drawer-head">
+    <h3>Menu</h3>
+    <button class="al-drawer-close" type="button">✕</button>
+  </div>
+  <div class="al-drawer-links">
+    <a href="index.html"> Dashboard</a>
+    <a href="doubts.html"> Doubts</a>
+    <a href="chat.html"> Chat</a>
+    <a href="quizzes.html"> Quizzes</a>
+    <a href="previous-papers.html"> Previous Papers</a>
+    <!-- <a href="leaderboard.html"> Leaderboard</a> -->
+    <a href="profile.html"> Profile</a>
+    <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
+    <!-- Mobile logout button -->
+    <button class="logout-btn js-logout" type="button">
+      <span class="icon"></span>
+      <span class="text">Logout</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Backdrop for mobile drawer -->
+<div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
+
+<main class="container">
+  <h1 class="h1">Welcome to AlephLearn! 🚀</h1>
+  <p class="sub">Your collaborative learning journey starts here. Connect, learn, and grow together!</p>
+
+  <section class="stats">
+    <div class="stat blue">
+      <div class="v" id="statActiveChats">0</div>
+      <div class="t">Active Chats</div>
+    </div>
+    <div class="stat purple">
+      <div class="v" id="statDoubtsSolved">0</div>
+      <div class="t">Doubts Solved</div>
+    </div>
+    <div class="stat green">
+      <div class="v" id="statQuizScore">-</div>
+      <div class="t">Quiz Score</div>
+    </div>
+    <div class="stat orange">
+      <div class="v" id="statRank">-</div>
+      <div class="t">Rank</div>
+    </div>
+  </section>
+
+  <section class="grid" style="grid-template-columns: 1.4fr .8fr; margin-top:16px;">
+    <div class="card list">
+      <h3>🔥 Trending Discussions</h3>
+      <div id="trendingList">
+        <!-- JS se items aayenge, fallback ke liye ek simple message -->
+        <div class="item" id="trendingEmpty">
+          <div class="sub" style="margin:6px 0; color:#9ca3af;">
+            No trending discussions yet. Solve doubts, join chats and this will light up! ✨
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <aside class="qa">
+      <button class="btn" onclick="window.location.href='chat.html'">💬 Join Live Chat</button>
+      <button class="btn" onclick="window.location.href='doubts.html'">❓ Ask a Doubt</button>
+      <button class="btn" onclick="window.location.href='quizzes.html'">🧠 Take Quiz</button>
+    </aside>
+  </section>
+</main>
+
+
+<script type="module" src="./js/api.js"></script>
+<script type="module" src="./js/protect.js"></script>
+<script src="role-ui.js"></script>
+<script type="module" src="index.js"></script>
+<script type="module" src="H1.js"></script>
+<!-- <script type="module" src="app.js"></script> -->
+<!-- Page-specific code that may also use imports -->
+
+
+</body>
+</html>
+
+
+
+

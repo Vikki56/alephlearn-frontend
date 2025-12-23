@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlephLearn Profile</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="header-unified.css">
+  <!-- <link rel="stylesheet" href="Hamberger.css"> -->
+  <!-- <link rel="stylesheet" href="quizzes.css"> -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body data-page="profile">
+
+  <header class="nav">
+    <div class="nav-inner">
+  
+      <!-- MOBILE: Burger (LEFT) -->
+      <button id="al-burger" class="al-burger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+  
+      <!-- CENTER: Logo -->
+      <div class="brand">
+        <a href="index.html">
+          <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
+        </a>
+      </div>
+  
+      <!-- DESKTOP: Links (mobile pe hide ho jayenge) -->
+      <nav class="links">
+        <a href="index.html">Dashboard</a>
+        <a href="doubts.html">Doubts</a>
+        <a href="chat.html">Chat</a>
+        <a href="quizzes.html">Quizzes</a>
+        <a href="previous-papers.html">Library</a>
+        <a href="profile.html">Profile</a>
+        <a href="admin.html" id="adminTab" style="display:none;">Admin</a>
+        <button class="logout-btn-desktop js-logout">Logout</button>
+      </nav>
+  
+      <!-- RIGHT: Avatar -->
+      <div class="navbar-avatar" id="navbarAvatar">?</div>
+  
+    </div>
+  </header>
+
+
+<nav class="al-drawer" id="al-drawer">
+  <div class="al-drawer-head">
+    <h3>Menu</h3>
+    <button class="al-drawer-close" type="button">✕</button>
+  </div>
+  <div class="al-drawer-links">
+    <a href="index.html"> Dashboard</a>
+    <a href="doubts.html"> Doubts</a>
+    <a href="chat.html"> Chat</a>
+    <a href="quizzes.html"> Quizzes</a>
+    <a href="previous-papers.html"> Previous Papers</a>
+    <!-- <a href="leaderboard.html"> Leaderboard</a> -->
+    <a href="profile.html"> Profile</a>
+    <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
+    <!-- Mobile logout button -->
+    <button class="logout-btn js-logout" type="button">
+      <span class="icon"></span>
+      <span class="text">Logout</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Backdrop for mobile drawer -->
+<div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
+
+  <div id="profileRoot" class="container profile-root profile-hidden">
+    <div class="profile-header-modern">
+      <div class="ph-left">
+        <div class="ph-avatar" id="avatar">AL</div>
+
+        <div class="ph-info">
+          <h1 id="userName" class="ph-name">Alex Johnson</h1>
+          <p id="username" class="ph-username">@alexj_learns</p>
+          <p id="branchName" class="ph-branch">
+            🎓 Computer Science
+          </p>
+
+          <div class="ph-points">
+            ⭐ <span id="totalPoints">2,450 Points</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-right">
+        <button id="likeBtn" class="like-modern">
+           <span id="likeCount">0</span> Likes
+        </button>
+      </div>
+    </div>
+
+    <!-- Academic Profile -->
+    <div class="card" id="academicProfileCard" style="margin-top: 1.5rem;">
+      <div class="card-title">
+        🎓 Academic Profile
+      </div>
+      <p style="color:#A0AEC0; font-size:0.9rem; margin-bottom:1rem;">
+        Choose your current education and stream. This information helps us personalize your Doubts, Quizzes, and Chat rooms.
+      </p>
+
+      <div class="grid" style="gap:1rem;">
+        <!-- Education Level -->
+        <div class="field-group">
+          <label for="educationLevel" class="field-label">Education Level</label>
+          <select id="educationLevel" class="field-input">
+            <option value="">Select level</option>
+          </select>
+        </div>
+
+        <!-- Main Stream -->
+        <div class="field-group">
+          <label for="mainStream" class="field-label">Main Stream</label>
+          <select id="mainStream" class="field-input">
+            <option value="">Select stream</option>
+          </select>
+        </div>
+
+        <!-- Specialization -->
+        <div class="field-group">
+          <label for="specialization" class="field-label">Specialization / Branch</label>
+          <select id="specialization" class="field-input">
+            <option value="">Select specialization</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; gap:1rem;">
+        <p id="academicProfileStatus"
+          style="color:#A0AEC0; font-size:0.85rem; margin:0;">
+          Please fill all fields and click <strong>Save</strong>.
+        </p>
+        <button id="saveAcademicProfileBtn" class="btn btn-primary">
+          Save Academic Profile
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid stat-card-row">
+      <div class="card stat-card">
+        <div class="card-title">
+           Doubts Solved
+        </div>
+        <div class="stat-value" id="doubtsSolved">
+          127
+        </div>
+        <div class="stat-label">
+          Total Resolved
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-title">
+           Problems Attempted
+        </div>
+        <div class="stat-value" id="problemsAttempted">
+          342
+        </div>
+        <div class="stat-label">
+          Challenges Completed
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div class="card-title">
+          Ranking
+        </div>
+        <div class="stat-value" id="userRanking">
+          #156
+        </div>
+        <div id="rankSubtitle" class="stat-label">
+          Out of — learners
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Score + Login Streak (combined card) -->
+    <div class="card score-streak-card">
+      <!-- LEFT: Profile Score -->
+      <div class="score-panel">
+        <div class="card-title">Profile Score</div>
+      
+        <div class="score-panel-inner">
+          <p class="score-subtitle">
+            Your rank and points are based on your activity across AlephLearn.
+          </p>
+      
+          <ul class="score-list">
+            <li><strong>+2</strong> per problem attempted</li>
+            <li><strong>+10</strong> per accepted doubt</li>
+            <li>
+              <strong>Quiz reach:</strong>
+              +8 per unique learner using your quizzes in a day,
+              up to <strong>+24 points per day</strong>.
+            </li>
+            <li><strong>Rank bonus</strong> for top 3 in quizzes</li>
+          </ul>
+      
+          <button id="howScoringBtn" type="button" class="score-help-link">
+            How scoring works →
+          </button>
+        </div>
+      </div>
+
+      <div class="score-divider"></div>
+
+      <!-- RIGHT: Login Streak -->
+      <div class="streak-panel">
+        <div class="card-title">
+          🔥 Login Streak
+        </div>
+        <p class="streak-subtitle">
+          <span id="streakDaysValue">0</span> days active this year
+        </p>
+        <div class="streak-container" id="streakContainer"></div>
+      </div>
+    </div>
+
+    <!-- Interests -->
+    <div class="grid interests-section">
+      <div class="card">
+        <div class="card-title">
+          ✨ Interests
+        </div>
+        <p class="interest-subtitle">
+          Add up to 5 topics you’re currently interested in. This helps us personalise your quizzes, doubts and dashboard.
+        </p>
+
+        <!-- Chips will render here -->
+        <div id="interestsContainer" class="skills-chips"></div>
+
+        <!-- Input row -->
+        <div class="interest-input-row">
+          <input
+            id="interestInput"
+            type="text"
+            class="field-input"
+            placeholder="e.g., DSA, Web Dev, Machine Learning"
+            maxlength="40"
+          />
+          <button id="addInterestBtn" class="btn btn-secondary btn-small">
+            Add
+          </button>
+        </div>
+
+        <p class="interest-hint" id="interestHint">
+          0 / 5 interests added
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom popup modal -->
+<div id="limitPopup" class="popup-overlay">
+  <div class="popup-card">
+    <h3 class="popup-title">Limit Reached</h3>
+    <p class="popup-msg">You can add only up to <strong>5 interests</strong>.</p>
+    <button id="popupOkBtn" class="popup-btn">OK</button>
+  </div>
+</div>
+<!-- Scoring Rules Popup -->
+<div id="scoringPopup" class="popup-overlay">
+  <div class="popup-card scoring-popup-card">
+    <h3 class="popup-title">How scoring works</h3>
+    <p class="popup-msg">
+      Your profile score is based on how active and helpful you are on AlephLearn.
+    </p>
+
+    <ul class="scoring-list">
+      <li>
+        <strong>+2 points</strong> for every challenge you attempt  
+        <span class="scoring-hint">(doubts answered or FAQ claims you try)</span>
+      </li>
+      <li>
+        <strong>+10 points</strong> for every <strong>accepted doubt answer</strong>  
+        <span class="scoring-hint">(when your answer is marked as “Solved”)</span>
+      </li>
+      <li>
+        <strong>+8 points</strong> for each learner who uses your quiz in a day  
+        <span class="scoring-hint">(max <strong>3 learners per quiz per day</strong>)</span>
+      </li>
+      <li>
+        <strong>Rank bonus</strong> when you finish in the top 3 of a quiz leaderboard:
+        <ul class="scoring-inner">
+          <li>🥇 1st place → <strong>+9 points</strong></li>
+          <li>🥈 2nd place → <strong>+6 points</strong></li>
+          <li>🥉 3rd place → <strong>+3 points</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p class="scoring-footer">
+      We only count fair attempts and approved quizzes. Keep solving, hosting and helping to climb the global rank. 
+    </p>
+
+    <button id="scoringCloseBtn" class="popup-btn">Got it</button>
+  </div>
+</div>
+  <script type="module" src="./js/api.js"></script>
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="H1.js"></script>
+  <script type="module" src="profile.js"></script>
+  <script type="module" src="./js/profile-academic.js"></script>
+  <script src="role-ui.js"></script>
+  <script type="module" src="./js/protect.js"></script>
+ </body>
+</html>

@@ -1,0 +1,5446 @@
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf4 100%);
+  min-height: 100%;
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Navigation Bar */
+.navbar {
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: #4a5568;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.nav-link.active {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.15);
+  font-weight: 600;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.notification-icon:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #f56565;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Main Container */
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 2rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Left Panel - Ask Doubt */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  background: white;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.code-input-area {
+  border: 2px dashed #cbd5e0;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #f7fafc;
+  margin-bottom: 1rem;
+}
+
+.code-input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.code-input-label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  background: #1a202c;
+  color: #68d391;
+  resize: vertical;
+}
+
+.code-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.attach-file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  color: #4a5568;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.attach-file-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.tags-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  min-height: 50px;
+  background: white;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  color: #667eea;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tag-remove {
+  cursor: pointer;
+  font-weight: 700;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.tag-remove:hover {
+  opacity: 1;
+}
+
+.tag-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+  font-size: 0.9rem;
+}
+
+.visibility-toggle {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.toggle-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e0;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-radio.active {
+  border-color: #667eea;
+}
+
+.toggle-radio.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #667eea;
+  border-radius: 50%;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+  background: rgba(102, 126, 234, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Middle Panel - Doubts Feed */
+.middle-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-filter-bar {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #718096;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.625rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.doubt-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.doubt-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: #667eea;
+}
+
+.doubt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.doubt-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-open {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+}
+
+.status-resolved {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.doubt-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.subject-chip {
+  padding: 0.35rem 0.75rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  color: #667eea;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.doubt-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.doubt-description {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.doubt-stats {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #718096;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.doubt-author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  color: #4a5568;
+  font-size: 0.85rem;
+}
+
+.author-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+/* Right Panel - Widgets */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
+}
+
+.leaderboard-item:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.rank-badge {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
+.rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: white; }
+.rank-3 { background: linear-gradient(135deg, #fb923c, #ea580c); color: white; }
+.rank-other { background: #e2e8f0; color: #4a5568; }
+
+.solver-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.solver-info {
+  flex: 1;
+}
+
+.solver-name {
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.solver-stats {
+  color: #718096;
+  font-size: 0.8rem;
+}
+
+.trending-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.trending-tag {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border: 2px solid transparent;
+  border-radius: 20px;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.trending-tag:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
+.quick-filter {
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-filter:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  transform: translateX(5px);
+}
+
+.quick-filter-title {
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.quick-filter-count {
+  color: #667eea;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  z-index: 2000;
+  animation: slideIn 0.3s ease;
+}
+
+.toast.active {
+  display: flex;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-icon {
+  font-size: 1.5rem;
+}
+
+.toast-message {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Doubt Detail Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  padding: 2rem;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90%;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  padding: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-close {
+  background: #f7fafc;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #4a5568;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.doubt-detail-header {
+  margin-bottom: 1.5rem;
+}
+
+.doubt-detail-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1rem 0;
+}
+
+.doubt-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #4a5568;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.action-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.action-btn.active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.doubt-body {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  color: #2d3748;
+}
+
+.code-block {
+  background: #1a202c;
+  color: #68d391;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.answers-section {
+  margin-top: 2rem;
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.answer-card {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.answer-card:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.answer-card.accepted {
+  border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
+}
+
+.answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.answer-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.accepted-badge {
+  padding: 0.35rem 0.75rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.answer-body {
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.answer-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.answer-action-btn {
+  background: none;
+  border: none;
+  color: #718096;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.answer-action-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.answer-action-btn.liked {
+  color: #667eea;
+}
+
+.comments-section {
+  margin-top: 1rem;
+  padding-left: 2rem;
+  border-left: 3px solid #e2e8f0;
+}
+
+.comment {
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.85rem;
+}
+
+.comment-time {
+  color: #718096;
+  font-size: 0.75rem;
+}
+
+.comment-body {
+  color: #4a5568;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.add-solution-editor {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .right-panel {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .navbar {
+    padding: 1rem;
+  }
+
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    max-height: 95%;
+  }
+
+  .modal-header, .modal-body {
+    padding: 1.5rem;
+  }
+
+  .toast {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+}
+@view-transition { navigation: auto; }
+#doubtDetailCard {
+  padding: 2rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.code-block {
+  background: #1e1e1e;
+  color: #c9d1d9;
+  padding: 1rem;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.answer-card {
+  border: 1px solid #eee;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  background: #fafafa;
+}
+
+.answer-card.accepted {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+.detail-page {
+  max-width: 900px;
+  margin: 2rem auto 3rem;
+  padding: 0 1rem 3rem;
+}
+
+.detail-header {
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.back-btn:hover {
+  color: #2d3748;
+}
+
+.question-card,
+.solutions-card {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.question-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.question-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.question-body {
+  color: #2d3748;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.question-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stats-row {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #667eea;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.author-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.code-block {
+  background: #1e1e1e;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.85rem;
+}
+
+.solutions-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.answer-card {
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  background: #f7fafc;
+  margin-bottom: 0.8rem;
+}
+
+.answer-card.accepted {
+  border: 1px solid #48bb78;
+  background: #f0fff4;
+}
+
+.answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.answer-author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.solver-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #4c51bf;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.accepted-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.answer-body p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #2d3748;
+}
+
+.answer-editor {
+  margin-top: 1rem;
+}
+
+.answer-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.9rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.post-btn {
+  margin-top: 0.75rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.post-btn:hover {
+  opacity: 0.95;
+}
+
+.empty-text {
+  font-size: 0.9rem;
+  color: #a0aec0;
+}
+.detail-page {
+  max-width: 960px;
+  margin: 5rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: #4a5568;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.question-card,
+.solutions-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.answer-textarea {
+  width: 100%;
+  min-height: 120px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+}
+
+.post-btn {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  cursor: pointer;
+}
+.attachment-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #edf2ff;
+  color: #4c51bf;
+  font-size: 0.8rem;
+  text-decoration: none;
+  margin-top: 0.4rem;
+}
+.attachment-pill:hover {
+  background: #e2e8ff;
+}
+
+/* Detail page like button new style */
+.detail-like-btn {
+  background: transparent;
+  border: 1px solid #d0d7e2;
+  padding: 6px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #4a4a4a;
+  transition: 0.2s ease;
+}
+
+/* Hover effect */
+.detail-like-btn:hover {
+  background: #f0f4ff;
+  border-color: #667eea;
+  color: #333;
+}
+
+/* When already liked */
+.detail-like-btn[data-liked="true"] {
+  background: #dce3ff;
+  border-color: #667eea;
+  color: #2f3a8c;
+  font-weight: 600;
+}
+
+/* Small fix so the count aligns well */
+.detail-like-btn span {
+  display: inline-block;
+}
+/* --- YOUTUBE STYLE LIKE BUTTON --- */
+
+.detail-like-btn {
+  background: #f2f2f2;               /* Light grey YouTube style */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;               /* Rounded pill */
+  cursor: pointer;
+  font-size: 15px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #0f0f0f;                    /* Jet black icon/text */
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover effect like YouTube */
+.detail-like-btn:hover {
+  background: #e6e6e6;               /* Slight darker grey */
+}
+
+/* Active press effect (like YouTube) */
+.detail-like-btn:active {
+  transform: scale(0.96);
+}
+
+/* When user already liked (blue tint like YouTube "highlight") */
+.detail-like-btn[data-liked="true"] {
+  background: #e7f0ff;               /* Light blue */
+  color: #065fd4;                    /* YouTube’s blue like highlight */
+  font-weight: 600;
+}
+
+/* Smooth icon alignment */
+.detail-like-btn span {
+  display: inline-block;
+}
+
+/* --- Answers section styling upgrades --- */
+
+.answer-card {
+  background: #f9fbff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e7ff;
+}
+
+.answer-card.accepted {
+  border-color: #34d399;
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.2);
+}
+
+.answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.answer-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.accepted-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #d1fae5;
+  color: #047857;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.answer-accept-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #34d399;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  color: #047857;
+}
+
+.answer-accept-btn:hover {
+  background: #ecfdf5;
+}
+
+.answer-body {
+  margin: 6px 0 10px;
+}
+
+.answer-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.answer-like-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 4px 10px;
+  background: #f2f2f2;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.answer-like-btn[data-liked="true"] {
+  background: #e7f0ff;
+  color: #065fd4;
+  font-weight: 600;
+}
+
+.answer-edit-btn,
+.answer-reply-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #555;
+  padding: 2px 6px;
+}
+
+.answer-edit-btn:hover,
+.answer-reply-btn:hover {
+  text-decoration: underline;
+}
+
+/* Replies */
+
+.reply-box {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #d4d4d8;
+}
+
+.reply-input {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.reply-actions {
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+}
+
+.reply-actions button {
+  border-radius: 999px;
+  border: 1px solid #d4d4d8;
+  background: #f9fafb;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.reply-actions button:hover {
+  background: #e5e7eb;
+}
+
+.reply-list {
+  margin-top: 8px;
+}
+
+.reply-item {
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f4f4f5;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.reply-meta {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+.doubt-status {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.doubt-status.open {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.doubt-status.resolved {
+  background: #dcfce7;
+  color: #166534;
+}
+.answer-image {
+  max-width: 300px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+/* Image Modal */
+.image-modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 9999;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Large preview */
+.image-modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  animation: zoomIn 0.2s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Close button */
+.image-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image-modal-close:hover {
+  color: #ccc;
+}
+/* New Attach Image Button */
+.attach-image-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #f8f9fc;
+  border: 1px solid #d7dce5;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.attach-image-btn:hover {
+  background: #eef2ff;
+  border-color: #6366f1;
+  box-shadow: 0 3px 8px rgba(99, 102, 241, 0.25);
+}
+
+.attach-image-btn:active {
+  transform: scale(0.96);
+}
+
+.attach-icon {
+  font-size: 16px;
+}
+
+.attach-text {
+  font-weight: 500;
+}
+/* Reply list container */
+.reply-list {
+  margin-top: 8px;
+}
+
+/* Single reply item */
+/* Reply container (clean & lightweight) */
+.reply-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 10px 14px;
+
+  margin: 6px 0;
+  border-radius: 10px;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+  transition: all 0.2s ease;
+}
+
+.reply-item:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* User + time line */
+.reply-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;   /* slate-500 */
+  font-weight: 500;
+}
+
+/* Reply text */
+.reply-text {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #1f2937;   /* slate-800 */
+  margin-top: 2px;
+  white-space: pre-wrap;
+}
+
+/* Reply count badge */
+.reply-count-badge {
+  margin-left: 6px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: #e0e7ff;   /* indigo-100 */
+  color: #4f46e5;        /* indigo-600 */
+  font-weight: 600;
+  display: none;
+}
+/* Reply button (footer me jo hai) */
+.answer-footer-btn[data-role="reply-btn"] {
+  border: none;
+  outline: none;
+  background: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;          /* gray-600 */
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.answer-footer-btn[data-role="reply-btn"]:hover {
+  background: #eef2ff;     /* indigo-50 */
+  color: #4f46e5;          /* indigo-600 */
+}
+
+.answer-footer-btn[data-role="reply-btn"]:active {
+  transform: scale(0.97);
+}
+/* Question stats row (detail page) */
+.question-footer .stats-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* NICE looking like button for question */
+.question-like-btn {
+  border: none;
+  outline: none;
+  background: #f9fafb;            /* halka grey */
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;                 /* gray-600 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.question-like-btn span:first-child {
+  font-size: 16px;                /* 👍 thoda bada */
+}
+
+.question-like-btn:hover {
+  background: #eef2ff;            /* indigo-50 */
+  color: #4f46e5;                 /* indigo-600 */
+  box-shadow: 0 3px 6px rgba(129, 140, 248, 0.25);
+}
+
+.question-like-btn.liked {
+  background: #fee2e2;            /* red-100 */
+  color: #dc2626;                 /* red-600 */
+  box-shadow: 0 3px 6px rgba(248, 113, 113, 0.4);
+}
+
+/* Answers & Views text thoda subtle */
+.question-footer .stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;                 /* gray-500 */
+}
+.question-footer .stats-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.question-like-btn {
+  border: none;
+  outline: none;
+  background: #f9fafb;
+  padding: 6px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.question-like-btn span:first-child {
+  font-size: 16px;
+}
+
+.question-like-btn:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+  box-shadow: 0 3px 6px rgba(129, 140, 248, 0.25);
+}
+
+.question-like-btn.liked {
+  background: #fee2e2;
+  color: #dc2626;
+  box-shadow: 0 3px 6px rgba(248, 113, 113, 0.4);
+}
+
+.question-footer .stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+/* Whole page fixed to viewport, scroll inside columns only */
+body {
+  margin: 0;
+  background: #f3f4f8;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+  overflow: hidden;              /* main scroll band */
+}
+
+/* 3-column layout: left / middle / right */
+.container {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 320px;
+  gap: 1.5rem;
+
+  max-width: 1300px;
+  margin: 90px auto 24px;        /* 90px ~ header height */
+  height: calc(100vh - 110px);   /* full viewport minus header+margin */
+}
+
+/* IMPORTANT: allow inner scroll, not page growth */
+.left-panel,
+.middle-panel,
+.right-panel {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;            /* avoid scrollbar over content */
+}
+/* Doubt card title in feed (middle panel) */
+.doubt-card-title,
+.doubt-item-title,
+.question-title {
+  color: #111827;       /* dark grey, clearly visible */
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Doubt description / preview text */
+.doubt-card-body,
+.doubt-preview,
+.question-body {
+  color: #4b5563;       /* medium grey */
+  font-size: 14px;
+}
+
+/* Make sure no low opacity on titles */
+.doubt-card-title,
+.doubt-item-title,
+.question-title {
+  opacity: 1 !important;
+}
+body[data-page="doubts"] {
+  margin: 0;
+  background: #f3f4f8;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #111827;
+
+  height: 100vh;
+  overflow: hidden; /* page scroll band, sirf columns scroll */
+}
+/* Main layout for doubts page */
+.container {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);  /* left form + big doubts list */
+  gap: 1.5rem;
+
+  max-width: 1280px;
+  margin: 90px auto 24px;      /* 90px ≈ top navbar height */
+  height: calc(100vh - 110px); /* viewport - header space */
+}
+.left-panel,
+.middle-panel {
+  background: transparent;  /* tumhare cards ke hisaab se */
+  min-height: 0;            /* VERY important for grid scroll */
+  overflow-y: auto;
+  padding-right: 4px;       /* scrollbar se text chipke na */
+}
+.search-filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #f3f4f8;
+  padding-bottom: 0.75rem;
+}
+
+.search-box {
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+}
+/* Gap between doubt cards */
+.doubt-card {
+  margin-bottom: 20px;       /* bottom gap */
+}
+
+/* If the HTML container is list-like */
+#doubtsFeed > div {
+  margin-bottom: 20px !important;
+}
+/* Keep search bar fixed at the top of the middle panel */
+
+/* Search bar container - only bottom rounded */
+.search-box {
+  border-radius: 0 0 16px 16px !important;
+}
+.search-filter-bar {
+  border-radius: 0 !important;
+}
+
+.search-box-wrapper {
+  border-radius: 0 !important;
+}
+
+.preview-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.preview-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+}
+
+.preview-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 28px;
+  max-width: 720px;
+  width: 90%;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
+}
+
+.preview-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.doubt-card.preview .doubt-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.doubt-card.preview .doubt-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.doubt-card.preview .doubt-desc {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+/* --- Layout fine-tuning for Doubts page --- */
+
+/* Main content container: thoda upar lao + zyada height + bottom padding */
+.container {
+  margin-top: 12px;              /* pehle jitna bhi tha usse thoda kam */
+  padding-bottom: 72px;          /* niche thoda extra space */
+  min-height: calc(100vh - 150px);  /* page length thoda bada feel hoga */
+}
+
+/* Left & middle panels ko filters ke thoda kareeb lao */
+.left-panel,
+.middle-panel {
+  margin-top: 12px;
+}
+/* --- Tag Suggestions Dropdown --- */
+
+
+
+
+/* ---------------- TAG SUGGESTION PANEL FIX ---------------- */
+
+.tags-area {
+  position: relative;
+}
+
+/* Full-width dropdown box */
+#tagSuggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);  /* input ke thoda neeche */
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+  padding: 8px 0;
+  display: none;          /* JS se block hoga */
+  z-index: 40;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* Har suggestion ek row ki tarah */
+#tagSuggestions .suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #111827;
+  border-radius: 0;       /* pill effect hatao */
+  cursor: pointer;
+}
+
+/* Hover effect */
+#tagSuggestions .suggestion-item:hover {
+  background: #f3f4ff;
+}
+
+/* “SUGGESTED” badge */
+#tagSuggestions .suggestion-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(129, 140, 248, 0.14);
+  color: #4f46e5;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+/* Hide left panel */
+.left-panel.hidden {
+  display: none !important;
+}
+
+/* Full width middle panel */
+.middle-panel.full-width {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+}
+
+/* ============================
+   MY DOUBTS FULL-WIDTH LAYOUT
+   ============================ */
+
+/* My Doubts view me left/right panels hata do */
+body[data-view="mine"] .left-panel,
+body[data-view="mine"] .right-panel {
+  display: none;
+}
+
+/* Container ko single wide column bana do */
+body[data-view="mine"] .container {
+  grid-template-columns: minmax(0, 960px); /* ek hi column, 960px tak wide */
+  justify-content: center;                  /* beech me center */
+}
+
+/* Middle panel ko full width de do */
+body[data-view="mine"] .middle-panel {
+  width: 100%;
+  max-width: 960px;
+}
+
+/* Upar ke filters + "My Doubts" header ko bhi same width pe laao */
+body[data-view="mine"] .search-filter-bar,
+body[data-view="mine"] .middle-panel > .card-header {
+  max-width: 960px;
+  margin: 0 auto 1.25rem auto;
+}
+/* ------ NORMAL LAYOUT (Ask Doubt) ------ */
+.container {
+  display: grid;
+  grid-template-columns: minmax(320px, 360px) minmax(640px, 960px);
+  gap: 2rem;
+}
+
+/* ------ MY DOUBTS LAYOUT (only feed, centre me) ------ */
+.container.my-doubts-layout {
+  grid-template-columns: minmax(680px, 1040px);
+  justify-content: center;
+}
+
+.container.my-doubts-layout .left-panel {
+  display: none;
+}
+
+.container.my-doubts-layout .middle-panel {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+/* feed ko thoda upar laane ke liye */
+.container.my-doubts-layout .middle-panel {
+  margin-top: 24px;
+}
+.edit-btn {
+  background: #eef;
+  border: 1px solid #ccd;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.edit-btn:hover {
+  background: #dde;
+}
+
+/* ---- Edit Doubt Modal ---- */
+.edit-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.edit-modal {
+  width: 480px;
+  max-width: 90vw;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+  padding: 20px 22px 18px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.edit-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.edit-input,
+.edit-textarea {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 8px 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.15s ease, box-shadow 0.15s ease;
+}
+
+.edit-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.edit-input:focus,
+.edit-textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* optional: thoda compact buttons so they match existing ones */
+.edit-actions .btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+/* ===================== FANCY LIKE BUTTON ===================== */
+
+@layer properties {
+  @property --nb-1-tsy {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --nb-2-tsy {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --nb-1-op {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --nb-2-op {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --ic-op {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --btn-scale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  @property --ic-ts-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+}
+
+/* base vars */
+:root {
+  --ic-thumb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-thumbs-up'%3E%3Cpath d='M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3'/%3E%3C/svg%3E");
+
+  --eerie-black: hsla(0, 0%, 12%, 1);
+  --night: hsla(0, 0%, 9%, 1);
+
+  --nb-1-tsy: 0;
+  --nb-2-tsy: 100;
+
+  --nb-1-op: 1;
+  --nb-2-op: 0;
+
+  --ic-op: 0.5;
+  --ic-ts-x: 0;
+
+  --btn-scale: 1;
+}
+
+/* Only our like buttons – baaki buttons safe */
+.like-btn-fx {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background-image: linear-gradient(to bottom, var(--eerie-black), var(--night));
+  border: none;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), 0 2px 6px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transform: scale(var(--btn-scale));
+  position: relative;
+  overflow: hidden;
+  transition:
+    --nb-1-tsy 0.3s ease,
+    --nb-2-tsy 0.3s ease,
+    --nb-1-op 0.15s ease,
+    --nb-2-op 0.15s ease,
+    --ic-op 0.15s ease,
+    --ic-ts-x 0.15s ease;
+}
+
+.like-btn-fx > div {
+  height: 1.4rem;
+  min-width: 1.4rem;
+  display: flex;
+  align-items: center;
+}
+
+/* thumb icon */
+.like-btn-fx .icon {
+  width: 1.4em;
+  height: 1.4em;
+  background: var(--ic-thumb) no-repeat center/70%;
+  opacity: var(--ic-op);
+  transform: translateX(calc(var(--ic-ts-x) * -1px));
+}
+
+/* "Like" text */
+.like-btn-fx .text {
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  transform: translateX(calc(var(--ic-ts-x) / -3 * 1px));
+}
+.like-btn-fx .text span:last-child {
+  display: none;
+}
+
+/* numbers column */
+.like-btn-fx .numbers {
+  flex-direction: column;
+  position: relative;
+  margin-left: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+.like-btn-fx .numbers::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 140%;
+  background: rgba(255, 255, 255, 0.25);
+  position: absolute;
+  left: -0.55rem;
+  top: -20%;
+}
+.like-btn-fx .numbers > span {
+  position: absolute;
+  inset-inline-start: 0;
+}
+.like-btn-fx .numbers > span:nth-child(1) {
+  transform: translateY(calc(var(--nb-1-tsy) * -1%));
+  color: rgba(255, 255, 255, 0.6);
+  opacity: var(--nb-1-op);
+}
+.like-btn-fx .numbers > span:nth-child(2) {
+  transform: translateY(calc(var(--nb-2-tsy) * 1%));
+  opacity: var(--nb-2-op);
+}
+
+/* hover */
+.like-btn-fx:hover {
+  --ic-op: 1;
+}
+
+/* active (liked) state */
+.like-btn-fx.active {
+  --nb-1-tsy: 100;
+  --nb-2-tsy: 0;
+  --nb-1-op: 0;
+  --nb-2-op: 1;
+  --ic-op: 1;
+  --ic-ts-x: 32;
+}
+.like-btn-fx.active .text span:last-child {
+  display: inline-block; /* "d" show -> "Liked" */
+}
+
+/* bounce animation */
+.like-btn-fx.btn-bounce {
+  animation: like-bounce 0.45s ease;
+}
+@keyframes like-bounce {
+  0% { --btn-scale: 1; }
+  30% { --btn-scale: 0.96; }
+  70% { --btn-scale: 1.04; }
+  100% { --btn-scale: 1; }
+}
+/* ---------- Like button (minimal outline) ---------- */
+
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7); /* light grey outline */
+
+  background: transparent;
+  color: #4b5563; /* text gray-600 */
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.like-btn-icon {
+  font-size: 0.95rem;
+  color: #6b7280; /* gray-500 */
+}
+
+.like-btn-count {
+  font-variant-numeric: tabular-nums;
+  min-width: 1.2rem;
+  text-align: right;
+}
+
+/* hover state */
+.like-btn:hover {
+  background: rgba(129, 140, 248, 0.06);     /* halka purple tint */
+  border-color: rgba(129, 140, 248, 0.9);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+/* active / liked state (JS se .liked class lag rahi hai) */
+.like-btn.liked {
+  background: rgba(129, 140, 248, 0.12);
+  border-color: rgba(79, 70, 229, 0.95);
+  color: #4338ca;
+}
+
+.like-btn.liked .like-btn-icon {
+  color: #4f46e5;
+}
+
+/* click press feel */
+.like-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* ===========================
+   Doubt detail like button
+   =========================== */
+
+   .question-like-btn {
+    --ic-thumb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-thumbs-up'%3E%3Cpath d='M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3'/%3E%3C/svg%3E");
+  
+    --nb-1-tsy: 0;
+    --nb-2-tsy: 100;
+    --nb-1-op: 1;
+    --nb-2-op: 0;
+    --ic-op: 0.6;
+    --ic-ts-x: 0;
+    --btn-scale: 1;
+  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: radial-gradient(circle at top left, #eef2ff, #e2e8f0);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #0f172a;
+    outline: none;
+    transition:
+      box-shadow 0.2s ease,
+      background 0.2s ease,
+      transform 0.15s ease,
+      --nb-1-tsy 0.3s ease,
+      --nb-2-tsy 0.3s ease,
+      --nb-1-op 0.15s ease,
+      --nb-2-op 0.15s ease,
+      --ic-op 0.15s ease,
+      --ic-ts-x 0.15s ease;
+  }
+  
+  .question-like-btn .icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    background: var(--ic-thumb) no-repeat center center / 70%;
+    opacity: var(--ic-op);
+    transform: translateX(calc(var(--ic-ts-x) * -1px));
+  }
+  
+  .question-like-btn .text {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transform: translateX(calc(var(--ic-ts-x) * -0.3px));
+  }
+  
+  .question-like-btn .text span {
+    display: none; /* "d" hide by default */
+  }
+  
+  .question-like-btn .numbers {
+    position: relative;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    min-width: 1.8rem;
+  }
+  
+  .question-like-btn .numbers span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .question-like-btn .numbers span:nth-child(1) {
+    transform: translateY(calc(var(--nb-1-tsy) * -1%));
+    opacity: var(--nb-1-op);
+    color: rgba(15, 23, 42, 0.4);
+  }
+  
+  .question-like-btn .numbers span:nth-child(2) {
+    transform: translateY(calc(var(--nb-2-tsy) * 1%));
+    opacity: var(--nb-2-op);
+  }
+  
+  /* hover */
+  .question-like-btn:hover {
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  }
+  
+  /* active (liked) state */
+  .question-like-btn.active {
+    --nb-1-tsy: 100;
+    --nb-2-tsy: 0;
+    --nb-1-op: 0;
+    --nb-2-op: 1;
+    --ic-op: 1;
+    --ic-ts-x: 26;
+  
+    background: radial-gradient(circle at top left, #4f46e5, #1d4ed8);
+    color: #f9fafb;
+    border-color: transparent;
+  }
+  
+  .question-like-btn.active .text span {
+    display: inline-block; /* show the 'd' in Liked */
+  }
+  
+  /* bounce animation */
+  .btn-bounce {
+    animation: btn-bounce 0.4s ease;
+  }
+  
+  @keyframes btn-bounce {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(0.96);
+    }
+    60% {
+      transform: scale(1.03);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  /* ==== Doubt detail – fancy like button ==== */
+
+.question-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(205, 210, 223, 0.12);
+  background: transparent;          /* 🔹 transparent background */
+  color: #111827;                   /* dark text */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  transition:
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.15s ease;
+}
+
+.question-like-btn .icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: #000000;            
+  color: #ffffff;                   /* white thumb icon/emoji */
+}
+
+.question-like-btn .text {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.question-like-btn .text span {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.question-like-btn .numbers {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  opacity: 0.7;
+  min-width: 1.5em;
+  text-align: right;
+}
+
+/* hover state – halki si lift */
+.question-like-btn:hover {
+  background: rgba(15, 23, 42, 0.03);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+/* active (liked) state */
+.question-like-btn.active .icon {
+  background: #111827;
+  transform: translateX(1px) scale(1.05);
+}
+
+.question-like-btn.active .numbers {
+  opacity: 1;
+}
+
+/* bounce animation class jo JS laga raha hai */
+.question-like-btn.btn-bounce {
+  animation: like-bounce 0.35s ease;
+}
+
+@keyframes like-bounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.96); }
+  70%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+  
+/* ---- Detail page like button ---- */
+
+.detail-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(182, 191, 211, 0.08);
+  background: transparent;       /* transparent bg */
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  color: #b1bbd0;
+  box-shadow: 0 8px 24px rgba(194, 198, 206, 0.04);
+  transition: background 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.detail-like-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.detail-like-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(185, 189, 201, 0.04);
+}
+
+/* chhota black thumb-dot */
+.detail-like-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  /* background: #111827;  */
+}
+
+/* label + count */
+.detail-like-label {
+  font-size: 14px;
+}
+
+.detail-like-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* liked state – blue pill */
+.detail-like-btn.liked {
+  background: linear-gradient(90deg, #97989b, #8f8f94);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.detail-like-btn.liked .detail-like-dot {
+  /* background: #aeb8be;   */
+}
+
+.detail-like-btn.liked .detail-like-count {
+  color: #e5e7eb;
+}
+
+/* chhota bounce animation */
+.like-bounce {
+  animation: like-bounce 0.25s ease;
+}
+
+@keyframes like-bounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+.detail-like-btn .detail-like-knob {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35); /* soft white translucent */
+  backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255,255,255,0.65); /* light border */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: all 0.25s ease;
+}
+
+/* ---------- MY DOUBTS FULL-WIDTH LAYOUT ---------- */
+
+/* default container: 2 columns (form + feed) */
+#mainLayout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 32px;
+}
+
+/* When "My Doubts" tab is active */
+#mainLayout.my-doubts-layout {
+  grid-template-columns: minmax(0, 1fr); /* single column */
+}
+
+/* left panel already hidden via JS, make feed stretch nicely */
+#mainLayout.my-doubts-layout .feed-column,
+#mainLayout.my-doubts-layout .doubts-feed-wrapper,
+#mainLayout.my-doubts-layout .doubts-feed-section {
+  width: 100%;
+  max-width: 1120px;     /* jitna chahe utna bada; chahe to 1200px bhi kar sakta */
+  margin: 0 auto;        /* center mein le aata hai */
+}
+
+/* doubt-card ko full row le do */
+#mainLayout.my-doubts-layout .doubt-card {
+  width: 100%;
+}
+#mainLayout.my-doubts-layout .right-panel,
+#mainLayout.my-doubts-layout .doubts-feed-wrapper {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+/* ---- My Doubts: full-width feed ---- */
+#mainLayout.my-doubts-layout {
+  justify-content: center;           /* centre me le aa */
+}
+
+#mainLayout.my-doubts-layout .feed-panel {
+  max-width: 980px;              /* card column ko bada kar de */
+  flex: 1 1 980px;
+}
+/* ===== FINAL MY-DOUBTS LAYOUT OVERRIDE ===== */
+
+/* Normal (Ask Doubt + Feed) */
+#mainLayout {
+  display: grid;
+  grid-template-columns: minmax(320px, 360px) minmax(0, 1fr);
+  gap: 2rem;
+
+  max-width: 1280px;
+  margin: 90px auto 24px;   /* header ke niche centre me */
+}
+
+/* My Doubts -> sirf beech wala column, full width */
+#mainLayout.my-doubts-layout {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center;
+}
+
+/* My Doubts pe left panel hata do */
+#mainLayout.my-doubts-layout #leftPanel {
+  display: none !important;
+}
+
+/* Beech wala feed bada + center me */
+#mainLayout.my-doubts-layout #middlePanel {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+/* ===== My Doubts view: search/filter card ko proper card jaisa dikhao ===== */
+
+#mainLayout.my-doubts-layout .search-filter-bar {
+  /* max-width: 960px;       */
+  /* margin: 0 auto 24px;           */
+  background: #a5a3a3;      
+  /* border-radius: 5px 0px; */
+  /* padding: 18px 20px 14px; */
+  box-shadow: 0 18px 40px rgba(82, 87, 98, 0.06);  /* soft card shadow */
+  border: 1px solid rgba(84, 92, 103, 0.25);     /* halka outline */
+}
+/* 🔹 Filters top card – search + dropdowns */
+.filters-card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.06);
+  padding: 20px 24px 16px;
+  margin-bottom: 32px;
+}
+
+/* Card ko main column ke width ke andar rakhne ke liye */
+.doubts-main .filters-card {
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
+/* Search row + dropdown row spacing */
+.filters-card .search-row {
+  margin-bottom: 16px;
+}
+
+/* Thoda gap dropdowns ke beech */
+.filters-card .filters-row {
+  display: flex;
+  gap: 16px;
+}
+
+/* Tino dropdown equal width */
+.filters-card .filters-row > * {
+  flex: 1;
+}
+/* Top nav ki height jitna space har page par */
+.page-with-nav {
+  padding-top: 80px;   /* navbar ki actual height ke hisaab se 72/76 adjust kar sakta hai */
+}
+
+.doubt-stream-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #1a365d, #2d3748);
+  border: 1px solid rgba(129, 230, 217, 0.35);
+  margin-bottom: 1rem;
+}
+
+.doubt-stream-badge.hidden {
+  display: none;
+}
+
+.doubt-stream-badge .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(26, 32, 44, 0.9);
+  border: 1px solid rgba(129, 230, 217, 0.5);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a0aec0;
+}
+
+.doubt-stream-badge .pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #48bb78;
+  box-shadow: 0 0 6px rgba(72, 187, 120, 0.9);
+}
+
+.doubt-stream-badge .stream-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.doubt-stream-badge .stream-text span.level {
+  color: #63b3ed;
+}
+
+.doubt-stream-badge .stream-text span.stream {
+  color: #f6e05e;
+}
+
+.doubt-stream-badge .stream-text span.spec {
+  color: #9ae6b4;
+}
+
+/* ============================
+   DARK QUIZZES STYLE FOR DOUBTS PAGE
+   ============================ */
+
+   body[data-page="doubts"] {
+    color: #e5e7eb;
+  }
+  
+  /* main grid background transparent so radial gradient dikhe */
+  body[data-page="doubts"] .container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1.1fr 2.1fr 1.1fr;
+    gap: 2rem;
+    background: transparent;
+  }
+  
+  /* panels – koi white background nahi */
+  body[data-page="doubts"] .left-panel,
+  body[data-page="doubts"] .middle-panel {
+    background: transparent;
+  }
+  
+  /* cards – quizzes jaisa dark glass look */
+  body[data-page="doubts"] .card {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.96),
+      rgba(15, 23, 42, 0.92)
+    );
+    border-radius: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  
+  body[data-page="doubts"] .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 32px 80px rgba(15, 23, 42, 1);
+    border-color: rgba(129, 140, 248, 0.9);
+  }
+  
+  /* card ke andar text colour */
+  body[data-page="doubts"] .card-header,
+  body[data-page="doubts"] .card,
+  body[data-page="doubts"] .card p,
+  body[data-page="doubts"] .card span,
+  body[data-page="doubts"] .card label {
+    color: #e5e7eb;
+  }
+  
+  /* top Ask / My navbar ko bhi dark bana do */
+  body[data-page="doubts"] .navbar {
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  body[data-page="doubts"] .nav-link {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+  }
+  
+  body[data-page="doubts"] .nav-link.active {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: #052e16;
+  }
+  
+  /* search/filter bar – white card hatao */
+  body[data-page="doubts"] .search-filter-bar {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 1rem 0;
+  }
+  
+  /* inputs & selects – quizzes ke form jaisa dark */
+  body[data-page="doubts"] .form-input,
+  body[data-page="doubts"] .form-select,
+  body[data-page="doubts"] .form-textarea,
+  body[data-page="doubts"] .code-textarea,
+  body[data-page="doubts"] .filter-select,
+  body[data-page="doubts"] .search-input {
+    background: rgba(15, 23, 42, 0.98);
+    border: 1px solid rgba(51, 65, 85, 0.9);
+    color: #e5e7eb;
+  }
+  
+  body[data-page="doubts"] .form-input::placeholder,
+  body[data-page="doubts"] .form-textarea::placeholder,
+  body[data-page="doubts"] .search-input::placeholder {
+    color: rgba(148, 163, 184, 0.8);
+  }
+
+  /* APPLY QUIZZES BACKGROUND TO DOUBTS PAGE */
+body[data-page="doubts"] {
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #020617 100%) !important;
+}
+
+/* Doubts page top sub-navbar */
+.navbar {
+  background: transparent;
+  padding: 1.5rem 3.5rem 0;   /* jo spacing tumhe sahi lage */
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* LEFT <----> RIGHT */
+  width: 100%;
+}
+
+/* Left side: Ask Doubt + My Doubts */
+.nav-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-right: auto;              /* inko left chipka dega */
+}
+
+/* Right side: bell */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;               /* bell ko right le jayega */
+}
+
+/* Optional: thoda better look */
+.notification-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Main container top spacing fix */
+#mainLayout {
+  margin-top: -20px !important; /* jitna chaho upar khinch sakte ho */
+}
+
+/* OR if container class ho: */
+.container {
+  padding-top: 20px !important;  /* 20 ko reduce kar sakte ho */
+}
+
+/* Ask Doubt + Search bar strip ko specifically upar lana */
+.search-filter-bar,
+#askDoubtTitle,
+.navbar {
+  margin-top: -10px !important;  /* Adjust as needed  */
+}
+/* ==== Dark mode cards (same vibe as quizzes) ==== */
+
+.doubt-card {
+  background: #020617;                          /* dark card */
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.22);  /* soft border */
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.75);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+              border-color 0.18s ease, background 0.18s ease;
+  color: #e5e7eb;
+}
+
+.doubt-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.9);
+  border-color: rgba(129, 140, 248, 0.8);
+}
+
+/* title + meta text ko bhi dark theme ke hisaab se thoda bright karo */
+
+.doubt-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.doubt-meta-row,
+.doubt-meta-primary,
+.doubt-meta-secondary,
+.doubt-footer {
+  color: #9ca3af;
+}
+
+/* doubt body / description section ko bhi dark card jaisa banao */
+
+.doubt-body {
+  background: rgba(15, 23, 42, 0.95);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  color: #e5e7eb;
+  border: 1px solid rgba(30, 64, 175, 0.35);
+}
+/* ===========================
+   GLOBAL DARK BACKGROUND
+=========================== */
+body[data-page="doubts"] {
+  background: radial-gradient(circle at top,
+      #0f1a2b 0%,
+      #060b15 60%,
+      #04080f 100%) !important;
+  color: #e2e8f0;
+}
+
+
+/* ===========================
+ FORM ELEMENT FIXES
+=========================== */
+
+.form-input,
+.form-textarea,
+.form-select,
+.tag-input {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: #e5e7eb !important;
+  border-radius: 12px !important;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder,
+.tag-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Dropdown arrow also light */
+select {
+  color: #e2e8f0 !important;
+}
+
+/* ===========================
+ CODE BOX
+=========================== */
+
+.code-textarea {
+  background: #0e1625 !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 14px !important;
+}
+
+.code-input-header {
+  background: rgba(255,255,255,0.05);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 14px;
+}
+
+.attach-file-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #e2e8f0;
+}
+
+/* ===========================
+ TAG SUGGESTIONS
+=========================== */
+
+.tag-suggestions {
+  background: #0f172a !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 10px !important;
+}
+
+.tag-suggestions div:hover {
+  background: #1e293b !important;
+}
+
+/* ===========================
+ BUTTONS
+=========================== */
+
+.btn-primary {
+  background: linear-gradient(135deg, #6d4aff, #8b5cf6) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 12px !important;
+  transition: 0.2s;
+}
+.btn-primary:hover {
+  transform: scale(1.03);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08) !important;
+  border-radius: 12px !important;
+  color: #e2e8f0 !important;
+}
+
+/* ===========================
+ TIPS CARDS
+=========================== */
+
+.card {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(8px) !important;
+  color: #e2e8f0 !important;
+}
+
+/* Special header inside cards */
+.card-header {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+/* ===========================
+ ACTIVITY BOXES
+=========================== */
+
+#leftPanel .card:nth-child(3) .card,
+#leftPanel .card:nth-child(4) .card {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 16px !important;
+}
+
+/* ===========================
+ DOUBT FEED CARDS
+=========================== */
+
+#doubtsFeed .doubt-card,
+.middle-panel .card {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 18px !important;
+  color: #e2e8f0 !important;
+}
+
+/* OPEN / RESOLVED badges */
+.status-badge {
+  background: rgb(255,179,0);
+  color: #000;
+  font-weight: 600;
+}
+
+/* Username avatar small circle */
+.small-avatar {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6);
+  color: white;
+  font-weight: 600;
+}
+
+/* ===========================
+ SEARCH + DROPDOWNS
+=========================== */
+.search-input {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 12px !important;
+  color: #e5e7eb !important;
+}
+
+/* ===========================
+   CODE INPUT OUTER WRAPPER
+=========================== */
+.code-input-area {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 20px !important;
+  padding: 18px !important;
+  backdrop-filter: blur(8px) !important;
+  color: #e5e7eb !important;
+}
+
+/* Header (Code Optional + Attach File) */
+.code-input-header {
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.code-input-label span:nth-child(2) {
+  color: #cbd5e1 !important;
+  font-weight: 600;
+}
+
+/* Attach File Button */
+.attach-file-btn {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 12px !important;
+  padding: 6px 14px !important;
+  color: #e5e7eb !important;
+  transition: 0.2s;
+}
+.attach-file-btn:hover {
+  background: rgba(255,255,255,0.12) !important;
+}
+
+/* Code textarea itself */
+.code-textarea {
+  background: #0c1524 !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: 14px !important;
+  color: #cbd5e1 !important;
+}
+
+/* ===========================
+   DOUBT CARDS – TEXT COLORS
+=========================== */
+
+/* main card text default */
+.doubt-card {
+  color: #e5e7eb !important; /* light grey on dark */
+}
+
+/* title (question heading) */
+.doubt-card h3,
+.doubt-card .doubt-title {
+  color: #f9fafb !important;   /* almost white */
+  font-weight: 600;
+}
+
+/* short description / body preview */
+.doubt-card p,
+.doubt-card .doubt-body,
+.doubt-card .doubt-text {
+  color: #cbd5e1 !important;   /* softer grey */
+}
+
+/* meta row: likes, answers, views, username */
+.doubt-card .doubt-meta,
+.doubt-card .doubt-meta span,
+.doubt-card .doubt-footer,
+.doubt-card .doubt-footer span {
+  color: #9ca3af !important;   /* dimmer, but readable */
+}
+
+/* tag chips text */
+.doubt-card .doubt-tag,
+.doubt-card .tag-chip {
+  color: #e5e7eb !important;
+}
+
+/* "OPEN" pill text thoda bold/clear */
+.doubt-card .status-pill {
+  color: #111827 !important;   /* dark text on yellow */
+  font-weight: 600;
+}
+
+/* MY DOUBTS LIST CARD */
+.my-doubt-card {
+  background: linear-gradient(145deg, #0e1421, #0a0f1c);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 
+      0 10px 25px rgba(0,0,0,0.4),
+      inset 0 0 15px rgba(255,255,255,0.03);
+  transition: 0.3s ease;
+}
+
+.my-doubt-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+      0 15px 40px rgba(0,0,0,0.5),
+      inset 0 0 20px rgba(255,255,255,0.05);
+}
+.my-doubt-card .title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.my-doubt-card .tag {
+  background: rgba(72, 93, 255, 0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #dbe3ff;
+  border: 1px solid rgba(180,180,255,0.1);
+}
+
+.my-doubt-card .desc {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #a9b4c9;
+  font-weight: 400;
+}
+.my-doubt-card .edit-btn {
+  margin-top: 0.8rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 18px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.my-doubt-card .edit-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+}
+.my-doubt-card .stats {
+  margin-top: 1rem;
+  display: flex;
+  gap: 2rem;
+  font-size: 0.95rem;
+  color: #d0d7e6;
+}
+
+.my-doubt-card .stats span {
+  opacity: 0.9;
+}
+
+.my-doubt-card .profile {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: #cdd6ee;
+}
+/* My Doubts – Ask Doubt jaisa hi search bar look */
+#mainLayout.my-doubts-layout .search-filter-bar {
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* My Doubts – search controls same as Ask Doubt */
+#mainLayout.my-doubts-layout .search-input,
+#mainLayout.my-doubts-layout .filter-select {
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  color: #e5e7eb;
+}
+
+#mainLayout.my-doubts-layout .search-input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+/* Remove unwanted box outline around search + filters in My Doubts */
+#mainLayout.my-doubts-layout .search-filter-bar {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Also remove inner container border if present */
+#mainLayout.my-doubts-layout .search-filter-bar * {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* EDIT BUTTON (My Doubts Card) */
+.edit-btn {
+  background: linear-gradient(135deg, #5c4dff55, #8a6bff55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f0f0ff;
+  padding: 6px 16px;
+  font-size: 14px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  backdrop-filter: blur(12px);
+}
+
+/* Hover effect */
+.edit-btn:hover {
+  background: linear-gradient(135deg, #6f5dff99, #a17bff99);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(140, 120, 255, 0.25);
+}
+
+/* Emoji / Icon inside button */
+.edit-btn span {
+  font-size: 15px;
+}
+/* 🔥 Ultra-Premium Edit Button */
+.edit-btn {
+  background: linear-gradient(135deg, #5747ff, #7a5cff);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  padding: 8px 22px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 10px rgba(90, 70, 255, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Hover = elevated + glow */
+.edit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(120, 90, 255, 0.40);
+  background: linear-gradient(135deg, #6a5bff, #8a6dff);
+}
+
+/* Active (click) */
+.edit-btn:active {
+  transform: scale(0.96);
+}
+
+/* Icon size fix */
+.edit-btn span {
+  font-size: 17px;
+}
+
+/* ===== Mini Profile (doubts cards) ===== */
+
+.mini-profile {
+  position: fixed;
+  top: 120px;
+  right: 40px;
+  width: 240px;
+  background: rgba(24, 28, 55, 0.8);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.45);
+  padding: 16px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.mini-profile.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mini-profile.hidden {
+  display: none;
+}
+
+.mini-profile .mp-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mp-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #6474ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.mp-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.mp-detail {
+  font-size: 13px;
+  color: #b9bed7;
+  margin-bottom: 14px;
+}
+
+.mp-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.mp-stats div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e3e6ff;
+}
+
+.mp-stats strong {
+  font-size: 17px;
+  color: #ffffff;
+}
+
+.mp-btn {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  background: linear-gradient(135deg, #7b5cff, #9b6dff);
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(123,92,255,0.45);
+}
+
+/* ================== MOBILE LAYOUT ================== */
+@media (max-width: 768px) {
+  /* Whole page padding */
+  body[data-page="doubts"] {
+    padding: 0;
+  }
+
+  /* Main layout: stack instead of side-by-side */
+  #mainLayout.container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .left-panel,
+  .middle-panel {
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Card spacing / radius thoda compact */
+  .card,
+  .doubt-card {
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+  }
+
+  /* Top “Ask Doubt / My Doubts” nav */
+  .navbar .nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .navbar .nav-links {
+    width: 100%;
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .navbar .nav-link {
+    flex: 1;
+    text-align: center;
+    padding-inline: 0.6rem;
+  }
+
+  .navbar .nav-actions {
+    justify-content: flex-end;
+  }
+
+  /* Search + filters stack */
+  .search-filter-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .filter-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-row .filter-select {
+    flex: 1 1 48%;
+    min-width: 0;
+  }
+
+  /* Doubt cards full width */
+  #doubtsFeed {
+    margin-top: 0.75rem;
+  }
+
+  .doubt-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .status-badge {
+    align-self: flex-start;
+  }
+
+  .doubt-stats {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .doubt-description {
+    font-size: 0.88rem;
+  }
+
+  /* “Ask Doubt” form inputs */
+  #doubtForm .form-group,
+  .code-input-area {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea,
+  .code-textarea {
+    font-size: 0.9rem;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn-group .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Tags area */
+  .tags-area {
+    max-height: none;
+  }
+
+  /* Mini profile card – center on mobile */
+  .mini-profile {
+    right: 50%;
+    transform: translateX(50%);
+    width: 280px;
+  }
+}
+
+/* Even smaller phones */
+@media (max-width: 480px) {
+  .navbar .nav-links {
+    flex-direction: row;
+  }
+
+  .card-header span:last-child {
+    font-size: 0.95rem;
+  }
+
+  .doubt-title {
+    font-size: 0.95rem;
+  }
+}
+/* ================= MOBILE: Force Vertical Layout ================= */
+@media (max-width: 768px) {
+
+  /* LEFT + RIGHT panels ko vertical stack */
+  #mainLayout {
+    display: block !important;   /* override ANY flex/grid */
+    padding: 1rem 0.8rem;
+  }
+
+  .left-panel {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .middle-panel {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 1.5rem !important;
+  }
+
+}
+@media (max-width: 768px) {
+
+  .search-filter-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1rem;
+  }
+
+  .search-box {
+    width: 100% !important;
+  }
+
+  .filter-row {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 0.7rem;
+  }
+
+  .filter-row .filter-select {
+    width: 100% !important;
+  }
+
+}
+@media (max-width: 768px) {
+  #feedTitle {
+    text-align: left !important;
+    margin-top: 1rem;
+  }
+}
+@media (max-width: 768px) {
+  .doubt-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
+
+  .doubt-stats {
+    flex-wrap: wrap !important;
+    row-gap: 0.3rem;
+  }
+}
+/* ========= MOBILE FIX: show doubts feed below form ========= */
+@media (max-width: 768px) {
+
+  /* Main layout vertical stack */
+  #mainLayout {
+    display: block !important;
+    padding: 1rem 0.8rem;
+  }
+
+  .left-panel {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  /* ⭐ Doubts list panel – ALWAYS visible on mobile */
+  .middle-panel {
+    display: block !important;         /* in case kahi pe display:none diya ho */
+    width: 100% !important;
+    margin: 1.5rem 0 0 0 !important;
+    max-height: none !important;       /* koi height limit nahi */
+    overflow: visible !important;      /* pura page scrollable */
+  }
+
+  /* List ke andar jo div hai usse bhi free chhod do */
+  #doubtsFeed {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Search + filters full width */
+  .search-filter-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem;
+  }
+
+  .search-box {
+    width: 100% !important;
+  }
+
+  .filter-row {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .filter-row .filter-select {
+    width: 100% !important;
+  }
+
+  /* Doubt cards 100% width */
+  .doubt-card {
+    width: 100% !important;
+    margin: 0 0 1rem 0 !important;
+    padding: 1rem !important;
+  }
+
+  .doubt-stats {
+    flex-wrap: wrap !important;
+    row-gap: 0.25rem;
+  }
+
+  #feedTitle {
+    text-align: left !important;
+    margin-top: 0.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .middle-panel { display: none; }
+}
+/* ================= MOBILE LAYOUT FIX (Doubts page) ================= */
+@media (max-width: 768px) {
+
+  html, body {
+    height: auto !important;
+    overflow-y: auto !important;
+  }
+
+  /* Main container */
+  #mainLayout {
+    display: block !important;          /* no grid on mobile */
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 0 1rem 2rem !important;
+  }
+
+  .container {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Left = form, Middle = feed → dono vertical stack */
+  .left-panel,
+  .middle-panel {
+    width: 100% !important;
+    margin: 0 0 1.5rem 0 !important;
+  }
+
+  .left-panel {
+    float: none !important;
+  }
+
+  .middle-panel {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #doubtsFeed {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Search + filter full width, column layout */
+  .search-filter-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem;
+    width: 100% !important;
+  }
+
+  .search-box {
+    width: 100% !important;
+  }
+
+  .filter-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem;
+    width: 100% !important;
+  }
+
+  .filter-row .filter-select {
+    width: 100% !important;
+  }
+
+  /* Doubt cards */
+  .doubt-card {
+    width: 100% !important;
+    margin: 0 0 1rem 0 !important;
+    padding: 1rem !important;
+  }
+
+  .doubt-stats {
+    flex-wrap: wrap !important;
+    row-gap: 0.25rem;
+  }
+
+  #feedTitle {
+    margin-top: 0.75rem;
+    text-align: left !important;
+  }
+}
+@media (max-width: 768px) {
+
+  /* Wrap style */
+  .action-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100%;
+  }
+
+  .action-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Buttons size adjust */
+  .ask-btn,
+  .mydoubt-btn {
+    padding: 8px 14px !important;
+    font-size: 15px !important;
+  }
+
+  /* Bell ko same line me fix */
+  .notification-bell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notification-bell img,
+  .notification-bell svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+/* ===================== DOUBTS HEADER – MOBILE TWEAKS ===================== */
+@media (max-width: 640px) {
+
+  /* Top doubts navbar */
+  .navbar {
+    padding: 0.6rem 0.9rem;
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: nowrap;          /* 🔥 bell ko neeche girne se rokta hai */
+  }
+
+  /* Left side: Ask / My Doubts */
+  .nav-links {
+    display: flex;
+    flex: 1 1 auto;             /* jitni jagah mile utni le */
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 10px;          /* 🔻 size thoda chhota */
+    font-size: 13px;            /* 🔻 text bhi thoda chhota */
+    border-radius: 999px;
+    white-space: nowrap;        /* text wrap na ho */
+  }
+
+  /* Right side: bell */
+  .nav-actions {
+    flex: 0 0 auto;
+    margin-left: 4px;
+  }
+
+  .notification-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 16px;
+  }
+
+  .notification-icon span:first-child {
+    line-height: 1;
+  }
+
+  .notification-badge {
+    font-size: 11px;
+    padding: 1px 5px;
+    transform: translate(2px, -6px);   /* number ko bell ke paas chipka do */
+  }
+}
+/* ===================== MOBILE HEADER FIX ===================== */
+@media (max-width: 640px) {
+
+  /* Full row should NEVER wrap */
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    flex-wrap: nowrap !important;
+    width: 100%;
+  }
+
+  /* Left side (Ask Doubt + My Doubts) */
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .nav-link {
+    padding: 6px 10px;      /* Smaller */
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Right side bell icon */
+  .nav-actions {
+    flex: 0 0 42px;          /* 🔥 fixed width so bell NEVER pushes down */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    margin-top: 2px;
+  }
+
+  .notification-badge {
+    font-size: 11px;
+    padding: 1px 5px;
+    transform: translate(-6px, -8px); /* adjust small badge */
+  }
+}
+/* ======= MOBILE: Ask Doubt + My Doubts + Bell ek line me ======= */
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;      /* ❗ wrap band */
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  /* LEFT SIDE – buttons */
+  .navbar .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 1 1 auto;         /* jitni jagah mile utna le */
+    min-width: 0;
+  }
+
+  .navbar .nav-link {
+    padding: 0.28rem 0.7rem; /* thoda chhota */
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  /* RIGHT SIDE – bell */
+  .navbar .nav-actions {
+    margin-left: auto;      /* sabko left dhakel ke bell right */
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;          /* agar pehle mobile CSS me margin-top diya ho to override */
+  }
+
+  .notification-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notification-icon span:first-child {
+    font-size: 1.2rem;      /* bell size */
+    line-height: 1;
+  }
+
+  .notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    font-size: 0.65rem;
+    padding: 0 4px;
+    border-radius: 999px;
+  }
+}
+/* ===== MOBILE: Hide notification bell ===== */
+@media (max-width: 768px) {
+  .navbar .nav-actions {
+    display: none !important;
+  }
+}
+/* ===== MOBILE COMPACT UI ===== */
+@media (max-width: 768px) {
+
+  /* Page container overall scale */
+  body {
+    font-size: 14px !important;
+  }
+
+  /* Form labels (Subject, Title, etc.) */
+  .form-label {
+    font-size: 14px !important;
+  }
+
+  /* Input fields */
+  .form-input,
+  .form-textarea,
+  .form-select,
+  .code-textarea {
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+  }
+
+  /* Posting-as box text */
+  #doubtStreamBadge,
+  .card-header span,
+  .posting-as-label {
+    font-size: 14px !important;
+  }
+
+  /* Code section headers */
+  .code-input-label {
+    font-size: 13px !important;
+  }
+
+  /* Buttons inside the form */
+  .btn-primary,
+  .btn-secondary {
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+  }
+
+  /* Tags input */
+  .tag-input {
+    font-size: 14px !important;
+    padding: 8px 10px !important;
+  }
+
+  /* Recent Doubts heading */
+  #feedTitle {
+    font-size: 18px !important;
+  }
+
+  /* Doubt cards text */
+  #doubtsFeed {
+    font-size: 14px !important;
+  }
+}
+.navbar-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #4c4c4c;
+  color: white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+/* ====== DETAIL PAGE LAYOUT ====== */
+.detail-page {
+  max-width: 960px;
+  margin: 2.5rem auto 4rem;
+  padding: 0 1.5rem;
+}
+
+/* Back to Doubts link */
+.detail-page .back-link,
+.detail-page a.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #a5b4fc;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  opacity: 0.9;
+}
+
+.detail-page .back-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ====== QUESTION CARD (TOP) ====== */
+.question-card {
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #020617 100%);
+  border-radius: 22px;
+  padding: 1.75rem 1.75rem 1.25rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  color: #e5e7eb;
+  margin-bottom: 1.75rem;
+}
+
+.question-card .doubt-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.6rem;
+}
+
+.question-card .doubt-description {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  font-size: 0.92rem;
+  color: #cbd5f5;
+}
+
+.question-card .subject-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.12);
+  color: #c7d2fe;
+  margin-bottom: 0.4rem;
+}
+
+.question-card .status-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.7rem;
+}
+
+/* Bottom stats row (Liked / Answers / Views / avatar) */
+.question-card .detail-stats-row {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.detail-stats-row-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Liked pill */
+.detail-like-pill {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4b5563, #6b7280);
+  color: #f9fafb;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Answers / views text */
+.detail-meta-text {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Author at bottom right */
+.detail-author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.detail-author .author-avatar,
+.detail-author .solver-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f9fafb;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.65);
+}
+
+.detail-author span {
+  font-size: 0.86rem;
+  color: #e5e7eb;
+}
+
+/* ====== SOLUTIONS CARD (BOTTOM) ====== */
+.solutions-card {
+  margin-top: 1.5rem;
+  border-radius: 24px;
+  background: linear-gradient(to bottom right, #f9fafb, #e5e7eb);
+  padding: 1.6rem 1.7rem 1.8rem;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.solutions-card h3,
+.solutions-card .solutions-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.45rem;
+}
+
+.solutions-card .solutions-subtitle {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* "No answers yet" text */
+.solutions-card .no-answers {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+/* ====== ANSWER LIST CARDS ====== */
+.answer-card {
+  background: #f3f4f6;
+  border-radius: 18px;
+  padding: 0.95rem 1.05rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  margin-bottom: 0.9rem;
+}
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+}
+
+.answer-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Avatar inside answers (uses same class from JS) */
+.answer-card .solver-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.solver-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Accepted badge */
+.accepted-badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.answer-body p {
+  font-size: 0.88rem;
+  color: #111827;
+  line-height: 1.5;
+}
+
+/* ====== ANSWER INPUT AREA ====== */
+.solutions-card textarea#answerInput {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  background: #f9fafb;
+}
+
+.solutions-card textarea#answerInput:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.2);
+}
+
+/* Attach + Submit buttons */
+.solution-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.solution-actions .attach-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: white;
+  color: #374151;
+  cursor: pointer;
+}
+
+.solution-actions .attach-btn:hover {
+  background: #f3f4f6;
+}
+
+/* Main submit button (purple) */
+.solution-actions .submit-btn {
+  margin-left: auto;
+  padding: 0.6rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: #f9fafb;
+  cursor: pointer;
+  box-shadow: 0 12px 35px rgba(99, 102, 241, 0.55);
+}
+
+.solution-actions .submit-btn:hover {
+  filter: brightness(1.05);
+}
+
+/* ====== MOBILE TWEAKS ====== */
+@media (max-width: 640px) {
+  .question-card {
+    padding: 1.25rem 1.2rem 1rem;
+    border-radius: 18px;
+  }
+
+  .solutions-card {
+    padding: 1.25rem 1.2rem 1.35rem;
+    border-radius: 18px;
+  }
+
+  .detail-page {
+    padding: 0 1rem;
+  }
+
+  .detail-stats-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-author {
+    align-self: flex-end;
+  }
+}
+/* ========== DOUBT DETAIL PAGE ========== */
+
+body[data-page="doubt-detail"] {
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #020617 100%);
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.detail-page {
+  max-width: 1120px;
+  margin: 96px auto 40px;
+  padding: 0 1.5rem 3rem;
+}
+
+/* Back link */
+.detail-header {
+  margin-bottom: 1.5rem;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.back-btn:hover {
+  color: #e5e7eb;
+  transform: translateX(-2px);
+}
+
+/* Question card – glassy */
+.question-card {
+  background: radial-gradient(circle at top left,
+      rgba(88, 28, 135, 0.45),
+      rgba(15, 23, 42, 0.98));
+  border-radius: 24px;
+  padding: 1.8rem 1.9rem 1.3rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  margin-bottom: 1.75rem;
+  color: #e5e7eb;
+}
+
+/* Whatever doubt-detail.js injects, titles automatically look nice */
+.question-card h1,
+.question-card h2,
+.question-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.question-card p {
+  margin: 0.4rem 0;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* reuse chips if you use subject-chip / status-badge etc. */
+.question-card .subject-chip {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.14);
+  color: #bfdbfe;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.question-card .status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.question-card .status-open {
+  background: rgba(251, 191, 36, 0.16);
+  color: #fde68a;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+}
+
+.question-card .status-resolved {
+  background: rgba(16, 185, 129, 0.18);
+  color: #bbf7d0;
+  border: 1px solid rgba(16, 185, 129, 0.6);
+}
+
+/* Stats row reuse (.doubt-stats already exists on list view) */
+.question-card .doubt-stats {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  padding-top: 0.75rem;
+}
+
+/* Solutions container – white card */
+.solutions-card {
+  margin-top: 1.5rem;
+  border-radius: 24px;
+  padding: 1.8rem 1.9rem 1.6rem;
+  background: linear-gradient(145deg, #f9fafb, #e5e7eb);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.6);
+  color: #111827;
+}
+
+.solutions-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Answer cards */
+.answer-card {
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  margin-top: 0.9rem;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.answer-card.accepted {
+  border-color: #22c55e;
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.25);
+  background: linear-gradient(135deg, #ecfdf5, #e0fbea);
+}
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.answer-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.solver-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: #ffffff;
+}
+
+.solver-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.accepted-badge {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #ecfdf3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Answer text */
+.answer-body p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #374151;
+}
+
+/* Editor */
+.answer-editor {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.answer-textarea {
+  min-height: 120px;
+  border-radius: 16px;
+  border: 1px solid #d1d5db;
+  padding: 0.8rem 1rem;
+  resize: vertical;
+  font-size: 0.9rem;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.answer-textarea:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4);
+  background: #ffffff;
+}
+
+/* Actions row: attach + post */
+.answer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.attach-image-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px dashed #9ca3af;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+
+.attach-image-btn:hover {
+  background: #f9fafb;
+  border-color: #6b7280;
+  transform: translateY(-1px);
+}
+
+.post-btn {
+  margin-left: auto;
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f9fafb;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  box-shadow: 0 10px 25px rgba(88, 28, 135, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.post-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(88, 28, 135, 0.55);
+  opacity: 0.98;
+}
+
+/* Image preview under editor */
+.answer-image-preview {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #4b5563;
+}
+
+/* Image modal */
+.image-modal {
+  display: none; /* JS se toggle karna */
+  position: fixed;
+  z-index: 60;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-content {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.image-modal-close {
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  font-size: 2rem;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+/* ---------- Mobile tweaks ---------- */
+
+@media (max-width: 640px) {
+  .detail-page {
+    margin-top: 84px;
+    padding-inline: 1rem;
+  }
+
+  .question-card,
+  .solutions-card {
+    padding: 1.25rem 1.2rem 1.1rem;
+    border-radius: 18px;
+  }
+
+  .question-card h1,
+  .question-card h2,
+  .question-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .solutions-title {
+    font-size: 1rem;
+  }
+
+  .answer-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+/* ===== FIX QUESTION DETAIL TEXT VISIBILITY ===== */
+
+/* Title stronger + brighter */
+.question-card h1,
+.question-card h2,
+.question-card h3 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px;
+}
+
+/* Description more visible */
+.question-card p {
+  color: #e2e8f0 !important;   /* brighter grey */
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+  font-weight: 400;
+}
+
+/* Subject Chip more readable */
+.question-card .subject-chip {
+  background: rgba(96, 165, 250, 0.22) !important;
+  color: #dbeafe !important;
+  border-color: rgba(147, 197, 253, 0.5) !important;
+}
+
+/* Status badge text visibility */
+.question-card .status-open {
+  color: #ffe4d4 !important;
+}
+/* ===========================
+   MOBILE HEADER LAYOUT (<=860px)
+   =========================== */
+   @media (max-width: 860px) {
+
+    /* Main header row */
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;   /* left | center | right */
+      align-items: center;
+      padding: 0 12px;
+    }
+  
+    /* LEFT → Burger */
+    #al-burger {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+  
+    #al-burger span {
+      width: 20px;
+      height: 3px;
+      background: #fff;
+      border-radius: 999px;
+      margin: 2px 0;
+    }
+  
+    /* CENTER → Logo */
+    .brand {
+      display: flex;
+      justify-content: center;   /* CENTER align */
+    }
+  
+    .brand img {
+      height: 26px;   /* perfect size */
+    }
+  
+    /* RIGHT → Avatar */
+    .navbar-avatar {
+      display: flex;
+      justify-self: end;   /* right-most */
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #4c4c4c;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+  
+    /* hide desktop nav */
+    .nav .links {
+      display: none !important;
+    }
+  }
+
+
+  /* ---------- BASE (desktop) ---------- */
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  height: 64px;
+  padding: 0 16px;
+}
+
+/* logo left (desktop) */
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+/* desktop nav links */
+.nav .links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* avatar basic */
+.navbar-avatar {
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #4c4c4c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* burger hidden on desktop */
+#al-burger {
+  display: none;
+}
+
+/* ---------- MOBILE LAYOUT (<= 860px) ---------- */
+@media (max-width: 860px) {
+  /* desktop links hide */
+  .nav .links {
+    display: none !important;
+  }
+
+  /* header center-based layout */
+  .nav-inner {
+    position: relative;
+    justify-content: center;   /* center brand */
+  }
+
+  /* CENTER: logo perfectly center */
+  .brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .brand img {
+    height: 26px;
+  }
+
+  /* LEFT: burger fixed at left edge */
+  #al-burger {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  #al-burger span {
+    width: 20px;
+    height: 3px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    margin: 2px 0;
+  }
+
+  /* RIGHT: avatar fixed at right edge */
+  .navbar-avatar {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0; /* desktop wali auto margin hatao */
+  }
+}
+/* ===== DESKTOP DEFAULT ===== */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  height: 64px;
+  padding: 0 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.nav .links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* avatar desktop: right side */
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #4c4c4c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* burger desktop me hidden */
+#al-burger {
+  display: none;
+}
+
+
+/* ===== MOBILE LAYOUT (<= 860px) ===== */
+@media (max-width: 860px) {
+
+  /* desktop links hide */
+  .nav .links {
+    display: none !important;
+  }
+
+  /* header ko center-based banao */
+  .nav-inner {
+    position: relative;
+    justify-content: center; /* we will center logo via absolute */
+  }
+
+  /* LOGO → exactly center */
+  .brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .brand img {
+    height: 26px;
+  }
+
+  /* BURGER → fixed left */
+  #al-burger {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    padding: 0;
+  }
+  #al-burger span {
+    width: 20px;
+    height: 3px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    margin: 2px 0;
+  }
+
+  /* AVATAR → fixed right */
+  .nav-right {
+    margin-left: 0; /* desktop wala auto mat lagao */
+  }
+
+  .navbar-avatar {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+/* ✅ MOBILE FIX: Ask Doubt / My Doubts tabs spacing */
+@media (max-width: 600px) {
+
+  .navbar .nav-container{
+    padding: 10px 12px;
+  }
+
+  .navbar .nav-links{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;                 /* 👈 yahi main fix */
+    width: 100%;
+  }
+
+  .navbar .nav-link{
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    padding: 12px 10px;        /* thoda compact */
+    border-radius: 999px;      /* pill look same */
+    font-size: 14px;           /* mobile me fit */
+    line-height: 1;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .navbar .nav-links{
+    grid-template-columns: 1fr; /* stack */
+  }
+}
+/* ✅ MOBILE FIX: My Doubts / Ask Doubt tabs ke niche spacing */
+@media (max-width: 600px) {
+
+  /* Tabs ke niche poora content thoda neeche */
+  #mainLayout {
+    margin-top: 14px;
+  }
+
+  /* Ask a Doubt card ko aur neeche push */
+  .left-panel .card:first-child {
+    margin-top: 16px;
+  }
+
+}
+/* ✅ MOBILE: My Doubts spacing + Edit button polish */
+@media (max-width: 600px) {
+
+  /* Tabs ke baad search/filter block ko thoda breathing space */
+  .search-filter-bar{
+    margin-top: 14px !important;
+  }
+
+  /* "My Doubts" heading ke upar thoda gap */
+  #feedTitle{
+    display: block;
+    margin-top: 10px !important;
+  }
+
+  /* Doubt card ke andar Edit button ko clean look */
+  .doubt-card .edit-btn{
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 16px !important;
+    min-width: 110px;
+    border-radius: 14px !important;
+
+    font-weight: 700;
+    font-size: 14px !important;
+    line-height: 1;
+
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.25) !important;
+    margin: 12px 0 6px 0 !important;
+  }
+
+  /* Edit button ko left pe chipakne se bachao (nice alignment) */
+  .doubt-card{
+    position: relative;
+  }
+  .doubt-card .edit-btn{
+    float: none !important;
+  }
+
+  /* Edit button ke niche line / stats ko thoda gap */
+  .doubt-card .doubt-stats{
+    margin-top: 10px !important;
+  }
+}
+@media (max-width: 600px) {
+  .doubt-card .edit-btn{
+    width: 100% !important;
+    padding: 12px 16px !important;
+    border-radius: 16px !important;
+  }
+}
+/* =========================
+   DESKTOP DOUBT CARD POLISH
+   ========================= */
+   @media (min-width: 768px) {
+
+    /* Card thoda breathing space */
+    .doubt-card{
+      padding: 22px 26px !important;
+    }
+  
+    /* OPEN button ko top-right pe thoda balanced rakho */
+    .doubt-card .status-badge,
+    .doubt-card .open-btn,
+    .doubt-card .attachment-pill{
+      margin-top: 4px;
+    }
+  
+    /* 🔹 Edit button ko proper action feel do */
+    .doubt-card .edit-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  
+      padding: 10px 18px;
+      min-width: 120px;
+  
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+  
+      background: linear-gradient(135deg, #6d5dfc, #8b7cff);
+      box-shadow: 0 10px 28px rgba(109,93,252,0.35);
+  
+      margin-top: 14px;
+    }
+  
+    /* Edit + divider ke beech thoda gap */
+    .doubt-card hr,
+    .doubt-card .divider{
+      margin-top: 18px !important;
+    }
+  
+    /* Bottom stats row ko clean alignment */
+    .doubt-stats{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+  
+    /* Author avatar + name thoda compact */
+    .doubt-author{
+      gap: 10px;
+      font-size: 14px;
+    }
+  }

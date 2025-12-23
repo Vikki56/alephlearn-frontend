@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlephLearn | Sign up / Log in</title>
+  <script>
+    document.documentElement.classList.add('al-preload-auth');
+  </script>
+  
+  <style>
+    /* Page pehle hide rahe, route apply hone ke baad show */
+    html.al-preload-auth body .auth-card{
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+  </style>
+  <link rel="stylesheet" href="auth.css">
+  <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
+</head>
+<body>
+  <!-- 🔙 Back to Landing -->
+  <a href="landing.html" class="auth-back" aria-label="Back to home">←</a>
+  <div class="auth-card">
+    <aside class="auth-hero">
+      <h1 class="brand">AlephLearn</h1>
+      <p>A Student-Centric Learning Platform</p>
+    </aside>
+
+    <main class="auth-main">
+      
+     <!-- 🔹 Tab buttons -->
+<div class="tab-buttons">
+  <button id="tab-sign" class="active">Sign up</button>
+  <button id="tab-log">Log in</button>
+</div>
+
+<!-- 🔹 Panels container -->
+<section class="form-container">
+
+
+ <!-- ====================== SIGN UP PANEL ====================== -->
+
+<section id="signupPanel" class="panel"> 
+  <form id="signupForm" class="form" autocomplete="off" novalidate>
+    <h2>Create your account</h2>
+
+    <div class="input-group">
+      <label for="fullName">Full name</label>
+      <input id="fullName" name="fullName" type="text" placeholder="Your full name" required />
+    </div>
+<!-- decoys to satisfy autofill -->
+<input type="text"  autocomplete="username"          hidden>
+<input type="password" autocomplete="current-password" hidden>
+
+<div class="input-group">
+  <label for="semail">Email</label>
+  <input
+    id="semail"
+    name="email"
+    class="input"
+    type="email"
+    placeholder="you@college.edu"
+    autocomplete="email"
+    autocapitalize="none"
+    spellcheck="false"
+  />
+</div>
+
+
+<div class="input-group">
+  <label for="spass">Password</label>
+  <div class="pw-wrap">
+    <input id="spass" class="input" type="password" placeholder="Password" minlength="6"
+           autocomplete="new-password" required>
+    <button class="pw-toggle" type="button" data-target="spass" aria-pressed="false" aria-label="Toggle password visibility">
+  <!-- Open Eye -->
+  <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
+  <!-- Closed Eye -->
+  <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
+</button>
+  </div>
+</div>
+
+<div class="input-group">
+  <label for="scpass">Confirm password</label>
+  <div class="pw-wrap">
+    <input
+      id="scpass"
+      class="input"
+      type="password"
+      placeholder="Confirm password"
+      minlength="6"
+      required
+      autocomplete="new-password"
+    />
+<button class="pw-toggle" type="button" data-target="scpass" aria-pressed="false" aria-label="Toggle password visibility">
+  <!-- Open Eye -->
+  <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
+  <!-- Closed Eye -->
+  <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
+</button>
+  </div>
+</div>
+
+    <button class="btn" type="submit">Create Account</button>
+  </form>
+</section>
+
+<!-- LOGIN / FORGOT / RESET PANEL -->
+<section id="loginPanel" class="panel hidden">
+  <!-- Log in -->
+  <form id="loginForm" class="form" novalidate autocomplete="section-auth off" onsubmit="return false;">
+    <h2>Welcome back</h2>
+    <p class="sub">Log in with your email and password.</p>
+
+    <div class="input-group">
+      <label for="lemail">Email</label>
+      <input id="lemail" class="input" type="email" placeholder="you@college.edu" required />
+    </div>
+
+    <div class="input-group">
+      <label for="lpass">Password</label>
+      <div class="pw-wrap">
+        <input id="lpass" type="password" placeholder="••••••" required />
+        <button class="pw-toggle" type="button" data-target="lpass" aria-pressed="false" aria-label="Toggle password visibility">
+  <!-- Open Eye -->
+  <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
+  <!-- Closed Eye -->
+  <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
+</button>
+      </div>
+    </div>
+
+
+    <div class="inline helper">
+      <label><input type="checkbox" id="remember"> Remember me</label>
+    <button id="forgotBtn" type="button" class="pill-link" aria-hidden="true"><span class="icon-help"></span>Forgot your password?</button>
+    </div>
+
+    <button class="btn" type="submit">Log in</button>
+  </form>
+
+  <!-- Forgot password -->
+  <form id="forgotForm" class="form hidden" aria-hidden="true" autocomplete="off" novalidate>
+    <h3>Forgot password</h3>
+    <p class="sub">Enter your account email; we’ll send a reset link.</p>
+
+<div class="input-group">
+    <label for="fpEmail">Email</label>
+    <input id="fpEmail" type="email" placeholder="name@college.edu" required>
+</div>
+
+    <button id="sendReset" type="button" class="btn" style="margin-top:8px">Send reset link</button>
+   <button id="backToLoginForgot" type="button" class="btn-ghost"><span  aria-hidden="true"></span>Back to log in</button>
+    <p id="devToken" class="helper" style="display:none;margin-top:8px"></p>
+  </form>
+
+  <!-- Reset password -->
+  <form id="resetForm" class="form hidden" aria-hidden="true">
+    <h3>Reset your password</h3>
+<input id="rpToken" type="hidden" autocomplete="one-time-code" />
+    <label for="rpPass">New password</label>
+    <div class="pw-wrap">
+      <input id="rpPass" class="input" type="password" minlength="6" placeholder="New password" required />
+    <button class="pw-toggle" type="button" data-target="rpPass" aria-pressed="false" aria-label="Toggle password visibility">
+  <!-- Open Eye -->
+  <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
+  <!-- Closed Eye -->
+  <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
+</button>
+    </div>
+    <label for="rpPass2">Confirm new password</label>
+    <div class="pw-wrap">
+      <input id="rpPass2" class="input" type="password" minlength="6" placeholder="Confirm password" required />
+    <button class="pw-toggle" type="button" data-target="rpPass2" aria-pressed="false" aria-label="Toggle password visibility">
+  <!-- Open Eye -->
+  <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
+  <!-- Closed Eye -->
+  <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
+</button>
+    </div>
+    <button id="doReset" type="button" class="btn" style="margin-top:8px">Update password</button>
+    <button id="backToLoginReset" type="button" class="btn-ghost"><span class="icon-arrow-left" aria-hidden="true"></span>Back to log in</button>
+  </form>
+
+  <!-- Success card (after reset) -->
+  <div id="resetSuccess" class="success-card hidden" aria-hidden="true">
+    <div class="success-icon">✔</div>
+    <h3>Password updated</h3>
+    <p>You can now log in with your new password.</p>
+  </div>
+</section>
+
+</section>
+       </main>
+   </div>
+   <!-- ✅ Blocked Modal -->
+<div id="blockedModal" class="blocked-backdrop" aria-hidden="true">
+  <div class="blocked-card" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
+    <h2 id="blockedTitle">🚫 Access Temporarily Blocked</h2>
+    <p class="blocked-text" id="blockedMessage">Your account is blocked. Contact admin.</p>
+    <button class="blocked-btn" type="button" onclick="closeBlockedModal()">OK</button>
+  </div>
+</div>
+  <div id="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+<!-- <script type="module" src="./js/api.js"></script> -->
+<script type="module" src="./js/auth.js" defer></script>
+<script>
+  window.showBlockedModal = function(message){
+    const modal = document.getElementById("blockedModal");
+    const msg = document.getElementById("blockedMessage");
+    if (!modal || !msg) return;
+
+    msg.innerHTML = String(message || "").replaceAll("\n","<br>");
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+  };
+
+  window.closeBlockedModal = function(){
+    const modal = document.getElementById("blockedModal");
+    modal?.classList.remove("show");
+    modal?.setAttribute("aria-hidden", "true");
+  };
+
+  // ✅ override alert on Auth page too
+  (function(){
+    const nativeAlert = window.alert;
+    window.alert = (message) => {
+      if (document.getElementById("blockedModal")) {
+        window.showBlockedModal(String(message || ""));
+        return;
+      }
+      nativeAlert(message);
+    };
+  })();
+
+  // ✅ on page load: if redirected with blocked message, show it
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const hash = location.hash || "";
+
+    const msg = sessionStorage.getItem("blocked_msg");
+    if (msg || params.get("blocked") === "1" || hash.includes("blocked=1")) {
+      window.showBlockedModal(msg || "Your account is blocked. Contact admin.");
+      sessionStorage.removeItem("blocked_msg");
+    }
+  })();
+</script>
+</body>
+</html>

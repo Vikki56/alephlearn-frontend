@@ -1,0 +1,41 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="al-icon-g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b26cff"/>
+      <stop offset="100%" stop-color="#5b21ff"/>
+    </linearGradient>
+    <linearGradient id="al-icon-g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4c1d95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background transparent rakha hai -->
+
+  <!-- left ribbon -->
+  <polygon
+    points="6,24 30,8 54,20 30,36"
+    fill="url(#al-icon-g1)"
+  />
+  <!-- bottom ribbon -->
+  <polygon
+    points="6,24 30,36 30,60 6,48"
+    fill="url(#al-icon-g2)"
+  />
+  <!-- right white face -->
+  <polygon
+    points="30,8 54,20 54,44 30,32"
+    fill="#ffffff"
+  />
+  <!-- inner dark cutout -->
+  <polygon
+    points="22,26 30,20 38,24 30,30"
+    fill="#020617"
+    opacity="0.95"
+  />
+</svg>

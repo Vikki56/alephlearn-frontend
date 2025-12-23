@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AlephLearn – Quiz Attempt</title>
+
+  <!-- Good readable font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Quiz Attempt CSS ONLY for this page -->
+  <link rel="stylesheet" href="quiz_attempt.css" />
+</head>
+
+<body class="quiz-attempt-body">   <!-- IMPORTANT: body class FIXED -->
+
+  <div id="quizTakingModal" class="quiz-attempt-root">
+      <div id="quizTakingContent" class="quiz-attempt-card"></div>
+  </div>
+<!-- Global toast / popup for quizzes page -->
+<!-- <div id="quizToast" class="quiz-toast">
+    <div class="quiz-toast-inner">
+      <span id="quizToastIcon" class="quiz-toast-icon">🔔</span>
+      <div class="quiz-toast-text">
+        <div id="quizToastTitle" class="quiz-toast-title">Notification</div>
+        <div id="quizToastMessage" class="quiz-toast-message">Message…</div>
+      </div>
+      <button id="quizToastClose" class="quiz-toast-close">✕</button>
+    </div>
+  </div> -->
+  <!-- Global AlephLearn dialog -->
+<div id="appDialogOverlay" class="app-dialog-overlay">
+    <div class="app-dialog" id="appDialog">
+      <div class="app-dialog-header">
+        <div class="app-dialog-icon" id="appDialogIcon" aria-hidden="true">⚠️</div>
+        <h3 class="app-dialog-title" id="appDialogTitle">Alert</h3>
+      </div>
+      <p class="app-dialog-message" id="appDialogMessage">Message goes here.</p>
+  
+      <div class="app-dialog-actions">
+        <button class="app-dialog-btn cancel" id="appDialogCancelBtn">
+          Cancel
+        </button>
+        <button class="app-dialog-btn primary" id="appDialogOkBtn">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="quiz_attempt.js"></script>
+</body>
+</html>

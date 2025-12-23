@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AlephLearn • Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="Hamberger.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+<body data-page="profile">
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="logo">A</div>lephLearn</div>
+    <!-- FX Animated Hamburger (mobile only) -->
+<button id="fx-burger" class="fx-burger" aria-label="Toggle menu" aria-expanded="false">
+  <input id="fx-burger-check" type="checkbox" />
+  <div id="fx-wrap">
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+  </div>
+</button>
+    <nav class="links">
+      <a href="index.html">Dashboard</a>
+      <a href="doubts.html">Doubts</a>
+      <a href="chat.html">Chat</a>
+      <a href="quizzes.html">Quizzes</a>
+      <a href="previous-papers.html">Previous Papers</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="profile.html">Profile</a>
+            <button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+    </nav>
+    <div class="avatar">JS</div>
+  </div>
+</header>
+<!-- Mobile Drawer -->
+<nav class="fx-drawer" id="mobile-drawer">
+  <div id="fx-backdrop" class="fx-backdrop"></div>
+  <div class="fx-drawer-head">
+    <h3>Menu</h3>
+    <button class="fx-drawer-close">✕</button>
+  </div>
+  <div class="fx-drawer-links">
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="doubts.html">💬 Doubts</a>
+    <a href="chat.html">💭 Chat</a>
+    <a href="quizzes.html">🧠 Quizzes</a>
+    <a href="previous-papers.html">📄 Previous Papers</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="profile.html">👤 Profile</a>
+    
+      <button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+  </div>
+</nav>
+
+<main class="container profile-scope">
+  <h1 class="h1">👤 Your Profile</h1>
+  <p class="sub">Manage your learning journey and achievements</p>
+
+  <section class="profile-grid">
+    <div class="card info" style="padding:14px;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div class="avatar" style="width:56px;height:56px;border-radius:14px; font-weight:800; background:#e8eaff; color:#051128;">JS</div>
+        <div>
+          <h2 style="margin:0">John Smith</h2>
+          <div class="sub">Computer Science Student • <span class="badge">Member since Jan 2024</span></div>
+          <div style="margin-top:6px;"><span class="badge" style="background:#dfe7ff">Level 12</span> <span class="badge" style="background:#d7ffe6">Verified</span></div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:14px;">
+        <div class="stat blue"><div class="v">1,247</div><div class="t">Total Points</div></div>
+        <div class="stat green"><div class="v">23</div><div class="t">Doubts Solved</div></div>
+        <div class="stat purple"><div class="v">89%</div><div class="t">Quiz Average</div></div>
+        <div class="stat orange"><div class="v">156</div><div class="t">Chat Messages</div></div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <div class="sub" style="color:#ffd4d4">🍒 Subjects of Interest</div>
+        <div class="chips" style="margin-top:8px;">
+          <span class="chip">Java Programming</span>
+          <span class="chip">Data Structures</span>
+          <span class="chip">Web Development</span>
+          <span class="chip">Algorithms</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="grid" style="gap:16px;">
+      <div class="card" style="padding:14px;">
+        <h3>🏆 Achievements</h3>
+        <div class="grid" style="grid-template-columns: repeat(2,1fr);">
+          <div class="item">Top Contributor</div>
+          <div class="item">Quiz Master</div>
+          <div class="item">Problem Solver</div>
+          <div class="item">Helpful Peer</div>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3>⚙️ Settings</h3>
+        <div class="item">✏️ Edit Profile</div>
+        <div class="item">🔔 Notifications</div>
+        <div class="item">🔒 Privacy</div>
+        <div class="item">🔑 Password</div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="card activity" style="padding:14px; margin-top:16px;">
+    <h3>🧾 Recent Activity</h3>
+    <div class="entry">Solved a doubt about binary search — Earned 15 points • 2 hours ago</div>
+    <div class="entry">Completed Data Structures quiz with 92% — Earned 25 points • 1 day ago</div>
+    <div class="entry">Asked a question about recursion — Got 3 helpful answers • 3 days ago</div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+<script>
+const scope = document.querySelector('.profile-scope');
+scope.querySelectorAll('#subjectsPicker .chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    chip.classList.toggle('active');
+  });
+});
+</script>
+<!-- Connect to backend -->
+<script type="module" src="./js/api.js"></script>
+<script type="module" src="./app.js"></script>
+<script type="module" src="H1.js"></script>
+
+  <script type="module" src="./js/protect.js"></script>
+
+<!-- Main logic for all pages -->
+
+
+</body>
+</html>

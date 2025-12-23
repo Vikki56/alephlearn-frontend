@@ -1,0 +1,603 @@
+/* ================================
+   AlephLearn Auth Theme (Glass)
+   Only CSS — NO JS/HTML changes
+================================== */
+
+:root{
+  --bg0:#070A14;
+  --bg1:#0B1024;
+  --glass: rgba(255,255,255,.06);
+  --glass2: rgba(255,255,255,.08);
+  --stroke: rgba(255,255,255,.14);
+
+  --text:#EAF0FF;
+  --muted: rgba(234,240,255,.72);
+
+  /* AlephLearn Accent (purple-magenta, not blue) */
+  --a1:#7C3AED;
+  --a2:#EC4899;
+
+  --shadow: 0 22px 60px rgba(0,0,0,.55);
+  --radius: 26px;
+  --radius2: 18px;
+
+  --inputBg: rgba(255,255,255,.06);
+  --inputStroke: rgba(255,255,255,.14);
+  --inputStrokeFocus: rgba(124,58,237,.65);
+
+  --good:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color:var(--text);
+
+  background:
+    radial-gradient(900px 600px at 12% 18%, rgba(124,58,237,.26), transparent 60%),
+    radial-gradient(900px 600px at 86% 24%, rgba(236,72,153,.22), transparent 60%),
+    radial-gradient(700px 480px at 55% 90%, rgba(56,189,248,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 28px 16px;
+  overflow-x:hidden;
+}
+
+/* Soft animated background orbs (pure CSS) */
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:-200px;
+  pointer-events:none;
+  filter: blur(38px);
+  opacity:.55;
+  z-index:-1;
+}
+body::before{
+  background:
+    radial-gradient(520px 520px at 20% 35%, rgba(124,58,237,.35), transparent 65%),
+    radial-gradient(520px 520px at 80% 30%, rgba(236,72,153,.30), transparent 65%);
+  animation: float1 10s ease-in-out infinite;
+}
+body::after{
+  background:
+    radial-gradient(520px 520px at 70% 78%, rgba(56,189,248,.14), transparent 70%),
+    radial-gradient(460px 460px at 30% 78%, rgba(167,139,250,.18), transparent 70%);
+  animation: float2 12s ease-in-out infinite;
+}
+@keyframes float1{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(22px, -18px, 0); }
+}
+@keyframes float2{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(-22px, 16px, 0); }
+}
+
+/* =======================
+   Card Layout
+======================= */
+
+.auth-card{
+  width:min(1080px, 100%);
+  min-height: 620px;
+  display:grid;
+  grid-template-columns: 0.95fr 1.15fr;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+
+.auth-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(900px 500px at 15% 20%, rgba(124,58,237,.18), transparent 55%),
+    radial-gradient(900px 500px at 85% 35%, rgba(236,72,153,.14), transparent 55%);
+  opacity:.9;
+}
+
+/* Left Hero */
+.auth-hero{
+  position:relative;
+  padding: 54px 44px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:12px;
+
+  background:
+    radial-gradient(900px 520px at 25% 30%, rgba(124,58,237,.28), transparent 60%),
+    radial-gradient(900px 520px at 70% 70%, rgba(236,72,153,.20), transparent 60%),
+    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border-right: 1px solid rgba(255,255,255,.10);
+}
+
+.auth-hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(400px 220px at 40% 45%, rgba(255,255,255,.06), transparent 70%),
+    radial-gradient(520px 320px at 65% 70%, rgba(255,255,255,.05), transparent 70%);
+  pointer-events:none;
+}
+
+.brand{
+  margin:0;
+  font-size: 54px;
+  line-height:1.02;
+  letter-spacing:-0.02em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ffffff, rgba(255,255,255,.85));
+  -webkit-background-clip: text;
+  background-clip:text;
+  color: transparent;
+  text-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+.auth-hero p{
+  margin:0;
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 34ch;
+}
+
+/* Right content */
+.auth-main{
+  position:relative;
+  padding: 34px 42px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  z-index:1;
+}
+
+/* =======================
+   Tabs
+======================= */
+.tab-buttons{
+  display:flex;
+  gap:10px;
+  padding: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  width: fit-content;
+  margin-left:auto;
+  margin-bottom: 18px;
+}
+
+.tab-buttons button{
+  appearance:none;
+  border:none;
+  cursor:pointer;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: .01em;
+  background: transparent;
+  color: rgba(234,240,255,.80);
+  transition: transform .15s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.tab-buttons button:hover{
+  transform: translateY(-1px);
+  color: rgba(234,240,255,.95);
+}
+
+.tab-buttons button.active{
+  color: #fff;
+  background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(236,72,153,.80));
+  box-shadow: 0 10px 24px rgba(124,58,237,.28);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+/* =======================
+   Form Container / Panels
+======================= */
+.form-container{
+  width:100%;
+}
+
+.panel{
+  animation: pop .22s ease both;
+}
+@keyframes pop{
+  from{ opacity:.0; transform: translateY(6px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+.hidden{
+  display:none !important;
+}
+
+.form{
+  width: min(560px, 100%);
+}
+
+.form h2, .form h3{
+  margin: 6px 0 6px;
+  font-size: 34px;
+  letter-spacing:-.02em;
+}
+
+.form .sub{
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height:1.4;
+}
+
+/* =======================
+   Inputs
+======================= */
+.input-group{
+  display:grid;
+  gap:8px;
+  margin: 14px 0;
+}
+
+label{
+  font-size: 13px;
+  color: rgba(234,240,255,.80);
+  font-weight: 700;
+}
+
+input, textarea{
+  width:100%;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  color: var(--text);
+
+  background: var(--inputBg);
+  border: 1px solid var(--inputStroke);
+  outline:none;
+
+  transition: border .18s ease, box-shadow .18s ease, background .18s ease, transform .18s ease;
+}
+
+input::placeholder, textarea::placeholder{
+  color: rgba(234,240,255,.42);
+}
+
+input:focus, textarea:focus{
+  border-color: var(--inputStrokeFocus);
+  box-shadow:
+    0 0 0 4px rgba(124,58,237,.16),
+    0 14px 36px rgba(0,0,0,.35);
+  background: rgba(255,255,255,.08);
+}
+
+textarea{
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* Password wrap + toggle */
+.pw-wrap{
+  position:relative;
+}
+
+.pw-wrap input{
+  padding-right: 48px;
+}
+
+.pw-toggle{
+  position:absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.8);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition: transform .15s ease, background .2s ease, border .2s ease;
+}
+.pw-toggle:hover{
+  transform: translateY(-50%) scale(1.03);
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* SVG eyes */
+.pw-toggle svg{
+  width:18px;
+  height:18px;
+  fill: rgba(234,240,255,.85);
+}
+
+/* You likely switch these in JS by display, keep safe defaults */
+.eye-closed{ display:none; }
+
+/* =======================
+   Buttons (Primary / Ghost)
+   -> replaces "odd blue" with AlephLearn accent
+======================= */
+.btn{
+  width:100%;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 900;
+  letter-spacing:.01em;
+  border: 1px solid rgba(255,255,255,.10);
+  cursor:pointer;
+
+  color:#fff;
+  background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(236,72,153,.82));
+  box-shadow: 0 14px 34px rgba(124,58,237,.24);
+
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(124,58,237,.32);
+  filter: brightness(1.03);
+}
+.btn:active{
+  transform: translateY(0px);
+}
+
+/* ghost small buttons used in forgot/reset */
+.btn-ghost{
+  width: fit-content;
+  padding: 10px 14px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(234,240,255,.90);
+  cursor:pointer;
+  font-weight: 800;
+  transition: transform .15s ease, background .2s ease, border .2s ease;
+}
+.btn-ghost:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Inline helper row */
+.inline.helper{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  margin: 10px 0 4px;
+  color: rgba(234,240,255,.75);
+  font-size: 13px;
+}
+
+.inline.helper label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight: 700;
+  color: rgba(234,240,255,.76);
+}
+
+input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  accent-color: var(--a1);
+}
+
+/* Forgot password link button */
+.pill-link{
+  border:none;
+  background: transparent;
+  color: rgba(234,240,255,.80);
+  font-weight: 800;
+  cursor:pointer;
+  padding: 8px 10px;
+  border-radius: 999px;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.pill-link:hover{
+  color: #fff;
+  background: rgba(255,255,255,.06);
+  transform: translateY(-1px);
+}
+
+/* =======================
+   Success card
+======================= */
+.success-card{
+  width: min(560px, 100%);
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(34,197,94,.25);
+  background: rgba(34,197,94,.08);
+}
+.success-icon{
+  width: 44px; height:44px;
+  border-radius: 14px;
+  display:grid; place-items:center;
+  background: rgba(34,197,94,.18);
+  border: 1px solid rgba(34,197,94,.28);
+  margin-bottom: 10px;
+}
+
+/* =======================
+   Toast stack (if used)
+======================= */
+#toast-stack{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display:grid;
+  gap:10px;
+  z-index:9999;
+}
+
+/* =======================
+   Responsive
+======================= */
+@media (max-width: 980px){
+  .auth-card{
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .auth-hero{
+    border-right:none;
+    border-bottom: 1px solid rgba(255,255,255,.10);
+    padding: 38px 28px;
+  }
+  .brand{ font-size: 44px; }
+  .auth-main{ padding: 28px 22px 32px; }
+  .tab-buttons{ margin-left:0; }
+}
+
+@media (max-width: 520px){
+  body{ padding: 16px 12px; }
+  .auth-hero{ padding: 30px 18px; }
+  .brand{ font-size: 38px; }
+  .auth-hero p{ font-size: 14px; }
+  .form h2, .form h3{ font-size: 28px; }
+  .tab-buttons{
+    width:100%;
+    justify-content:space-between;
+  }
+  .tab-buttons button{
+    width: 50%;
+    text-align:center;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}/* 🔙 Back button – FORCE true top-left */
+.auth-back{
+  position: fixed !important;
+  top: 18px !important;
+  left: 18px !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  text-decoration: none;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+
+  color: #fff;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  z-index: 9999 !important;
+}
+
+.auth-back:hover{
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  transform: translateX(-2px);
+}
+
+/* Mobile */
+@media (max-width: 600px){
+  .auth-back{
+    top: 14px !important;
+    left: 14px !important;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+body{ transform: none !important; }
+/* ===============================
+   BLOCKED MODAL (AUTH PAGE)
+   =============================== */
+   .blocked-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,23,0.65);
+    backdrop-filter: blur(12px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  }
+  
+  .blocked-backdrop.show{ display:flex; }
+  
+  .blocked-card{
+    width: min(560px, 92%);
+    padding: 26px 28px;
+    border-radius: 22px;
+    background: radial-gradient(circle at top,
+      rgba(255,255,255,0.12),
+      rgba(15,23,42,0.95)
+    );
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    color: #e5e7eb;
+    animation: blockedPop 0.28s ease-out;
+  }
+  
+  @keyframes blockedPop{
+    from{ transform: scale(.94) translateY(8px); opacity:0; }
+    to{ transform: scale(1) translateY(0); opacity:1; }
+  }
+  
+  .blocked-card h2{
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+  
+  .blocked-text{
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: rgba(226,232,240,0.9);
+  }
+  
+  .blocked-text a{
+    color: #c7d2fe;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .blocked-text a:hover{ text-decoration: underline; }
+  
+  .blocked-btn{
+    margin-top: 18px;
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg,#ec4899,#a855f7);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.25s ease;
+  }
+  .blocked-btn:hover{ transform: translateY(-2px); }

@@ -1,0 +1,718 @@
+/* GLOBAL FONT */
+body {
+    font-family: "Inter", sans-serif !important;
+    letter-spacing: 0.2px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .card-title {
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.5px;
+  }
+  /* Global look for leaderboard page */
+.leaderboard-page {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #e5e7eb;
+  }
+  .quiz-desc {
+    font-weight: 400;
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+.leaderboard-card {
+    margin-top: 1rem;
+    background: #0b1120;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+  
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  
+  .leaderboard-table thead {
+    background: rgba(15, 23, 42, 0.9);
+  }
+  
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(30, 64, 175, 0.5);
+  }
+  
+  .leaderboard-table tbody tr:nth-child(even) {
+    background: rgba(15, 23, 42, 0.7);
+  }
+  
+  .leaderboard-table tbody tr:nth-child(odd) {
+    background: rgba(15, 23, 42, 0.9);
+  }
+  
+  /* Result answer view */
+  
+  .result-card {
+    margin-top: 1.5rem;
+    background: #020617;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+  }
+  
+  .result-summary {
+    margin-bottom: 0.35rem;
+  }
+  
+  .result-divider {
+    margin: 1rem 0;
+    border: none;
+    border-top: 1px dashed rgba(148, 163, 184, 0.5);
+  }
+  
+  .result-question-block {
+    margin-bottom: 0.9rem;
+  }
+  
+  .result-question-text {
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+  
+  .ans-option-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.5rem;
+    background: rgba(15, 23, 42, 0.9);
+    margin-bottom: 0.15rem;
+  }
+  
+  .ans-pill {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  
+  .ans-pill-correct {
+    border-color: rgba(34, 197, 94, 0.8);
+    color: #bbf7d0;
+  }
+  
+  .ans-pill-right {
+    border-color: rgba(59, 130, 246, 0.8);
+    color: #bfdbfe;
+  }
+  
+  .ans-pill-wrong {
+    border-color: rgba(248, 113, 113, 0.8);
+    color: #fecaca;
+  }
+  
+  .page-main.attempt-finished,
+  .page-footer.attempt-finished {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .improved-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+    margin-top: 40px;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .improved-card:hover {
+    box-shadow: 0 0 25px rgba(98, 123, 255, 0.4);
+    border-color: rgba(120, 140, 255, 0.5);
+  }
+  
+  .card-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .small-title {
+    font-size: 1.4rem;
+    margin-top: 25px;
+  }
+  
+  .card-sub {
+    font-size: 0.95rem;
+    color: #a5b4fc;
+    margin-bottom: 25px;
+  }
+  
+  .small-sub {
+    margin-bottom: 15px;
+  }
+  
+  .result-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .result-label {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 5px;
+  }
+  
+  .result-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .leader-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .leader-table thead tr {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .leader-table th, .leader-table td {
+    padding: 12px 5px;
+    font-size: 0.95rem;
+  }
+  
+  .leader-table tbody tr {
+    transition: 0.2s;
+  }
+  
+  .leader-table tbody tr:hover {
+    background: rgba(255,255,255,0.07);
+  }
+  
+  .empty-msg {
+    color: #64748b;
+    text-align: center;
+    padding: 15px;
+  }
+  /* MAIN CARD SIZE */
+.result-card {
+    max-width: 1100px;   /* 🔥 Pehle 900 px tha — ab bada */
+    padding: 2.5rem;     /* 🔥 Card andar se bhi bada */
+    margin: auto;
+  }
+  
+  .leaderboard-card {
+    padding: 2rem;       /* 🔥 Leaderboard box width bhi big */
+    border-radius: 14px;
+  }
+  main.container {
+    max-width: 1100px !important;  /* 🔥 900 → 1100 */
+    margin: auto;
+    padding-bottom: 2rem;
+  }
+  .leaderboard-table {
+    width: 100%;
+    font-size: 1rem;
+  }
+  .leaderboard-table th {
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+  }
+  
+  .leaderboard-table td {
+    font-weight: 400;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+  }
+  .card-header h1, 
+.card-header h2 {
+  text-shadow: 0px 0px 10px rgba(59,130,246,0.15);
+}
+
+/* ---- Card layout ---- */
+
+.card {
+    background: radial-gradient(circle at top left, #111827 0, #020617 55%);
+    border-radius: 1.2rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+    padding: 1.75rem 2rem;
+    backdrop-filter: blur(14px);
+  }
+  
+  /* Thoda vertical gap bada so card “badda” feel ho */
+  .result-card {
+    margin-top: 1.8rem;
+  }
+  
+  /* ---- Header + title ---- */
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.1rem;
+  }
+  
+  .card-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  
+  .card-title span:first-child {
+    font-size: 1.4rem;
+  }
+  
+  .card-title span:last-child {
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  
+  /* Subtitle / descriptions */
+  
+  .quiz-desc {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    color: #9ca3af;
+  }
+  
+  /* Thin divider look */
+  .result-divider {
+    border: none;
+    border-top: 1px dashed rgba(148, 163, 184, 0.35);
+    margin: 1.2rem 0 1.4rem;
+  }
+  
+  /* ---- Leaderboard table ---- */
+  
+  .leaderboard-card {
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.95));
+    border-radius: 0.9rem;
+    border: 1px solid rgba(51, 65, 85, 0.85);
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+  
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  
+  .leaderboard-table thead th {
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.9);
+  }
+  
+  .leaderboard-table tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid rgba(30, 41, 59, 0.9);
+  }
+  
+  /* Row hover = professional but not too loud */
+  .leaderboard-table tbody tr {
+    transition: background 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+  }
+  
+  .leaderboard-table tbody tr:hover {
+    background: rgba(15, 23, 42, 0.95);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.7);
+  }
+  
+  /* First column (rank / #) center aligned */
+  .leaderboard-table tbody td:first-child,
+  .leaderboard-table thead th:first-child {
+    text-align: center;
+    width: 60px;
+  }
+  /* ---------- CARD BASE ---------- */
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 1.8rem 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.25);
+  }
+  
+  /* ---------- HEADER ---------- */
+  .card-header .card-title {
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    letter-spacing: 0.3px;
+  }
+  
+  .card-header .quiz-desc {
+    margin-top: 0.35rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+  
+  /* ---------- TABLE ---------- */
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.2rem;
+    font-size: 0.92rem;
+    color: #e2e8f0;
+  }
+  
+  .leaderboard-table thead th {
+    text-align: left;
+    padding: 0.8rem 0.75rem;
+    background: rgba(255,255,255,0.04);
+    color: #cbd5e1;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  
+  .leaderboard-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: 0.25s ease;
+  }
+  
+  .leaderboard-table tbody tr:hover {
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+  }
+  
+  .leaderboard-table td {
+    padding: 0.85rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  /* ---------- RANK BADGING ---------- */
+  .rank-badge {
+    background: rgba(139,92,246,0.2);
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: #c084fc;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  
+  /* ---------- FASTEST TIME ---------- */
+  .time-badge {
+    background: rgba(56,189,248,0.18);
+    color: #7dd3fc;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  /* --- HISTORY TABLE PRO VERSION --- */
+
+.history-table-wrapper {
+    background: rgba(255,255,255,0.02);
+    padding: 1.8rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.25);
+  }
+  
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .leaderboard-table thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+  }
+  
+  .leaderboard-table tbody tr {
+    background: rgba(15,23,42,0.6);
+    transition: 0.25s ease;
+    border-radius: 12px;
+  }
+  
+  .leaderboard-table tbody tr:hover {
+    background: rgba(30,41,59,0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    cursor: pointer;
+  }
+  
+  .leaderboard-table td {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    color: #e2e8f0;
+  }
+  
+  /* --- BADGE: FASTEST TIME --- */
+  .time-badge {
+    background: #0ea5e9;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  /* --- BADGE: BEST RANK --- */
+  .rank-badge {
+    background: #6366f1;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+  }
+
+  /* ===== Premium Back Button ===== */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    background: radial-gradient(circle at top left, #1f2933 0, #020617 55%);
+    color: #e5e7eb;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    outline: none;
+    transition:
+      background 0.18s ease-out,
+      border-color 0.18s ease-out,
+      box-shadow 0.18s ease-out,
+      transform 0.12s ease-out;
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, 0.65),
+      0 0 0 1px rgba(15, 23, 42, 0.9);
+  }
+  
+  .back-btn span.arrow {
+    font-size: 1.05rem;
+    transform: translateX(0);
+    transition: transform 0.18s ease-out, opacity 0.18s ease-out;
+  }
+  
+  /* hover */
+  .back-btn:hover {
+    background: radial-gradient(circle at top left, #273549 0, #020617 60%);
+    border-color: rgba(148, 163, 184, 0.7);
+    box-shadow:
+      0 14px 35px rgba(15, 23, 42, 0.9),
+      0 0 0 1px rgba(30, 64, 175, 0.4);
+    transform: translateY(-1px);
+  }
+  
+  .back-btn:hover span.arrow {
+    transform: translateX(-2px);
+  }
+  
+  /* active (click) */
+  .back-btn:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow:
+      0 6px 16px rgba(15, 23, 42, 0.7),
+      0 0 0 1px rgba(15, 23, 42, 0.9);
+  }
+  
+  /* keyboard focus */
+  .back-btn:focus-visible {
+    box-shadow:
+      0 0 0 1px rgba(15, 23, 42, 1),
+      0 0 0 2px rgba(37, 99, 235, 0.8),
+      0 14px 35px rgba(15, 23, 42, 0.85);
+  }
+
+  /* Page Fade Animation */
+.page-transition {
+    opacity: 1;
+    transition: opacity 0.35s ease;
+  }
+  
+  .page-transition.fade-out {
+    opacity: 0;
+  }
+  /* ===================== */
+/*   MOBILE RESPONSIVE   */
+/* ===================== */
+@media (max-width: 768px) {
+  /* Overall page */
+  .leaderboard-page {
+    background: #020617;
+  }
+
+  .page-transition {
+    padding: 0;
+  }
+
+  /* Back button full width, center text */
+  .back-btn {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0.7rem 1.2rem;
+  }
+
+  /* Main container */
+  .leaderboard-page main.container {
+    max-width: 100%;
+    padding: 0 1rem 2rem;
+  }
+
+  /* Cards */
+  .card,
+  .improved-card {
+    border-radius: 18px;
+    padding: 1.25rem 1.1rem;
+    margin-inline: 0;
+  }
+
+  /* Card header vertical instead of spread out */
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .card-title span:last-child {
+    font-size: 1.15rem;
+  }
+
+  .quiz-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+
+  /* Leaderboard card spacing */
+  .leaderboard-card {
+    margin-top: 1.1rem;
+  }
+
+  /* Tables: horizontal scroll instead of text cut */
+  .leaderboard-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .leaderboard-table {
+    min-width: 600px;          /* table preserve columns */
+    font-size: 0.8rem;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.6rem 0.5rem;
+  }
+}
+
+/* Smaller phones (optional, extra polish) */
+@media (max-width: 480px) {
+  .card-title span:last-child {
+    font-size: 1.05rem;
+  }
+
+  .quiz-desc {
+    font-size: 0.85rem;
+  }
+
+  .back-btn {
+    font-size: 0.9rem;
+  }
+}
+/* ===========================
+   MOBILE RESPONSIVE FIXES
+   =========================== */
+   @media (max-width: 600px) {
+
+    /* Card padding & spacing reduce */
+    .card,
+    .improved-card {
+      padding: 1.1rem;
+      border-radius: 14px;
+    }
+  
+    /* Titles smaller */
+    .card-title span:last-child {
+      font-size: 1.1rem !important;
+    }
+  
+    .quiz-desc {
+      font-size: 0.85rem !important;
+      line-height: 1.3rem;
+    }
+  
+    /* Table responsive */
+    .leaderboard-table th,
+    .leaderboard-table td {
+      font-size: 0.8rem !important;
+      padding: 0.55rem !important;
+    }
+  
+    .leaderboard-table {
+      display: block;
+      overflow-x: auto;
+      border-radius: 10px;
+    }
+  
+    /* Reduce gaps between sections */
+    #historySection {
+      margin-top: 1rem !important;
+    }
+  
+    /* Back button full width look */
+    .back-btn {
+      font-size: 0.9rem !important;
+      padding: 0.6rem 1.1rem !important;
+    }
+  
+    /* Large captions shrink */
+    h1.card-title,
+    h2.card-title {
+      font-size: 1.2rem !important;
+    }
+  
+    /* Result summary text */
+    #latestResultSummary p {
+      font-size: 0.85rem !important;
+    }
+  
+    /* Reduce header spacing */
+    .card-header {
+      padding-bottom: 0.4rem !important;
+    }
+  
+  }

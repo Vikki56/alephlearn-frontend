@@ -1,0 +1,419 @@
+/* =======================
+   ✅ Admin Panel Polish
+   ======================= */
+
+/* Card spacing + subtle glass */
+.card{
+    border: 1px solid rgba(148,163,184,.14);
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    background: linear-gradient(180deg, rgba(15,23,42,.65), rgba(2,6,23,.55));
+  }
+  
+  /* Headings */
+  .h1{ letter-spacing:.2px; }
+  .sub{ opacity:.8; }
+  
+  /* Inputs */
+  .form-group{ display:grid; gap:6px; }
+  .form-label{ font-weight:600; opacity:.85; font-size:.92rem; }
+  
+  .form-input, select.form-input, textarea.form-input{
+    width:100%;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: rgba(2,6,23,.55);
+    border: 1px solid rgba(148,163,184,.22);
+    color: #e5e7eb;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, transform .08s;
+  }
+  .form-input::placeholder{ color: rgba(226,232,240,.55); }
+  .form-input:focus{
+    border-color: rgba(96,165,250,.7);
+    box-shadow: 0 0 0 4px rgba(59,130,246,.18);
+  }
+  
+  /* Buttons */
+  .btn{
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-weight: 700;
+    letter-spacing:.2px;
+  }
+  .btn:active{ transform: translateY(1px); }
+  
+  /* Tables */
+  table{ width:100%; border-collapse: collapse; }
+  thead th{
+    position: sticky;
+    top: 0;
+    background: rgba(2,6,23,.85);
+    backdrop-filter: blur(8px);
+    z-index: 1;
+  }
+  th, td{ vertical-align: middle; }
+  tbody tr:hover{
+    background: rgba(148,163,184,.06);
+  }
+  
+  /* Make status/selects look consistent */
+  select.form-input{
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, rgba(226,232,240,.7) 50%),
+      linear-gradient(135deg, rgba(226,232,240,.7) 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) 55%,
+      calc(100% - 12px) 55%;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 34px;
+  }
+  
+  /* Action column buttons align */
+  td .btn{ white-space: nowrap; }
+  
+  /* Toast */
+  .toast-stack{
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index: 9999;
+  }
+  .toast{
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(148,163,184,.18);
+    background: rgba(2,6,23,.92);
+    color: #e5e7eb;
+    font-weight: 700;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    transform: translateY(10px);
+    opacity: 0;
+    animation: toast-in .22s ease forwards;
+  }
+  .toast.success{ border-color: rgba(34,197,94,.35); }
+  .toast.error{ border-color: rgba(239,68,68,.35); }
+  @keyframes toast-in { to { transform: translateY(0); opacity: 1; } }
+  
+  /* Modal */
+  .al-modal{ position: fixed; inset:0; display:none; z-index: 9998; }
+  .al-modal.show{ display:block; }
+  .al-modal-backdrop{
+    position:absolute; inset:0;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(4px);
+  }
+  .al-modal-card{
+    position: relative;
+    width: min(520px, calc(100% - 28px));
+    margin: 14vh auto 0;
+    border-radius: 18px;
+    border: 1px solid rgba(148,163,184,.2);
+    background: rgba(2,6,23,.9);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+    padding: 16px;
+  }
+  .al-modal-title{ margin:0 0 6px; font-size: 1.1rem; }
+  .al-modal-msg{ margin:0; opacity:.85; line-height: 1.35; }
+  .al-modal-actions{
+    margin-top: 14px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+  
+  /* Responsive grid */
+  @media (max-width: 900px){
+    .grid{ grid-template-columns: 1fr !important; }
+  }
+  /* Scrollable lists: Blocked + Banned */
+.table-scroll{
+    max-height: 220px;   /* tune chahe toh 260/300 kar de */
+    overflow: auto;
+    padding-right: 6px;  /* scrollbar space */
+  }
+  
+  /* nice scrollbar */
+  .table-scroll::-webkit-scrollbar{ width: 10px; height: 10px; }
+  .table-scroll::-webkit-scrollbar-thumb{
+    background: rgba(148,163,184,.25);
+    border-radius: 999px;
+  }
+  .table-scroll::-webkit-scrollbar-track{
+    background: rgba(2,6,23,.2);
+    border-radius: 999px;
+  }
+  tr[data-locked="true"]{
+    opacity: .65;
+  }
+  tr[data-locked="true"] select,
+  tr[data-locked="true"] input,
+  tr[data-locked="true"] button{
+    cursor: not-allowed;
+  }
+  /* reusable scroll box */
+.admin-scroll{
+  overflow: auto;
+  border-radius: 14px;
+}
+
+/* Blocked/Banned list height */
+.blocklist-scroll{
+  max-height: 220px;
+}
+
+/* Reports list height */
+.reports-scroll{
+  max-height: 430px;
+}
+
+/* nicer thin scrollbar */
+.admin-scroll::-webkit-scrollbar{ height: 10px; width: 10px; }
+.admin-scroll::-webkit-scrollbar-thumb{
+  background: rgba(148,163,184,.25);
+  border-radius: 10px;
+}
+.admin-scroll::-webkit-scrollbar-track{
+  background: rgba(15,23,42,.35);
+  border-radius: 10px;
+}
+
+/* status pill */
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.4px;
+  border:1px solid rgba(148,163,184,.18);
+  background: rgba(15,23,42,.45);
+  color: rgba(226,232,240,.92);
+}
+
+.status-pill.locked{
+  opacity:.9;
+}
+/* ---------- ADMIN SCROLL AREAS ---------- */
+
+/* common scroll container */
+.table-scroll,
+.admin-scroll {
+  max-height: 260px;        /* adjust if you want */
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+/* reports needs more height */
+.reports-scroll {
+  max-height: 380px;
+}
+
+/* smooth scrollbar (dark theme) */
+.table-scroll::-webkit-scrollbar,
+.admin-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-track,
+.admin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-scroll::-webkit-scrollbar-thumb,
+.admin-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.35);
+  border-radius: 10px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover,
+.admin-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(148,163,184,0.6);
+}
+/* ---------- LOCKED REPORT ROW ---------- */
+
+.status-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+
+.status-pill.locked {
+  background: rgba(239,68,68,0.15);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.35);
+}
+
+/* locked rows look disabled */
+tr[data-locked="true"] {
+  opacity: 0.7;
+}
+
+tr[data-locked="true"] .btn {
+  pointer-events: none;
+}
+/* ===============================
+   ALEPHLEARN PREMIUM MODAL
+   =============================== */
+
+   .al-modal-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,23,0.65);
+    backdrop-filter: blur(12px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+  
+  .al-modal-backdrop.show{
+    display: flex;
+  }
+  
+  .al-modal{
+    width: min(520px, 90%);
+    padding: 26px 28px;
+    border-radius: 22px;
+  
+    background: radial-gradient(
+      circle at top,
+      rgba(255,255,255,0.12),
+      rgba(15,23,42,0.95)
+    );
+  
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.65),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
+  
+    color: #e5e7eb;
+    text-align: left;
+  
+    animation: modalPop 0.28s ease-out;
+  }
+  
+  @keyframes modalPop{
+    from{
+      transform: scale(0.94) translateY(8px);
+      opacity: 0;
+    }
+    to{
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .al-modal h2{
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+  
+  .al-modal-text{
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: rgba(226,232,240,0.9);
+  }
+  
+  .al-modal-text span{
+    color: rgba(248,250,252,0.85);
+  }
+  
+  .al-modal-text a{
+    color: #c7d2fe;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .al-modal-text a:hover{
+    text-decoration: underline;
+  }
+  
+  /* Button */
+  .al-modal-btn{
+    margin-top: 18px;
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+  
+    background: linear-gradient(135deg,#ec4899,#a855f7);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  
+    box-shadow: 0 10px 28px rgba(168,85,247,0.55);
+    transition: 0.25s ease;
+  }
+  
+  .al-modal-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(168,85,247,0.7);
+  }
+  /* ===============================
+   BLOCKED MODAL (NO CLASH)
+   =============================== */
+.blocked-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.65);
+  backdrop-filter: blur(12px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.blocked-backdrop.show{ display:flex; }
+
+.blocked-card{
+  width: min(520px, 90%);
+  padding: 26px 28px;
+  border-radius: 22px;
+  background: radial-gradient(circle at top,
+    rgba(255,255,255,0.12),
+    rgba(15,23,42,0.95)
+  );
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+  color: #e5e7eb;
+  animation: blockedPop 0.28s ease-out;
+}
+
+@keyframes blockedPop{
+  from{ transform: scale(.94) translateY(8px); opacity:0; }
+  to{ transform: scale(1) translateY(0); opacity:1; }
+}
+
+.blocked-text{
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: rgba(226,232,240,0.9);
+}
+
+.blocked-btn{
+  margin-top: 18px;
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg,#ec4899,#a855f7);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+.blocked-btn:hover{
+  transform: translateY(-2px);
+}

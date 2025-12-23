@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en" class="al-preload">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AlephLearn – Live Study Groups</title>
+<style>
+  /* Only hide MAIN content while booting (header stays visible) */
+  html.al-preload body[data-page="chat"] .app-container{
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* Hide fake default content until JS fills real data */
+  body[data-page="chat"].al-boot .study-groups,
+  body[data-page="chat"].al-boot #roomTitle,
+  body[data-page="chat"].al-boot #roomSubtitle,
+  body[data-page="chat"].al-boot #chat-messages{
+    visibility: hidden !important;
+  }
+</style>
+<script>
+  document.documentElement.classList.add('al-preload');
+</script>
+
+<link rel="preload" href="chat.css" as="style">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="chat.css">
+   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="header-unified.css">
+   
+   <!-- <link rel="stylesheet" href="Hamberger.css"> -->
+   <!-- <link rel="stylesheet" href="quizzes.css"> -->
+   <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
+
+</head>
+
+<body data-page="chat" class="al-boot">
+
+  <header class="nav">
+    <div class="nav-inner">
+  
+      <!-- MOBILE: Burger (LEFT) -->
+      <button id="al-burger" class="al-burger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+  
+      <!-- CENTER: Logo -->
+      <div class="brand">
+        <a href="index.html">
+          <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
+        </a>
+      </div>
+  
+      <!-- DESKTOP: Links (mobile pe hide ho jayenge) -->
+      <nav class="links">
+        <a href="index.html">Dashboard</a>
+        <a href="doubts.html">Doubts</a>
+        <a href="chat.html">Chat</a>
+        <a href="quizzes.html">Quizzes</a>
+        <a href="previous-papers.html">Library</a>
+        <a href="profile.html">Profile</a>
+        <a href="admin.html" id="adminTab" style="display:none;">Admin</a>
+        <button class="logout-btn-desktop js-logout">Logout</button>
+      </nav>
+  
+      <!-- RIGHT: Avatar -->
+      <div class="navbar-avatar" id="navbarAvatar">?</div>
+  
+    </div>
+  </header>
+
+
+<nav class="al-drawer" id="al-drawer">
+  <div class="al-drawer-head">
+    <h3>Menu</h3>
+    <button class="al-drawer-close" type="button">✕</button>
+  </div>
+  <div class="al-drawer-links">
+    <a href="index.html"> Dashboard</a>
+    <a href="doubts.html"> Doubts</a>
+    <a href="chat.html"> Chat</a>
+    <a href="quizzes.html"> Quizzes</a>
+    <a href="previous-papers.html"> Previous Papers</a>
+    <!-- <a href="leaderboard.html"> Leaderboard</a> -->
+    <a href="profile.html"> Profile</a>
+    <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
+    <!-- Mobile logout button -->
+    <button class="logout-btn js-logout" type="button">
+      <span class="icon"></span>
+      <span class="text">Logout</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Backdrop for mobile drawer -->
+<div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
+
+<div class="app-container">
+  <div class="main-content">
+    <aside class="left-sidebar">
+      <!-- 🔥 yahan id add karo -->
+      <div class="search-box" id="chatSearchWrapper">
+        <input type="text" class="search-input" placeholder="Search groups..." id="roomSearch">
+        <span class="search-icon">🔍</span>
+      </div>
+    
+      <!-- button ka id same rehne do (chat.js already use kar raha hoga) -->
+      <button class="new-group-btn" id="newRoomBtn">+ New Study Group</button>
+
+      <div class="study-groups">
+        <h3 class="section-title">Study Groups</h3>
+        <div class="group-item active" data-room="cs/java-programming" data-subject="Computer Science">
+          <div class="online-indicator"></div>
+          <div class="group-info">
+            <div class="group-name">Java Programming</div>
+            <div class="group-status">8 active members</div>
+          </div>
+          <div class="member-count">8</div>
+        </div>
+        <div class="group-item" data-room="cs/cs-auto" data-subject="Computer Science">
+          <div class="online-indicator"></div>
+          <div class="group-info">
+            <div class="group-name">CS Auto</div>
+            <div class="group-status">12 active members</div>
+          </div>
+          <div class="member-count">12</div>
+        </div>
+        <div class="group-item" data-room="cs/data-structures" data-subject="Computer Science">
+          <div class="online-indicator"></div>
+          <div class="group-info">
+            <div class="group-name">Data Structures</div>
+            <div class="group-status">15 active members</div>
+          </div>
+          <div class="member-count">15</div>
+        </div>
+        <div class="group-item" data-room="cs/machine-learning" data-subject="Computer Science">
+          <div class="online-indicator"></div>
+          <div class="group-info">
+            <div class="group-name">Machine Learning</div>
+            <div class="group-status">6 active members</div>
+          </div>
+          <div class="member-count">6</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="chat-section">
+      <div class="chat-header">
+        <div class="chat-title" id="current-group">
+          <div class="main-title" id="roomTitle"></div>
+          <div class="subtitle" id="roomSubtitle"></div>
+        </div>
+        <div class="chat-info">
+          <button id="qaToggle" class="button-33" type="button">Q&A</button>
+        <button id="aiToggle" class="button-33" type="button" title="AI Explanations">AI</button>
+          
+        </div>
+      </div>
+
+      <div class="pinned-messages" id="pinnedBar">
+        <span>📌 <strong>Pinned</strong></span>
+        <div class="pinned-list" id="pinnedList"></div>
+      </div>
+      <div class="chat-messages" id="chat-messages"></div>
+
+<button id="newMsgBtn" class="new-msg-btn">⬇️ New messages</button>
+
+
+
+<div class="chat-input-container">
+  <div class="chat-input-wrapper">
+    <!-- typing field -->
+    <input id="message-input" class="chat-input" placeholder="Type your message..." />
+
+<div id="voice-review" class="voice-review">
+  <button id="voice-play" class="vp-play" type="button">▶</button>
+  <audio id="voice-audio" preload="metadata"></audio>
+  <div class="vp">
+    <div class="vp-time" id="vpTimeStart">0:00</div>
+      
+    
+    <div class="vp-bar" id="vp-bar">
+      <div class="vp-inner" id="vp-knob"></div>
+    </div>
+    <div class="vp-time" id="vpTimeEnd">0:00</div>
+  </div>
+  <button id="voice-delete" class="al-btn al-btn--ghost" type="button">🗑</button>
+</div>
+    <!-- emoji + mic only -->
+    <div class="input-actions">
+      <button class="input-btn" id="emoji-btn" type="button" title="Emoji">😊</button>
+      <button class="input-btn mic-btn" title="Mic" id="mic-btn" type="button" aria-pressed="false">
+  <img src="assets/icons/icons8-mic-50.png" alt="Mic" class="mic-icon">
+</button>
+    </div>
+
+<!-- Inside your chat input bar -->
+<button id="send-btn" type="button" class="send-btn" aria-label="Send">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M2 21l20-9L2 3l5.5 7L2 21z" fill="currentColor"/>
+  </svg>
+</button>
+  </div>
+</div>
+<div id="emoji-panel" class="emoji-panel" hidden></div>
+<!-- Voice review bar (hidden until a clip is recorded) -->
+
+<!-- <button id="voice-send"   class="al-btn" type="button" title="Send">Send</button> -->
+    </main>
+  </div>
+</div>
+
+<!-- Prompt Modal -->
+<div id="promptModal" class="al-modal" style="display:none">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card" role="dialog" aria-modal="true" aria-labelledby="promptTitle">
+    <div class="al-modal__header">
+      <h3 id="promptTitle">Create Study Group</h3>
+      <button class="al-x" data-close>✖</button>
+    </div>
+    <div class="al-modal__body">
+      <label id="promptLabel" style="display:block;margin-bottom:8px;">New study group title (e.g., Java Programming)</label>
+      <input id="promptInput" class="al-input" placeholder="e.g., Java Programming" />
+    </div>
+    <div class="al-modal__footer" style="gap:8px;justify-content:flex-end;">
+      <button class="al-btn al-btn--ghost" data-cancel>Cancel</button>
+      <button class="al-btn" data-ok>OK</button>
+    </div>
+  </div>
+</div>
+<!-- Confirm Modal -->
+<!-- <div id="confirmModal" class="al-modal" style="display:none">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="al-modal__header">
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <button class="al-x" data-close>✖</button>
+    </div>
+    <div class="al-modal__body">
+      <p id="confirmBody" style="margin:0;color:#cbd5e1"></p>
+    </div>
+    <div class="al-modal__footer" style="gap:8px;justify-content:flex-end;">
+      <button class="al-btn al-btn--ghost" data-cancel>Cancel</button>
+      <button class="al-btn" data-ok>OK</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- Edit Modal -->
+<div id="editModal" class="al-modal" style="display:none">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <div class="al-modal__header">
+      <h3 id="editTitle">Edit message</h3>
+      <button class="al-x" data-close>✖</button>
+    </div>
+    <div class="al-modal__body">
+      <label id="editLabel" style="display:block;margin-bottom:8px;">Update your message</label>
+      <textarea id="editInput" class="al-input" rows="4" style="resize:vertical"></textarea>
+    </div>
+    <div class="al-modal__footer" style="gap:8px;justify-content:flex-end;">
+      <button class="al-btn al-btn--ghost" data-cancel>Cancel</button>
+      <button class="al-btn" data-ok>Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== Q&A SECTION ==================== -->
+
+<aside id="qaPanel" class="qa-panel">
+  <header class="qa-head">
+    <h3>Questions</h3>
+    <!-- near your Questions header -->
+<!-- <button id="qaEditNameBtn" style="margin-left:8px">Edit name</button> -->
+    <button id="qaClose"type="button" aria-label="Close" style="background:none; border:none; font-size:20px; cursor:pointer;">✕</button>
+  </header>
+
+  <!-- Ask form -->
+  <div class="qa-create">
+    <input id="qaTitle" placeholder="Question title">
+    <textarea id="qaBody" placeholder="Describe your problem…"></textarea>
+    <input id="qaMax" type="number" min="1" max="10" value="3" />
+    <!-- Inside your Ask Question form -->
+<input type="file" id="qaImage" accept="image/*"  />
+
+    <button id="qaAskBtn" type="button">Ask</button>
+  </div>
+
+<!-- Q&A: fresh list container -->
+<div id="qaListNew" class="qa-list-new"></div>
+</aside>
+
+    <div id="qaViewModal" class="qa-modal" hidden>
+  <div class="qa-modal-dialog">
+    <header class="qa-modal-head">
+      <h4 id="qaVTitle"></h4>
+      <button id="qaVClose" type="button" aria-label="Close">✕</button>
+    </header>
+
+    <div id="qaVMeta" class="qa-meta"></div>
+
+    <div id="qaVImageWrap" class="qa-img-wrap" hidden>
+      <img id="qaVImage" alt="attachment">
+    </div>
+
+    <p id="qaVBody" class="qa-body"></p>
+
+    <!-- Asker-only action buttons get injected here by JS -->
+    <div id="qaDActions" class="qa-actions-sticky"></div>
+
+
+
+
+<!-- Answers (scrollable, dark theme for clarity) -->
+<div id="qaAnswersWrap" style="
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 10px;
+  background: #0f172a;             /* Dark navy */
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+  color: #f1f5f9;                  /* Light text */
+">
+  <div id="qaAnsList" class="qa-answers" style="display: flex; flex-direction: column; gap: 10px;"></div>
+</div>
+<div id="qaFooter" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-top:12px;">
+  <div id="qaFooterLeft" style="display:flex; gap:8px; align-items:center;">
+    <button id="qaClaimBtn" class="btn btn-primary">Claim</button>
+    <small id="qaClaimMsg" style="margin-left:8px; opacity:.7"></small>
+  </div>
+<!-- Composer: visible only for claimers -->
+<div id="qaComposer" hidden class="qa-composer">
+  <!-- row 1: big textarea + submit -->
+  <textarea id="qaAInput" rows="2" placeholder="Write your answer..."></textarea>
+  <button id="qaASend" class="qa-btn qa-btn-primary">Submit</button>
+
+  <!-- row 2: compact uploader (sits under the textarea, left-aligned) -->
+  <div class="qa-file-uploader">
+    <input type="file" id="qaAImage" accept="image/*">
+    <label for="qaAImage" class="qa-file-btn">Choose File</label>
+    <span id="qaAName" class="qa-file-name">No file chosen</span>
+  </div>
+</div>
+</div>
+</div>
+  </div>
+</div>
+
+<!-- Image Preview Modal -->
+<div id="imgModal" 
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+            background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:9999;">
+  <img id="imgModalContent" src="" 
+       style="max-width:90%; max-height:90%; border-radius:12px; box-shadow:0 0 20px rgba(255,255,255,0.2)">
+  <span id="imgModalClose" 
+        style="position:absolute; top:20px; right:40px; font-size:32px; color:white; cursor:pointer;">&times;</span>
+</div>
+
+<div id="solverJoinModal" class="solver-modal-backdrop hidden">
+  <div class="solver-modal">
+    <div class="solver-modal-header">
+      <h2 class="solver-modal-title">Your solving workspace is ready</h2>
+      <button class="solver-modal-close" data-solver-modal-close>&times;</button>
+    </div>
+
+    <div class="solver-modal-body">
+      <p>
+        A private room has been created for this question.
+        Join now to start working on the student’s doubt.
+      </p>
+    </div>
+
+    <div class="solver-modal-footer">
+      <button class="solver-btn-secondary" data-solver-modal-later>
+        Later
+      </button>
+      <button class="solver-btn-primary" data-solver-modal-join>
+        Start solving
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Custom Delete Confirmation Modal -->
+<!-- Confirm Modal -->
+<div id="confirmModal" class="al-modal" style="display:none">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card" role="dialog" aria-modal="true" style="max-width:420px">
+    <div class="al-modal__header">
+      <h3 id="confirmTitle">Confirm</h3>
+      <button class="al-x" data-close aria-label="Close">✖</button>
+    </div>
+    <div class="al-modal__body">
+      <div id="confirmBody" style="color:#e5e7eb;font-size:14px;line-height:1.5">
+        Are you sure?
+      </div>
+    </div>
+    <div class="al-modal__footer" style="justify-content:flex-end; gap:8px">
+      <button id="confirmNo"  class="al-btn al-btn--ghost">Cancel</button>
+      <button id="confirmYes" class="al-btn al-btn--danger">Delete</button>
+    </div>
+  </div>
+</div>
+<!-- Mobile Bottom Group Bar -->
+<div id="mobile-bottom-bar" class="mobile-bottom-bar">
+  <div id="mobile-groups-scroll" class="mobile-groups-scroll"></div>
+
+  <!-- Only for author (hide via JS) -->
+  <button id="mobileAddGroup" class="mobile-add-group">+</button>
+</div>
+<!-- Avatar context menu -->
+<div id="avatarMenu" class="avatar-menu" style="display:none;">
+  <button data-act="view">View profile</button>
+  <button data-act="report">Report</button>
+</div>
+
+<!-- Mini Profile Modal -->
+<div id="miniProfileModal" class="al-modal" style="display:none;">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card mini-profile-card">
+    <div class="mini-profile-header">
+      <div class="mini-avatar" id="mpAvatar">VI</div>
+      <div class="mini-main">
+        <div class="mini-name" id="mpName">User Name</div>
+        <div class="mini-stream" id="mpStream">B.Tech · CSE</div>
+      </div>
+      <button id="mpClose" class="al-x" aria-label="Close">✕</button>
+    </div>
+
+    <div class="mini-likes-row">
+      <button id="mpLikeBtn" class="mini-like-btn">
+        ❤️ Like
+      </button>
+      <span id="mpLikeCount" class="mini-like-count">0 likes</span>
+    </div>
+        <!-- ⭐ NEW: report row inside mini profile -->
+        <div class="mini-report-row">
+          <button id="mpReportBtn" type="button" class="mini-report-btn">
+            ⚠️ Report user
+          </button>
+        </div>
+
+    <div class="mini-section">
+      <div class="mini-label">Interests</div>
+      <div id="mpInterests" class="mini-chips">
+        <!-- chips from backend -->
+      </div>
+    </div>
+
+    <div class="mini-section mini-stats">
+      <div class="mini-stat">
+        <div class="mini-stat-value" id="mpDoubts">0</div>
+        <div class="mini-stat-label">Doubts Solved</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-value" id="mpProblems">0</div>
+        <div class="mini-stat-label">Problems Attempted</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-value" id="mpRank">—</div>
+        <div class="mini-stat-label">Ranking</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div id="reportModal" class="al-modal" style="display:none;">
+  <div class="al-modal__backdrop"></div>
+  <div class="al-modal__card" style="max-width:460px">
+    <div class="al-modal__header">
+      <h3>Report user</h3>
+      <button id="reportClose" class="al-x" aria-label="Close">✕</button>
+    </div>
+    <div class="al-modal__body">
+      <p id="reportUserName" style="margin-top:0;margin-bottom:8px;"></p>
+      <label class="al-label">Describe the issue</label>
+      <textarea id="reportText" class="al-input" rows="4"
+                placeholder="What happened? Add context, timestamps, etc."></textarea>
+
+      <label class="al-label" style="margin-top:12px;">Attach proof (screenshot)</label>
+      <div class="file-upload-row">
+        <label for="reportFile" class="file-upload-btn">📎 Upload screenshot</label>
+        <span id="reportFileName" class="file-upload-name">No file chosen</span>
+        <input type="file" id="reportFile" accept="image/*" />
+      </div>
+      <small style="opacity:.7;">Optional but highly recommended.</small>
+    </div>
+    <div class="al-modal__footer" style="justify-content:flex-end;gap:8px;">
+      <button id="reportCancel" class="al-btn al-btn--ghost">Cancel</button>
+      <button id="reportSend" class="al-btn al-btn--danger">Submit report</button>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+ <script type="module" src="./js/api.js"></script>
+ <script type="module" src="./js/academicGuard.js"></script>
+ <script src="role-ui.js"></script>
+ <script type="module" src="H1.js"></script>
+<script type="module" src="./js/chat.js"></script> 
+ <script type="module" src="./js/protect.js"></script>
+
+</body>
+</html>

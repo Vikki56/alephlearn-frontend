@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AlephLearn | Quiz Leaderboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="leaderboard.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="page-header">
+      <button id="backToQuizzesBtn" class="btn btn-secondary">
+        ← Back to Quizzes
+      </button>
+      <h1 id="leaderboardQuizTitle">Quiz Leaderboard</h1>
+    </header>
+
+    <main class="page-main">
+      <p id="leaderboardSubtitle" class="quiz-desc"></p>
+
+      <div id="leaderboardContainer" class="leaderboard-card">
+        <!-- JS will render leaderboard table -->
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="quiz_leaderboard.js"></script>
+</body>
+</html>

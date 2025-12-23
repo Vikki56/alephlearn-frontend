@@ -1,0 +1,274 @@
+/* Reuse the global site styles so header, fonts, colors, spacing all match */
+@import url("styles.css");
+
+/* ===== Chat-specific styles (only what's unique to the chat page) ===== */
+
+.chat-layout{ display:grid; grid-template-columns: 260px 1fr; gap:16px; }
+.sidebar{ padding:10px; }
+.sg-header{ font-weight:700; margin:10px; opacity:.95; }
+.sg-list{ list-style:none; padding:8px; margin:0; display:grid; gap:10px; }
+.sg-item{ display:flex; gap:10px; align-items:center; padding:10px; border-radius:14px;
+  border:1px solid transparent; background:rgba(255,255,255,.02); transition:.15s ease; }
+.sg-item:hover{ transform:translateY(-1px); border-color:var(--border); }
+.sg-item.active{ outline:2px solid rgba(111,138,255,.5); }
+.sg-icon{ width:36px; height:36px; border-radius:12px; display:grid; place-items:center;
+  font-weight:800; color:#0b0d12; background:linear-gradient(135deg,#e9efff,#d6fcff); }
+.sg-title{ font-weight:700; }
+.sg-sub{ font-size:12px; color:var(--muted); }
+.sg-dot{ width:8px; height:8px; border-radius:50%; background:#52ff76; margin-left:auto; }
+
+.chat{ display:grid; grid-template-rows:auto auto 1fr auto; overflow:hidden; }
+.chat-header{ padding:14px 16px; border-radius:18px 18px 0 0; display:flex; justify-content:space-between; align-items:center; }
+.gradient{ background:linear-gradient(90deg,#5f7cff,#a26bff); }
+.room-title{ font-weight:800; }
+.room-sub{ font-size:12px; color:#f0f4ff; opacity:.9; }
+.head-actions .icon-btn{ font-size:16px; padding:8px 10px; border-radius:10px; border:none;
+  background:rgba(255,255,255,.15); color:#091322; cursor:pointer; }
+
+.pinned{ margin:10px 12px; padding:10px 12px; border-radius:12px; background:#fff6d6; color:#0e141f;
+  border:1px dashed rgba(0,0,0,.1); }
+.pinned strong{ color:#7a4b00; }
+.pinned-link{ font-size:13px; margin-top:2px; }
+
+.messages{ padding:10px 12px 12px; overflow-y:auto; display:grid; gap:10px; }
+.msg{ display:grid; grid-template-columns:42px 1fr; gap:10px; }
+.me{ grid-template-columns:1fr 42px; }
+.avatar-sm{ width:32px; height:32px; border-radius:50%; display:grid; place-items:center; font-weight:700;
+  color:#0b0d12; background:#e8eeff; }
+.msg-bubble{ background:#ffffff; color:#0d1321; border-radius:14px; padding:10px 12px; box-shadow:0 4px 14px rgba(0,0,0,.18); }
+.msg .meta{ font-size:12px; color:var(--muted); margin-bottom:4px; }
+.me .msg-bubble{ justify-self:end; background:linear-gradient(90deg,#5f7cff,#a26bff); color:#f9fbff; }
+
+.code{ background:#0d1321; color:#e8f3ff; font-family:ui-monospace,Menlo,Consolas,monospace;
+  border-radius:12px; padding:10px 12px; position:relative; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); }
+.code .filename{ color:#9ad1ff; font-size:12px; margin-bottom:6px; }
+.copy{ position:absolute; right:8px; top:8px; font-size:12px; color:#cde2ff; cursor:pointer; opacity:.8; }
+.copy:hover{ opacity:1; text-decoration:underline; }
+
+.composer{ display:flex; gap:8px; padding:10px 12px; border-top:1px solid var(--border); }
+.plain-btn{ background:transparent; border:none; cursor:pointer; font-size:18px; }
+.input-wrap{ flex:1; }
+.input-wrap input{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border); outline:none;
+  color:var(--text); background:#101631; }
+.input-wrap input::placeholder{ color:#9aa5bd; }
+.send-btn{ padding:10px 12px; border:none; border-radius:12px; cursor:pointer; font-weight:800;
+  background:linear-gradient(90deg,#4ea2ff,#3bd9ff); color:#04202c; }
+
+
+
+/* replay */
+.reply-chip {
+  display:flex; align-items:flex-start; gap:8px;
+  background:#0b1220; border:1px solid #24324a;
+  border-radius:10px; padding:8px 10px;
+}
+.reply-mark { width:3px; background:linear-gradient(180deg,#60a5fa,#a78bfa); border-radius:2px; }
+.reply-meta { flex:1; min-width:0; }
+.reply-meta b { color:#cbd5e1; }
+.reply-text { color:#9ca3af; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.reply-cancel { background:transparent; border:none; color:#9ca3af; font-size:14px; cursor:pointer; }
+.reply-cancel:hover { color:#e5e7eb; }
+
+.reply-inline {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  padding:4px 8px; border-radius:8px; margin-bottom:6px;
+}
+.reply-mark.sm {width:3px;height:18px;background:linear-gradient(180deg,#60a5fa,#a78bfa);border-radius:2px;}
+.reply-inline-text {color:#cbd5e1;font-size:.9em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.reply-chip {display:flex;align-items:center;gap:8px;background:#1f2937;border-radius:8px;padding:4px 8px;color:#e5e7eb;}
+.reply-cancel {background:none;border:none;color:#9ca3af;font-size:14px;cursor:pointer;}
+.msg.pulse{animation:pulse 0.8s ease;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,.6)}100%{box-shadow:0 0 0 12px rgba(99,102,241,0)}}
+
+
+@media (max-width:900px){
+  .chat-layout{ grid-template-columns:1fr; }
+  .sidebar{ order:2; }
+}
+
+
+
+
+
+
+/* =========================
+   HEADER — POLISHED HOVER + MOBILE MENU
+   (Safe overrides; no HTML changes required)
+   ========================= */
+
+/* make sure header doesn't clip hover underline */
+
+/* .links a:hover{ opacity: 1; }
+.links a:hover::after,
+.links a.active::after{ transform: scaleX(1); }
+
+
+.nav-toggle span:nth-child(1){ top:10px; }
+.nav-toggle span:nth-child(2){ top:16px; }
+.nav-toggle span:nth-child(3){ top:22px; } */
+
+/* ---------- Mobile layout ---------- */
+
+
+/* prevent page scroll when mobile menu is open */
+/* body.nav-open{
+  overflow: hidden;
+} */
+/* Chat page: keep hamburger on the right on mobile */
+@media (max-width:860px){
+  .nav-toggle{ order:3; margin-left:auto; }
+  .avatar{ order:4; margin-left:8px; }
+}
+
+
+/* ----- Fancy modal (dark-friendly) ----- */
+.al-modal { position: fixed; inset: 0; z-index: 99999; display:none; }
+.al-modal.show { display: block; }
+.al-modal__backdrop { position:absolute; inset:0; background:rgba(0,0,0,.55); backdrop-filter: blur(2px); }
+.al-modal__card {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(520px, 92%); background: #111827; color: #e5e7eb;
+  border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.5); overflow: hidden;
+  border: 1px solid #1f2937;
+}
+.al-modal__header, .al-modal__footer { padding: 14px 16px; display:flex; align-items:center; }
+.al-modal__header { justify-content: space-between; border-bottom: 1px solid #1f2937; }
+.al-modal__body   { padding: 16px; }
+.al-input {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #374151;
+  background: #0b1220; color: #fff; outline: none;
+}
+.al-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.25); }
+.al-btn {
+  padding: 10px 14px; border-radius: 12px; border: 1px solid transparent; cursor: pointer;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; font-weight: 600;
+}
+.al-btn:hover { filter: brightness(1.05); }
+.al-btn--ghost {
+  background: transparent; color: #e5e7eb; border-color: #374151;
+}
+.al-btn--ghost:hover { background: #111827; }
+.al-x { background: transparent; border: 0; color: #9ca3af; cursor: pointer; font-size: 18px; }
+.al-x:hover { color: #fff; }
+
+/* Danger button for destructive actions */
+.al-btn--danger{
+  background: linear-gradient(135deg,#ef4444,#f97316);
+  color:#fff;
+  border-color: transparent;
+}
+.al-btn--danger:hover{ filter: brightness(1.05); }
+
+
+/* Prevent scroll when modal open */
+body.no-scroll { overflow: hidden; }
+
+
+/* Modal layout */
+.modal { 
+  position: fixed; inset: 0; 
+  display: none; z-index: 1000; 
+}
+.modal.open { display: block; }
+
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.58);
+  backdrop-filter: blur(2px);
+}
+
+.modal-sheet {
+  position: absolute; 
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(80vh, 640px);
+  overflow: auto;
+  background: #101218; /* match your theme */
+  color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  padding: 18px 18px 16px;
+}
+
+.modal-header { 
+  display:flex; align-items:center; justify-content:space-between; 
+  margin-bottom: 10px;
+}
+
+.modal-body .label { 
+  display:block; font-size: .9rem; opacity:.8; margin-bottom: 6px; 
+}
+.modal-body .mt { margin-top: 12px; }
+
+.input { 
+  width: 100%; padding: 10px 12px; 
+  border-radius: 10px; border: 1px solid #2a2f3a; 
+  background:#0c0f14; color:#fff;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px 14px;
+  border: 0; border-radius: 12px;
+  background: linear-gradient(90deg,#3ecaff,#57d3ff 50%, #3aa0ff);
+  color:#00121f; font-weight: 700; cursor: pointer;
+}
+/* ============= BUBBLE WIDTH + WRAPPING (override) ============= */
+.msg-bubble{
+  max-width: 520px;           /* keep bubbles from spanning the screen */
+  width: fit-content;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;       /* respect newlines, wrap long text */
+}
+
+/* My messages still align right as you already have .me */
+.msg.me{ display:flex; justify-content:flex-end; }
+
+/* Mobile: allow a little more width but still constrained */
+@media (max-width: 640px){
+  .msg-bubble{ max-width: 86vw; }
+}
+
+/* Make sure text is readable inside any bubble theme */
+.msg-text{
+  line-height: 1.4;
+  font-size: .96em;
+}
+
+/* ============= PINNED TRAY STYLES ============= */
+/* Use with <div id="pinnedTray" class="pinned" hidden></div> in chat.html */
+.pinned{
+  display: none;                 /* shown by JS when there are pins */
+  margin: 10px 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.pin-item{
+  display:flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:10px;
+  background: rgba(255,255,255,.04);
+  cursor:pointer; margin:6px 0;
+  transition: background .15s ease;
+}
+.pin-item:hover{ background: rgba(255,255,255,.07); }
+
+.pin-text{
+  flex:1; min-width:0; 
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  color:#eaf0ff;
+}
+.pin-meta{
+  margin-left:auto; opacity:.8; font-size:12px; color:#a7b0c0;
+}
+
+/* Optional: a small 📌 chip inside bubbles when pinned */
+.pin-chip{
+  margin-left:6px; font-size:12px; color:#23d3ef; opacity:.85;
+}

@@ -1,0 +1,42 @@
+/* ===== Doubts page only tweaks (safe + scoped) ===== */
+
+/* Keep the Ask box controls consistent (size, spacing, colors) */
+.ask .fields { display: grid; gap: 10px; grid-template-columns: 1fr; }
+
+.ask input.input,
+.ask textarea.input,
+.ask select.select {
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  outline: none;
+}
+
+/* Make the textarea behave (no weird height jumps) */
+.ask textarea.input {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Button alignment on the gradient card */
+.ask .btn {
+  align-self: start;
+  height: 42px;
+}
+
+/* Question card spacing + heading weight */
+.qcard { padding: 14px; }
+.qcard h3, .qcard .h3 { margin: 10px 0 6px; font-weight: 800; }
+
+/* Little polish on badges so they don't shift text baseline */
+.badge { vertical-align: middle; }
+
+/* Ensure container/grid rhythm matches other pages on smaller screens */
+@media (max-width: 1000px){
+  .ask { padding: 14px; }
+  .qcard { padding: 12px; }
+}

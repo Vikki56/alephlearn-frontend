@@ -1,0 +1,116 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AlephLearn • Doubts</title>
+  <link rel="stylesheet" href="doubts-fix.css">
+
+  <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="Hamberger.css">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+</head>
+<body data-page="doubts">
+
+<header class="nav">
+  <div class="nav-inner">
+  <div class="brand"><div class="logo">A</div>AlephLearn</div>
+<button id="fx-burger" class="fx-burger" aria-label="Toggle menu" aria-expanded="false">
+  <input id="fx-burger-check" type="checkbox" />
+  <div id="fx-wrap">
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+    <svg viewBox="0 0 820 864"><path d="M341.8,326.1h213c89.9-9.3,148.7-84.1,140-152..."></path></svg>
+  </div>
+</button>
+    <nav class="links">
+      <a href="index.html">Dashboard</a>
+      <a href="doubts.html">Doubts</a>
+      <a href="chat.html">Chat</a>
+      <a href="quizzes.html">Quizzes</a>
+      <a href="previous-papers.html">Previous Papers</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="profile.html">Profile</a>
+<button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+    </nav>
+    <div class="avatar">JS</div>
+  </div>
+</header>
+<nav class="fx-drawer" id="mobile-drawer">
+  <div id="fx-backdrop" class="fx-backdrop"></div>
+  <div class="fx-drawer-head">
+    <h3>Menu</h3>
+    <button class="fx-drawer-close">✕</button>
+  </div>
+  <div class="fx-drawer-links">
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="doubts.html">💬 Doubts</a>
+    <a href="chat.html">💭 Chat</a>
+    <a href="quizzes.html">🧠 Quizzes</a>
+    <a href="previous-papers.html">📄 Previous Papers</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="profile.html">👤 Profile</a>
+<button id="logoutBtn" class="logout-btn">
+  <span class="icon"></span>
+  <span class="text">Logout</span>
+</button>
+  </div>
+</nav>
+
+<main class="container">
+  <div id="questionsList"></div>
+  <h1 class="h1">❓ Doubts & Solutions</h1>
+  <p class="sub">Get help from the community and help others learn!</p>
+
+  <section class="ask card">
+    <div class="fields">
+      <input class="input" placeholder="What’s your question about?" />
+      <textarea class="input" rows="3" placeholder="Describe your doubt in detail..."></textarea>
+      <select class="select">
+        <option>Select Subject</option>
+        <option>Java</option><option>Data Structures</option><option>Web Dev</option>
+      </select>
+      <button class="btn">Post Question 🚀</button>
+    </div>
+  </section>
+
+  <section class="card qcard" style="margin-top:16px">
+    <div class="badge">Java</div> <span class="badge" style="background:#d5ffe6">Solved</span>
+    <h3>How to implement binary search recursively?</h3>
+    <p class="sub">I understand the iterative approach, but I’m struggling with the recursive implementation…</p>
+
+    <div class="card" style="padding:12px; background:#e8fff1; color:#032b17">
+      <strong>Sarah Chen • Best Answer</strong>
+      <pre id="code-bin" style="white-space:pre-wrap; background:#0d1321; color:#e8f3ff; padding:10px; border-radius:12px; overflow:auto; margin-top:8px;">
+int binarySearch(int arr[], int l, int r, int x) {
+  if (r >= l) {
+    int mid = l + (r - l) / 2;
+    if (arr[mid] == x) return mid;
+    if (arr[mid] > x)
+      return binarySearch(arr, l, mid - 1, x);
+    return binarySearch(arr, mid + 1, r, x);
+  }
+  return -1;
+}
+      </pre>
+      <button class="btn" onclick="copyText('code-bin')">Copy</button>
+    </div>
+  </section>
+</main>
+
+
+<script src="./js/questions.js"></script>
+<script type="module" src="./js/api.js"></script>
+<script type="module" src="H1.js"></script>
+  <script type="module" src="./js/protect.js"></script>
+<!-- Connect to backend -->
+
+
+
+<!-- </body>
+</html> --> 

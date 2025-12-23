@@ -1,0 +1,2027 @@
+
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #020617 100%);
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+html {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.profile-header {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.profile-info {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 0.5rem 0;
+}
+
+.profile-username {
+  font-size: 1.1rem;
+  color: #718096;
+  margin: 0 0 0.5rem 0;
+}
+
+.profile-branch {
+  font-size: 0.95rem;
+  color: #a0aec0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.branch-icon {
+  font-size: 1rem;
+}
+
+.points-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-icon {
+  transform: scale(1.2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary.liked {
+  background: linear-gradient(135deg, #f56565, #e53e3e);
+  animation: heartBeat 0.5s ease;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1) translateY(-2px); }
+  25% { transform: scale(1.1) translateY(-2px); }
+  50% { transform: scale(0.95) translateY(-2px); }
+  75% { transform: scale(1.05) translateY(-2px); }
+}
+
+.btn-secondary {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+  background: #f7fafc;
+  transform: translateY(-2px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-card {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0.5rem 0;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 1rem;
+}
+
+.badge-item {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.badge-item:hover {
+  transform: scale(1.05);
+}
+
+.badge-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge-name {
+  font-size: 0.75rem;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.streak-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12px, 1fr));
+  gap: 4px;
+  margin-top: 1rem;
+}
+
+.streak-day {
+  aspect-ratio: 1;
+  background: #e2e8f0;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.streak-day.active-1 { background: #ddd6fe; }
+.streak-day.active-2 { background: #c4b5fd; }
+.streak-day.active-3 { background: #a78bfa; }
+.streak-day.active-4 { background: #8b5cf6; }
+.streak-day.active-5 { background: #7c3aed; }
+
+.skill-item {
+  margin-bottom: 1rem;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+.skill-percentage {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.9rem;
+}
+
+.skill-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 10px;
+  transition: width 1s ease;
+}
+
+.skills-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50px;
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.skill-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.achievement-item:hover {
+  transform: translateX(5px);
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-title {
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.achievement-desc {
+  font-size: 0.85rem;
+  color: #718096;
+  margin: 0;
+}
+
+.ranking-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #f6ad55, #ed8936);
+  color: white;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+}
+
+.ranking-badge.silver {
+  background: linear-gradient(135deg, #cbd5e0, #a0aec0);
+}
+
+.ranking-badge.gold {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #2d3748;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+@view-transition { navigation: auto; }
+
+
+
+
+/* Interests section */
+.interest-subtitle {
+  color: #718096;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+}
+
+.interest-input-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.interest-input-row .field-input {
+  flex: 1;
+}
+
+.btn-small {
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 10px;
+}
+
+.interest-hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #a0aec0;
+}
+
+/* interest chip buttons (edit / remove) */
+.interest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+  border: 1px solid rgba(102,126,234,0.3);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.interest-chip-actions {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.interest-chip-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0;
+  color: #a0aec0;
+}
+
+.interest-chip-btn:hover {
+  color: #e53e3e;
+}
+
+/* ===========================
+   Dark theme for Profile page
+   Match quizzes background
+   =========================== */
+
+   body[data-page="profile"] .profile-header,
+   body[data-page="profile"] .card {
+     background: radial-gradient(circle at top left,
+                 rgba(148, 163, 184, 0.18),
+                 rgba(15, 23, 42, 0.96));
+     border-radius: 20px;
+     border: 1px solid rgba(148, 163, 184, 0.35);
+     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+     color: #e5e7eb;
+   }
+   
+   /* header ke andar ka light blob */
+   body[data-page="profile"] .profile-header::before {
+     background: radial-gradient(circle at top left,
+                 rgba(129, 140, 248, 0.35),
+                 transparent 60%);
+   }
+   
+   /* Text colors adjust karo (dark -> light) */
+   body[data-page="profile"] .profile-name {
+     color: #f9fafb;
+   }
+   
+   body[data-page="profile"] .profile-username,
+   body[data-page="profile"] .profile-branch {
+     color: #cbd5e1;
+   }
+   
+   body[data-page="profile"] .card-title {
+     color: #f9fafb;
+   }
+   
+   body[data-page="profile"] .stat-label,
+   body[data-page="profile"] .interest-subtitle,
+   body[data-page="profile"] .interest-hint {
+     color: #9ca3af;
+   }
+
+   /* --- Force same background as quizzes page on PROFILE only --- */
+body[data-page="profile"] {
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #020617 100%) !important;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+body[data-page="profile"] .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2.5rem;
+}
+/* ========== PRETTY INTEREST INPUT PILL ========== */
+
+/* outer row ko glassy pill bana do */
+.interest-input-row {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.45rem 0.55rem 0.45rem 0.95rem;
+  border-radius: 999px;
+
+  background: radial-gradient(circle at 0% 0%,
+              rgba(129, 140, 248, 0.35),
+              rgba(15, 23, 42, 0.96));
+  border: 1px solid rgba(148, 163, 255, 0.6);
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+}
+
+/* andar wala input transparent, border-less */
+.interest-input-row .field-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+
+.interest-input-row .field-input::placeholder {
+  color: #9ca3af;
+}
+
+.interest-input-row .field-input:focus {
+  outline: none;
+}
+
+/* Add button ko bhi pill + gradient de do */
+.btn-secondary.btn-small {
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  color: #f9fafb;
+  padding: 0.45rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.45);
+  white-space: nowrap;
+}
+
+.btn-secondary.btn-small:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 35px rgba(79, 70, 229, 0.6);
+}
+
+/* hint text thoda subtle */
+.interest-hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+/* ========== PROFILE HEADER GLOW CARD ========== */
+
+.profile-header {
+  background: radial-gradient(circle at 5% 0%,
+              rgba(129, 140, 248, 0.9),
+              rgba(15, 23, 42, 1) 55%);
+  border-radius: 26px;
+  padding: 1.8rem 2.4rem;
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 1);
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+              rgba(244, 244, 255, 0.9),
+              transparent 70%);
+  opacity: 0.8;
+}
+
+/* left avatar only inside header */
+.profile-header .avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 0% 0%, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f9fafb;
+  box-shadow: 0 18px 40px rgba(79, 70, 229, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.profile-info {
+  position: relative;
+  z-index: 1;
+}
+
+.profile-name {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #f9fafb;
+}
+
+.profile-username {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.95rem;
+  color: #cbd5f5;
+}
+
+.profile-branch {
+  color: #e5e7ff;
+  font-size: 0.9rem;
+}
+
+.points-badge {
+  margin-top: 0.75rem;
+  background: linear-gradient(135deg, #facc15, #f97316);
+  color: #111827;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(234, 179, 8, 0.5);
+  font-size: 0.9rem;
+}
+
+/* right side */
+.action-buttons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* LIKE BUTTON – smaller pill */
+.like-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: radial-gradient(circle at 0% 0%, #f97373, #ef4444);
+  box-shadow: 0 14px 30px rgba(248, 113, 113, 0.55);
+}
+
+.like-btn .btn-icon {
+  font-size: 1rem;
+}
+
+.like-btn #likeCount {
+  font-weight: 700;
+}
+
+.like-btn .like-label {
+  opacity: 0.9;
+}
+
+/* liked state */
+.btn-primary.liked {
+  background: radial-gradient(circle at 0% 0%, #fb7185, #e11d48);
+}
+
+/* big right avatar */
+.profile-mini-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1f2933;
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.7),
+    0 0 0 2px rgba(148, 163, 255, 0.9);
+}
+
+/* ========== ACADEMIC PROFILE FIELDS ========== */
+
+#academicProfileCard {
+  background: radial-gradient(circle at 0% 0%,
+              rgba(79, 70, 229, 0.25),
+              rgba(15, 23, 42, 0.98));
+  border-radius: 22px;
+  border: 1px solid rgba(129, 140, 248, 0.7);
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.9);
+}
+
+#academicProfileCard .card-title {
+  color: #e5e7ff;
+}
+
+#academicProfileCard p {
+  color: #cbd5f5;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(129, 140, 248, 0.9);
+  background: radial-gradient(circle at 0% 0%,
+              rgba(129, 140, 248, 0.25),
+              rgba(15, 23, 42, 0.96));
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  appearance: none;
+}
+
+.field-input:disabled {
+  opacity: 1;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-style: dashed;
+  border-color: rgba(148, 163, 255, 0.8);
+}
+
+#academicProfileStatus {
+  color: #a5b4fc;
+}
+.score-streak-card {
+  display: flex;
+  gap: 2.5rem;
+  padding: 1.8rem 2rem;
+  align-items: flex-start;
+}
+
+.score-panel,
+.streak-panel {
+  flex: 1 1 260px;
+}
+
+.score-subtitle,
+.streak-subtitle {
+  color: #a0aec0;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.score-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 1rem 0;
+  color: #cbd5f5;
+  font-size: 0.85rem;
+}
+
+.score-list li {
+  margin-bottom: 0.25rem;
+}
+
+.score-help-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: #a5b4fc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.score-help-link:hover {
+  color: #c4b5fd;
+}
+
+.score-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  align-self: stretch;
+}
+
+@media (max-width: 900px) {
+  .score-streak-card {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .score-divider {
+    display: none;
+  }
+
+  .streak-panel {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 1rem;
+  }
+}
+
+.score-panel-inner {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  margin-top: 0.6rem;
+}
+
+.score-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: #ccd4ff;
+  font-size: 0.85rem;
+}
+
+.score-list li {
+  margin-bottom: 0.35rem;
+}
+
+.score-help-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  color: #a5b4fc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Modern Profile Header */
+.profile-header-modern {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.2rem;
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+
+  margin-bottom: 2rem;
+}
+
+.ph-left {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.ph-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9166FF, #5A3FFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0px 4px 20px rgba(122, 88, 255, 0.5);
+}
+
+.ph-name {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+.ph-username {
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin: 0.2rem 0;
+}
+
+.ph-branch {
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.ph-points {
+  margin-top: 0.6rem;
+  display: inline-block;
+  background: linear-gradient(135deg, #6C47FF, #A772FF);
+  padding: 0.4rem 1rem;
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(130,80,255,0.4);
+}
+
+/* New Like Button */
+.like-modern {
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #ff7bbd;
+
+  backdrop-filter: blur(12px);
+  transition: 0.25s ease;
+}
+
+.like-modern:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.like-modern:active {
+  transform: scale(0.96);
+}
+.profile-header-modern {
+  margin: 0 auto;
+  margin-top: 2rem;
+  max-width: 1100px;
+  width: 100%;
+}
+.like-modern {
+  padding: 0.45rem 1rem !important;
+  font-size: 0.9rem !important;
+  border-radius: 30px !important;
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #ff8fb8;
+  font-weight: 500;
+
+  backdrop-filter: blur(10px);
+  transition: 0.2s ease-in-out;
+}
+
+.like-modern:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.like-modern:active {
+  transform: scale(0.97);
+}
+
+.profile-header .avatar {
+  width: 95px !important;
+  height: 95px !important;
+  font-size: 2.2rem !important;
+
+  box-shadow: 0 0 40px rgba(120, 82, 255, 0.5);
+}
+.profile-header-modern {
+  position: relative;
+}
+
+.like-modern {
+  position: absolute !important;
+  bottom: 20px;
+  right: 30px;
+
+  padding: 0.45rem 1rem !important;
+  font-size: 0.85rem !important;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 30px;
+
+  backdrop-filter: blur(12px);
+  color: #ff99c8;
+}
+/* ---------- Section Heading Visibility Upgrade ---------- */
+
+.card-title,
+.stat-card .card-title,
+.profile-header h1,
+#academicProfileCard .card-title,
+.interest-subtitle,
+.score-streak-card .card-title {
+  color: #e9ebff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+/* Smaller grey meanings under numbers */
+.stat-label {
+  color: #b4b8d0 !important;
+}
+
+/* Stats Numbers bolder + more visible */
+.stat-value {
+  color: #cfd3ff !important;
+  font-weight: 700 !important;
+}
+
+/* Section label like "Profile Score" "Interests" */
+.section-title,
+.card .card-title {
+  font-size: 1.15rem !important;
+  color: #F5F6FF !important;
+  font-weight: 700 !important;
+}
+
+/* Improve paragraph visibility */
+.card p,
+#academicProfileCard p,
+.interest-subtitle,
+.score-subtitle {
+  color: #CBD2F7 !important;
+  font-size: 0.92rem !important;
+}
+
+/* Interest chips hint */
+.interest-hint {
+  color: #C7CCEC !important;
+}
+
+/* Improve form labels */
+.field-label {
+  color: #d7dbf8 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2px;
+}
+
+/* Score list items visibility */
+.score-list li {
+  color: #d0d4f5 !important;
+}
+/* academic profile bottom spacing */
+#academicProfileCard {
+  margin-bottom: 2.6rem;  /* pehle 1.5 ya default hoga, isse bada */
+}
+/* main stats row spacing */
+.container > .grid:first-of-type {
+  margin-top: 1.8rem;   /* academic card ke baad thoda space */
+  margin-bottom: 2.4rem;
+}
+.stat-card {
+  margin-top: 0.4rem;   /* heading se thoda niche */
+}
+
+.stat-card-row {
+  margin-top: 2rem;
+  margin-bottom: 2.3rem;
+}
+.score-streak-card {
+  margin-top: 2.8rem;   /* agar kam lag raha ho toh 3.2rem bhi kar sakta hai */
+  margin-bottom: 2.8rem;
+}
+.interests-section {
+  margin-top: 3rem;   /* score-streak card se clear break */
+}
+/* spacing between big sections */
+
+/* academic profile and stats */
+#academicProfileCard {
+  margin-bottom: 2.6rem;
+}
+
+/* doubts / problems / ranking row */
+.grid.stat-card-row {
+  margin-top: 2rem;
+  margin-bottom: 2.4rem;
+}
+
+/* profile score + login streak combined card */
+.score-streak-card {
+  margin-top: 2.8rem;
+  margin-bottom: 2.8rem;
+}
+
+/* interests section */
+.interests-section {
+  margin-top: 3rem;
+}
+/* ========= Custom Popup ========= */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.popup-card {
+  background: rgba(30, 34, 45, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+  width: 320px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  animation: popIn 0.25s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.popup-title {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.popup-msg {
+  color: #cbd5e0;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+.popup-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #7f5af0, #9272ff);
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+.popup-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+/* Profile main wrapper – pehle hidden, data aane ke baad fade-in */
+.profile-root.profile-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.profile-root.profile-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.18s ease-out;
+}
+/* Header avatar: hidden before data load */
+.avatar-hidden {
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+/* ===== Scoring popup extra styling ===== */
+
+.scoring-popup-card {
+  max-width: 520px;
+}
+
+.scoring-list {
+  list-style: disc;
+  padding-left: 1.4rem;
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.scoring-list > li {
+  margin-bottom: 0.6rem;
+}
+
+.scoring-inner {
+  list-style: circle;
+  padding-left: 1.4rem;
+  margin-top: 0.3rem;
+  font-size: 0.88rem;
+}
+
+.scoring-hint {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.scoring-footer {
+  font-size: 0.86rem;
+  color: #a0aec0;
+  margin-bottom: 1rem;
+}
+/* ===== Scoring popup – bigger & cleaner ===== */
+
+/* ===== Scoring popup – wider + shorter ===== */
+
+.scoring-popup-card {
+  max-width: 720px;              /* 👈 width +80px wider */
+  padding: 1.7rem 2rem;          /* 👈 height compress (less vertical padding) */
+  border-radius: 22px;
+}
+
+.scoring-popup-card .popup-title {
+  font-size: 1.65rem;
+  margin-bottom: 0.6rem;         
+}
+
+.scoring-popup-card .popup-msg {
+  font-size: 1rem;
+  line-height: 1.55;              /* 👈 slightly tighter text */
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.8rem;
+}
+
+/* list styling */
+
+.scoring-list {
+  list-style: disc;
+  padding-left: 1.3rem;
+  margin: 0 0 0.9rem 0;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: #e2e8f0;
+}
+
+.scoring-list > li {
+  margin-bottom: 0.55rem;        /* 👈 tighter spacing */
+}
+
+.scoring-inner {
+  list-style: circle;
+  padding-left: 1.2rem;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* footer text */
+
+.scoring-footer {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #a0aec0;
+  margin-bottom: 1.1rem;
+}
+
+/* button – slightly bigger horizontally, smaller vertically */
+
+.scoring-popup-card .popup-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;          /* 👈 height reduced */
+  font-size: 1rem;
+  border-radius: 12px;
+}
+.streak-day.inactive {
+  background: rgba(255,255,255,0.1);
+}
+.streak-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.streak-month-label {
+  width: 40px;
+  font-size: 0.75rem;
+  color: #A0AEC0;
+  text-align: right;
+}
+
+.streak-month-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.streak-day {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #1f2933; /* dark grey base */
+}
+
+/* already tumhare pass .active-1..5 honge, ye extra hai: */
+.streak-day.inactive {
+  opacity: 0.25;
+}
+.streak-day.active-3 {
+  background: #8b5cf6; /* nice purple */
+  opacity: 1;
+}
+.streak-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.streak-month-label {
+  width: 40px;
+  font-size: 0.75rem;
+  color: #A0AEC0;
+  text-align: right;
+}
+
+.streak-month-grid {
+  display: flex;
+  flex-wrap: nowrap;      /* ✅ ek hi line me boxes */
+  gap: 4px;
+}
+
+.streak-day {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #202637;    /* base dark */
+}
+
+/* active + inactive colors */
+.streak-day.active-3 {
+  background: #a855f7;    /* purple box */
+}
+
+.streak-day.inactive {
+  opacity: 0.25;
+}
+/* Streak layout */
+.streak-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.streak-month-label {
+  width: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-align: right;
+}
+
+/* Grid of days */
+.streak-month-grid {
+  display: flex;
+  gap: 6px;
+}
+
+/* Day box */
+.streak-day {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: #1e2230;   /* dark base */
+  transition: background 0.25s ease, opacity 0.25s ease;
+}
+
+/* Active login days */
+.streak-day.active {
+  background: #a855f7; /* purple */
+}
+
+/* Inactive days */
+.streak-day.inactive {
+  background: #3a3f50;
+  opacity: 0.35;
+}
+
+/* ---- Login Streak (calendar style) ---- */
+
+.streak-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.streak-month-label {
+  width: 48px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-align: right;
+  padding-top: 4px;
+}
+
+/* Now grid is like calendar: 7 columns -> multiple rows */
+.streak-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 18px);   /* 7 din / week */
+  grid-auto-rows: 18px;
+  gap: 6px;
+}
+
+/* Day cell */
+.streak-day {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: #1e2230;        /* base bg */
+  transition: background 0.25s ease, opacity 0.25s ease, transform 0.15s ease;
+}
+
+/* Active login day (filled) */
+.streak-day.active {
+  background: #a855f7;
+}
+
+/* Inactive day */
+.streak-day.inactive {
+  background: #343849;
+  opacity: 0.45;
+}
+
+/* Thoda hover feel (optional, nice touch) */
+.streak-day.active:hover {
+  transform: scale(1.08);
+}
+/* -------- LOGIN STREAK (BIG CALENDAR GRID) ---------- */
+
+.streak-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.streak-month-label {
+  width: 60px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-align: right;
+  padding-top: 6px;
+}
+
+/* Make large calendar: 7 columns, auto-resize */
+.streak-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 32px);   /* BIG BOXES */
+  grid-auto-rows: 32px;
+  gap: 10px;
+  width: 100%;   /* ← full width */
+  max-width: 550px;   /* clean limit */
+}
+
+/* Day cell */
+.streak-day {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #2c2f3b;
+  transition: 0.25s ease;
+}
+
+/* Active login */
+.streak-day.active {
+  background: #a855f7;
+}
+
+/* Inactive */
+.streak-day.inactive {
+  background: #3a3e4d;
+  opacity: 0.4;
+}
+
+/* Hover effect */
+.streak-day:hover {
+  transform: scale(1.12);
+}
+/* ALIGN PROFILE SCORE & LOGIN STREAK ROW PERFECTLY */
+/* ==== PROFILE SCORE + LOGIN STREAK LAYOUT ==== */
+
+.score-streak-card {
+  display: flex;
+  align-items: flex-start;      /* dono headings same top line pe */
+  gap: 48px;                    /* beech ka space */
+  margin-top: 2.5rem;           /* upar stats row se thoda gap */
+}
+
+/* left & right column width */
+.score-panel {
+  flex: 1.1;
+}
+
+.streak-panel {
+  flex: 1;
+}
+
+/* headings ka extra margin hatao, same baseline pe lao */
+.score-panel .card-title,
+.streak-panel .card-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+/* vertical divider beech me */
+.score-divider {
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  align-self: stretch;
+}
+
+/* ==== LOGIN STREAK GRID: thoda bada, calendar jaisa ==== */
+
+.streak-container {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(7, 26px);  /* 7 columns, thode bade box */
+  grid-auto-rows: 26px;
+  gap: 6px;
+}
+
+/* ek-ek din ka box */
+.streak-day {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);   /* inactive */
+}
+
+/* active day (purple) */
+.streak-day.active-3 {
+  background: linear-gradient(135deg, #a855ff, #6366f1);
+}
+
+/* optional: aur shades chahiye to */
+.streak-day.inactive {
+  opacity: 0.25;
+}
+/* ===== STATS ROW ALIGNMENT ===== */
+
+.stat-card-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+/* har stat card = vertical stack: title -> number -> subtitle */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+}
+
+/* title thoda upar, but tight */
+.stat-card .card-title {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+}
+
+/* big number center me */
+.stat-card .stat-value {
+  font-size: 2.8rem;
+  line-height: 1;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+/* subtitle bilkul number ke niche */
+.stat-card .stat-label,
+#rankSubtitle {
+  margin: 0.3rem 0 0 0;
+  font-size: 0.9rem;
+  color: #a0aec0;
+}
+/* ===== STATS ROW ALIGNMENT (left / center / right) ===== */
+
+.stat-card-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+}
+
+/* default: center aligned card */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+}
+
+/* LEFT card -> left aligned (Doubts Solved) */
+.stat-card-row .stat-card:first-child {
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* RIGHT card -> right aligned (Ranking) */
+.stat-card-row .stat-card:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* title / number / subtitle spacing */
+.stat-card .card-title {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+}
+
+.stat-card .stat-value {
+  font-size: 2.8rem;
+  line-height: 1;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.stat-card .stat-label,
+#rankSubtitle {
+  margin: 0.3rem 0 0 0;
+  font-size: 0.9rem;
+  color: #a0aec0;
+}
+/* ===== Fix Interest Add Button Hover ===== */
+
+#addInterestBtn {
+  background: #3b2bff;
+  color: white;
+  transition: 0.25s ease;
+}
+
+/* Hover effect */
+#addInterestBtn:hover {
+  background: #5a46ff;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0px 0px 12px rgba(124, 77, 255, 0.6);
+}
+
+/* Active click effect */
+#addInterestBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0px 0px 6px rgba(124, 77, 255, 0.4);
+}
+
+
+
+/* body[data-page="profile"] .card.score-streak-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+body[data-page="profile"] .card.score-streak-card > .score-panel,
+body[data-page="profile"] .card.score-streak-card > .streak-panel {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+body[data-page="profile"] .score-panel-inner {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+} */
+/* ===== REMOVE DUPLICATE BACKGROUND GRADIENT FROM PROFILE CARDS ===== */
+
+body[data-page="profile"] .card,
+body[data-page="profile"] #academicProfileCard,
+body[data-page="profile"] .score-streak-card,
+body[data-page="profile"] .stat-card,
+body[data-page="profile"] .profile-header-modern {
+  background: rgba(12, 14, 24, 0.55) !important;   /* clean dark glass */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Subtle consistent glow */
+body[data-page="profile"] .card {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.45) !important;
+}
+
+/* Remove any internal radial overlay from score panel */
+.score-panel-inner {
+  background: rgba(255,255,255,0.03) !important;
+}
+
+/* ---------------- MOBILE PROFILE TUNING ---------------- */
+@media (max-width: 768px) {
+  /* Overall container */
+  .profile-root {
+    padding: 1.2rem 1rem 5rem;
+    gap: 1rem;
+  }
+
+  /* Top header */
+  .profile-header-modern {
+    padding: 1rem 1rem;
+    border-radius: 18px;
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ph-left {
+    gap: 0.75rem;
+  }
+
+  .ph-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.8rem;
+  }
+
+  .ph-name {
+    font-size: 1.5rem;
+  }
+
+  .ph-username,
+  .ph-branch {
+    font-size: 0.9rem;
+  }
+
+  .ph-points {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.85rem;
+  }
+
+  .like-modern {
+    padding: 0.35rem 0.9rem;
+    font-size: 0.85rem;
+    border-radius: 999px;
+  }
+
+  /* Generic card sizing */
+  .card {
+    padding: 1rem 1rem 1.1rem;
+    border-radius: 16px;
+    margin-top: 0.9rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card p,
+  .interest-subtitle,
+  .score-subtitle,
+  .streak-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* Academic profile dropdowns */
+  .field-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .field-label {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .field-input {
+    font-size: 0.9rem;
+    padding: 0.55rem 0.9rem;
+    min-height: 42px;
+  }
+
+  #saveAcademicProfileBtn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  #academicProfileStatus {
+    font-size: 0.8rem !important;
+  }
+
+  /* Stats row – one column stack */
+  .stat-card-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 0.9rem 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+  }
+
+  /* Score + streak combined card */
+  .score-streak-card {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .score-divider {
+    display: none;
+  }
+
+  .score-panel,
+  .streak-panel {
+    width: 100%;
+    padding-right: 0;
+    border-right: none;
+  }
+
+  .score-list li {
+    font-size: 0.9rem;
+  }
+
+  .streak-container {
+    gap: 4px;
+  }
+
+  /* Interests section */
+  .interests-section {
+    grid-template-columns: 1fr;
+  }
+
+  .interest-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .interest-input-row .btn-small {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .interest-hint {
+    font-size: 0.85rem;
+  }
+
+  /* Popup cards also thode compact */
+  .popup-card {
+    padding: 1.1rem 1rem;
+  }
+
+  .popup-title {
+    font-size: 1.1rem;
+  }
+
+  .popup-msg {
+    font-size: 0.9rem;
+  }
+}
+/* ------------------------------------
+   PERFECT MOBILE FIX FOR SCORE + STREAK
+--------------------------------------*/
+
+
+/* ========== MOBILE TWEAKS FOR PROFILE PAGE ========== */
+
+/* Hide Login Streak on mobile */
+@media (max-width: 768px) {
+  .streak-panel,
+  .score-divider,
+  #streakContainer,
+  .streak-subtitle,
+  .card .card-title:has(+ .streak-panel) {
+    display: none !important;
+  }
+}
+/* -------------------------
+   NORMAL INTEREST SECTION (MOBILE)
+   -------------------------*/
+
+   @media (max-width: 768px) {
+
+    /* Card spacing & padding */
+    .interests-section .card {
+      padding: 1.2rem !important;
+      border-radius: 14px !important;
+      margin-top: 1.5rem !important;
+    }
+  
+    /* Title size normal */
+    .interests-section .card-title {
+      font-size: 1.25rem !important;
+    }
+  
+    /* Subtitle normal */
+    .interest-subtitle {
+      font-size: 0.95rem !important;
+      line-height: 1.4rem !important;
+      margin-bottom: 0.8rem !important;
+    }
+  
+    /* Remove giant oval wrapper */
+    .interest-input-row {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      display: flex !important;
+      gap: 10px !important;
+      align-items: center !important;
+      margin-top: 0.5rem !important;
+    }
+  
+    /* Input fix */
+    #interestInput {
+      flex: 1 !important;
+      padding: 10px 14px !important;
+      font-size: 1rem !important;
+      border-radius: 10px !important;
+      height: 44px !important;
+    }
+  
+    /* Add Button normal */
+    #addInterestBtn {
+      padding: 10px 14px !important;
+      font-size: 1rem !important;
+      border-radius: 10px !important;
+      height: 44px !important;
+      white-space: nowrap !important;
+    }
+  
+    /* Hint text size normal */
+    .interest-hint {
+      font-size: 0.9rem !important;
+      margin-top: 0.6rem !important;
+    }
+  
+    /* Chips container normal */
+    #interestsContainer {
+      margin-top: 0.3rem !important;
+    }
+  }

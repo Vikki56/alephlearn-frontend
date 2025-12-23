@@ -1,0 +1,53 @@
+<svg
+  width="260"
+  height="80"
+  viewBox="0 0 260 80"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="al-purple-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b26cff"/>
+      <stop offset="100%" stop-color="#5b21ff"/>
+    </linearGradient>
+    <linearGradient id="al-purple-2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4c1d95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ICON -->
+  <g transform="translate(10,10)">
+    <!-- left ribbon -->
+    <polygon
+      points="0,20 30,0 60,15 30,35"
+      fill="url(#al-purple-1)"
+    />
+    <!-- bottom ribbon -->
+    <polygon
+      points="0,20 30,35 30,65 0,50"
+      fill="url(#al-purple-2)"
+    />
+    <!-- right white face -->
+    <polygon
+      points="30,0 60,15 60,45 30,30"
+      fill="#ffffff"
+    />
+    <!-- inner cutout (dark) -->
+    <polygon
+      points="18,23 30,15 42,21 30,29"
+      fill="#020617"
+      opacity="0.9"
+    />
+  </g>
+
+  <!-- TEXT -->
+  <text
+    x="95"
+    y="48"
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif"
+    font-size="30"
+    fill="#ffffff"
+  >
+    AlephLearn
+  </text>
+</svg>

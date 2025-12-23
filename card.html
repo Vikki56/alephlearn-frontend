@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Answer Card UI</title>
+  <!-- Inter + Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --mint-1: #e9fbf3;
+      --mint-2: #d4f6ea;
+      --green: #1fb86a;
+      --green-strong: #14a45a;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.8);
+      --card-bg: url("https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1200&auto=format&fit=crop"); /* replace me */
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      min-height:100vh;
+      margin:0;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(1200px 600px at 20% 10%, var(--mint-1), var(--mint-2));
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    .card{
+      width:min(92vw, 420px);
+      aspect-ratio: 3/4;                /* nice tall card */
+      border-radius: 22px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 18px 45px rgba(0,0,0,.18);
+      background:
+        linear-gradient(0deg, rgba(14,66,61,.45), rgba(14,66,61,.1)),
+        var(--card-bg) center/cover no-repeat;
+      /* soft inner highlight */
+      isolation:isolate;
+    }
+
+    /* left accepted accent */
+    .card::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:10px;
+      background: linear-gradient(180deg, #20c978, #0f8f57);
+      opacity:.95;
+      z-index:1;
+    }
+
+    /* top info (name + time) – sits on image */
+    .top-meta{
+      position:absolute;
+      left:22px; right:22px; top:18px;
+      display:flex; gap:10px; align-items:center;
+      color:var(--text);
+      font-size:14px;
+      letter-spacing:.2px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.35);
+      z-index:2;
+    }
+    .name{font-weight:600}
+    .time{opacity:.9}
+
+    /* bottom overlay panel */
+    .details{
+      position:absolute;
+      left:14px; right:14px; bottom:14px;
+      border-radius:18px;
+      padding:16px 18px;
+      color:var(--text);
+      background:
+        linear-gradient(180deg, rgba(9,39,36,.55), rgba(9,39,36,.75));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.08);
+      z-index:2;
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      font: 600 14px Inter, sans-serif;
+      color:#eafff4;
+      background: rgba(27,167,98,.95);
+      padding:8px 12px;
+      border-radius:12px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.15), 0 6px 16px rgba(0,0,0,.2);
+      margin-bottom:12px;
+      width:max-content;
+    }
+    .badge svg{width:18px;height:18px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.15))}
+
+    .title{
+      font: 700 36px Poppins, Inter, sans-serif;
+      line-height:1.1;
+      margin: 2px 0 6px;
+    }
+    .sub{color:var(--muted); margin:0 0 8px}
+    .muted{color:var(--muted); margin:0 0 4px}
+
+    /* small devices: keep text legible */
+    @media (max-width:360px){
+      .title{font-size:30px}
+      .badge{font-size:13px}
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <article class="card" aria-label="Accepted answer by Harshit at 05:29 AM">
+    <!-- top meta -->
+    <div class="top-meta">
+      <span class="name">Harshit</span>
+      <span class="time">05:29 AM</span>
+    </div>
+
+    <!-- bottom overlay -->
+    <div class="details">
+      <div class="badge" aria-label="Accepted Answer">
+        <!-- check icon -->
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.35)"/>
+          <path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Accepted Answer
+      </div>
+
+      <h2 class="title">hi</h2>
+      <p class="sub">by ram</p>
+      <p class="muted">(no text)</p>
+      <p class="muted">[image attached]</p>
+    </div>
+  </article>
+
+  <script type="module" src="./js/api.js"></script>
+<script type="module" src="./js/protect.js"></script>
+
+</body>
+</html>

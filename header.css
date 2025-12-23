@@ -1,0 +1,109 @@
+/* ---------- UNIVERSAL HEADER (DARK THEME) ---------- */
+.al-nav {
+    width: 100%;
+    background: #020617;                 /* dark navy */
+    border-bottom: 1px solid rgba(15,23,42,0.8);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+  
+  .al-nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  /* Logo */
+  .al-brand-logo {
+    height: 40px;
+  }
+  
+  /* Center links */
+  .al-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .al-links a {
+    font-weight: 500;
+    color: #e5e7eb;                      /* light text */
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  
+  .al-links a:hover {
+    color: #f9fafb;
+  }
+  
+  /* Logout button */
+  .logout-btn {
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #f97373, #ef4444);
+    color: #ffffff;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 8px 20px rgba(248,113,113,0.35);
+  }
+  
+  /* Trophy (quizzes only) */
+  .al-trophy-btn {
+    font-size: 1.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fbbf24;                      /* gold */
+  }
+  
+  /* Avatar */
+  .al-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  
+  /* Burger (mobile) */
+  .al-burger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  .al-burger span {
+    width: 22px;
+    height: 2px;
+    background: #e5e7eb;
+    border-radius: 999px;
+  }
+  
+  /* Mobile layout */
+  @media (max-width: 768px) {
+    .al-links {
+      display: none;
+    }
+    .al-burger {
+      display: flex;
+    }
+    .al-nav-inner {
+      justify-content: space-between;
+    }
+  }

@@ -1,0 +1,7456 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+:root{ --bg:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#cbd5e1 100%); --ink:#334155; --muted:#64748b; --brand:#3b82f6; --brand2:#1d4ed8; --panel:rgba(255,255,255,0.95); --border:rgba(148,163,184,0.2); --cardBorder:rgba(203,213,225,0.3); --chipBg:rgba(59,130,246,.08); --shadow:0 4px 6px -1px rgba(148,163,184,.1); --siteHeaderH: 56px;  }
+*{box-sizing:border-box} 
+html,body{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins',-apple-system,BlinkMacSystemFont,sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  height: 100%;
+  overflow-y: auto !important;   /* page scroll allowed */
+  overflow-x: hidden;
+}
+.nav{position:sticky;top:0;z-index:4000;backdrop-filter:blur(8px);background:rgba(9,12,18,.6);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:16px;color:#eaf0ff}
+.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#07121d;background:linear-gradient(135deg,#5d7cff,#23d3ef)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+.links{display:flex;gap:10px;margin-left:10px;flex:1}
+.links a{color:#c7d2f5;opacity:.75;padding:8px 12px;border-radius:10px;text-decoration:none;position:relative;overflow:hidden;transition:.15s ease}
+.links a:hover{opacity:1}
+.links a.active{opacity:1;color:#fff;background:linear-gradient(90deg,rgba(157,99,255,.18),rgba(34,211,238,.18));border:1px solid rgba(255,255,255,.08)}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#1a2035;border:1px solid rgba(255,255,255,.08);font-size:12px;line-height:1}
+.nav-toggle{display:none}
+@media (max-width:860px){ .nav-toggle{display:block;order:3;margin-left:auto} .avatar{order:4;margin-left:8px} .links{display:none;position:fixed;top:0;right:0;bottom:0;width:78vw;max-width:360px;padding:18px 16px 24px;gap:8px;flex-direction:column;overflow-y:auto;background:rgba(10,14,22,.98);border-left:1px solid rgba(255,255,255,.08);transform:translateX(100%);transition:transform .22s ease;z-index:50002} .nav.open .links{display:flex;transform:translateX(0)} .nav::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:50001} .nav.open::after{opacity:1;pointer-events:auto} }
+.app-container{
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--siteHeaderH));
+  margin-top: var(--siteHeaderH);  /* fixed nav ke neeche se start */
+}
+.main-content{
+  display: flex;
+  flex: 1;
+  min-height: 0;     /* flex children ko shrink allow */
+  overflow: hidden;  /* outer wrapper, andar wala area scroll karega */
+}
+/* 194697451495192841984192855128985919518591580516983651ygwejfhgefhhfe */
+/* gdwuefjgqufke
+
+
+
+*/
+.left-sidebar{width:280px;background:var(--panel);backdrop-filter:blur(20px);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px;gap:20px;box-shadow:var(--shadow)}
+.search-box{position:relative}
+.search-input{width:100%;padding:12px 16px 12px 40px;background:rgba(248,250,252,.8);border:1px solid rgba(203,213,225,.6);border-radius:12px;color:#334155;font-size:14px;transition:.2s}
+.search-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.search-input::placeholder{color:#64748b}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#64748b}
+.new-group-btn{width:100%;padding:12px;background:linear-gradient(45deg,var(--brand),var(--brand2));border:none;border-radius:12px;color:#fff;font-weight:600;cursor:pointer;transition:.2s;box-shadow:0 4px 15px rgba(59,130,246,.2)}
+.new-group-btn:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.section-title{font-size:13px;font-weight:700;color:#475569;margin:0 0 12px;letter-spacing:1px;text-transform:uppercase}
+.study-groups{flex:1;overflow:auto}
+.group-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;cursor:pointer;transition:.15s;margin-bottom:8px}
+.group-item:hover{background:rgba(59,130,246,.06)}
+.group-item.active{background:linear-gradient(45deg,rgba(59,130,246,.1),rgba(99,102,241,.05));border:1px solid rgba(59,130,246,.2)}
+.online-indicator{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px rgba(16,185,129,.4)}
+.group-info{flex:1}
+.group-name{font-weight:600;font-size:14px;color:#1e293b}
+.group-status{font-size:12px;color:#64748b}
+.member-count{background:rgba(59,130,246,.1);color:#3b82f6;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.chat-section{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(248,250,252,.6);
+  min-height: 0;          /* ✅ flex child .chat-messages ko scroll ki permission */
+}
+.chat-header{background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(248,250,252,.9) 100%);padding:16px 24px;border-bottom:1px solid var(--cardBorder);display:flex;justify-content:space-between;align-items:center}
+.chat-title{display:flex;flex-direction:column;gap:2px}
+.main-title{font-size:22px;font-weight:700;color:#1e293b;letter-spacing:-.5px;background:linear-gradient(135deg,#3b82f6 0%,#1e293b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{font-size:11px;font-weight:500;color:#64748b;text-transform:uppercase;letter-spacing:1.2px;opacity:.8;font-style:italic}
+.chat-info{display:flex;align-items:center;gap:16px}
+/* .pinned-messages{background:rgba(59,130,246,.05);border-left:4px solid var(--brand);padding:12px 24px;font-size:14px;color:#334155;display:none} */
+
+.pinned-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.pin-chip{background:var(--chipBg);border:1px dashed rgba(59,130,246,.3);border-radius:10px;padding:6px 10px;cursor:pointer}
+.chat-messages{
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;    /* ✅ vertical scroll */
+  overflow-x: hidden;  /* horizontal nahi */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.message{display:flex;gap:12px;max-width:70%}
+.message.own{align-self:flex-end;flex-direction:row-reverse}
+.message-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(45deg,#3b82f6,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
+.message-content{background:rgba(255,255,255,.85);padding:12px 16px;border-radius:18px;border:1px solid var(--cardBorder)}
+.message.own .message-content{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25)}
+.message-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.message-author{font-weight:600;font-size:13px;color:#1e293b}
+.message-time{font-size:11px;color:#64748b}
+.message-text{font-size:14px;line-height:1.45;color:#334155;white-space:pre-wrap;word-wrap:anywhere}
+.chat-input-container{padding:16px 24px;background:rgba(255,255,255,.95);border-top:1px solid var(--cardBorder)}
+.chat-input-wrapper{display:flex;align-items:center;gap:12px;background:rgba(248,250,252,.8);border-radius:24px;padding:12px 20px;border:1px solid rgba(203,213,225,.4);transition:.2s}
+.chat-input-wrapper:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.chat-input{flex:1;background:none;border:none;color:#334155;font-size:14px;outline:none}
+.input-actions{display:flex;gap:8px}
+.input-btn{width:32px;height:32px;border-radius:50%;border:none;background:rgba(59,130,246,.1);color:#64748b;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+.input-btn:hover{background:rgba(59,130,246,.2);transform:scale(1.05);color:var(--brand)}
+.send-btn{background:linear-gradient(45deg,var(--brand),var(--brand2));color:#fff}
+.msg-menu{position:fixed;z-index:9999;min-width:160px;max-width:260px;padding:8px;border-radius:12px;background:rgba(255,255,255,.95);border:1px solid rgba(203,213,225,.7);box-shadow:0 10px 30px rgba(2,6,23,.2)}
+.msg-menu .item{display:flex;gap:8px;width:100%;border:0;background:transparent;color:#0f172a;padding:8px 10px;border-radius:8px;cursor:pointer}
+.msg-menu .item:hover{background:rgba(59,130,246,.08)}
+.msg-menu .divider{height:1px;background:rgba(203,213,225,.7);margin:6px 4px;border-radius:1px}
+.msg-menu-backdrop{position:fixed;inset:0;z-index:9998;background:transparent}
+.reply-inline{display:flex;gap:6px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);padding:4px 8px;border-radius:8px;margin-bottom:6px}
+#replyBar{display:none;margin-bottom:8px}
+#replyBar .chip{display:flex;align-items:center;gap:8px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);padding:6px 10px;border-radius:10px}
+#replyBar .x{border:0;background:transparent;color:#64748b;cursor:pointer}
+@media (max-width:768px){ .left-sidebar{width:240px} .message{max-width:85%} }
+@media (max-width:640px){ .left-sidebar{position:absolute;left:-280px;z-index:100;height:100%;transition:left .3s} .left-sidebar.open{left:0} }
+.al-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1600;
+}
+
+/* sab modals ke liye sahi centering */
+.al-modal.show {
+  display: flex;
+}
+.al-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
+.al-modal__card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,92%);background:#111827;color:#e5e7eb;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;border:1px solid #1f2937}
+.al-modal__header,.al-modal__footer{padding:14px 16px;display:flex;align-items:center}
+.al-modal__header{justify-content:space-between;border-bottom:1px solid #1f2937}
+.al-modal__body{padding:16px}
+.al-input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #374151;background:#0b1220;color:#fff;outline:none}
+.al-input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.25)}
+.al-btn{padding:10px 14px;border-radius:12px;border:1px solid transparent;cursor:pointer;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600}
+.al-btn--ghost{background:transparent;color:#e5e7eb;border-color:#374151}
+/* --- Reactions row under each bubble --- */
+/* --- Reactions UI --- */
+.msg-reactions {
+display: none;
+gap: 6px;
+margin-top: 6px;
+flex-wrap: wrap;
+}
+.rx-chip {
+border: 1px solid #e5e7eb;
+background: #fff;
+border-radius: 999px;
+padding: 2px 8px;
+font-size: 12px;
+cursor: pointer;
+}
+.rx-chip:hover { background:#f9fafb; }
+
+.rx-picker {
+position: fixed;
+background: #fff;
+border: 1px solid #d1d5db;
+border-radius: 10px;
+box-shadow: 0 8px 30px rgba(0,0,0,.18);
+padding: 6px;
+display: flex;
+gap: 4px;
+z-index: 9999;
+}
+.rx-btn {
+font-size: 20px;
+border: none;
+background: none;
+cursor: pointer;
+padding: 6px 8px;
+line-height: 1;
+border-radius: 8px;
+}
+.rx-btn:hover { background:#f3f4f6; }
+
+
+
+
+/* === Compact pinned bar on mobile === */
+@media (max-width: 640px) {
+.pinned-messages {
+  padding: 6px 14px;          /* reduce vertical spacing */
+  font-size: 12px;            /* slightly smaller text */
+}
+.pinned-list {
+  gap: 4px;                   /* smaller gaps between chips */
+  margin-top: 2px;
+}
+.pin-chip {
+  padding: 4px 8px;           /* smaller chip padding */
+  font-size: 12px;
+}
+}
+/* --- Pinned bar: label inline with chips --- */
+/* .pinned-messages{
+background:rgba(59,130,246,.05);
+border-left:4px solid var(--brand);
+padding:8px 14px;
+font-size:14px;
+color:#334155;
+display:flex !important;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+} */
+/* .pinned-messages > span{
+display:flex;
+align-items:center;
+gap:6px;
+font-weight:700;
+margin-right:4px;
+} */
+/* .pinned-list{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin:0;       
+} */
+.pin-chip{
+background:var(--chipBg);
+border:1px dashed rgba(59,130,246,.30);
+border-radius:10px;
+padding:6px 10px;
+cursor:pointer;
+}
+.pin-chip:hover{ filter:brightness(1.05); }
+
+/* compact on phones */
+@media (max-width:640px){
+.pinned-messages{ padding:6px 10px; font-size:12px; gap:6px; }
+.pin-chip{ padding:4px 8px; font-size:12px; }
+}
+/* 11111111111111111111111111111111111111111111111111111111111111111111111111111111111 */
+/* --- Pinned bar: label inline with chips --- */
+/* .pinned-messages{
+background:rgba(59,130,246,.05);
+border-left:4px solid var(--brand);
+padding:8px 14px;
+font-size:14px;
+color:#334155;
+
+
+display:flex !important;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+}
+.pinned-messages > span{
+display:flex;
+align-items:center;
+gap:6px;
+font-weight:700;
+margin-right:4px;
+} */
+
+/* .pinned-list{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin:0;       
+} */
+/* .pin-chip{
+background:var(--chipBg);
+border:1px dashed rgba(59,130,246,.30);
+border-radius:10px;
+padding:6px 10px;
+cursor:pointer;
+} */
+.pin-chip:hover{ filter:brightness(1.05); }
+
+/* compact on phones */
+@media (max-width:640px){
+.pinned-messages{ padding:6px 10px; font-size:12px; gap:6px; }
+.pin-chip{ padding:4px 8px; font-size:12px; }
+}
+
+/* highlight effect when jumping to a pinned message */
+.message.flash .message-content{
+box-shadow: 0 0 0 3px rgba(59,130,246,.35), 0 6px 22px rgba(59,130,246,.20);
+animation: flashFade 1.2s ease-out;
+}
+@keyframes flashFade{
+0%   { background: rgba(59,130,246,.18); }
+100% { background: rgba(255,255,255,.85); } /* will match your normal bubble */
+}
+/* for own messages (their bubble is slightly different) */
+.message.own.flash .message-content{
+background: rgba(59,130,246,.18);
+}
+
+
+/* ===== Fancy highlight when jumping to a pinned message ===== */
+/* === Ultra-smooth highlight with slow fade-out === */
+.message { will-change: transform; }
+.message .message-content {
+position: relative;
+isolation: isolate;
+backface-visibility: hidden;
+transform: translateZ(0);
+}
+
+/* flash trigger */
+.message.flash .message-content {
+transform: translateY(-1px) scale(1.015);
+box-shadow:
+  0 10px 25px rgba(59,130,246,.22),
+  0 0 0 2px rgba(59,130,246,.25);
+transition:
+  transform 1.6s cubic-bezier(.25,1,.30,1),
+  box-shadow 1.6s cubic-bezier(.25,1,.30,1),
+  background 1.6s cubic-bezier(.25,1,.30,1);
+}
+
+/* sheen animation */
+.message.flash .message-content::after {
+content:"";
+position:absolute; inset:-2px;
+border-radius:18px;
+background: linear-gradient(120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(59,130,246,.25) 40%,
+    rgba(255,255,255,0) 70%);
+mix-blend-mode: screen;
+pointer-events:none;
+transform: translateX(-140%);
+animation: sheen 2.2s cubic-bezier(.25,1,.30,1) forwards;
+}
+
+/* glowing halo */
+.message.flash .message-content::before {
+content:"";
+position:absolute; inset:-4px;
+border-radius:18px;
+background: radial-gradient(circle at 50% 50%,
+  rgba(59,130,246,.28) 0%,
+  rgba(59,130,246,.10) 30%,
+  transparent 65%);
+opacity:.85;
+animation: halo 2.2s cubic-bezier(.33,1,.68,1) forwards;
+}
+
+@keyframes sheen {
+0%   { transform: translateX(-150%); opacity:.85; }
+50%  { transform: translateX(0%);    opacity:.6; }
+80%  { transform: translateX(35%);   opacity:.3; }
+100% { transform: translateX(60%);   opacity:0; }
+}
+
+@keyframes halo {
+0%   { opacity:.9; transform:scale(.97); }
+40%  { opacity:.55; transform:scale(1.05); }
+70%  { opacity:.35; transform:scale(1.02); }
+100% { opacity:0;   transform:scale(1.00); }
+}
+
+/* own-message palette */
+.message.own.flash .message-content {
+background: rgba(59,130,246,.10);
+}
+
+/* reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+.message.flash .message-content { transition:none; }
+.message.flash .message-content::before,
+.message.flash .message-content::after { display:none; }
+.message.flash .message-content {
+  box-shadow: 0 0 0 2px rgba(59,130,246,.28);
+}
+}
+
+
+.chat-messages{
+flex: 1;
+min-height: 0;            /* NEW: yahi scrolling unlock karega */
+padding: 20px 24px;
+overflow-y: auto;
+overflow-x: hidden;
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+/* 2) Clip any visual effects that extend outside the bubble */
+.message .message-content{
+overflow: clip;       /* modern */
+overflow: hidden;     /* fallback */
+contain: paint;       /* isolate painting, faster & prevents overflow size calc */
+backface-visibility: hidden;
+transform: translateZ(0);
+}
+
+/* 3) Slightly reduce the temporary scale to avoid width bumps */
+.message.flash .message-content{
+transform: translateY(-1px) scale(1.01); /* was 1.015 */
+}
+
+/* 4) Keep the sheen within the bubble’s box (no side overflow) */
+.message.flash .message-content::after{
+inset: 0;                    /* was -2px */
+transform: translateX(-120%);/* was -140% */
+}
+
+/* 5) Keep the glow inside too */
+.message.flash .message-content::before{
+inset: 0; /* was -4px */
+}
+
+/* Modal entrance/exit */
+.al-modal .al-modal__card { 
+transform: translate(-50%,-46%) scale(.98);
+opacity: .0;
+transition: transform .25s ease, opacity .25s ease;
+}
+.al-modal.show .al-modal__card { 
+transform: translate(-50%,-50%) scale(1);
+opacity: 1;
+}
+.al-modal__backdrop { opacity: 0; transition: opacity .25s ease; }
+.al-modal.show .al-modal__backdrop { opacity: 1; }
+
+/* Primary button accent */
+.al-btn { background: linear-gradient(135deg,#3b82f6,#6366f1); }
+
+/* Slightly nicer textarea look */
+#editInput { font-family: inherit; line-height: 1.35; }
+
+
+/* — local hide — */
+.message.hidden-local { display:none !important; }
+
+/* — tiny toast — */
+.al-toast {
+position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+background: rgba(17,24,39,.94); color:#e5e7eb; padding:10px 14px;
+border:1px solid #374151; border-radius:12px; z-index:99999;
+box-shadow: 0 8px 24px rgba(0,0,0,.35); font-size:13px; opacity:0;
+transition: opacity .25s ease, transform .25s ease;
+}
+.al-toast.show { opacity:1; transform: translateX(-50%) translateY(-4px); }
+
+/* — compact “choice” modal reuses your modal theme — */
+.al-choices { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px }
+.al-chip {
+padding:8px 12px; border-radius:10px; border:1px solid #374151;
+background:#0b1220; color:#e5e7eb; cursor:pointer; user-select:none;
+}
+.al-chip:hover { border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,.25) }
+
+/* Forwarded message tag */
+.fwd-tag{
+display:block;
+font-size:12px;
+color:#64748b;
+font-style:italic;
+margin-bottom:4px;
+opacity:.85;
+letter-spacing:.2px;
+}
+.fwd-tag {
+display: inline-block;
+font-size: 12px;
+font-weight: 600;
+opacity: 0.85;
+padding: 2px 8px;
+margin-bottom: 6px;
+border-radius: 8px;
+border: 1px dashed rgba(59,130,246,.35);
+background: rgba(59,130,246,.08);
+}
+
+
+/* --- Responsive fix for long reply preview --- */
+#replyBar {
+display: none;
+margin-bottom: 8px;
+max-width: 100%;
+word-wrap: break-word;
+overflow-wrap: break-word;
+}
+
+#replyBar .chip {
+display: flex;
+align-items: flex-start;      /* allow top alignment for multiline text */
+flex-wrap: wrap;              /* wrap long replies */
+gap: 6px;
+background: rgba(59,130,246,.08);
+border: 1px solid rgba(59,130,246,.2);
+padding: 8px 10px;
+border-radius: 10px;
+width: 100%;                  /* occupy full width */
+box-sizing: border-box;
+}
+
+#replyBar b {
+white-space: nowrap;          /* keep username short on one line */
+}
+
+#replyBar #replyText {
+flex: 1;
+min-width: 0;                 /* important for flex text wrapping */
+white-space: normal;          /* allow wrapping text */
+overflow-wrap: break-word;
+word-break: break-word;
+}
+
+#replyBar .x {
+border: 0;
+background: transparent;
+color: #64748b;
+cursor: pointer;
+margin-left: auto;
+flex-shrink: 0;
+}
+
+/* On smaller phones, tighten it a bit */
+@media (max-width: 600px) {
+#replyBar .chip {
+  font-size: 13px;
+  padding: 6px 8px;
+}
+}
+
+
+.reply-inline {
+flex-wrap: wrap;
+word-wrap: break-word;
+overflow-wrap: break-word;
+max-width: 100%;
+}
+
+/* --- Hide scrollbar but keep scroll functionality --- */
+
+/* For Chrome, Edge, Safari */
+.chat-messages::-webkit-scrollbar {
+width: 0;
+height: 0;
+}
+
+/* For Firefox */
+.chat-messages {
+scrollbar-width: none;   /* hides scrollbar but keeps scroll active */
+-ms-overflow-style: none; /* for IE/Edge legacy */
+}
+
+/* For the left sidebar (optional, if you want to hide that too) */
+.study-groups::-webkit-scrollbar {
+width: 0;
+height: 0;
+}
+.study-groups {
+scrollbar-width: none;
+}
+
+/* Optional: hide scroll in modal lists if any */
+.al-modal__body::-webkit-scrollbar {
+width: 0;
+height: 0;
+}
+.al-modal__body {
+scrollbar-width: none;
+}
+
+.chat-messages {
+scroll-behavior: smooth;
+}
+
+/* New messages jump button */
+/* #newMsgBtn{
+position: absolute;
+right: 16px;
+bottom: 82px;
+z-index: 10;
+padding: 6px 12px;
+border-radius: 999px;
+font-size: 13px;
+border: none;
+background: linear-gradient(135deg, #3b82f6, #60a5fa);
+color: white;
+box-shadow: 0 4px 14px rgba(59,130,246,.25);
+cursor: pointer;
+display: none;
+transition: all .25s ease;
+}
+#newMsgBtn.show{ display:inline-block; transform: translateY(-4px); }
+#newMsgBtn:hover{ filter: brightness(1.1); }
+
+#newMsgBtn.show{ display:inline-block; }
+@media (max-width:640px){
+#newMsgBtn{ right: 10px; bottom: 76px; font-size: 12px; padding: 7px 10px; }
+} */
+.new-msg-btn {
+position: absolute;
+bottom: 80px;
+left: 50%;
+transform: translateX(-50%);
+background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+color: #fff;
+border: none;
+padding: 8px 14px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+opacity: 0;
+transition: opacity .25s ease, transform .25s ease;
+z-index: 5000;
+}
+.new-msg-btn.show {
+opacity: 1;
+transform: translateX(-50%) translateY(-4px);
+}
+
+/* ---- Reactions row under a message ---- */
+.msg-reactions{
+display:none;
+gap:6px;
+margin-top:6px;
+flex-wrap:wrap;
+}
+.rx-chip{
+display:inline-flex;
+align-items:center;
+gap:6px;
+font-size:12px;
+padding:2px 8px;
+border-radius:14px;
+background:rgba(0,0,0,.05);
+border:1px solid rgba(0,0,0,.06);
+user-select:none;
+}
+
+/* ---- Floating emoji picker ---- */
+.rx-popover{
+position:fixed;          /* anchored to viewport */
+z-index: 9999;
+background:#fff;
+border-radius:12px;
+box-shadow:0 8px 28px rgba(0,0,0,.18);
+padding:8px 10px;
+display:flex;
+gap:8px;
+align-items:center;
+}
+.rx-popover button{
+font-size:22px;
+line-height:1;
+background:transparent;
+border:none;
+cursor:pointer;
+}
+.rx-popover .rx-close{
+margin-left:4px;
+font-size:16px;
+opacity:.5;
+}
+
+/* The bubble wrapper should be positioning context */
+.message .message-content{
+position: relative;
+}
+
+/* Only add a little extra bottom padding when there are reactions */
+.message.has-reactions .message-content{
+padding-bottom: 22px;   /* enough room under the text */
+}
+
+/* Reactions cluster floats like WhatsApp */
+.msg-reactions{
+position: absolute;
+right: 10px;
+bottom: 4px;            /* sits just inside the bubble */
+display: inline-flex;
+align-items: center;
+gap: 6px;
+pointer-events: auto;
+z-index: 2;
+}
+
+/* Compact “pill” chip */
+.rx-chip{
+display: inline-flex;
+align-items: center;
+gap: 6px;
+height: 22px;
+padding: 0 8px;
+font-size: 12px;
+line-height: 1;
+border-radius: 999px;
+background: rgba(255,255,255,0.9);  /* light pill on light theme */
+border: 1px solid rgba(0,0,0,0.06);
+box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+user-select: none;
+}
+
+/* Prevent chips from triggering long-press/context menu on the bubble */
+.rx-chip, .msg-reactions button{
+pointer-events: auto;
+}
+
+/* put chips on the inner corner per side */
+.message.own .msg-reactions   { right: 8px;  left: auto;  bottom: 4px; }
+.message:not(.own) .msg-reactions { left: 8px;   right: auto; bottom: 4px; }
+
+/* smaller, tighter pills */
+.rx-chip{
+height: 18px;
+padding: 0 6px;
+font-size: 11px;
+border-radius: 999px;
+background: rgba(255,255,255,0.95);
+border: 1px solid rgba(0,0,0,0.06);
+box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* add a bit of bottom padding only when needed */
+.message.has-reactions .message-content{ padding-bottom: 18px; }
+
+/* optional: cute pop-in animation */
+.msg-reactions{ animation: rxPop .12s ease-out; }
+@keyframes rxPop{ from { transform: scale(.92); opacity: .6 } to { transform: scale(1); opacity: 1 } }
+
+
+/* --- Reaction row container --- */
+.msg-reactions {
+display: none;
+position: absolute;
+bottom: -12px;            /* lift it slightly below bubble */
+right: 12px;              /* align near bubble edge */
+background: transparent;
+gap: 4px;
+z-index: 2;
+}
+
+/* --- Each reaction chip --- */
+.rx-chip {
+background: #fff;
+color: #333;
+font-size: 13px;
+border-radius: 14px;
+padding: 1px 6px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+display: inline-flex;
+align-items: center;
+cursor: default;
+transition: transform 0.15s ease;
+}
+.rx-chip:hover {
+transform: scale(1.05);
+}
+
+/* --- When a message has reactions --- */
+.message.has-reactions {
+position: relative;       /* for absolute positioning of .msg-reactions */
+margin-bottom: 20px;      /* space under bubble for floating chips */
+}
+
+/* --- Optional: for "own" messages (right-aligned bubbles) --- */
+.message.own .msg-reactions {
+right: auto;
+left: 12px;               /* align on left side of your own bubble if needed */
+}
+/* Reactions: WhatsApp-style, floating just below the bubble */
+.message .message-content { position: relative; }
+
+.msg-reactions {
+position: absolute;
+bottom: -12px;          /* sit just below the bubble */
+right: 12px;            /* near the corner */
+display: none;          /* JS sets display when there are chips */
+gap: 4px;
+z-index: 2;
+}
+
+.message.own .msg-reactions {
+right: auto;
+left: 12px;             /* mirror on your own messages if desired */
+}
+
+/* Extra space below the bubble when chips are shown */
+.message.has-reactions {
+position: relative;     /* not strictly required, but fine */
+margin-bottom: 20px;
+}
+
+/* Compact pill chips */
+.rx-chip {
+display: inline-flex;
+align-items: center;
+cursor: default;
+font-size: 12px;
+border-radius: 14px;
+padding: 1px 6px;
+background: #fff;
+color: #333;
+border: 1px solid rgba(0,0,0,0.06);
+box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+transition: transform .15s ease;
+}
+.rx-chip:hover { transform: scale(1.05); }
+
+
+
+
+/* === Bubble width & wrapping === */
+.message{
+display: flex;
+gap: 12px;
+max-width: 70%;                 /* overall lane width */
+}
+.message.own{ align-self:flex-end; flex-direction:row-reverse; }
+
+.message-content{
+display: inline-block;           /* let bubble hug content */
+width: fit-content;              /* auto width */
+max-width: min(560px, 75vw);     /* cap on desktop & mobile */
+padding: 10px 14px;              /* slightly tighter */
+border-radius: 18px;
+background: rgba(255,255,255,.85);
+border: 1px solid var(--cardBorder);
+white-space: normal;
+word-break: break-word;
+}
+.message.own .message-content{
+background: rgba(59,130,246,.10);
+border: 1px solid rgba(59,130,246,.25);
+}
+
+/* Only add bottom padding when chips are present */
+.message.has-reactions .message-content{ padding-bottom: 18px; }
+
+/* === Reactions: float on the bubble corner (WhatsApp-ish) === */
+.msg-reactions{
+position: absolute;
+bottom: 4px;                    /* inside the bubble */
+right: 10px;                    /* for others */
+display: inline-flex;
+align-items: center;
+gap: 6px;
+z-index: 2;
+pointer-events: auto;
+}
+.message.own .msg-reactions{      /* mirror for own bubble */
+right: auto;
+left: 10px;
+}
+
+.rx-chip{
+display: inline-flex;
+align-items: center;
+gap: 6px;
+height: 18px;
+padding: 0 6px;
+font-size: 11px;
+border-radius: 999px;
+background: rgba(255,255,255,0.95);
+border: 1px solid rgba(0,0,0,0.06);
+box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+user-select: none;
+}
+
+/* Hide row when no chips (JS toggles has-reactions) */
+.msg-reactions{ display: none; }
+.message.has-reactions .msg-reactions{ display: inline-flex; }
+
+/* Make sure the bubble is the positioning context */
+.message .message-content{ position: relative; }
+
+/* Reduce bubble size on phones a bit wider to read comfortably */
+@media (max-width: 768px){
+.message{ max-width: 85%; }
+.message-content{ max-width: 90vw; }
+}
+/* Pinned bar is hidden by default */
+/* Hidden by default (collapsed) */
+.pinned-messages{
+/* visual */
+background: rgba(59,130,246,.05);
+border-left: 4px solid var(--brand);
+font-size: 14px;
+color: #334155;
+
+/* layout */
+display: flex;              /* keep flex so we can animate height */
+align-items: center;
+gap: 10px;
+flex-wrap: wrap;
+
+/* animation state (hidden) */
+opacity: 0;
+transform: translateY(-4px);
+max-height: 0;              /* collapses the bar */
+overflow: hidden;
+padding-top: 0;
+padding-bottom: 0;
+
+/* smoothness */
+transition:
+  opacity .22s ease,
+  transform .22s ease,
+  max-height .22s ease,
+  padding .22s ease;
+}
+
+/* Visible state */
+.pinned-messages.show{
+opacity: 1;
+transform: translateY(0);
+max-height: 120px;          /* plenty for a couple rows of chips */
+padding: 8px 14px;          /* restore your padding */
+}
+.pinned-messages > span{
+display:flex;
+align-items:center;
+gap:6px;
+font-weight:700;
+margin-right:4px;
+}
+.pinned-list{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin:0;
+}
+.pin-chip{
+background: var(--chipBg);
+border: 1px dashed rgba(59,130,246,.30);
+border-radius: 10px;
+padding: 6px 10px;
+cursor: pointer;
+}
+.pin-chip:hover{ filter: brightness(1.05); }
+
+@media (max-width:640px){
+.pinned-messages.show{ padding: 6px 10px; }
+.pin-chip{ padding: 4px 8px; font-size: 12px; }
+}
+
+.qa-toggle,
+.button-33 {
+position: fixed;
+right: 16px;
+top: calc(var(--siteHeaderH) + 12px); /* below header */
+z-index: 3500;                         /* below .nav (4000), above page */
+}
+/* Q&A drawer */
+.qa-panel{
+position: fixed;
+top: var(--siteHeaderH);                         /* start under header */
+right: 0;
+bottom: 0;
+width: min(440px, 92vw);
+height: calc(100vh - var(--siteHeaderH));       /* fill under header */
+background: #fff;
+border-left: 1px solid #e5e7eb;
+box-shadow: 0 10px 30px rgba(0,0,0,.18);
+z-index: 3500;                                   /* below .nav */
+transform: translateX(100%);
+transition: transform .25s ease;
+display: flex;
+flex-direction: column;
+}
+.qa-panel.open{ transform: translateX(0); }
+
+.qa-panel.open{
+transform: translateX(0);        /* slide in */
+}
+
+.qa-head{
+position: sticky;
+top: 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 14px;
+background: #fff;
+border-bottom: 1px solid #e5e7eb;
+z-index: 1;
+}
+
+.qa-create{ padding: 12px; border-bottom: 1px solid #eef2f7; }
+.qa-create input, .qa-create textarea{
+width: 100%;
+box-sizing: border-box;
+margin: 6px 0;
+padding: 10px 12px;
+border: 1px solid #d1d5db;
+border-radius: 10px;
+}
+
+.qa-list{
+list-style: none;
+margin: 0;
+padding: 10px 12px 16px;
+overflow: auto;           /* scroll inside drawer */
+flex: 1;
+}
+
+.qa-item{
+padding: 12px;
+border: 1px solid #e5e7eb;
+border-radius: 12px;
+background: #fff;
+margin-bottom: 10px;
+cursor: pointer;
+}
+/* ---- Q&A detail layout fix ---- */
+#qaDetail {
+display: none;
+flex-direction: column;
+padding: 16px;
+overflow-y: auto;
+height: 100%;
+box-sizing: border-box;
+}
+
+/* Make question title stand out */
+#qaDetail h3 {
+font-weight: 700;
+font-size: 18px;
+margin-bottom: 6px;
+}
+
+/* Subtext styling */
+#qaDetail p {
+margin: 4px 0;
+color: #374151;
+}
+
+/* Answers container style */
+#qaDAnswers {
+margin-top: 16px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+/* Each answer card */
+#qaDAnswers > div {
+border: 1px solid #e5e7eb;
+border-radius: 10px;
+padding: 10px 12px;
+background: #f9fafb;
+}
+
+/* Accept button */
+#qaDAnswers button {
+background: #3b82f6;
+color: white;
+border: none;
+border-radius: 6px;
+padding: 4px 10px;
+cursor: pointer;
+}
+
+#qaDAnswers button:hover {
+background: #2563eb;
+}
+.al-input-error {
+outline: none !important;
+border: 2px solid #ef4444 !important; /* red */
+box-shadow: 0 0 0 3px rgba(239,68,68,.25) !important;
+transition: box-shadow .2s, border .2s;
+}
+
+
+.al-btn--danger {
+background: #ef4444 !important;
+color: #fff !important;
+}
+
+
+/* ========== Button-33 (Q&A trigger) ========== */
+.button-33 {
+background-color: #c2fbd7;
+border-radius: 100px;
+box-shadow:
+  rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,
+  rgba(44, 187, 99, .15) 0 1px 2px,
+  rgba(44, 187, 99, .15) 0 2px 4px,
+  rgba(44, 187, 99, .15) 0 4px 8px,
+  rgba(44, 187, 99, .15) 0 8px 16px,
+  rgba(44, 187, 99, .15) 0 16px 32px;
+color: green;
+cursor: pointer;
+display: inline-block;
+font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+padding: 7px 20px;
+text-align: center;
+text-decoration: none;
+transition: all 250ms;
+border: 0;
+font-size: 16px;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+}
+.button-33:hover {
+box-shadow:
+  rgba(44,187,99,.35) 0 -25px 18px -14px inset,
+  rgba(44,187,99,.25) 0 1px 2px,
+  rgba(44,187,99,.25) 0 2px 4px,
+  rgba(44,187,99,.25) 0 4px 8px,
+  rgba(44,187,99,.25) 0 8px 16px,
+  rgba(44,187,99,.25) 0 16px 32px;
+transform: scale(1.05) rotate(-1deg);
+}
+
+/* Remove/neutralize the old floating FAB if its class exists */
+.qa-fab { display: none !important; }
+
+/* Hide any stray "online" pills if still injected by template code */
+.online-pill,
+.presence-pill,
+#onlineBadge,
+.online-count { display: none !important; }
+
+
+
+
+/* =========================
+ Q&A — visual polish only
+ ========================= */
+
+/* Panel + header */
+.qa-panel{
+background: linear-gradient(180deg,#fff 0%,#f8fafc 100%);
+border-left: 1px solid rgba(15,23,42,.06);
+box-shadow: 0 14px 44px rgba(2,6,23,.16);
+}
+.qa-head{
+padding: 16px 18px;
+background: rgba(255,255,255,.92);
+backdrop-filter: blur(8px);
+border-bottom: 1px solid rgba(15,23,42,.06);
+}
+.qa-head h3{ font-weight:800; letter-spacing:.2px; color:#0f172a; }
+
+/* Edit name pill */
+#qaEditNameBtn{
+background:#eef2ff;
+color:#3730a3;
+border:1px solid rgba(67,56,202,.22);
+border-radius:999px;
+padding:6px 12px;
+font-weight:600;
+cursor:pointer;
+transition: transform .12s ease, box-shadow .12s ease;
+}
+#qaEditNameBtn:hover{ transform:translateY(-1px); box-shadow:0 8px 18px rgba(99,102,241,.18); }
+
+/* New question composer */
+.qa-create{
+padding:14px 16px;
+background:#fff;
+border-bottom:1px solid rgba(15,23,42,.06);
+}
+.qa-create input[type="text"],
+.qa-create input[type="number"],
+.qa-create textarea{
+width:100%;
+appearance:none;
+border-radius:14px;
+border:1px solid rgba(15,23,42,.12);
+background:#f8fafc;
+padding:12px 14px;
+color:#0f172a;
+font-size:14px;
+transition:border .15s, box-shadow .15s, background .15s;
+}
+.qa-create textarea{ min-height:100px; resize:vertical; }
+.qa-create input:focus,
+.qa-create textarea:focus{
+outline:none;
+background:#fff;
+border-color:#60a5fa;
+box-shadow:0 0 0 4px rgba(59,130,246,.12);
+}
+
+/* File input */
+.qa-create input[type="file"]{
+border-radius:12px;
+border:1px dashed rgba(15,23,42,.18);
+background:#f8fafc;
+padding:10px;
+}
+
+/* Ask button */
+#qaAskBtn{
+margin-top:8px;
+border:0;
+border-radius:12px;
+padding:10px 14px;
+font-weight:800;
+background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+color:#fff;
+box-shadow:0 12px 24px rgba(59,130,246,.22);
+cursor:pointer;
+transition:transform .08s ease, filter .12s ease;
+}
+#qaAskBtn:hover{ transform:translateY(-1px); filter:brightness(1.05); }
+
+/* List cards */
+.qa-list{ padding:14px 14px 22px; }
+.qa-item{
+border-radius:14px;
+border:1px solid rgba(15,23,42,.08);
+background:#fff;
+box-shadow:0 8px 22px rgba(2,6,23,.08);
+transition:transform .12s, box-shadow .12s, border-color .12s;
+}
+.qa-item:hover{
+transform:translateY(-2px);
+border-color:rgba(59,130,246,.28);
+box-shadow:0 14px 30px rgba(2,6,23,.12);
+}
+
+/* Detail area */
+#qaDetail{ background:linear-gradient(180deg,#fff 0%,#f8fafc 65%,#eef2f7 100%); }
+#qaDTitle{ font-weight:800; font-size:18px; color:#0f172a; }
+#qaDBody{
+border:1px solid rgba(15,23,42,.08);
+border-radius:14px;
+background:#fff;
+padding:12px;
+box-shadow:0 8px 18px rgba(2,6,23,.08);
+}
+#qaDBody img{ border-radius:10px; }
+
+/* Meta line */
+#qaDMeta{ margin-top:8px; font-size:12px; color:#64748b; }
+
+/* Action buttons (delete/share/etc) */
+#qaDActions{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 6px; }
+#qaDActions button{
+border:1px solid rgba(15,23,42,.08);
+background:#fff; color:#0f172a;
+border-radius:12px; padding:8px 12px;
+font-weight:700; cursor:pointer;
+transition:transform .08s, box-shadow .12s;
+}
+#qaDActions button:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(2,6,23,.10); }
+#qaDDeleteBtn{ background:#fee2e2; color:#b91c1c; border-color:#fecaca; }
+
+/* Claim + answer compose */
+#qaDClaimBtn{
+border:0; border-radius:12px; padding:10px 14px; font-weight:800;
+background:linear-gradient(135deg,#10b981,#059669); color:#fff;
+box-shadow:0 12px 22px rgba(16,185,129,.22);
+}
+#qaDAnswerArea{
+margin-top:10px;
+border:1px solid rgba(15,23,42,.08);
+border-radius:14px; background:#fff; padding:12px;
+}
+#qaDAnswerText{
+width:100%; min-height:96px; resize:vertical;
+border-radius:12px; border:1px solid rgba(15,23,42,.12);
+background:#f8fafc; padding:10px 12px;
+}
+#qaDAnswerText:focus{ outline:none; border-color:#60a5fa; box-shadow:0 0 0 4px rgba(59,130,246,.12); }
+#qaDSendAnswer{
+margin-top:8px; border:0; border-radius:12px; padding:10px 14px;
+font-weight:800; background:linear-gradient(135deg,#3b82f6,#1d4ed8); color:#fff;
+}
+
+/* Answer cards */
+#qaDAnswers{ gap:12px; }
+.answer-card{
+border:1px solid rgba(15,23,42,.08);
+border-radius:14px;
+background:#fff;
+padding:12px;
+box-shadow:0 10px 24px rgba(2,6,23,.08);
+}
+.answer-card img{ border-radius:10px; }
+
+/* Accept/Delete buttons inside cards */
+.answer-card .qa-accept-btn{
+background:#22c55e; border:0; color:#fff; font-weight:800;
+border-radius:10px; padding:6px 10px; cursor:pointer;
+box-shadow:0 8px 16px rgba(34,197,94,.22);
+transition:transform .08s ease, filter .12s ease;
+}
+.answer-card .qa-accept-btn:hover{ transform:translateY(-1px); filter:brightness(1.04); }
+.answer-card .qa-delete-answer-btn{
+background:#fee2e2; color:#b91c1c; border:1px solid #fecaca;
+border-radius:10px; padding:6px 10px; font-weight:700; cursor:pointer;
+}
+
+/* Accepted state (your JS can add .is-accepted) */
+.answer-card.is-accepted{
+border-color:rgba(34,197,94,.35);
+background:linear-gradient(180deg,#f0fdf4 0%,#ffffff 100%);
+box-shadow:0 14px 30px rgba(34,197,94,.18);
+}
+.answer-card .accepted-badge{
+display:inline-flex; align-items:center; gap:6px;
+padding:4px 10px; border-radius:999px;
+background:#dcfce7; color:#166534; font-weight:700; font-size:12px;
+border:1px solid rgba(34,197,94,.25);
+}
+
+/* Prettier scrollbars only inside the drawer */
+.qa-panel, .qa-list{
+scrollbar-width:thin; scrollbar-color: rgba(100,116,139,.5) transparent;
+}
+.qa-panel::-webkit-scrollbar, .qa-list::-webkit-scrollbar{ width:8px; }
+.qa-panel::-webkit-scrollbar-thumb, .qa-list::-webkit-scrollbar-thumb{
+background:linear-gradient(180deg,#cbd5e1,#94a3b8); border-radius:8px;
+}
+
+/* ===============================
+ CODE BLOCK STYLING (inside Q&A)
+ =============================== */
+
+/* Inline code snippets (e.g. `variable`) */
+.qa-panel code {
+font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+font-size: 13px;
+background: rgba(15,23,42,.04);
+color: #1e3a8a;
+padding: 2px 6px;
+border-radius: 6px;
+border: 1px solid rgba(15,23,42,.06);
+}
+
+/* Multiline blocks (e.g. pasted code samples) */
+.qa-panel pre {
+background: #0f172a;
+color: #e2e8f0;
+padding: 14px 16px;
+border-radius: 10px;
+font-family: 'JetBrains Mono', 'Fira Code', monospace;
+font-size: 13px;
+line-height: 1.5;
+overflow-x: auto;
+margin: 10px 0;
+border: 1px solid rgba(148,163,184,.25);
+box-shadow: inset 0 2px 6px rgba(0,0,0,.2);
+}
+
+/* Add subtle scrollbar inside large code blocks */
+.qa-panel pre::-webkit-scrollbar {
+height: 6px;
+}
+.qa-panel pre::-webkit-scrollbar-thumb {
+background: rgba(148,163,184,.4);
+border-radius: 4px;
+}
+
+/* Optional: Syntax color accents */
+.qa-panel pre .keyword { color: #60a5fa; font-weight: 600; }
+.qa-panel pre .string  { color: #22c55e; }
+.qa-panel pre .number  { color: #fbbf24; }
+.qa-panel pre .comment { color: #94a3b8; font-style: italic; }
+
+/* Compact view for mobile */
+@media (max-width: 600px) {
+.qa-panel pre {
+  font-size: 12px;
+  padding: 10px 12px;
+}
+}
+
+/* ========== Stylish File Upload Button ========== */
+.qa-create input[type="file"] {
+border: 2px dashed rgba(8,76,223,0.25);
+background: #f9fafb;
+color: #374151;
+font-size: 14px;
+border-radius: 12px;
+padding: 10px;
+width: 100%;
+cursor: pointer;
+transition: border-color 0.2s, background 0.2s;
+}
+
+.qa-create input[type="file"]:hover {
+border-color: rgba(8,76,223,0.5);
+background: #f8fbff;
+}
+
+/* --- Actual Choose File button styling --- */
+.qa-create input[type="file"]::file-selector-button {
+margin-right: 16px;
+border: none;
+background: #084cdf;
+color: #fff;
+padding: 10px 18px;
+border-radius: 10px;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.25s ease, transform 0.1s ease;
+}
+
+.qa-create input[type="file"]::file-selector-button:hover {
+background: #0d45a5;
+transform: translateY(-1px);
+}
+
+.qa-create input[type="file"]::file-selector-button:active {
+transform: scale(0.98);
+}
+/* ===== Shared Q/A Cards (chat) ===== */
+.shared-card{
+width: min(520px, 95%);
+aspect-ratio: 3/4;                 /* tall */
+border-radius: 18px;
+overflow: hidden;
+box-shadow: 0 18px 45px rgba(0,0,0,.18);
+border: 1px solid rgba(2,6,23,.08);
+background: #0b1220;
+display: grid;
+grid-template-rows: 4fr 1fr;       /* ≈ 80% media / 20% details */
+font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+
+/* top 80% */
+.shared-card .sc-media{
+position: relative;
+overflow: hidden;
+background: radial-gradient(600px 300px at 30% 10%, #0f172a, #020617);
+}
+.shared-card .sc-media img{
+width: 100%; height: 100%; object-fit: cover;
+display: block;
+cursor: zoom-in;               /* ties into your existing preview modal */
+}
+
+/* subtle green “accepted” bar (answer card only) */
+.shared-card.accepted::before{
+content:""; position:absolute; inset:0 0 auto 0; height:8px;
+background: linear-gradient(90deg,#20c978,#0f8f57);
+}
+
+/* bottom 20% */
+.shared-card .sc-details{
+position: relative;
+padding: 12px 14px;
+color: #f8fafc;
+background: linear-gradient(180deg, rgba(9,39,36,.55), rgba(9,39,36,.82));
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+display: grid;
+grid-template-areas:
+  "badge  badge"
+  "title  title"
+  "meta   meta";
+row-gap: 6px;
+}
+
+/* badge */
+.sc-badge{
+grid-area: badge;
+display:inline-flex; align-items:center; gap:10px;
+font-weight: 700; font-size: 14px;
+color:#eafff4;
+background: rgba(27,167,98,.95);
+padding:6px 10px;
+border-radius:12px;
+box-shadow: inset 0 0 0 1px rgba(255,255,255,.15), 0 6px 16px rgba(0,0,0,.2);
+width:max-content;
+}
+.sc-badge svg{ width:18px; height:18px; }
+
+/* title + snippet */
+.sc-title{
+grid-area: title;
+font-family: Poppins, Inter, system-ui;
+font-weight: 700;
+font-size: 22px;
+line-height: 1.15;
+margin: 0;
+}
+.sc-meta{
+grid-area: meta;
+font-size: 13px;
+color: rgba(255,255,255,.85);
+}
+
+/* Question card variant */
+.shared-card.question .sc-details{
+background: linear-gradient(180deg, rgba(15,23,42,.6), rgba(15,23,42,.85));
+}
+.shared-card.question .sc-badge{
+background: rgba(59,130,246,.95);
+}
+
+/* if there is no image */
+.shared-card .sc-media.placeholder{
+display:grid; place-items:center;
+color:#94a3b8; font-size:14px;
+background: linear-gradient(135deg,#0b1220,#111827);
+}
+
+/* make the card shrink nicely on small devices */
+@media (max-width:480px){
+.shared-card{ aspect-ratio: 3/4.2; }
+.sc-title{ font-size: 20px; }
+}
+/* Fix hamburger size in Chat and everywhere, without changing behavior */
+
+/* 1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111 */
+/* .nav-toggle{
+
+width: 40px;
+height: 36px;
+position: relative;
+display: inline-block;
+cursor: pointer;
+
+
+border: 1px solid rgba(255,255,255,.14);
+border-radius: 10px;
+background: rgba(255,255,255,.06);
+box-shadow: 0 2px 8px rgba(0,0,0,.18);
+
+
+font-size: 0 !important;
+line-height: 0 !important;
+color: transparent !important;
+} */
+
+/* draw three bars; works even if the button has text content */
+/* .nav-toggle::before{
+content: "";
+position: absolute;
+left: 10px;
+right: 10px;
+top: 11px;
+height: 2px;
+background: #e5e7eb;
+border-radius: 2px;
+
+box-shadow:
+  0 6px 0 0 #e5e7eb,
+  0 12px 0 0 #e5e7eb;
+} */
+
+/* optional: nicer hover */
+/* .nav-toggle:hover{
+background: rgba(255,255,255,.10);
+transform: translateY(-1px);
+} */
+
+/* optional: animate to “X” when the nav is open (your JS already toggles .nav.open) */
+/* .nav.open .nav-toggle::before{
+top: 17px;
+transform: rotate(45deg);
+box-shadow: none;
+}
+.nav.open .nav-toggle::after{
+content: "";
+position: absolute;
+left: 10px;
+right: 10px;
+top: 17px;
+height: 2px;
+background: #e5e7eb;
+border-radius: 2px;
+transform: rotate(-45deg);
+} */
+
+
+/* --- Fix: hamburger toggle keeps normal size on all pages --- */
+/* .nav-toggle{
+width: 38px; height: 38px;
+display: grid; place-items: center;
+border-radius: 10px;
+line-height: 1;
+
+transform: none !important;
+}
+.nav-toggle svg, .nav-toggle i, .nav-toggle span{
+width: 22px; height: 22px;
+transform: none !important;
+} */
+
+
+
+/* Make sure the header itself never scales/shrinks */
+/* .nav, .nav-inner, .nav .links, .nav .nav-links, .nav-toggle{
+transform: none !important;
+scale: 1 !important;
+} */
+
+/* ===== FIX: close (X) button visible on top of mobile drawer ===== */
+/* @media (max-width: 860px) {
+.nav.open .nav-toggle {
+  position: fixed !important;
+  top: 16px !important;
+  right: 18px !important;
+  z-index: 99999 !important;  
+} */
+
+/* ensure avatar stays clickable too */
+/* .nav.open .avatar {
+  position: fixed !important;
+  top: 16px !important;
+  right: 70px !important;
+  z-index: 99998 !important;
+} */
+
+/* drawer itself stays below that */
+/* .nav .links {
+  z-index: 99990 !important;
+} */
+
+/* --- Use .nav.open to morph the three <span> bars into an X --- */
+/* .nav .nav-toggle span{
+transition: transform .22s ease, opacity .22s ease;
+}
+
+.nav.open .nav-toggle span:nth-child(1){
+transform: translateY(7px) rotate(45deg);
+}
+.nav.open .nav-toggle span:nth-child(2){
+opacity: 0;
+}
+.nav.open .nav-toggle span:nth-child(3){
+transform: translateY(-7px) rotate(-45deg);
+} */
+
+/* If you added a ::before/::after burger earlier, disable it to avoid conflicts */
+/* .nav-toggle::before,
+.nav-toggle::after{
+content: none !important;
+} */
+
+/* Keep the close (X) button above the sliding drawer everywhere */
+/* @media (max-width: 860px){
+.nav.open .nav-toggle{
+  position: fixed !important;
+  top: 16px !important;
+  right: 16px !important;
+  z-index: 99999 !important;
+}
+
+.nav .links{ z-index: 99990 !important; }
+} */
+
+
+
+
+/* Clean hamburger built from the 3 <span>s in your HTML */
+/* .nav-toggle{
+position: relative !important;
+width: 42px !important;
+height: 40px !important;
+border-radius: 10px;
+border: 1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+box-shadow: 0 2px 8px rgba(0,0,0,.18);
+cursor: pointer;
+z-index: 100000;         
+}
+
+.nav-toggle span{
+position:absolute; left:10px; right:10px; height:2px;
+background:#e5e7eb; border-radius:2px;
+transition: transform .22s ease, opacity .22s ease, top .22s ease;
+}
+.nav-toggle span:nth-child(1){ top:12px; }
+.nav-toggle span:nth-child(2){ top:19px; }
+.nav-toggle span:nth-child(3){ top:26px; } */
+
+/* Morph to X + keep close button visible */
+/* .nav.open .nav-toggle{ position:fixed !important; top:16px !important; right:16px !important; }
+.nav.open .nav-toggle span:nth-child(1){ top:19px; transform:rotate(45deg); }
+.nav.open .nav-toggle span:nth-child(2){ opacity:0; }
+.nav.open .nav-toggle span:nth-child(3){ top:19px; transform:rotate(-45deg); } */
+
+/* Drawer + overlay layering */
+/* @media (max-width:860px){
+.nav .links{
+  position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important;
+  width:78vw !important; max-width:360px !important; height:100vh !important;
+  padding:18px 16px 24px !important; display:flex !important; flex-direction:column !important; gap:10px !important;
+  background:rgba(10,14,22,.98) !important; border-left:1px solid rgba(255,255,255,.08) !important;
+  transform:translateX(100%) !important; transition:transform .25s ease !important; overflow-y:auto !important;
+  z-index:99990 !important;
+}
+.nav.open .links{ transform:translateX(0) !important; }
+
+.nav::after{
+  content:"" !important; position:fixed !important; inset:0 !important;
+  background:rgba(0,0,0,.45) !important; backdrop-filter:blur(2px) !important;
+  opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:99980 !important;
+}
+.nav.open::after{ opacity:1; pointer-events:auto; }
+} */
+
+
+.nav{
+position: fixed !important;
+top: 0; left: 0; right: 0;
+height: var(--siteHeaderH);
+z-index: 4000;         
+}
+
+/* Push the page content below the fixed header */
+.app-container{
+margin-top: var(--siteHeaderH);
+}
+
+/* ===== Mobile drawer lives UNDER the header ===== */
+@media (max-width: 860px){
+
+.nav .links{
+  position: fixed !important;
+  top: var(--siteHeaderH) !important;                
+  right: 0 !important;
+  bottom: 0 !important;
+  width: clamp(320px, 86vw, 420px) !important;
+  height: calc(100vh - var(--siteHeaderH)) !important;
+  transform: translateX(100%) !important;
+  background: #0b1220 !important;                    
+  border-left: 1px solid rgba(255,255,255,.08) !important;
+  overflow-y: auto !important;
+  z-index: 99990 !important;                      
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 18px 16px 24px !important;
+}
+.nav.open .links{ transform: translateX(0) !important; }
+
+
+.nav::after{
+  content: "" !important;
+  position: fixed !important;
+  left: 0; right: 0;
+  top: var(--siteHeaderH) !important;          
+  bottom: 0 !important;
+  background: rgba(0,0,0,.55) !important;
+  backdrop-filter: blur(2px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity .22s ease !important;
+  z-index: 99980 !important;                         /* under header */
+}
+.nav.open::after{ opacity: 1 !important; pointer-events: auto !important; }
+
+/* Close (X) button stays visible, sits just below header edge */
+/* .nav.open .nav-toggle{
+  position: fixed !important;
+  top: calc(var(--siteHeaderH) + 12px) !important;  
+  right: 16px !important;
+  z-index: 100000 !important;
+} */
+}
+
+/* Lock background scroll while drawer open (works with the JS below) */
+/* body.menu-open{
+overflow: hidden !important;
+position: fixed; width: 100%;
+} */
+
+
+
+/* ==== Holographic hover: show ONLY on hover ==== */
+
+/* 1) Reset everything by default */
+.links a{
+color:#c7d2f5;
+text-shadow:none !important;
+box-shadow:none !important;
+transform:none !important;
+opacity:.85;
+}
+.links a::before{
+content:"";
+position:absolute;
+top:-50%; left:-50%;
+width:200%; height:200%;
+background:linear-gradient(0deg, transparent, transparent 30%, rgba(0,255,255,.25));
+transform:rotate(-45deg) translateY(0);
+opacity:0;                      /* <-- hidden by default */
+transition:transform .6s ease, opacity .6s ease;
+z-index:1;
+}
+
+/* 2) Active tab: no shine, just a subtle chip */
+.links a.active{
+color:#eaf6ff;
+background:rgba(0,255,255,.06);
+border:1px solid rgba(0,255,255,.18);
+box-shadow:none !important;     /* prevent always-on glow */
+text-shadow:none !important;
+}
+
+/* 3) Hover turns the effect ON */
+@media (hover:hover){
+.links a:hover{
+  color:#0ff;
+  text-shadow:0 0 8px rgba(0,255,255,.5);
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(0,255,255,.25);
+  opacity:1;
+}
+.links a:hover::before{
+  opacity:1;
+  transform:rotate(-45deg) translateY(100%);
+}
+}
+
+/* 4) Mobile/touch: soft flash, no scale jump */
+@media (hover:none){
+.links a:hover,
+.links a:active{
+  transform:none !important;
+  box-shadow:0 0 10px rgba(0,255,255,.15);
+}
+.links a:hover::before,
+.links a:active::before{
+  opacity:.8;
+  transform:rotate(-45deg) translateY(80%);
+}
+}
+
+/* 5) Drawer open: still suppress pseudo effects inside drawer */
+@media (max-width:860px){
+.nav.open .links a::before{ opacity:0 !important; }
+}
+/* === Disable always-visible glow on Chat; show only on hover === */
+.links a[href*="chat"],
+.links a[href*="chat"].active {
+background: transparent !important;
+border: none !important;
+color: #c7d2f5 !important;
+box-shadow: none !important;
+text-shadow: none !important;
+opacity: 0.85 !important;
+transition: all 0.3s ease;
+}
+
+/* Restore holographic animation when hovered */
+.links a[href*="chat"]:hover {
+color: #0ff !important;
+text-shadow: 0 0 8px rgba(0,255,255,0.5) !important;
+transform: scale(1.05);
+box-shadow: 0 0 15px rgba(0,255,255,0.25);
+opacity: 1;
+}
+
+.links a[href*="chat"]::before {
+opacity: 0;
+transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.links a[href*="chat"]:hover::before {
+opacity: 1;
+transform: rotate(-45deg) translateY(100%);
+}
+
+/* The outer card */
+.shared-card,
+.qa-item,
+.question-card {
+border-radius: 18px;        /* your preferred radius */
+overflow: hidden;           /* CLIP all children to the curve */
+background: #0b1220;        /* set base bg on the parent */
+isolation: isolate;         /* avoids blending glitches */
+-webkit-mask-image: -webkit-radial-gradient(white, black); /* Safari fix */
+}
+
+/* Top media (image/video) inside the card */
+.shared-card .sc-media,
+.question-card .q-media {
+display: block;
+overflow: hidden;
+border-radius: 18px 18px 0 0;   /* round only top */
+}
+.shared-card .sc-media img,
+.question-card .q-media img {
+display: block;                 /* remove inline-image gaps */
+width: 100%;
+height: auto;
+}
+
+/* Bottom content pane inside the card */
+.shared-card .sc-details,
+.question-card .q-body,
+#qaDBody {                        /* if this is the element in your screenshot */
+background: #0b1220;            /* same as parent so seams disappear */
+border-radius: 0 0 18px 18px;   /* round only bottom */
+overflow: hidden;               /* ensure inner layers can’t poke out */
+}
+
+/* If a shadow sits on the child, keep it inside the curve */
+.shared-card .sc-details::before,
+.question-card .q-body::before {
+content: "";
+position: absolute;
+inset: 0;
+pointer-events: none;
+border-radius: inherit;         /* follows the same radius */
+}
+
+/* Floating send button (outside the typing area) */
+.send-btn-floating {
+position: absolute;
+right: 24px;                   /* aligns to the right edge */
+bottom: 24px;                  /* vertical alignment with chat bar */
+background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+color: #fff;
+border: none;
+border-radius: 50%;
+width: 46px;
+height: 46px;
+font-size: 18px;
+cursor: pointer;
+box-shadow: 0 6px 20px rgba(59,130,246,.35);
+transition: transform .15s ease, box-shadow .2s ease;
+z-index: 10;
+}
+
+.send-btn-floating:hover {
+transform: scale(1.08);
+box-shadow: 0 10px 25px rgba(59,130,246,.45);
+}
+
+/* Adjust chat input wrapper to allow right-side button space */
+.chat-input-container {
+position: relative;
+padding-right: 70px;           /* space for the new button */
+}
+
+.chat-input-wrapper {
+background: rgba(248,250,252,.8);
+border-radius: 24px;
+padding: 12px 20px;
+border: 1px solid rgba(203,213,225,.4);
+transition: .2s;
+}
+
+.chat-input-wrapper:focus-within {
+border-color: #3b82f6;
+box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+/* === Mic button inside input (image version) === */
+.input-btn.mic-btn {
+background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+border: none;
+color: #fff;
+font-size: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 4px 14px rgba(59,130,246,.25);
+transition: transform .2s ease, box-shadow .25s ease;
+padding: 6px;
+}
+
+.input-btn.mic-btn:hover {
+transform: scale(1.08);
+box-shadow: 0 6px 18px rgba(59,130,246,.35);
+}
+
+/* Mic icon image */
+.mic-icon {
+width: 18px;
+height: 18px;
+filter: invert(1); /* makes it white on dark bg */
+}
+
+/* Optional: Red glow when recording */
+.input-btn.mic-btn.recording {
+background: linear-gradient(135deg, #ef4444, #b91c1c);
+box-shadow: 0 0 20px rgba(239,68,68,.5);
+animation: micGlow 1s infinite ease-in-out;
+}
+
+@keyframes micGlow {
+0% { transform: scale(1); box-shadow: 0 0 15px rgba(239,68,68,.4); }
+50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(239,68,68,.7); }
+100% { transform: scale(1); box-shadow: 0 0 15px rgba(239,68,68,.4); }
+}
+:root{
+--send-size-desktop: 56px;
+--send-size-mobile: 44px;
+}
+
+/* container padding unchanged */
+:root{
+--send-size-desktop: 56px;
+--send-size-mobile: 44px;
+}
+
+/* Bar container */
+.chat-input-container{
+position: sticky;
+bottom: 0; left: 0; right: 0;
+padding: 16px 24px;
+background: rgba(255,255,255,.95);
+border-top: 1px solid var(--cardBorder, rgba(203,213,225,.3));
+}
+
+/* Composer wrapper (shared) */
+.chat-input-wrapper{
+display: grid;
+align-items: center;
+gap: 12px;
+background: rgba(248,250,252,.8);
+border: 1px solid rgba(203,213,225,.4);
+border-radius: 24px;
+padding: 12px 16px;
+}
+
+/* Input */
+.chat-input{
+width: 100%;
+min-width: 0;
+background: none;
+border: 0;
+outline: 0;
+font-size: 14px;
+color: #334155;
+}
+
+/* Emoji + Mic group */
+.input-actions{
+display: inline-flex;
+align-items: center;
+gap: 8px;
+}
+
+.input-btn{
+width: 34px; height: 34px;
+border-radius: 50%;
+border: 0;
+background: rgba(59,130,246,.1);
+cursor: pointer;
+}
+
+/* Send button */
+.send-fab{
+width: var(--send-size-desktop);
+height: var(--send-size-desktop);
+border-radius: 999px;
+border: 0;
+cursor: pointer;
+background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+color: #fff;
+display: grid; place-items: center;
+font-size: 22px; line-height: 1;
+box-shadow: 0 12px 28px rgba(59,130,246,.30);
+}
+
+/* ===== Desktop / Tablet ===== */
+@media (min-width: 641px){
+/* Layout: input | icons | send (always visible) */
+.chat-input-wrapper{
+  grid-template-columns: 1fr auto var(--send-size-desktop);
+}
+#sendFab{
+  opacity: 1;
+  pointer-events: auto;
+}
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px){
+/* Slightly tighter spacing/sizing */
+.chat-input-wrapper{
+  gap: 10px;
+  grid-template-columns: 1fr auto var(--send-size-mobile);
+  padding: 10px 12px;
+}
+
+.input-btn{ width: 32px; height: 32px; }
+
+.send-fab{
+  width: var(--send-size-mobile);
+  height: var(--send-size-mobile);
+  font-size: 18px;
+  box-shadow: 0 10px 22px rgba(59,130,246,.25);
+  transition: opacity .18s ease;
+}
+
+/* Hidden by default on mobile */
+#sendFab{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show only when there is text (body.typing is toggled by JS) */
+body.typing #sendFab{
+  opacity: 1;
+  pointer-events: auto;
+}
+}
+
+/* === Mic button using image === */
+.mic-btn {
+background: rgba(59,130,246,0.1);
+border: none;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+width: 34px;
+height: 34px;
+}
+
+/* mic image itself */
+.mic-icon {
+width: 18px;
+height: 18px;
+filter: brightness(0) invert(0.4); /* subtle gray by default */
+transition: filter 0.2s ease;
+}
+
+.mic-btn:hover {
+background: rgba(59,130,246,0.2);
+transform: scale(1.08);
+}
+
+.mic-btn:hover .mic-icon {
+filter: brightness(0) invert(0.8); /* turns lighter on hover */
+}
+
+/* Recording animation state (optional) */
+.mic-btn.recording {
+background: linear-gradient(135deg, #ef4444, #b91c1c);
+box-shadow: 0 0 20px rgba(239,68,68,.5);
+animation: micGlow 1s infinite ease-in-out;
+}
+@keyframes micGlow {
+0% { transform: scale(1); box-shadow: 0 0 15px rgba(239,68,68,.4); }
+50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(239,68,68,.7); }
+100% { transform: scale(1); box-shadow: 0 0 15px rgba(239,68,68,.4); }
+}
+
+.btn-logout {
+background: linear-gradient(135deg, #ef4444, #b91c1c);
+color: #fff;
+border: none;
+padding: 8px 16px;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: background 0.2s ease;
+}
+.btn-logout:hover {
+background: linear-gradient(135deg, #f87171, #dc2626);
+}
+
+/* === Q&A card action buttons (Share/Delete) === */
+/* --- Force Share/Delete buttons on top --- */
+.qa-card, .qcard {
+position: relative !important;
+overflow: visible !important;
+z-index: 10 !important;
+}
+
+/* The floating action container */
+.qa-actions {
+position: absolute !important;
+top: 12px !important;
+right: 12px !important;
+display: flex !important;
+gap: 8px !important;
+z-index: 9999 !important; /* top of everything */
+}
+
+/* Make buttons visible and clickable */
+.qa-actions button,
+.qa-actions .icon-btn {
+all: unset;
+display: grid;
+place-items: center;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+cursor: pointer;
+color: #fff;
+background: rgba(15, 23, 42, 0.85);
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+backdrop-filter: blur(6px);
+transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.qa-actions button:hover {
+transform: translateY(-2px);
+opacity: 0.9;
+}
+
+/* Ensure card images or covers don't overlap */
+.qa-card img, .qcard img,
+.qa-card .qimg, .qcard .qimg {
+position: relative;
+z-index: 1 !important;
+}
+
+/* Force top bars or headers below actions */
+.header, .navbar, .topbar, .mobile-nav, .hamburger {
+z-index: 100 !important;
+}
+
+/* Prevent any overlay pseudo-elements from blocking clicks */
+.qa-card::before,
+.qa-card::after,
+.qcard::before,
+.qcard::after {
+pointer-events: none !important;
+}
+/* --- Fix action buttons hidden by the #qaDetail overlay --- */
+
+/* Let actions float above everything */
+.qa-card, .qcard { position: relative; overflow: visible; }
+.qa-card .qa-actions, .qcard .qa-actions { position:absolute; top:12px; right:12px; z-index: 9999; }
+
+/* Keep the detail overlay from blocking the list when visible */
+#qaDetail {
+position: relative;         /* don't create a higher stacking context */
+z-index: 5;                 /* lower than the actions above */
+pointer-events: none;       /* the empty/transparent area won't block clicks */
+}
+
+#qaDetail > * {
+pointer-events: auto;       /* only its actual inner content is clickable */
+}
+
+/* In case any parent of the card clips the actions */
+.qa-list, #qaList, .qa-container { overflow: visible; }
+
+
+/* hide by default */
+#qaDetail { display: none; }
+
+/* show only when a class is present on <body> */
+body.showing-detail #qaDetail { display: block; }
+
+
+
+/* --- Fix hidden Q&A action buttons --- */
+#qaDActions {
+position: relative;
+z-index: 10;                /* bring above images/text */
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-top: 12px;
+justify-content: flex-start;
+}
+
+#qaDActions button {
+background: #1e293b;        /* dark navy */
+color: #fff;
+border: none;
+border-radius: 8px;
+padding: 6px 12px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all .2s ease;
+}
+#qaDActions button.primary { background: #2563eb; }
+#qaDActions button.success { background: #16a34a; }
+#qaDActions button.danger  { background: #dc2626; }
+
+#qaDActions button:hover {
+transform: translateY(-1px);
+opacity: 0.9;
+}
+
+/* ensure question image doesn't overlap buttons */
+#qaDetail img[data-previewable] {
+position: relative;
+z-index: 1;
+}
+
+/* Q&A action buttons */
+.qcard,
+.qa-card,
+#qaDetail {                 /* the selected card panel */
+position: relative;
+overflow: visible;        /* make sure actions aren’t clipped */
+}
+
+.qa-actions {
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 50;              /* above images/headers */
+display: flex;
+gap: 8px;
+}
+
+.qa-actions .icon-btn {
+height: 34px;
+min-width: 34px;
+padding: 0 10px;
+border: 0;
+border-radius: 10px;
+background: #0f172a;
+color: #e5edff;
+font-size: 13px;
+box-shadow: 0 4px 14px rgba(0,0,0,.22);
+cursor: pointer;
+}
+
+.qa-actions .icon-btn:hover { filter: brightness(1.15); }
+
+.qa-actions .icon-btn.share  { background: linear-gradient(135deg,#2563eb,#7c3aed); }
+.qa-actions .icon-btn.delete { background: linear-gradient(135deg,#ef4444,#f97316); }
+
+/* if any image wrapper was covering the corner, put it behind */
+.q-img, .q-img-wrap { position: relative; z-index: 1; }
+
+/* make the card a positioning context */
+
+/* Q&A detail action bar — always on top and readable */
+#qaDetail { position: relative; }
+
+#qaDActions{
+position: sticky;           /* stays in view while scrolling answers */
+top: 0;                     /* or: var(--siteHeaderH, 0px) if you prefer under header */
+z-index: 1000;
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+padding: 10px 12px;
+margin: 8px 0 12px;
+border-radius: 10px;
+background: rgba(17, 24, 39, 0.7);  /* dark translucent */
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+}
+
+/* button styles so they don’t blend into the background */
+#qaDActions .primary {
+background: #2563eb; color: #fff; border: 0; padding: 8px 12px; border-radius: 8px; font-weight: 600;
+}
+#qaDActions .success {
+background: #16a34a; color: #fff; border: 0; padding: 8px 12px; border-radius: 8px; font-weight: 600;
+}
+#qaDActions .danger {
+background: #ef4444; color: #fff; border: 0; padding: 8px 12px; border-radius: 8px; font-weight: 600;
+}
+#qaDActions button:focus { outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
+
+
+/* --- Fix: make asker buttons visible --- */
+#qaDActions {
+position: sticky;
+top: 0; /* keeps it below your header */
+z-index: 9999; /* ensures it's on top of question image/code */
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+padding: 10px 12px;
+margin-bottom: 8px;
+background: rgba(255, 255, 255, 0.95); /* light background on light theme */
+backdrop-filter: blur(6px);
+border-radius: 10px;
+border: 1px solid #e5e7eb;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* bright color buttons */
+#qaDActions button {
+font-weight: 600;
+padding: 8px 14px;
+border-radius: 8px;
+border: none;
+cursor: pointer;
+}
+#qaDActions .primary { background-color: #2563eb; color: #fff; }
+#qaDActions .success { background-color: #16a34a; color: #fff; }
+#qaDActions .danger  { background-color: #ef4444; color: #fff; }
+#qaDActions button:hover { opacity: 0.9; }
+
+
+
+
+/* --- Fix Q&A asker buttons (Delete/Share) visibility --- */
+#qaDActions {
+position: sticky;
+top: 0; /* below header, adjust if needed */
+z-index: 1000;
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+padding: 10px 12px;
+margin: 10px 0;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.96);
+backdrop-filter: blur(6px);
+border: 1px solid #e5e7eb;
+box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Bright buttons for visibility */
+#qaDActions{position:sticky;top:0;z-index:1000;display:flex;flex-wrap:wrap;gap:10px;
+padding:10px 12px;margin:10px 0;border-radius:8px;background:rgba(255,255,255,.96);
+backdrop-filter:blur(6px);border:1px solid #e5e7eb;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+#qaDActions button{font-weight:600;padding:7px 13px;border:0;border-radius:6px;cursor:pointer}
+#qaDActions .primary{background:#2563eb;color:#fff}
+#qaDActions .success{background:#16a34a;color:#fff}
+#qaDActions .danger{background:#ef4444;color:#fff}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* fresh list */
+.qa-list-new { display: grid; gap: 12px; margin-top: 14px; }
+.qa-card {
+border: 1px solid #e5e7eb; background:#0b1220; color:#e5e7eb;
+border-radius: 12px; padding:12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+.qa-card h5{ margin:0 0 6px; font-size:15px }
+.qa-card .meta{ font-size:12px; opacity:.8; margin-top:4px }
+.qa-card .row{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
+.qa-card button{ padding:6px 10px; border:0; border-radius:8px; cursor:pointer }
+.qa-card .primary{ background:#2563eb; color:#fff }
+.qa-card .ghost{ background:transparent; border:1px solid #334155; color:#e5e7eb }
+
+/* modal */
+.qa-modal { position:fixed; inset:0; background:rgba(0,0,0,.4); display:grid; place-items:center; z-index:2000;  }
+/* .qa-modal{backdrop-filter: blur(4px);} */
+.qa-modal-dialog{
+width:min(900px, 92vw); max-height:90vh; overflow:auto;
+background:#111827; color:#f1f5f9; border:1px solid #1f2937; border-radius:14px; padding:14px 16px;
+}
+.qa-modal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px }
+.qa-modal-head button{ background:none; border:0; color:#94a3b8; font-size:20px; cursor:pointer }
+.qa-meta{ font-size:12px; opacity:.85; margin:6px 0 10px }
+.qa-img-wrap{ margin:6px 0 10px; }
+.qa-img-wrap img{ max-width:100%; border-radius:10px; border:1px solid #1f2937 }
+
+/* sticky action bar for asker */
+.qa-actions-sticky{
+position:sticky; top:0; z-index:10;
+display:flex; gap:8px; flex-wrap:wrap;
+padding:10px 12px; margin:10px 0; border-radius:10px;
+background:rgba(11,18,32,.92); border:1px solid #1f2937; backdrop-filter: blur(6px);
+}
+.qa-actions-sticky button{ padding:7px 12px; border:0; border-radius:8px; font-weight:600; cursor:pointer }
+.qa-actions-sticky .primary{ background:#2563eb; color:#fff }
+.qa-actions-sticky .danger{ background:#ef4444; color:#fff }
+.qa-actions-sticky .success{ background:#16a34a; color:#fff }
+
+/* answers */
+.qa-ans{ border:1px solid #1f2937; border-radius:10px; padding:10px 12px; margin:8px 0; background:#0a1528 }
+.qa-ans .row{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap }
+.qa-badge{ display:inline-block; padding:2px 8px; font-size:11px; border-radius:999px; background:#16a34a; color:#fff; margin-left:6px }
+.qa-composer{ display:grid; gap:8px; margin-top:8px }
+.qa-composer textarea{ min-height:80px; resize:vertical; border-radius:8px; padding:8px; background:#0a1220; color:#e2e8f0; border:1px solid #1f2937 }
+.qa-composer button{ justify-self:start; padding:7px 12px; border-radius:8px; border:0; background:#2563eb; color:#fff; font-weight:600; cursor:pointer }
+
+
+
+/* QA composer is hidden unless JavaScript unhides it in detail view */
+#qaComposer[hidden] { display: none !important; }
+
+.qa-composer {
+background: #0f172a;           /* same dark panel tone you use */
+border-radius: 12px;
+padding: 16px;
+margin-top: 12px;
+}
+
+.qa-composer__label {
+display: block;
+font-weight: 600;
+margin-bottom: 8px;
+color: #cbd5e1;
+}
+
+.qa-composer__input {
+width: 100%;
+min-height: 100px;
+border-radius: 10px;
+border: 1px solid #1e293b;
+padding: 10px 12px;
+color: #e2e8f0;
+background: #0b1220;
+outline: none;
+}
+
+.qa-composer__btn {
+margin-top: 10px;
+border: none;
+padding: 8px 14px;
+border-radius: 10px;
+background: #3b82f6;
+color: #fff;
+cursor: pointer;
+}
+
+
+.qa-modal[hidden] { display: none !important; }
+#qaComposer[hidden] { display: none !important; }
+
+#qaDActions { display:flex; gap:8px; margin:8px 0 12px; }
+#qaDActions .primary {
+background:#3b82f6; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;
+}
+#qaDActions .danger {
+background:#ef4444; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;
+}
+#qaDActions .primary:disabled, #qaDActions .danger:disabled { opacity:.6; cursor:not-allowed; }
+
+/* Input bar layout (optional tidy) */
+.chat-input-wrapper,
+.input-actions {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+/* Beautiful circular send button */
+.send-btn{
+width: 40px;
+height: 40px;
+border: 0;
+border-radius: 9999px;
+background: #2563eb;              /* primary blue */
+color: #fff;                       /* SVG inherits */
+display: grid;
+place-items: center;
+cursor: pointer;
+outline: none;
+-webkit-tap-highlight-color: transparent;
+box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+transition: background .15s ease, transform .06s ease, box-shadow .15s ease;
+}
+
+/* Remove that weird default outline/rectangle */
+.send-btn::-moz-focus-inner{ border:0; }
+
+/* SVG icon sizing/animation */
+.send-btn svg{
+width: 18px;
+height: 18px;
+transform: translateX(0);
+transition: transform .15s ease;
+}
+
+/* Hover/press/focus states */
+.send-btn:hover{ background:#1d4ed8; box-shadow: 0 8px 18px rgba(29,78,216,.35); }
+.send-btn:active{ transform: translateY(1px); }
+.send-btn:hover svg{ transform: translateX(1px); }
+.send-btn:focus-visible{
+box-shadow:
+  0 0 0 3px rgba(37, 99, 235, .25),
+  0 6px 14px rgba(37, 99, 235, 0.25);
+}
+
+/* Disabled look (if you toggle it in JS) */
+.send-btn[disabled]{
+opacity: .5;
+cursor: not-allowed;
+box-shadow: none;
+}
+
+/* If a parent gives the input bar a border, make sure the button sits above it */
+.chat-input-wrapper { position: relative; }
+.send-btn { position: relative; z-index: 1; }
+.qa-action-bar {
+margin-top: 12px;
+display: flex;
+gap: 10px;
+}
+.qa-btn {
+padding: 8px 14px;
+background: #eef3ff;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+}
+.qa-btn.danger {
+background: #ffe6e6;
+}
+
+/* Composer layout */
+
+/* ===== Composer layout (grid) ===== */
+/* === Composer layout (compact & professional) === */
+.qa-composer {
+display: grid;
+grid-template-columns: 1fr auto;
+grid-template-rows: auto auto;
+column-gap: 10px;
+row-gap: 6px;
+align-items: start;
+width: 100%;
+padding: 4px 0;
+}
+
+/* Textarea */
+.qa-composer #qaAInput {
+grid-column: 1 / span 1;
+grid-row: 1;
+min-height: 46px;
+padding: 10px 12px;
+background: #ffffff;
+color: #0f172a;
+border: 1px solid #d1d5db;
+border-radius: 8px;
+outline: none;
+font-size: 15px;
+line-height: 1.4;
+}
+.qa-composer #qaAInput::placeholder { color: #9ca3af; }
+
+/* Submit button */
+.qa-btn {
+grid-column: 2;
+grid-row: 1;
+height: 42px;
+padding: 0 14px;
+border: none;
+border-radius: 8px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.15s ease;
+}
+.qa-btn-primary {
+background: #1f6bff;
+color: #fff;
+}
+.qa-btn:hover { opacity: 0.9; }
+
+/* Smaller "Choose File" area below */
+.qa-file-uploader {
+grid-column: 1;
+grid-row: 2;
+display: flex;
+align-items: center;
+gap: 8px;
+width: max-content;
+padding: 4px 10px;
+border: 1.5px dashed #d1d5db;
+border-radius: 8px;
+background: #f9fafb;
+}
+
+/* Hide the raw input */
+.qa-file-uploader input[type="file"] {
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -1px;
+overflow: hidden;
+clip: rect(0,0,0,0);
+border: 0;
+}
+
+/* "Choose File" button (smaller & clean) */
+.qa-file-btn {
+display: inline-block;
+padding: 6px 12px;
+background: #1f6bff;
+color: #fff;
+font-weight: 600;
+border-radius: 6px;
+font-size: 13px;
+cursor: pointer;
+user-select: none;
+white-space: nowrap;
+}
+.qa-file-btn:hover { opacity: 0.9; }
+
+.qa-file-name {
+color: #6b7280;
+font-size: 13px;
+}
+
+
+.qa-chip {
+padding: 6px 10px;
+border-radius: 8px;
+border: none;
+font-weight: 600;
+font-size: 13px;
+cursor: pointer;
+}
+.qa-chip--success { background:#16a34a; color:#fff; }
+.qa-chip--danger  { background:#ef4444; color:#fff; }
+.qa-badge {
+display:inline-block;
+padding:6px 10px;
+background:#05966933;
+color:#10b981;
+border:1px solid #10b98155;
+border-radius:999px;
+font-size:12px;
+font-weight:700;
+}
+
+
+.al-modal{position:fixed;inset:0;display:none;z-index:10000}
+.al-modal .al-modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.al-modal .al-modal__card{position:relative;margin:10vh auto;background:#0b1220;color:#e6eef9;
+border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.6);padding:16px}
+.al-modal__header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.al-modal__body{padding:8px 0}
+.al-modal__footer{display:flex;justify-content:flex-end;margin-top:8px}
+.al-x{background:transparent;border:0;color:#9ca3af;cursor:pointer;font-size:18px}
+.al-btn{border:0;border-radius:10px;padding:8px 14px;cursor:pointer;background:#1f2a44;color:#fff}
+.al-btn--ghost{background:#111827}
+.al-btn--danger{background:#e11d48}
+.al-btn--primary{background:#2563eb}
+
+.qa-chip {
+border: none;
+padding: 6px 10px;
+border-radius: 10px;
+background: #2a3646;
+color: #e6edf3;
+font-size: 12px;
+cursor: pointer;
+transition: transform .05s ease, opacity .15s ease;
+box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 1px 6px rgba(0,0,0,.25);
+margin-left: 8px;
+}
+.qa-chip:hover { opacity: .92; }
+.qa-chip:active { transform: translateY(1px); }
+.qa-chip--success { background: #1e824c; }
+.qa-chip--danger  { background: #b23a3a; }
+.qa-asker-btn { margin-right: 8px; }
+
+.qa-asker-btn.qa-chip {
+background: #1e293b;
+border: 1px solid #334155;
+color: #f1f5f9;
+border-radius: 8px;
+padding: 5px 10px;
+cursor: pointer;
+transition: background 0.2s ease;
+}
+.qa-asker-btn.qa-chip:hover { background: #334155; }
+.qa-asker-btn.qa-chip.qa-chip--danger {
+background: #b91c1c;
+border-color: #ef4444;
+color: #fff;
+}
+
+/* QA share card in chat */
+.qa-share-card{
+background:#0f1a2a; /* same dark tone you use */
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+padding:12px;
+max-width:640px;
+box-shadow:0 6px 14px rgba(0,0,0,.25);
+}
+.qa-share-hdr{
+display:flex;align-items:center;gap:8px;margin-bottom:8px;
+}
+.qa-share-tag{
+font-size:12px;font-weight:600;
+color:#8bf; background:rgba(136,187,255,.1);
+border:1px solid rgba(136,187,255,.25);
+border-radius:999px; padding:3px 10px;
+}
+.qa-share-title{font-weight:700;font-size:16px}
+.qa-share-meta{opacity:.7;font-size:12px;margin-top:2px}
+.qa-share-body{white-space:pre-wrap;margin-top:8px}
+.qa-share-img{margin-top:8px;border-radius:8px;max-width:100%}
+.qa-share-cta{
+display:flex;gap:8px;margin-top:10px;justify-content:flex-end
+}
+.qa-chip{border-radius:999px;border:none;padding:6px 10px;font-weight:600}
+.qa-chip--primary{background:#2563eb;color:#fff}
+
+/* Q&A right drawer (the list on the right) */
+#qaPanel {
+position: fixed;        /* or absolute if you already use it */
+right: 0;
+top: 0;
+height: 100vh;
+z-index: 2000;          /* drawer below modal */
+}
+
+/* Question view modal */
+#qaViewModal {
+position: fixed;
+inset: 0;               /* top:0; right:0; bottom:0; left:0 */
+z-index: 4000;          /* higher than drawer */
+display: grid;
+place-items: center;
+background: rgba(0,0,0,.45);   /* dim backdrop */
+}
+
+#qaViewModal[hidden] { display: none; }
+
+/* The dialog box inside modal */
+#qaViewModal .qa-dialog {
+width: min(92vw, 980px);
+max-height: 90vh;
+overflow: auto;
+border-radius: 12px;
+}
+
+/* Right Questions drawer becomes a flex column with its own scroll area */
+#qaPanel, /* if you used this id */
+#qaRightPanel,
+#qaRight,
+.qa-questions-panel {
+position: fixed;           /* it already looks fixed; keep it explicit */
+top: 0;
+right: 0;
+width: min(420px, 90vw);   /* responsive */
+height: 100vh;             /* full viewport height */
+display: flex;
+flex-direction: column;
+overflow: hidden;          /* parent doesn't scroll; inner does */
+z-index: 1000;             /* above the chat */
+}
+
+/* Header (“Questions”, Edit name, close X) should not shrink */
+#qaPanelHeader,
+#qaRightHeader,
+.qa-questions-header {
+flex: 0 0 auto;
+}
+
+/* Ask form area should also not shrink */
+#qaForm,
+#qaAskForm,
+.qa-ask-form {
+flex: 0 0 auto;
+}
+
+/* The list area fills the remaining height and scrolls */
+#qaListNew,
+#qaList,
+.qa-questions-list {
+flex: 1 1 auto;
+overflow: auto;
+padding-bottom: 12px;      /* so last card isn’t cut off */
+padding-right: 6px;        /* room for scrollbar */
+}
+
+/* Optional: nicer mobile momentum scroll */
+#qaListNew, #qaList { -webkit-overflow-scrolling: touch; }
+/* Hide scrollbar but keep scrolling */
+#qaListNew,
+#qaList {
+/* Firefox */
+scrollbar-width: none;          /* no bar, still scrollable */
+/* IE/Edge legacy (optional) */
+-ms-overflow-style: none;       /* none */
+}
+#qaListNew::-webkit-scrollbar,
+#qaList::-webkit-scrollbar {
+display: none;                  /* Chrome/Safari/Edge (Chromium) */
+}
+/* default: hidden */
+/* #qaListNew::-webkit-scrollbar,
+#qaList::-webkit-scrollbar { width: 0; height: 0; }
+#qaListNew, #qaList { scrollbar-width: none; }
+#qaListNew:hover, #qaList:hover { scrollbar-width: thin; }
+#qaListNew:hover::-webkit-scrollbar,
+#qaList:hover::-webkit-scrollbar { width: 6px; }
+#qaListNew:hover::-webkit-scrollbar-thumb,
+#qaList:hover::-webkit-scrollbar-thumb {
+background: rgba(255,255,255,.25);
+border-radius: 4px;
+} */
+
+
+:root{
+
+--app-header-h: 64px;
+}
+
+
+#qaRight{
+position: fixed;
+right: 0;
+top: var(--app-header-h);         
+bottom: 0;                          
+height: calc(100vh - var(--app-header-h));
+width: 380px;                          
+display: flex;
+flex-direction: column;
+background: #0f172a;                 
+border-left: 1px solid rgba(255,255,255,.06);
+z-index: 1000;                       
+}
+
+
+#qaRight .qa-body{
+overflow: auto;
+-webkit-overflow-scrolling: touch;
+padding: 12px 12px 16px;
+}
+
+#qaRight .qa-body{ scrollbar-width: none; }
+#qaRight .qa-body::-webkit-scrollbar{ display:none; }
+
+:root {
+--header-height: 65px; 
+}
+
+
+#qaPanel {
+position: fixed;
+top: var(--header-height);
+right: 0;
+height: calc(100vh - var(--header-height));
+width: 380px;
+background: #0f172a;
+border-left: 1px solid rgba(255,255,255,0.08);
+display: flex;
+flex-direction: column;
+z-index: 1000;
+}
+
+#qaPanel .qa-head,
+#qaPanel .qa-create {
+flex: 0 0 auto;
+}
+#qaListNew, #qaList {
+flex: 1 1 auto;
+overflow-y: auto;
+padding: 8px 10px 16px;
+scrollbar-width: none;    
+-ms-overflow-style: none;   
+}
+#qaListNew::-webkit-scrollbar,
+#qaList::-webkit-scrollbar {
+display: none;            
+}
+
+
+#qaListNew, #qaList {
+scroll-behavior: smooth;
+}
+
+#qaToggle {
+position: fixed;
+top: 72px;            
+right: 24px;
+z-index: 4000;
+background: linear-gradient(135deg, #b3ffb3, #88ff88);
+color: #111;
+font-weight: 600;
+border: none;
+border-radius: 24px;
+padding: 10px 20px;
+
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+#qaToggle:hover {
+
+transform: translateY(-1px);
+}
+
+body.qa-open #qaToggle {
+display: none;
+}
+#qaRight { z-index: 3999; } 
+#qaToggle { z-index: 4000; }
+#qaToggle,
+#qaToggle:focus,
+#qaToggle:active {
+background: linear-gradient(135deg, #b3ffb3, #88ff88);
+color: #111;
+outline: none;
+box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+#qaToggle{
+position: fixed;         
+top: calc(var(--headerH, 64px) + 12px);
+right: 16px;
+z-index: 2000;            
+}
+
+
+body.qa-open #qaToggle{ display:none; }
+
+#qaToggle {
+position: fixed;
+top: calc(var(--siteHeaderH, 64px) + 12px);  /* 👈 just below header */
+right: 24px;
+z-index: 2500;              /* below drawer (which should be 3000+) */
+background: linear-gradient(135deg, #b3ffb3, #88ff88);
+color: #111;
+font-weight: 600;
+border: none;
+border-radius: 24px;
+padding: 10px 20px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+/* When the drawer is open → hide the pill completely */
+body.qa-open #qaToggle {
+display: none;
+}
+/* ==== WhatsApp-like audio bubble ==== */
+.audio-bubble {
+display: flex;
+align-items: center;
+gap: 12px;
+background: #0e1726;          /* dark bubble to match your UI */
+color: #e8eefc;
+border-radius: 16px;
+padding: 10px 12px;
+max-width: 420px;
+box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+.audio-bubble.me   { background:#1a2a47; } /* your own messages, optional */
+.audio-bubble .ab-btn {
+width: 36px; height: 36px;
+border-radius: 50%;
+border: none;
+cursor: pointer;
+background: #3178ff;
+color: #fff;
+font-weight: 700;
+display: grid; place-items:center;
+box-shadow: 0 2px 6px rgba(49,120,255,.35);
+}
+.audio-bubble .ab-btn.paused { background:#3178ff; }
+.audio-bubble .ab-btn.playing { background:#ff7f50; }
+
+.audio-bubble .ab-track {
+flex: 1 1 auto;
+display: grid;
+gap: 6px;
+min-width: 180px;
+}
+.audio-bubble .ab-bar {
+position: relative;
+height: 6px;
+background: rgba(255,255,255,.15);
+border-radius: 999px;
+overflow: hidden;
+}
+.audio-bubble .ab-fill {
+position:absolute; inset:0 auto 0 0;
+width: 0%;
+background: #7fb3ff;
+border-radius: inherit;
+transform: translateZ(0);
+}
+.audio-bubble .ab-time {
+font-size: 12px;
+opacity: .8;
+display:flex; justify-content:space-between;
+}
+.audio-bubble .ab-hidden-audio { display:none; }
+
+/* container */
+/* input wrapper must be positioning context */
+.chat-input-wrapper { position: relative; }
+
+/* width reserved for 🙂 + 🎙 + ➤ cluster (tune if your icons change) */
+:root { --actions-w: 148px; }
+
+/* the textarea/input */
+#message-input {
+width: 100%;
+min-height: 56px;
+padding-right: calc(16px + var(--actions-w));
+transition: padding-top .15s ease;
+}
+
+/* when a clip exists, give vertical room so the bar can sit on top */
+#message-input.has-clip { padding-top: 58px; }
+
+/* actions pinned to the bottom-right inside the input */
+#input-actions {
+position: absolute;
+right: 8px;
+bottom: 8px;
+display: flex;
+gap: 8px;
+z-index: 3;
+}
+
+/* the review layer itself (inline, centered vertically) */
+#voice-review {
+position: absolute;
+left: 16px;
+right: calc(16px + var(--actions-w)); /* stops before icons */
+top: 50%;
+transform: translateY(-50%);
+height: 36px;
+display: none;                      /* .show toggles it */
+align-items: center;
+gap: 10px;
+background: transparent;            /* only the bar shows */
+border: none;
+padding: 0;
+z-index: 2;
+}
+#voice-review.show { display: flex; }
+
+/* play button */
+#voice-play {
+width: 34px; height: 34px; border-radius: 50%;
+border: none; cursor: pointer;
+background: #2563eb; color: #fff;
+display: grid; place-items: center;
+font-size: 16px;
+box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+
+/* progress bar */
+.vp { flex: 1 1 auto; display: grid; align-items: center; }
+.vp-bar {
+width: 100%; height: 8px; border-radius: 20px;
+background: linear-gradient(145deg,#fbfbfb,#d4d4d4);
+box-shadow: inset 2px 2px 4px #c0c0c0, inset -2px -2px 4px #ffffff;
+overflow: hidden;
+}
+.vp-inner {
+width: 0%; height: 100%; border-radius: 20px;
+background: var(--prog, #A4B7BE);
+transition: width .1s linear;
+}
+
+/* delete pill sits after the bar (inline) */
+#voice-delete { white-space: nowrap;
+background-color: whitesmoke;
+color: #020617; }
+
+/* hide the native audio element—we only use it to play */
+#voice-audio { display: none !important; }
+.vp {
+flex: 1;
+display: flex;
+align-items: center;
+gap: 8px;
+height: 20px;
+}
+
+.vp-time {
+font-size: 12px;
+color: #6b7280; /* subtle gray */
+min-width: 32px;
+text-align: center;
+}
+
+.vp-bar {
+flex: 1;
+height: 8px;
+border-radius: 20px;
+background: linear-gradient(145deg,#fbfbfb,#d4d4d4);
+box-shadow: inset 2px 2px 4px #c0c0c0, inset -2px -2px 4px #ffffff;
+overflow: hidden;
+}
+
+.vp-inner {
+width: 0%;
+height: 100%;
+border-radius: 20px;
+background: #2563eb; /* your send-button blue */
+transition: width 0.1s linear;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Breakpoint: tablets (≤900px) ===== */
+@media (max-width:900px){
+.voice-review{ gap:10px; }
+.vp-time{ font-size:11px; }
+#vp-bar{ height:10px; }
+}
+
+/* ===== Breakpoint: small phones (≤640px) ===== */
+@media (max-width:640px){
+.voice-review{ gap:8px; padding:6px 8px; }
+.vp{ gap:8px; }
+.vp-time{ font-size:10px; }
+.vp-play{ width:34px; height:34px; }
+#voice-delete{ padding:6px 10px; font-size:12px; }
+}
+
+/* ===== Breakpoint: extra small phones (≤480px) =====
+ - Keep everything on one row
+ - Shorten time labels
+ - Make delete icon-only to save space
+*/
+@media (max-width:480px){
+.voice-review{ gap:6px; }
+#vp-bar{ height:9px; min-width:60px; }
+.vp-time{ font-size:10px; opacity:.9; }
+#voice-delete{ padding:6px; font-size:0; }
+#voice-delete::before{ content:"🗑"; font-size:16px; line-height:1; }
+}
+
+/* === Logout button (glowing animated red) === */
+.logout-btn {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 6px 15px;
+background: #ff3e3e;
+color: #fff;
+font-family: 'Poppins', sans-serif;
+font-size: 10px;
+font-weight: bold;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+overflow: hidden;
+transition: all 0.3s ease-in-out;
+box-shadow: 0 10px 20px rgba(255, 62, 62, 0.5);
+}
+
+.logout-btn .icon {
+width: 20px;
+height: 20px;
+margin-right: 10px;
+background: url('https://img.icons8.com/ios-filled/50/ffffff/logout-rounded-left.png')
+            no-repeat center center / contain;
+transition: transform 0.4s ease;
+}
+
+.logout-btn .text {
+position: relative;
+z-index: 1;
+transition: transform 0.4s ease;
+}
+
+.logout-btn::before,
+.logout-btn::after {
+content: "";
+position: absolute;
+top: 50%;
+left: 50%;
+width: 140%;
+height: 140%;
+background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+transition: all 0.6s ease;
+border-radius: 50%;
+z-index: 0;
+transform: translate(-50%, -50%) scale(0);
+}
+
+.logout-btn:hover::before {
+transform: translate(-50%, -50%) scale(1);
+}
+
+.logout-btn:hover .icon {
+transform: translateX(-10px) rotate(-360deg);
+}
+
+.logout-btn:hover .text {
+transform: translateX(10px);
+}
+
+.logout-btn:hover {
+background: #ff1e1e;
+transform: scale(1.08);
+}
+/* ==== Emoji Drawer Style ==== */
+.emoji-panel {
+position: absolute;
+bottom: 70px; /* sits right above chat input */
+left: 50%;
+transform: translateX(-50%);
+width: 90%;
+max-width: 600px; /* prevents it from being too wide on large screens */
+max-height: 260px;
+background: #0f172a;
+border: 1px solid #1e293b;
+border-radius: 14px;
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+overflow-y: auto;
+padding: 12px;
+z-index: 3000;
+transition: all 0.25s ease;
+}
+
+/* Smooth scroll for emojis */
+.emoji-panel::-webkit-scrollbar {
+width: 6px;
+}
+.emoji-panel::-webkit-scrollbar-thumb {
+background: #475569;
+border-radius: 3px;
+}
+
+/* Search bar */
+.emoji-panel__search {
+width: 100%;
+padding: 8px 10px;
+border-radius: 8px;
+background: #1e293b;
+color: #e2e8f0;
+border: none;
+margin-bottom: 10px;
+font-size: 14px;
+}
+
+/* Emoji grid layout */
+.emoji-panel__grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+gap: 8px;
+justify-items: center;
+}
+
+.emoji-cell {
+font-size: 26px;
+cursor: pointer;
+border: none;
+background: transparent;
+transition: transform 0.15s ease;
+}
+.emoji-cell:hover {
+transform: scale(1.3);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+.emoji-panel {
+  width: 95%;
+  bottom: 85px;
+  max-height: 220px;
+}
+
+.emoji-cell {
+  font-size: 24px;
+}
+}
+
+@media (max-width: 480px) {
+.emoji-panel {
+  width: 100%;
+  left: 0;
+  transform: none;
+  border-radius: 0;
+  bottom: 60px;
+  max-height: 200px;
+}
+
+.emoji-cell {
+  font-size: 22px;
+}
+}
+
+/* 1) Make sure the page itself has no default margins */
+html, body { margin: 0; padding: 0; }
+
+/* 2) Keep the spacer (for fixed header) but ensure it isn't adding extra space */
+.header-spacer { height: var(--header-h-desktop, 72px); }
+@media (max-width: 900px) {
+.header-spacer { height: var(--header-h-mobile, 60px); }
+}
+
+/* 3) Make the first chat banner sit flush with the header */
+.chat-room-header,
+.chat-topbar,
+.room-header,
+.channel-topbar,
+.page-title-bar {
+margin-top: 0 !important;
+border-top-left-radius: 0 !important;
+border-top-right-radius: 0 !important;
+}
+
+/* (optional) If your list wrapper adds top padding/margin, neutralize it */
+.app-container,
+.chat-shell,
+.chat-main,
+.main-content {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* Fixed header offset spacing */
+:root {
+--header-height-desktop: 58px;
+--header-height-mobile: 60px;
+}
+
+/* Adds space below the fixed header */
+.header-offset {
+height: var(--header-height-desktop);
+}
+
+
+
+@media (max-width: 900px) {
+header {
+padding-top: 0px;
+padding-bottom: 70px;
+}
+}
+/* Mobile bottom groups bar */
+.mobile-bottom-bar {
+display: none; /* shown via media query */
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background: #0f172a;
+border-top: 1px solid #1e293b;
+padding: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
+z-index: 999;
+}
+
+.mobile-groups-scroll {
+flex: 1;
+display: flex;
+gap: 8px;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.mobile-groups-scroll::-webkit-scrollbar {
+display: none;
+}
+
+.mobile-group-pill {
+padding: 6px 12px;
+background: #1e293b;
+border-radius: 20px;
+color: white;
+white-space: nowrap;
+font-size: 14px;
+opacity: .7;
+}
+.mobile-group-pill.active {
+background: #3b82f6;
+opacity: 1;
+}
+
+.mobile-add-group {
+background: #3b82f6;
+color: #fff;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+border: none;
+font-size: 22px;
+line-height: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* SHOW ONLY ON MOBILE */
+@media (max-width: 820px) {
+.left-sidebar {
+  display: none !important;
+}
+.mobile-bottom-bar {
+  display: flex;
+}
+}
+/* --- Mobile room tabs: default hidden on big screens --- */
+.mobile-room-tabs {
+display: none;           /* desktop / large screens: HIDE */
+}
+/* Sirf mobile / chhoti screen (<= 860px) pe dikhao */
+@media (max-width: 860px) {
+.mobile-room-tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;               /* yahin show hoga */
+  gap: 8px;
+  padding: 10px 16px;
+  background: #020617;
+  border-top: 1px solid #111827;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.mobile-room-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.mobile-room-tab {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  border: 1px solid #1e293b;
+  background: #020617;
+  color: #e5e7eb;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mobile-room-tab.active {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+/* mobile pe left sidebar hide + chat full width */
+.left-sidebar {
+  display: none;
+}
+
+.chat-section {
+  margin-left: 0;
+}
+
+/* chat input ke saath overlap na ho iske liye thoda bottom space */
+.chat-messages {
+  padding-bottom: 80px;
+}
+}
+/* --- DESKTOP: Hide bottom bar completely --- */
+.mobile-bottom-bar {
+display: none !important;
+}
+
+/* --- MOBILE: Show bottom bar only on small screens --- */
+@media (max-width: 768px) {
+.mobile-bottom-bar {
+  display: flex !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #0a0f1c;
+  border-top: 1px solid #1e293b;
+  padding: 8px;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 999;
+}
+
+.mobile-groups-scroll {
+  flex: 1;
+  overflow-x: auto;
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.mobile-add-group {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Hide left sidebar on mobile */
+.left-sidebar {
+  display: none !important;
+}
+
+/* Chat section expands full width */
+.chat-section {
+  margin-left: 0 !important;
+}
+
+/* Input bar space adjust */
+.chat-input-container {
+  padding-bottom: 70px !important;
+}
+}
+/* 🔧 Chat input layout fix */
+
+.chat-input-container {
+/* safety, make sure it stretches full width */
+width: 100%;
+}
+
+.chat-input-wrapper {
+display: flex;
+align-items: center;
+gap: 12px;
+width: 100%;
+}
+
+/* ✅ Text field should take all free space */
+.chat-input {
+flex: 1;
+min-width: 0;
+width: 100%;
+border: none;
+outline: none;
+font-size: 16px;
+padding: 0 18px;
+background: transparent;
+}
+
+/* emoji + mic area should not eat width */
+.input-actions {
+display: flex;
+gap: 8px;
+flex-shrink: 0;
+}
+/* FINAL Chat Input Fix */
+
+.chat-input-wrapper {
+display: flex;
+align-items: center;
+gap: 12px;
+width: 100%;
+}
+
+/* 🟦 INPUT gets maximum space */
+.chat-input {
+flex: 1 1 auto !important;
+width: 100% !important;
+min-width: 0 !important;
+padding: 0 22px !important;
+font-size: 17px !important;
+background: transparent !important;
+border: none !important;
+outline: none !important;
+}
+
+/* 🟩 EMOJI + MIC container — fixed width */
+.input-actions {
+display: flex;
+gap: 8px;
+flex-shrink: 0;
+}
+
+/* 🟧 SEND button also fixed */
+.send-btn {
+flex-shrink: 0;
+}
+/* Avatar context menu */
+.avatar-menu {
+position: fixed;
+z-index: 9999;
+background: #020617;
+border-radius: 999px;
+padding: 4px;
+box-shadow: 0 18px 40px rgba(15,23,42,.6);
+display: flex;
+gap: 4px;
+}
+
+.avatar-menu button {
+border: none;
+border-radius: 999px;
+padding: 6px 12px;
+font-size: 13px;
+cursor: pointer;
+background: #0f172a;
+color: #e5e7eb;
+}
+
+.avatar-menu button[data-act="view"] {
+background: #1d4ed8;
+}
+
+.avatar-menu button[data-act="report"] {
+background: #b91c1c;
+}
+
+.mini-profile-card {
+max-width: 420px;
+width: min(420px, 100%);
+background: radial-gradient(circle at top, #020617 0, #020617 40%, #0b1120 100%);
+border-radius: 24px;
+box-shadow: 0 32px 80px rgba(15, 23, 42, 0.95);
+padding: 18px 20px 16px;
+color: #e5e7eb;
+border: 1px solid rgba(148, 163, 184, 0.35);
+display: flex;
+flex-direction: column;
+gap: 12px;
+
+/* ❗ MOST IMPORTANT — REMOVE bottom/right/fixed */
+position: static !important;
+transform: none !important;
+
+animation: miniProfilePop 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mini-profile-header {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.mini-avatar {
+width: 56px;
+height: 56px;
+border-radius: 999px;
+background: radial-gradient(circle at 30% 0%, #60a5fa, #2563eb);
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+color: white;
+font-size: 22px;
+}
+
+.mini-main {
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+.mini-name {
+font-weight: 600;
+font-size: 16px;
+}
+
+.mini-stream {
+font-size: 12px;
+opacity: .7;
+}
+
+.mini-likes-row {
+margin-top: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.mini-like-btn {
+border-radius: 999px;
+border: none;
+padding: 6px 14px;
+background: rgba(239,68,68,.1);
+color: #fecaca;
+cursor: pointer;
+font-size: 13px;
+}
+
+.mini-like-btn.liked {
+background: #ef4444;
+color: #fff;
+}
+
+.mini-like-count {
+font-size: 13px;
+opacity: .8;
+}
+
+.mini-section {
+margin-top: 12px;
+}
+
+.mini-label {
+font-size: 12px;
+opacity: .75;
+margin-bottom: 6px;
+}
+
+.mini-chips {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+}
+
+.mini-chips span {
+padding: 4px 10px;
+border-radius: 999px;
+background: #020617;
+border: 1px solid rgba(148,163,184,.5);
+font-size: 11px;
+}
+
+.mini-stats {
+display: flex;
+justify-content: space-between;
+margin-top: 14px;
+}
+
+.mini-stat {
+flex: 1;
+text-align: center;
+}
+
+.mini-stat-value {
+font-size: 18px;
+font-weight: 600;
+}
+
+.mini-stat-label {
+font-size: 11px;
+opacity: .7;
+}
+@keyframes miniProfilePop {
+from {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+}
+to {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+}
+#miniProfileModal .al-modal__card {
+position: absolute !important;
+top: 50% !important;
+left: 50% !important;
+transform: translate(-50%, -50%) !important;
+}
+.mini-report-row {
+display: flex;
+justify-content: flex-start;
+margin: 8px 0 4px;
+}
+
+.mini-report-btn {
+border: none;
+background: transparent;
+color: #f97373;         /* light red */
+font-size: 13px;
+cursor: pointer;
+padding: 0;
+opacity: 0.9;
+}
+
+.mini-report-btn:hover {
+opacity: 1;
+text-decoration: underline;
+}
+/* ===== Report Modal – premium styling ===== */
+
+#reportModal .al-modal__card {
+background: radial-gradient(circle at top, #020617 0%, #020617 45%, #020617 100%);
+border-radius: 18px;
+border: 1px solid rgba(148, 163, 184, 0.25);
+box-shadow:
+  0 30px 80px rgba(15, 23, 42, 0.9),
+  0 0 0 1px rgba(15, 23, 42, 0.7);
+padding: 22px 26px 20px;
+}
+
+/* title + close */
+#reportModal .al-modal__header h3 {
+font-size: 20px;
+font-weight: 700;
+letter-spacing: 0.02em;
+color: #e5e7eb;
+}
+
+#reportModal .al-modal__header {
+border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+padding-bottom: 10px;
+margin-bottom: 16px;
+}
+
+/* body text */
+#reportModal .al-modal__body {
+font-size: 14px;
+color: #e5e7eb;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+/* "Reporting: Test11" */
+#reportUserName {
+font-weight: 500;
+color: #cbd5f5;
+}
+
+/* labels */
+#reportModal .al-label {
+font-size: 13px;
+font-weight: 500;
+color: #cbd5e1;
+margin-bottom: 4px;
+}
+
+/* textarea */
+#reportText {
+background: rgba(15, 23, 42, 0.9);
+border-radius: 10px;
+border: 1px solid rgba(148, 163, 184, 0.35);
+padding: 10px 12px;
+color: #e5e7eb;
+font-size: 13px;
+outline: none;
+min-height: 110px;
+}
+
+#reportText::placeholder {
+color: rgba(148, 163, 184, 0.7);
+}
+
+#reportText:focus {
+border-color: #38bdf8;
+box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+}
+
+/* file row */
+#reportModal input[type="file"] {
+font-size: 13px;
+color: #e5e7eb;
+}
+
+/* footer buttons */
+#reportModal .al-modal__footer {
+margin-top: 18px;
+}
+
+/* Cancel */
+#reportCancel.al-btn--ghost {
+background: transparent;
+border-radius: 999px;
+border: 1px solid rgba(148, 163, 184, 0.4);
+padding: 7px 16px;
+font-size: 13px;
+}
+
+/* Submit */
+#reportSend.al-btn--danger {
+border-radius: 999px;
+padding: 7px 18px;
+font-size: 13px;
+background: linear-gradient(135deg, #f97373, #ef4444);
+border: none;
+box-shadow: 0 12px 30px rgba(248, 113, 113, 0.45);
+}
+
+#reportSend.al-btn--danger:hover {
+transform: translateY(-1px);
+box-shadow: 0 16px 40px rgba(248, 113, 113, 0.6);
+}
+
+/* backdrop already dark hai, thoda blur + dim aur */
+#reportModal .al-modal__backdrop {
+background: rgba(15, 23, 42, 0.75);
+backdrop-filter: blur(8px);
+}
+/* ===== Custom File Upload ===== */
+
+.file-upload-row {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-top: 4px;
+}
+
+#reportFile {
+display: none; /* hide native ugly input */
+}
+
+.file-upload-btn {
+background: rgba(56, 189, 248, 0.12);
+color: #38bdf8;
+padding: 6px 14px;
+border-radius: 8px;
+font-size: 13px;
+cursor: pointer;
+border: 1px solid rgba(56, 189, 248, 0.35);
+transition: 0.2s ease;
+user-select: none;
+}
+
+.file-upload-btn:hover {
+background: rgba(56, 189, 248, 0.2);
+border-color: rgba(56, 189, 248, 0.55);
+}
+
+.file-upload-name {
+font-size: 13px;
+color: rgba(229, 231, 235, 0.7);
+}
+
+
+
+
+
+
+
+/* =======================
+ CHAT – PRO THEME OVERRIDES
+ (paste at VERY BOTTOM of chat.css)
+ ======================= */
+
+/* Background = quizzes theme */
+body[data-page="chat"] {
+background: radial-gradient(circle at top, #111827 0%, #020617 60%, #020617 100%);
+color: #e5e7eb;
+}
+
+/* Layout container */
+.app-container {
+display: flex;
+flex-direction: column;
+height: calc(100vh - 56px);
+padding: 16px 20px 20px;
+box-sizing: border-box;
+}
+
+.main-content {
+display: flex;
+flex: 1;
+gap: 16px;
+max-width: 1320px;
+margin: 0 auto;
+}
+
+/* ==== LEFT SIDEBAR (groups list) ==== */
+.left-sidebar {
+width: 280px;
+background: rgba(15,23,42,0.96);
+border-radius: 20px;
+border: 1px solid rgba(148,163,184,0.25);
+padding: 16px 16px 18px;
+box-shadow: 0 18px 45px rgba(15,23,42,0.9);
+display: flex;
+flex-direction: column;
+}
+
+/* search */
+.search-box {
+position: relative;
+margin-bottom: 12px;
+}
+.search-input {
+width: 100%;
+padding: 9px 12px 9px 34px;
+border-radius: 999px;
+border: 1px solid rgba(148,163,184,0.4);
+background: rgba(15,23,42,0.9);
+color: #e5e7eb;
+font-size: 13px;
+}
+.search-input::placeholder {
+color: #64748b;
+}
+.search-input:focus {
+outline: none;
+border-color: #60a5fa;
+box-shadow: 0 0 0 1px rgba(96,165,250,0.7);
+}
+.search-icon {
+position: absolute;
+left: 10px;
+top: 50%;
+transform: translateY(-50%);
+font-size: 14px;
+opacity: 0.7;
+}
+
+.new-group-btn {
+margin-top: 8px;
+margin-bottom: 10px;
+width: 100%;
+border-radius: 999px;
+border: none;
+padding: 9px 0;
+font-size: 13px;
+font-weight: 600;
+color: #e5e7eb;
+background: linear-gradient(135deg,#22c55e,#3b82f6);
+box-shadow: 0 10px 24px rgba(34,197,94,0.25);
+cursor: pointer;
+}
+.new-group-btn:hover {
+filter: brightness(1.05);
+transform: translateY(-1px);
+}
+
+/* group list */
+.study-groups {
+flex: 1;
+overflow-y: auto;
+padding-right: 4px;
+}
+.section-title {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 0.12em;
+color: #9ca3af;
+margin: 4px 0 8px;
+}
+
+.group-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 9px 10px;
+border-radius: 12px;
+cursor: pointer;
+transition: background .15s ease, transform .12s ease;
+}
+.group-item:hover {
+background: rgba(30,64,175,0.45);
+transform: translateY(-1px);
+}
+.group-item.active {
+background: linear-gradient(135deg,#1d4ed8,#4f46e5);
+box-shadow: 0 12px 30px rgba(37,99,235,0.45);
+}
+.online-indicator {
+width: 8px;
+height: 8px;
+border-radius: 999px;
+background: #22c55e;
+box-shadow: 0 0 10px rgba(34,197,94,0.9);
+}
+.group-info {
+flex: 1;
+}
+.group-name {
+font-size: 13px;
+font-weight: 600;
+color: #e5e7eb;
+}
+.group-status {
+font-size: 11px;
+color: #9ca3af;
+}
+.member-count {
+min-width: 24px;
+text-align: center;
+font-size: 11px;
+font-weight: 600;
+padding: 2px 7px;
+border-radius: 999px;
+background: rgba(15,23,42,0.9);
+color: #93c5fd;
+}
+
+/* ==== MAIN CHAT PANEL ==== */
+.chat-section {
+flex: 1;
+display: flex;
+flex-direction: column;
+background: radial-gradient(circle at top left,#020617 0%,#020617 45%,#020617 100%);
+border-radius: 24px;
+border: 1px solid rgba(148,163,184,0.18);
+box-shadow: 0 22px 55px rgba(15,23,42,0.95);
+overflow: hidden;
+}
+/* 171t2321r478214r2874r27814217r2817348657634867345547802790178297812612784637845127845478712578124728 */
+
+
+
+/* 73tr3rtuytyukgsd87f68767868t474344444443444t34h4tkh474359232335535y32hiu3y5iu3yiu35yui3rgru3gfu33gri3uir3ur */
+
+
+
+
+/* header */
+.chat-header {
+padding: 14px 20px;
+border-bottom: 1px solid rgba(148,163,184,0.25);
+background: linear-gradient(135deg,rgba(15,23,42,0.98),rgba(15,23,42,0.9));
+}
+.chat-title .main-title {
+font-size: 15px;
+font-weight: 600;
+color: #e5e7eb;
+}
+.chat-title .subtitle {
+font-size: 12px;
+color: #9ca3af;
+}
+
+/* messages area */
+.chat-messages {
+flex: 1;
+padding: 18px 22px 90px;
+overflow-y: auto;
+background: radial-gradient(circle at top,rgba(15,23,42,0.9) 0%,#020617 55%);
+}
+
+/* message bubbles (keep JS classes same) */
+.message {
+max-width: 70%;
+margin-bottom: 10px;
+}
+.message.own {
+align-self: flex-end;
+flex-direction: row-reverse;
+}
+
+.message-content {
+background: rgba(15,23,42,0.96);
+border-radius: 16px;
+padding: 9px 12px;
+border: 1px solid rgba(30,64,175,0.45);
+color: #e5e7eb;
+box-shadow: 0 12px 30px rgba(15,23,42,0.75);
+}
+
+.message.own .message-content {
+background: linear-gradient(135deg,#2563eb,#4f46e5);
+border-color: rgba(129,140,248,0.9);
+box-shadow: 0 16px 35px rgba(37,99,235,0.75);
+}
+
+/* === INPUT BAR === */
+.chat-input-container {
+position: relative;
+padding: 14px 18px 18px;
+border-top: 1px solid rgba(148,163,184,0.28);
+background: radial-gradient(circle at top,#020617 0%,#020617 60%);
+}
+
+.chat-input-wrapper {
+display: flex;
+align-items: center;
+gap: 10px;
+background: rgba(15,23,42,0.98);
+border-radius: 999px;
+padding: 6px 10px 6px 14px;
+border: 1px solid rgba(148,163,184,0.4);
+box-shadow: 0 14px 32px rgba(15,23,42,0.9);
+}
+
+.chat-input {
+flex: 1;
+border: none;
+outline: none;
+background: transparent;
+color: #e5e7eb;
+font-size: 14px;
+}
+.chat-input::placeholder {
+color: #6b7280;
+}
+
+/* emoji + mic + send */
+.input-actions {
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.input-btn,
+.send-btn {
+border: none;
+background: transparent;
+cursor: pointer;
+display: grid;
+place-items: center;
+}
+
+.mic-btn {
+width: 32px;
+height: 32px;
+border-radius: 999px;
+background: rgba(30,64,175,0.85);
+}
+.mic-btn:hover {
+filter: brightness(1.08);
+}
+
+.send-btn {
+width: 36px;
+height: 36px;
+border-radius: 999px;
+background: linear-gradient(135deg,#22c55e,#3b82f6);
+color: #fff;
+box-shadow: 0 14px 30px rgba(34,197,94,0.45);
+}
+.send-btn svg {
+width: 18px;
+height: 18px;
+}
+
+/* new messages pill */
+.new-msg-btn {
+bottom: 95px;          /* thoda upar so it floats nicely */
+}
+
+/* responsive tweaks */
+@media (max-width: 900px) {
+.main-content {
+  gap: 10px;
+}
+.left-sidebar {
+  display: none;       /* mobile pe sirf chat pane */
+}
+.chat-section {
+  border-radius: 18px;
+}
+}
+/* ===== MAKE CHAT FULL WIDTH ON DESKTOP ===== */
+
+.chat-section {
+width: 100%;
+max-width: none !important;
+margin: 0;
+padding: 0;
+border-radius: 0;
+}
+
+/* Chat container size */
+.app-container,
+.main-content {
+width: 100%;
+max-width: 100% !important;
+margin: 0 auto;
+display: flex;
+}
+
+/* Messages area full height + full width */
+.chat-messages {
+width: 100%;
+height: calc(100vh - 180px);
+max-width: 100%;
+}
+.left-sidebar {
+width: 320px !important;        /* fixed desktop sidebar */
+min-width: 320px !important;
+height: 100vh;
+border-radius: 0;
+background: rgba(0,0,0,0.35);    /* subtle dark card */
+backdrop-filter: blur(20px);
+}
+.chat-section {
+flex: 1;                 /* take full remaining space */
+display: flex;
+flex-direction: column;
+background: transparent;
+}
+.chat-input-container {
+width: 100%;
+padding: 20px 30px;
+}
+
+.chat-input-wrapper {
+width: 100%;
+max-width: 100%;
+}
+.chat-input-container {
+width: 100%;
+padding: 20px 30px;
+}
+
+.chat-input-wrapper {
+width: 100%;
+max-width: 100%;
+}
+.message {
+background: rgba(255,255,255,0.04) !important;
+border: 1px solid rgba(255,255,255,0.06) !important;
+box-shadow: none !important;
+backdrop-filter: blur(8px);
+color: #e5e7eb !important;
+}
+.message:hover {
+background: rgba(255,255,255,0.06) !important;
+}
+.avatar-circle {
+background: linear-gradient(135deg, #365eff, #3f85ff) !important;
+box-shadow: none !important;
+border: none !important;
+}
+.left-sidebar {
+background: rgba(0,0,0,0.35) !important;
+border-right: 1px solid rgba(255,255,255,0.05) !important;
+box-shadow: none !important;
+}
+
+.group-item.active {
+background: rgba(255,255,255,0.08) !important;
+border: 1px solid rgba(255,255,255,0.1) !important;
+box-shadow: none !important;
+}
+
+.group-item {
+background: transparent !important;
+border: none !important;
+}
+.chat-input-wrapper {
+background: rgba(255,255,255,0.03) !important;
+border: 1px solid rgba(255,255,255,0.05) !important;
+box-shadow: none !important;
+}
+
+.chat-input {
+color: #f1f5f9 !important;
+}
+
+.input-btn img,
+.input-btn {
+filter: brightness(0.8) !important;
+}
+.message.mine {
+box-shadow: none !important;
+background: rgba(80,120,255,0.12) !important;
+border: 1px solid rgba(100,140,255,0.25) !important;
+}
+/* ===========================
+ ALEPHLEARN CHAT – POLISHED THEME
+ (only visuals, no functionality)
+ ============================ */
+
+/* Dark quizzes-style background already set via body.
+ Just make sure text properly visible. */
+ body[data-page="chat"] {
+  color: #e5e7eb;
+}
+
+/* Chat list area */
+.chat-messages {
+  padding: 20px 32px 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: transparent;
+}
+
+/* Row that holds one message (left avatar + bubble) */
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+/* --------- MESSAGE CARD --------- */
+
+/* Base bubble – for normal (other users) messages */
+.chat-message .message {
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 520px;
+  border-radius: 18px;
+  padding: 10px 14px;
+  background: rgba(15, 23, 42, 0.96);              /* dark slate */
+  border: 1px solid rgba(148, 163, 184, 0.18);      /* subtle border */
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);   /* soft depth */
+  color: #e5e7eb;
+}
+
+/* Own messages – right side, soft accent */
+.chat-message .message.own {
+  margin-left: auto;
+  background: radial-gradient(circle at top left,
+              #2563eb 0%, #1d4ed8 40%, #1e293b 100%);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #f9fafb;
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.45);
+}
+
+/* Remove any old “full-width grey bar” background */
+.chat-message,
+.chat-message .message-inner {
+  background: transparent;
+}
+
+/* --------- HEADER (name + time) --------- */
+
+.message-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.message-header .message-sender,
+.message-header .message-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #e5e7eb;
+}
+
+.message-header .message-time {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* In own bubble keep time a little lighter */
+.message.own .message-header .message-time {
+  opacity: 0.8;
+}
+
+/* --------- TEXT CONTENT --------- */
+
+.message-content {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #cbd5f5;
+}
+
+/* Own bubble text a bit brighter */
+.message.own .message-content {
+  color: #e5f0ff;
+}
+
+/* Prevent text from hugging edges if there was any old padding */
+.message-content p {
+  margin: 0;
+}
+
+/* --------- SMALL TWEAKS --------- */
+
+/* Side bar text a bit softer so focus stays on chat area */
+.left-sidebar {
+  background: rgba(15, 23, 42, 0.98);
+  border-right: 1px solid rgba(15, 23, 42, 0.8);
+}
+
+.left-sidebar .group-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.98),
+    rgba(56, 189, 248, 0.9)
+  );
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.8),
+              0 14px 30px rgba(15, 23, 42, 0.9);
+}
+
+.left-sidebar .group-item .group-name {
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+/* Input bar – keep clean, neutral */
+.chat-input-container {
+  border-top: 1px solid rgba(15, 23, 42, 0.9);
+  background: radial-gradient(circle at top,
+              rgba(15, 23, 42, 0.97),
+              rgba(2, 6, 23, 1));
+}
+
+.chat-input {
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: 999px;
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  color: #e5e7eb;
+}
+
+.chat-input::placeholder {
+  color: rgba(148, 163, 184, 0.8);
+}
+/* ============== CLEAN CHAT BUBBLES (dark theme) ============== */
+
+/* Container for each message row */
+.message {
+display: flex;
+align-items: flex-end;
+gap: 10px;
+margin-bottom: 14px;
+}
+
+/* MAIN bubble */
+.message-content {
+display: inline-block;
+max-width: 420px;              /* yahin se full-width box hata */
+padding: 10px 14px;
+border-radius: 16px;
+background: rgba(15, 23, 42, 0.96);      /* dark navy card */
+border: 1px solid rgba(148, 163, 184, 0.28);
+box-shadow: 0 10px 24px rgba(15, 23, 42, 0.7);
+}
+
+/* Left side (dusre log) – bubble left align */
+.message:not(.own) .message-content {
+margin-right: auto;
+}
+
+/* Right side (mera message) – bubble right align + thoda highlight */
+.message.own {
+justify-content: flex-end;
+}
+
+.message.own .message-content {
+margin-left: auto;
+background: radial-gradient(circle at top left,
+            rgba(59, 130, 246, 0.25),
+            rgba(15, 23, 42, 0.95));
+border-color: rgba(96, 165, 250, 0.55);
+box-shadow: 0 16px 40px rgba(37, 99, 235, 0.35);
+}
+
+/* Text + meta clean look */
+.message-text {
+color: #e5e7eb;
+font-size: 0.92rem;
+}
+
+.message-author {
+font-size: 0.78rem;
+font-weight: 500;
+color: #9ca3af;
+margin-bottom: 2px;
+}
+
+.message-meta {
+margin-top: 4px;
+font-size: 0.72rem;
+color: #6b7280;
+}
+
+/* Avatar same hi rahe, bas glow halka */
+.message .avatar-circle {
+flex-shrink: 0;
+width: 32px;
+height: 32px;
+border-radius: 999px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+font-weight: 600;
+color: #e5e7eb;
+background: radial-gradient(circle at 30% 0%,
+            #60a5fa 0%, #2563eb 40%, #1d4ed8 100%);
+box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+/* ✅ Each message row – only layout, no big bar */
+.chat-message-row,
+.message-row,
+.msg-row {
+display: flex;
+align-items: flex-end;
+gap: 8px;
+padding: 4px 0;
+background: transparent;
+box-shadow: none;
+}
+.msg-row.me,
+.chat-message-row.me,
+.message-row.me {
+justify-content: flex-end;
+}
+.msg-bubble,
+.chat-bubble,
+.message-card {
+/* yaha pe abhi flex: 1; width: 100%; jaise kuch hoga */
+}
+.msg-bubble,
+.chat-bubble,
+.message-card {
+max-width: 60%;              /* bubble width screen ka 60% tak */
+padding: 10px 14px 6px;
+border-radius: 18px;
+background: rgba(15, 23, 42, 0.95);
+border: 1px solid rgba(148, 163, 184, 0.18);
+box-shadow: 0 12px 40px rgba(15, 23, 42, 0.75);
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+/* Outgoing bubbles (right side) thoda bright */
+.msg-row.me .msg-bubble,
+.chat-message-row.me .msg-bubble,
+.message-row.me .msg-bubble {
+background: radial-gradient(circle at top, #2563eb 0%, #1e293b 55%, #020617 100%);
+border-color: rgba(59, 130, 246, 0.6);
+}
+.msg-author,
+.chat-author,
+.message-author {
+font-size: 13px;
+font-weight: 500;
+color: #cbd5e1;
+margin-bottom: 2px;
+}
+
+.msg-text,
+.chat-text,
+.message-text {
+font-size: 14px;
+line-height: 1.4;
+color: #e5e7eb;
+}
+.msg-meta,
+.message-meta,
+.message-time {
+margin-top: 4px;
+display: flex;
+justify-content: flex-end;
+font-size: 11px;
+letter-spacing: 0.02em;
+color: #9ca3af;
+opacity: 0.8;
+}
+/* Author + text ek column, time neeche aayega,
+ isliye header wale flex ko simple bana do */
+ .msg-header,
+ .message-header,
+ .chat-message-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 8px;
+   margin-bottom: 2px;
+ }
+ /* Ensure NO background on outer message wrapper */
+.chat-message,
+.message-wrapper,
+.msg-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Only bubble looks visible */
+.message-bubble {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.chat-messages > div {
+background: transparent !important;
+}
+.chat-messages > div {
+background: transparent !important;
+box-shadow: none !important;
+}
+/* Remove that block-like glow behind bubbles */
+.message-content,
+.message.own .message-content {
+box-shadow: none !important;
+}
+.message-content,
+.message.own .message-content {
+box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* REMOVE FULL-WIDTH BOX BEHIND EACH MESSAGE */
+.message,
+.msg,
+.chat-message,
+.message-row,
+.message-wrapper {
+background: transparent !important;
+border: none !important;
+box-shadow: none !important;
+}
+
+/* ----- Right-side (own message) bubble: slimmer & smaller ----- */
+
+.message.own {
+max-width: 65% !important;   /* yeh COMPACT karega */
+display: flex;
+justify-content: flex-end;
+}
+
+.message.own .message-content {
+max-width: 100% !important;
+padding: 6px 14px !important;   /* slim bubble */
+border-radius: 16px !important;
+font-size: 15px !important;
+line-height: 1.35 !important;
+}
+.message.own .message-content {
+background: linear-gradient(135deg,
+  #3b82f6 0%,
+  #60a5fa 50%,
+  #38bdf8 100%
+) !important;
+}
+/* RIGHT bubble = LEFT bubble style */
+
+.message.own .message-content {
+background: #0f172a !important;               /* same as left */
+border: 1px solid rgba(148, 163, 184, 0.55) !important;
+color: #e2e8f0 !important;
+
+/* slim bubble spacing */
+padding: 6px 14px !important;
+border-radius: 16px !important;
+
+/* optional: light smooth shadow */
+box-shadow: 0 4px 14px rgba(0,0,0,0.35) !important;
+}
+/* SEND button — Purple theme */
+.send-btn {
+background: linear-gradient(135deg, #8b5cf6, #c084fc) !important; /* purple gradient */
+border: none !important;
+box-shadow: 0 0 20px rgba(139, 92, 246, 0.55) !important; /* purple glow */
+transition: 0.2s ease;
+}
+
+.send-btn:hover {
+box-shadow: 0 0 28px rgba(168, 85, 247, 0.85) !important;
+transform: scale(1.05);
+}
+
+.send-btn svg {
+color: white !important;     /* send icon white */
+}
+
+/* 🎙️ Voice review bar – dark glass style + input ko full cover kare */
+
+#voice-review {
+background: rgba(15, 23, 42, 0.98) !important;  /* solid dark, no input text visible */
+border-radius: 999px !important;
+padding: 6px 12px !important;
+border: 1px solid rgba(148, 163, 184, 0.45) !important;
+box-shadow: 0 14px 32px rgba(15, 23, 42, 0.9) !important;
+}
+
+/* play button – same blue, but clean */
+#voice-play {
+width: 32px !important;
+height: 32px !important;
+border-radius: 999px !important;
+background: #2563eb !important;
+color: #ffffff !important;
+border: none !important;
+display: flex !important;
+align-items: center;
+justify-content: center;
+box-shadow: 0 0 12px rgba(37, 99, 235, 0.6) !important;
+cursor: pointer;
+}
+
+/* progress bar in the middle */
+.vp {
+flex: 1;
+display: flex;
+align-items: center;
+gap: 8px;
+height: 20px;
+}
+
+.vp-bar {
+width: 100%;
+height: 6px !important;
+border-radius: 999px !important;
+background: rgba(148, 163, 184, 0.35) !important;
+box-shadow: none !important;
+overflow: hidden;
+}
+
+.vp-inner {
+width: 0%;
+height: 100%;
+border-radius: inherit;
+background: linear-gradient(90deg, #22c55e, #a855f7) !important; /* green → purple */
+transition: width .1s linear;
+}
+
+.vp-time {
+font-size: 12px;
+color: #9ca3af !important;
+min-width: 32px;
+text-align: center;
+}
+
+/* delete button – dark pill */
+#voice-delete {
+margin-left: 8px;
+background: rgba(15, 23, 42, 0.98) !important;
+border-radius: 12px !important;
+border: 1px solid rgba(148, 163, 184, 0.5) !important;
+color: #e5e7eb !important;
+padding: 6px 10px !important;
+cursor: pointer;
+}
+#voice-play {
+background: #6366f1 !important;   /* Indigo play button */
+color: white !important;
+border-radius: 50% !important;
+width: 34px !important;
+height: 34px !important;
+display: flex;
+justify-content: center;
+align-items: center;
+border: none !important;
+box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* #voice-delete {
+background: #ef4444 !important; 
+color: white !important;
+border-radius: 12px !important;
+padding: 6px 10px !important;
+border: none !important;
+box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+} */
+#vp-bar {
+background: rgba(255, 255, 255, 0.15) !important;
+height: 6px !important;
+border-radius: 6px !important;
+}
+
+#vp-knob {
+background: #ffffff !important;
+height: 6px !important;
+border-radius: 6px !important;
+transition: 0.2s;
+}
+/* 🎙️ Voice review — thin border, premium minimal look */
+
+#voice-review {
+border: 1px solid rgba(148, 163, 184, 0.18) !important; /* THIN border */
+border-radius: 18px !important;                         /* smaller roundness */
+padding: 8px 12px !important;                           /* compact height */
+background: rgba(15, 23, 42, 0.92) !important;          /* smooth dark */
+box-shadow: none !important;                            /* remove thick glow */
+}
+
+/* Delete button border also thin */
+#voice-delete {
+border: 1px solid rgba(148, 163, 184, 0.25) !important; /* thinner */
+border-radius: 10px !important;
+}
+
+/* Play button – keep it clean naturally */
+#voice-play {
+box-shadow: 0 0 8px rgba(37, 99, 235, 0.35) !important;
+}
+/* Remove ALL inner borders from play, progress bar & delete */
+#voice-play,
+#voice-delete,
+.vp-bar,
+.vp-inner {
+border: none !important;
+box-shadow: none !important;
+outline: none !important;
+}
+
+/* Make delete button totally flat & minimal */
+#voice-delete {
+background: rgba(255, 255, 255, 0.1) !important;
+color: #e5e7eb !important;
+border-radius: 10px !important;
+padding: 6px 10px !important;
+}
+
+/* Play button clean, no ring */
+#voice-play {
+background: #6366f1 !important;
+color: white !important;
+border-radius: 50% !important;
+width: 34px !important;
+height: 34px !important;
+display: flex !important;
+justify-content: center;
+align-items: center;
+}
+
+/* Progress bar clean glass line */
+.vp-bar {
+background: rgba(148, 163, 184, 0.25) !important;
+height: 6px !important;
+border-radius: 999px !important;
+}
+
+/* Progress fill smooth gradient */
+.vp-inner {
+background: linear-gradient(90deg, #22c55e, #a855f7) !important;
+border-radius: 999px !important;
+}
+
+/* Keep only OUTER container border (thin) */
+#voice-review {
+border: 1px solid rgba(148, 163, 184, 0.18) !important;
+}
+/* Remove the actual border you are seeing (vp wrapper border) */
+.vp {
+border: none !important;
+box-shadow: none !important;
+outline: none !important;
+background: transparent !important;
+}
+
+/* Also remove any border from inner voice controls */
+#voice-review * {
+border: none !important;
+outline: none !important;
+box-shadow: none !important;
+}
+/* 🎙️ 1) Playbar ka outer border + glow hatao */
+#voice-review {
+border: none !important;
+box-shadow: none !important;
+background: transparent !important;  /* sirf andar ka bar visible rahe */
+}
+
+/* 🎙️ 2) Delete button ka box / border hatao */
+#voice-delete,
+.voice-review #voice-delete,
+.voice-review .al-btn--ghost {
+background: transparent !important;
+border: none !important;
+box-shadow: none !important;
+padding: 0 !important;
+border-radius: 0 !important;   /* koi capsule shape nahi */
+}
+/* 🎙️ Voice bar = solid pill, input text hidden behind */
+
+.chat-input-wrapper {
+position: relative;
+}
+
+#voice-review {
+background: #020617 !important;          /* solid dark (no transparency) */
+border-radius: 999px !important;
+border: none !important;
+box-shadow: none !important;
+padding: 8px 14px !important;
+
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+/* keep inner stuff clean, no extra borders */
+#voice-review * {
+border: none !important;
+box-shadow: none !important;
+}
+
+/* progress bar nice & simple */
+.vp-bar {
+background: rgba(148, 163, 184, 0.35) !important;
+height: 6px !important;
+border-radius: 999px !important;
+}
+
+.vp-inner {
+background: rgba(249, 250, 251, 0.9) !important;
+}
+/* Voice bar default hidden – JS control karega */
+#voice-review {
+display: none;
+}
+/* 😄 Premium Emoji Button */
+#emoji-btn {
+width: 38px;
+height: 38px;
+display: flex;
+align-items: center;
+justify-content: center;
+
+background: rgba(255, 255, 255, 0.05) !important;
+border-radius: 50% !important;
+
+border: 1px solid rgba(148, 163, 184, 0.25) !important;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+
+font-size: 18px !important;
+transition: 0.2s ease;
+cursor: pointer;
+}
+
+#emoji-btn:hover {
+background: rgba(255, 255, 255, 0.1) !important;
+box-shadow: 0 0 12px rgba(168, 85, 247, 0.35); /* light purple glow */
+transform: scale(1.08);
+}
+
+#emoji-btn:active {
+transform: scale(0.95);
+}
+/* LEFT SIDEBAR FLUSH FIX */
+.left-sidebar {
+margin-left: 0 !important;
+padding-left: 0 !important;
+border-radius: 0 12px 12px 0 !important;  /* right side corners soft */
+}
+/* CHAT PANEL FULL WIDTH RIGHT SIDE FLUSH */
+.chat-section {
+margin-right: 0 !important;
+padding-right: 0 !important;
+}
+.app-container, 
+.main-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.chat-messages {
+padding-right: 0 !important;
+margin-right: 0 !important;
+}
+/* ===== MOBILE LAYOUT FOR CHAT PAGE ===== */
+
+/* Tablet + mobile: sidebar hatao, chat full width karo */
+@media (max-width: 900px) {
+.app-container,
+.main-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.main-content {
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+.left-sidebar {
+  display: none !important;       /* sirf chat panel */
+}
+
+.chat-section {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border-left: none !important;
+}
+
+.chat-messages {
+  padding: 12px 12px 96px 12px !important;  /* neeche input ke liye space */
+}
+
+.chat-input-container {
+  padding: 0 12px 12px 12px !important;
+}
+}
+/* ===== MOBILE HARD OVERRIDE FOR CHAT LAYOUT ===== */
+
+@media (max-width: 900px) {
+/* Chat section full-screen wide */
+body[data-page="chat"] .chat-section {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Messages area bhi full width */
+body[data-page="chat"] .chat-messages {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+/* Header bar (DSA / Q&A) bhi edge-to-edge */
+body[data-page="chat"] .chat-header {
+  margin: 0 !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  border-radius: 0 !important;
+}
+}
+/* ==== CHAT MOBILE FIX: input bar bottom bar ke upar dikhana ==== */
+
+@media (max-width: 900px) {
+
+/* Bottom bar ka fixed height assume: ~64px */
+.mobile-bottom-bar {
+  height: 64px;
+}
+
+/* Typing box ko thoda upar push karo */
+body[data-page="chat"] .chat-input-container {
+  margin-bottom: 72px !important;   /* bottom bar ke upar aa jayega */
+}
+
+/* Messages ke neeche bhi enough gap, taaki input ke piche na chhupe */
+body[data-page="chat"] .chat-messages {
+  padding-bottom: 140px !important;
+}
+}
+/* ===== MOBILE CHAT HEADER CLEAN FIX ===== */
+@media (max-width: 900px) {
+
+/* Outer chat header spacing */
+body[data-page="chat"] .chat-header {
+  padding: 12px 16px !important;
+  margin-top: 4px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  background: rgba(15, 23, 42, 0.4) !important;
+  backdrop-filter: blur(12px);
+  border-radius: 16px !important;
+}
+
+/* Title section spacing */
+body[data-page="chat"] #roomTitle {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: #e2e8f0 !important;
+}
+
+body[data-page="chat"] #roomSubtitle {
+  font-size: 12px !important;
+  opacity: 0.6;
+  margin-top: -2px;
+}
+
+/* Q&A button resizing */
+body[data-page="chat"] #qaToggle {
+  padding: 8px 14px !important;
+  font-size: 14px !important;
+  border-radius: 18px !important;
+  white-space: nowrap;
+}
+
+/* Fix top header spacing from main nav */
+/* body[data-page="chat"] .chat-section {
+  margin-top: 12px !important;
+  padding-top: 0 !important;
+} */
+
+/* Remove extra padding left on chat section */
+body[data-page="chat"] .chat-section {
+  padding-left: 0 !important;
+}
+}
+/* ✅ Mobile pe chat header + Q&A sahi jagah, koi overlap nahi */
+@media (max-width: 900px) {
+
+body[data-page="chat"] .chat-header {
+  position: relative !important;
+  z-index: 5 !important;
+
+  background: transparent !important;   /* dark strip hatao */
+  border-radius: 0 !important;
+
+  padding: 8px 12px !important;
+  margin-top: 8px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+/* Title + subtitle normal hi rahe */
+body[data-page="chat"] #roomTitle {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+body[data-page="chat"] #roomSubtitle {
+  font-size: 11px !important;
+  opacity: 0.6;
+}
+
+/* Q&A button = main hero, clear visible right side */
+body[data-page="chat"] #qaToggle {
+  margin-left: auto !important;
+  padding: 8px 14px !important;
+  font-size: 14px !important;
+  border-radius: 999px !important;
+}
+
+/* First message Q&A ke niche se start ho */
+body[data-page="chat"] .chat-messages {
+  margin-top: 4px !important;
+}
+}
+
+
+
+
+
+/* ===== MOBILE: Q&A inside DSA header card bottom-right ===== */
+@media (max-width: 900px) {
+
+/* Make header a positioned container */
+body[data-page="chat"] .chat-header {
+  position: relative !important;
+
+  padding: 16px 16px 40px 16px !important;   /* bottom space for Q&A */
+  margin: 8px !important;
+
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-radius: 18px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+}
+
+/* Title + subtitle normal */
+body[data-page="chat"] #roomTitle {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin-bottom: 2px !important;
+}
+
+body[data-page="chat"] #roomSubtitle {
+  font-size: 12px !important;
+  opacity: 0.7 !important;
+}
+
+/* ⭐ Q&A button placed INSIDE the card → bottom-right */
+body[data-page="chat"] #qaToggle {
+  position: absolute !important;
+  right: 14px !important;
+  bottom: 14px !important;
+
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  font-size: 14px !important;
+  z-index: 20 !important;
+  white-space: nowrap !important;
+}
+
+/* Messages start clean below */
+body[data-page="chat"] .chat-messages {
+  margin-top: 4px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+}
+@media (max-width: 900px) {
+/* Q&A card container: don't cut children */
+body[data-page="chat"] .chat-header {
+  overflow: visible !important;
+}
+
+/* Q&A ko thoda andar le aao */
+body[data-page="chat"] #qaToggle {
+  right: 10px !important;
+  bottom: 10px !important;
+}
+}
+
+
+
+/* ==== MOBILE: Q&A neatly inside DSA card (no half cut, no overflow) ==== */
+@media (max-width: 900px) {
+
+/* DSA header card */
+body[data-page="chat"] .chat-header {
+  margin: 8px !important;
+  padding: 14px 16px 14px 16px !important;
+
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-radius: 18px !important;
+
+  display: flex !important;
+  flex-direction: column !important;   /* title on top, Q&A at bottom */
+  align-items: flex-start !important;
+  gap: 4px !important;
+
+  overflow: visible !important;
+}
+
+/* Title + subtitle */
+body[data-page="chat"] #roomTitle {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+body[data-page="chat"] #roomSubtitle {
+  font-size: 12px !important;
+  opacity: 0.7 !important;
+}
+
+/* Wrapper for Q&A */
+body[data-page="chat"] .chat-info {
+  align-self: flex-end !important;   /* move to right */
+  margin-top: 8px !important;
+}
+
+/* Q&A button NORMAL (no absolute) */
+body[data-page="chat"] #qaToggle {
+  position: static !important;       /* override previous absolute */
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  font-size: 14px !important;
+  white-space: nowrap;
+}
+
+/* Messages start clean after header */
+body[data-page="chat"] .chat-messages {
+  margin-top: 4px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+}
+/* 📱 Compact DSA / group header on mobile */
+@media (max-width: 768px) {
+.chat-header {
+  padding: 10px 14px !important;
+  margin: 8px 12px 6px !important;
+  border-radius: 14px !important;
+  min-height: 0 !important;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-title {
+  gap: 2px;
+}
+
+.chat-title .main-title {
+  font-size: 1rem !important;      /* DSA text */
+  margin-bottom: 0 !important;
+}
+
+.chat-title .subtitle {
+  font-size: 0.65rem !important;   /* PROFESSIONAL_... */
+  letter-spacing: 1px !important;
+  opacity: 0.7 !important;
+}
+
+.chat-info .button-33 {
+  padding: 4px 14px !important;    /* Q&A button chhota */
+  font-size: 0.8rem !important;
+  border-radius: 18px !important;
+}
+}
+/* ================= MOBILE COMPACT LAYOUT ================= */
+@media (max-width: 768px) {
+
+/* Top navbar */
+.nav-inner {
+  padding: 0.6rem 1rem !important;
+  gap: 0.6rem;
+}
+
+.brand {
+  font-size: 1.1rem !important;
+}
+
+.brand .logo {
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+}
+
+.navbar-avatar {
+  width: 34px;
+  height: 34px;
+  font-size: 0.9rem;
+}
+
+/* Whole chat section tighter */
+.chat-section {
+  padding: 0.75rem 0.75rem 5rem !important;
+}
+
+/* 🎯 DSA / group header card */
+.chat-header {
+  padding: 8px 12px !important;
+  margin: 8px 12px 6px !important;
+  border-radius: 14px !important;
+  min-height: 0 !important;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-title {
+  gap: 2px;
+}
+
+.chat-title .main-title {
+  font-size: 0.95rem !important;   /* DSA */
+  margin-bottom: 0 !important;
+}
+
+.chat-title .subtitle {
+  font-size: 0.65rem !important;   /* PROFESSIONAL_... */
+  letter-spacing: 1px !important;
+  opacity: 0.7 !important;
+}
+
+.chat-info .button-33 {
+  padding: 4px 14px !important;
+  font-size: 0.8rem !important;
+  border-radius: 18px !important;
+}
+
+/* Message area */
+.chat-messages {
+  padding: 0.5rem 0.5rem 0.75rem !important;
+}
+
+/* Pinned bar thoda chhota */
+.pinned-messages {
+  padding: 6px 10px !important;
+  font-size: 0.8rem !important;
+}
+
+/* Input bar */
+.chat-input-container {
+  padding: 0.6rem 0.75rem !important;
+}
+
+.chat-input-wrapper {
+  padding: 0.55rem 0.75rem !important;
+  border-radius: 999px !important;
+  gap: 0.35rem;
+}
+
+.chat-input {
+  font-size: 0.9rem !important;
+}
+
+.input-actions .input-btn,
+.send-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.input-actions .input-btn img.mic-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Voice preview bar chhota */
+#voice-review.voice-review {
+  padding: 6px 8px !important;
+}
+
+/* Bottom chips bar */
+.mobile-bottom-bar {
+  padding: 0.35rem 0.75rem 0.5rem !important;
+  gap: 0.5rem;
+}
+
+.mobile-groups-scroll {
+  gap: 0.45rem;
+}
+
+.mobile-groups-scroll button {
+  padding: 0.35rem 0.9rem !important;
+  font-size: 0.8rem !important;
+  border-radius: 999px !important;
+}
+}
+/* ==== DSA header card extra-compact (tablet + mobile) ==== */
+@media (max-width: 1024px) {
+.chat-header {
+  margin: 6px 10px 4px !important;
+  padding: 6px 10px !important;
+  border-radius: 12px !important;
+  min-height: 0 !important;
+}
+
+.chat-title {
+  gap: 0 !important;
+}
+
+.chat-title .main-title {
+  font-size: 0.9rem !important;     /* "DSA" */
+  line-height: 1.1 !important;
+  margin-bottom: 2px !important;
+}
+
+.chat-title .subtitle {
+  font-size: 0.6rem !important;     /* PROFESSIONAL_... */
+  line-height: 1.1 !important;
+  letter-spacing: 1px !important;
+  opacity: 0.7 !important;
+}
+
+.chat-info .button-33 {
+  padding: 4px 12px !important;     /* Q&A chip */
+  font-size: 0.78rem !important;
+  border-radius: 18px !important;
+}
+}
+
+/* ============================================
+ MOBILE: Compress Group Header (DSA section)
+ ============================================ */
+ @media (max-width: 640px) {
+
+  .chat-header {
+    padding: 8px 12px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 4px !important;
+    border-radius: 14px !important;
+  }
+
+  .chat-title {
+    gap: 2px !important;
+  }
+
+  #roomTitle {
+    font-size: 1rem !important;        /* DSA */
+    line-height: 1.1 !important;
+    margin-bottom: 2px !important;
+  }
+
+  #roomSubtitle {
+    font-size: 0.62rem !important;      /* PROFESSIONAL_... */
+    letter-spacing: 0.5px !important;
+    opacity: 0.65 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .chat-info .button-33 {
+    transform: scale(0.85) !important;  /* Q&A button smaller */
+    padding: 4px 10px !important;
+    font-size: 0.75rem !important;
+    border-radius: 16px !important;
+  }
+}
+/* ============================================
+ SUPER COMPACT GROUP HEADER (Mobile)
+ ============================================ */
+@media (max-width: 640px) {
+
+.chat-header {
+  padding: 6px 10px !important;
+  margin-bottom: 4px !important;
+  border-radius: 12px !important;
+  height: auto !important;
+  min-height: unset !important;
+}
+
+#roomTitle {
+  font-size: 0.88rem !important;   /* DSA */
+  margin: 0 !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+}
+
+#roomSubtitle {
+  font-size: 0.55rem !important;   /* PROFESSIONAL.... */
+  opacity: 0.55 !important;
+  line-height: 1 !important;
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
+}
+
+.chat-title {
+  gap: 1px !important;
+}
+
+.chat-info .button-33 {
+  transform: scale(0.75) !important;   /* Q&A button smaller */
+  padding: 3px 8px !important;
+  font-size: 0.7rem !important;
+  border-radius: 14px !important;
+}
+}
+/* 🔊 MOBILE: voice message bubble ko compact bana do */
+@media (max-width: 768px) {
+
+/* chat area ke andar jis bhi div ke andar audio hai = voice bubble */
+.chat-messages div:has(audio) {
+  /* bubble size */
+  max-width: 78vw;
+  padding: 0.6rem 0.75rem;
+  border-radius: 16px;
+
+  /* koi fixed height hogi to override ho jaayegi */
+  height: auto !important;
+
+  /* thoda subtle shadow, optional */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* andar ka player (progress bar + time) thoda compact */
+.chat-messages div:has(audio) .vp {
+  gap: 0.35rem;
+}
+
+.chat-messages div:has(audio) .vp-bar {
+  height: 4px;
+  border-radius: 999px;
+}
+
+.chat-messages div:has(audio) .vp-time {
+  font-size: 0.7rem;
+}
+}
+/* 🔥 MOBILE VIEW — voice message bubble ko compact bana do */
+@media (max-width: 768px) {
+
+/* Outer voice message box */
+.chat-message.voice-msg,
+.chat-messages .message.voice-msg,
+.chat-messages div:has(audio) {
+  width: 72vw !important;     /* normal text bubble ke size par */
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  height: auto !important;     /* yeh main fix hai */
+  min-height: auto !important;
+  max-height: none !important;
+}
+
+/* Timestamp & username smaller */
+.chat-messages div:has(audio) .timestamp,
+.chat-messages div:has(audio) .sender {
+  font-size: 12px !important;
+}
+
+/* Compact player */
+.chat-messages div:has(audio) .vp {
+  gap: 6px !important;
+}
+
+.chat-messages div:has(audio) .vp-bar {
+  height: 4px !important;
+}
+
+.chat-messages div:has(audio) .vp-time {
+  font-size: 11px !important;
+}
+}
+
+/* 🔊 Compact voice message bubble – mobile only */
+@media (max-width: 768px) {
+
+/* outer bubble ko bhi thoda compress karo */
+.message-row .msg-bubble {
+  max-width: 78vw;
+}
+
+/* main voice card */
+.message-text .audio-bubble {
+  padding: 0.45rem 0.7rem;
+  border-radius: 16px;
+  min-height: 0;
+  height: auto;
+  gap: 0.4rem;
+}
+
+/* icon & bar thoda chhota */
+.message-text .audio-bubble .audio-play {
+  width: 34px;
+  height: 34px;
+}
+
+.message-text .audio-bubble .audio-progress-wrap {
+  gap: 0.3rem;
+}
+
+.message-text .audio-bubble .audio-progress {
+  height: 4px;
+}
+
+.message-text .audio-bubble .audio-time,
+.message-text .audio-bubble .audio-duration {
+  font-size: 0.78rem;
+}
+}
+:root {
+--nav-height: 64px;   /* ya jo bhi tere nav ki real height hai */
+}
+
+/* Push chat content 70px down because navbar is 64px tall */
+.chat-page-wrapper,
+#chat-room-root, 
+.chat-main {
+  margin-top: 70px !important;
+}
+
+/* Chat room header should appear below navbar but still visible */
+.chat-room-header {
+  position: sticky;
+  top: 64px;              /* navbar height */
+  z-index: 1200;          /* below navbar(1500) but above content */
+}
+.chat-messages{
+flex:1;
+padding:20px 24px;
+overflow:auto;
+display:flex;
+flex-direction:column;
+gap:16px;
+justify-content: flex-end;   /* 👈 NEW LINE */
+}
+.chat-main {
+display: flex;
+flex-direction: column;
+height: calc(100vh - 60px);  /* header height fix */
+}
+.chat-messages {
+flex: 1;                     /* pure bacha hua space lelo */
+overflow-y: auto;
+display: flex;
+flex-direction: column;
+justify-content: flex-end;   /* bottom se start */
+padding: 20px 24px;
+gap: 16px;
+}
+.chat-input-box {
+padding: 12px 20px;
+background: transparent;
+flex-shrink: 0;  /* input compress na ho */
+}
+
+/* ====== FIX: chat main area full height + gap remove ====== */
+
+/* Pure right side chat panel */
+.chat-main {
+display: flex;
+flex-direction: column;
+height: calc(100vh - 64px); /* top nav ki height ke hisaab se adjust kar sakta hai */
+}
+
+/* Top room header (DSA + Q&A) */
+.chat-header,
+.chat-room-header,
+.chat-room-top {
+flex-shrink: 0;
+}
+
+/* Messages area – yahi stretch karega */
+.chat-messages {
+flex: 1;
+min-height: 0;
+overflow-y: auto;
+padding: 20px 24px 16px;  /* thoda normal bottom space */
+}
+
+/* Bottom input bar – layout ke andar hi rahe, fixed nahi */
+.chat-input-area,
+.chat-input-container,
+.chat-footer {
+flex-shrink: 0;
+margin-top: 0;
+}
+/* === FINAL CHAT LAYOUT OVERRIDE === */
+/* Header ke niche se hi chat start ho */
+body[data-page="chat"] .app-container {
+margin-top: 0 !important;                  /* ✅ extra gap hata diya */
+height: calc(100vh - 64px) !important;     /* same hi rehne do, bottom thik chal raha hai */
+}
+/* Chat section full height le + column layout */
+body[data-page="chat"] .chat-section {
+display: flex !important;
+flex-direction: column !important;
+}
+
+/* Messages area: full height + last messages bottom pe */
+body[data-page="chat"] .chat-messages {
+flex: 1 1 auto !important;
+display: flex !important;
+flex-direction: column !important;
+justify-content: flex-end !important;  /* gap khatam, content bottom pe */
+overflow-y: auto !important;
+padding-bottom: 8px !important;       /* thoda sa gap, bahut zyada nahi */
+}
+
+
+/* chat header exactly under nav */
+.chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* ==== FIX: REMOVE BIG EMPTY SPACE AT BOTTOM ==== */
+.chat-section {
+padding-bottom: 0 !important;
+}
+
+.chat-messages {
+padding-bottom: 120px !important; /* sirf input bar jitna, not full page */
+margin-bottom: 0 !important;
+}
+
+/* input bar ko proper stick */
+.chat-input-container {
+position: sticky;
+bottom: 0;
+margin-bottom: 0 !important;
+}
+.message {
+display: inline-block;
+width: fit-content;
+background: #1e293b;
+padding: 10px 14px;
+border-radius: 12px;
+}
+/* === CHAT MESSAGE BLOCK FIX === */
+.chat-messages .message {
+display: flex !important;
+gap: 12px !important;
+max-width: 70% !important;
+background: transparent !important;
+padding: 0 !important;
+border-radius: 0 !important;
+}
+
+/* body[data-page="chat"] .app-container,
+body[data-page="chat"] .main-content,
+body[data-page="chat"] .chat-section,
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+body[data-page="chat"] header.nav {
+margin-bottom: 0 !important;
+padding-bottom: 0 !important;
+} */
+
+
+/* Proper layout spacing for chat */
+.chat-page-wrapper {
+padding-top: 70px !important; 
+height: calc(100vh - 70px) !important;
+display: flex;
+}
+
+/* Left sidebar fix */
+.chat-sidebar {
+margin-top: 0 !important;
+padding-top: 0 !important;
+height: 100% !important;
+}
+
+/* Chat main content fix */
+.chat-main {
+margin-top: 0 !important;
+padding-top: 0 !important;
+height: 100% !important;
+display: flex;
+flex-direction: column;
+}
+
+/* Chat messages area should fill entire remaining height */
+.chat-messages {
+flex: 1;
+overflow-y: auto;
+}
+
+.chat-group-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+border-top: none !important;
+}
+.chat-messages {
+flex: 1 !important;
+min-height: 0 !important;
+}
+/* ===== FINAL GAP FIX – group header chipkao navbar se ===== */
+.app-container,
+.chat-page-wrapper,
+#chat-room-root,
+.chat-main,
+.chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* whole chat layout should start exactly under navbar */
+.app-container {
+margin-top: 0 !important;      /* mobile: navbar is sticky, so no extra top margin */
+height: calc(100vh - 56px);       /* neeche ka blank space bhi nahi aayega */
+}
+
+/* safety: no extra top gap anywhere */
+.main-content,
+.chat-section {
+margin-top: 0;
+padding-top: 0;
+}
+/* FINAL FIX: remove gap between navbar and group header */
+.chat-section {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+.chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* --- FORCE group header to touch main navbar --- */
+.chat-main,
+.chat-section,
+.chat-group-header {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* This container is creating the actual gap → pull it up */
+.chat-header {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  position: relative;
+  top: -12px;   /* THIS removes the leftover invisible bar */
+}
+/* ----- Fix: stick group header directly below main navbar on Chat page ----- */
+
+body[data-page="chat"] .app-container {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+body[data-page="chat"] .main-content {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+body[data-page="chat"] main.chat-section {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* ========== FINAL CHAT LAYOUT FIX ========== */
+
+/* Navbar: normal sticky, not fixed */
+.nav {
+position: sticky !important;
+top: 0 !important;
+left: 0;
+width: 100%;
+}
+
+/* Whole page layout under navbar */
+.app-container {
+display: flex !important;
+flex-direction: column !important;
+height: calc(100vh - var(--siteHeaderH)) !important;  /* --siteHeaderH = 56px */
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+.main-content {
+display: flex !important;
+flex: 1 1 auto !important;
+min-height: 0 !important;
+overflow: hidden !important;
+}
+
+/* Center chat area */
+.chat-section {
+flex: 1 1 auto !important;
+display: flex !important;
+flex-direction: column !important;
+min-height: 0 !important;
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* Group header (DSA…) – directly under navbar */
+.chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* Messages area: fill all remaining height */
+.chat-messages {
+flex: 1 1 auto !important;
+min-height: 0 !important;
+overflow-y: auto !important;
+display: flex !important;
+flex-direction: column !important;
+gap: 16px !important;
+padding: 20px 24px 16px !important;
+}
+
+/* Input bar: always bottom, no extra gap */
+.chat-input-container,
+.chat-input-area,
+.chat-footer {
+flex-shrink: 0 !important;
+margin-top: 0 !important;
+margin-bottom: 0 !important;
+position: static !important;
+}
+
+/* Message row back to normal (remove dark block) */
+.chat-messages .message {
+display: flex !important;
+gap: 12px !important;
+max-width: 70% !important;
+background: transparent !important;
+padding: 0 !important;
+border-radius: 0 !important;
+}
+/* ===== FINAL HEADER GAP FIX ONLY FOR CHAT PAGE ===== */
+
+/* 1) Navbar ke turant baad wala container – koi top margin nahi */
+body[data-page="chat"] header.nav + .app-container {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 2) Jisme sidebar + chat section dono hain */
+body[data-page="chat"] .main-content {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 3) Safety: center chat section par bhi koi extra top space nahi */
+body[data-page="chat"] .chat-section {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* Fix top header spacing from main nav */
+body[data-page="chat"] .chat-section {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* ==== FINAL CHAT LAYOUT FIX – NO TOP GAP ==== */
+
+/* App container ko nav ke bilkul niche chipka do */
+body[data-page="chat"] .app-container {
+padding-top: 0 !important;
+}
+
+/* Chat card ke andar bhi top padding hata do */
+body[data-page="chat"] .chat-section {
+padding-top: 0 !important;
+}
+body[data-page="chat"] .app-container {
+margin-top: 0 !important;
+height: calc(100vh - var(--siteHeaderH)) !important;  /* --siteHeaderH = 56px */
+}
+body[data-page="chat"] .app-container {
+margin-top: 0 !important;                  /* ✅ extra gap hata diya */
+height: calc(100vh - 64px) !important;     /* same hi rehne do, bottom thik chal raha hai */
+}
+.app-container {
+margin-top: 0 !important;   /* 80 ko 0 kar do */
+}
+/* ==== FINAL CHAT TOP GAP FIX (ONLY CHAT PAGE) ==== */
+body[data-page="chat"] .app-container,
+body[data-page="chat"] .chat-page-wrapper,
+body[data-page="chat"] #chat-room-root,
+body[data-page="chat"] .chat-main,
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+/* OVERRIDE MAIN TAG PADDING ONLY ON CHAT PAGE */
+body[data-page="chat"] main {
+padding-top: 0 !important;
+}
+/* CHAT: group header ko main header se chipka do */
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 2px !important;   /* upar ka gap almost 0 jaisa */
+padding-bottom: 12px !important;  /* niche normal space */
+}
+
+/* === CLEAN CHAT LAYOUT – NO TOP GAP, NO BOTTOM GAP === */
+
+/* 0. Top side: jitne bhi ancestors hain unka top margin/padding 0 */
+body[data-page="chat"] .app-container,
+body[data-page="chat"] .main-content,
+body[data-page="chat"] .chat-section,
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 1. App container – navbar ke just niche se start, full height */
+:root {
+--siteHeaderH: 64px;   /* agar navbar 56px ka ho to 56 kar sakta hai */
+}
+
+body[data-page="chat"] .app-container {
+display: flex;
+flex-direction: column;
+margin-top: 0 !important;
+height: calc(100vh - var(--siteHeaderH));
+}
+
+/* 2. Main-content = sidebar + chat column, full height */
+body[data-page="chat"] .main-content {
+flex: 1 1 auto;
+display: flex !important;
+min-height: 0 !important;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+/* 3. Right side chat column */
+body[data-page="chat"] .chat-section {
+flex: 1 1 auto;
+display: flex !important;
+flex-direction: column;
+min-height: 0 !important;
+margin: 0 !important;
+}
+
+/* 4. Group header ko navbar se chipka do */
+body[data-page="chat"] .chat-header {
+flex-shrink: 0;
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 5. Pinned + messages = beech ka scroll area */
+body[data-page="chat"] .pinned-messages {
+flex-shrink: 0;
+margin: 0;
+}
+
+body[data-page="chat"] .chat-messages {
+flex: 1 1 auto;
+min-height: 0;
+overflow-y: auto;
+margin: 0 !important;
+}
+
+/* 6. Input bar bilkul bottom pe, extra gap nahi */
+body[data-page="chat"] .chat-input-container {
+flex-shrink: 0;
+margin: 0 !important;
+padding-bottom: 16px;   /* thoda sa normal space, chahe to kam/zyada kar */
+}
+/* === CLEAN CHAT LAYOUT – NO TOP GAP, NO BOTTOM GAP === */
+
+/* 0. Top side: jitne bhi ancestors hain unka top margin/padding 0 */
+body[data-page="chat"] .app-container,
+body[data-page="chat"] .main-content,
+body[data-page="chat"] .chat-section,
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 1. App container – navbar ke just niche se start, full height */
+:root {
+--siteHeaderH: 64px;   /* agar navbar 56px ka ho to 56 kar sakta hai */
+}
+
+body[data-page="chat"] .app-container {
+display: flex;
+flex-direction: column;
+margin-top: 0 !important;
+height: calc(100vh - var(--siteHeaderH));
+}
+
+/* 2. Main-content = sidebar + chat column, full height */
+body[data-page="chat"] .main-content {
+flex: 1 1 auto;
+display: flex !important;
+min-height: 0 !important;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+/* 3. Right side chat column */
+body[data-page="chat"] .chat-section {
+flex: 1 1 auto;
+display: flex !important;
+flex-direction: column;
+min-height: 0 !important;
+margin: 0 !important;
+}
+
+/* 4. Group header ko navbar se chipka do */
+body[data-page="chat"] .chat-header {
+flex-shrink: 0;
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+/* 5. Pinned + messages = beech ka scroll area */
+body[data-page="chat"] .pinned-messages {
+flex-shrink: 0;
+margin: 0;
+}
+
+body[data-page="chat"] .chat-messages {
+flex: 1 1 auto;
+min-height: 0;
+overflow-y: auto;
+margin: 0 !important;
+}
+
+/* 6. Input bar bilkul bottom pe, extra gap nahi */
+body[data-page="chat"] .chat-input-container {
+flex-shrink: 0;
+margin: 0 !important;
+padding-bottom: 16px;   /* thoda sa normal space, chahe to kam/zyada kar */
+}
+/* ============ HARD OVERRIDE: CHAT LAYOUT BETWEEN HEADER & BOTTOM ============ */
+
+body[data-page="chat"] {
+overflow: hidden !important;
+}
+
+/* Chat ka outer container: header ke just niche se bottom tak */
+body[data-page="chat"] .app-container {
+position: fixed !important;
+top: var(--siteHeaderH) !important;   /* header ke neeche se start */
+left: 0 !important;
+right: 0 !important;
+bottom: 0 !important;
+
+margin: 0 !important;
+padding: 0 !important;
+height: auto !important;
+
+display: flex !important;
+flex-direction: row !important;
+}
+
+/* Sidebar + chat column wrapper */
+body[data-page="chat"] .main-content {
+flex: 1 1 auto !important;
+display: flex !important;
+min-height: 0 !important;
+overflow: hidden !important;
+}
+
+/* Right side chat column */
+body[data-page="chat"] .chat-section {
+flex: 1 1 auto !important;
+display: flex !important;
+flex-direction: column !important;
+min-height: 0 !important;
+margin: 0 !important;
+}
+
+/* Group header – bilkul top pe, koi extra gap nahi */
+body[data-page="chat"] .chat-header {
+flex-shrink: 0 !important;
+margin: 0 !important;
+padding-top: 0 !important;
+}
+
+/* Messages area – beech ka scrollable part */
+body[data-page="chat"] .chat-messages {
+flex: 1 1 auto !important;
+min-height: 0 !important;
+overflow-y: auto !important;
+margin: 0 !important;
+}
+
+/* Input bar – bilkul bottom pe chipka hua */
+body[data-page="chat"] .chat-input-container {
+flex-shrink: 0 !important;
+margin: 0 !important;
+}
+.solver-modal-backdrop {
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.55);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 9999;
+}
+
+.solver-modal-backdrop.hidden {
+display: none;
+}
+
+.solver-modal {
+width: min(480px, 90vw);
+background: #020617;
+border-radius: 18px;
+border: 1px solid rgba(148, 163, 184, 0.35);
+box-shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+color: #e5e7eb;
+padding: 20px 22px 18px;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+  "Inter", sans-serif;
+}
+
+.solver-modal-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+margin-bottom: 12px;
+}
+
+.solver-modal-title {
+font-size: 20px;
+font-weight: 600;
+letter-spacing: 0.01em;
+color: #f9fafb;
+margin: 0;
+}
+
+.solver-modal-close {
+border: none;
+background: transparent;
+color: #9ca3af;
+font-size: 22px;
+line-height: 1;
+cursor: pointer;
+padding: 0 4px;
+}
+.solver-modal-close:hover {
+color: #e5e7eb;
+}
+
+.solver-modal-body {
+font-size: 14px;
+line-height: 1.6;
+color: #d1d5db;
+margin-bottom: 18px;
+}
+
+.solver-modal-footer {
+display: flex;
+justify-content: flex-end;
+gap: 10px;
+}
+
+.solver-btn-primary,
+.solver-btn-secondary {
+border-radius: 999px;
+font-size: 14px;
+padding: 7px 18px;
+border: 1px solid transparent;
+cursor: pointer;
+font-weight: 500;
+}
+
+.solver-btn-secondary {
+background: transparent;
+color: #e5e7eb;
+border-color: rgba(148, 163, 184, 0.6);
+}
+.solver-btn-secondary:hover {
+background: rgba(30, 64, 175, 0.1);
+}
+
+.solver-btn-primary {
+background: #22c55e;
+color: #020617;
+border-color: #22c55e;
+box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
+}
+.solver-btn-primary:hover {
+background: #16a34a;
+border-color: #16a34a;
+}
+/* =======================================
+ CHAT HEADER FIX
+ Nav ko global jaise behave karne do
+ ======================================= */
+
+ 
+/* Chat page me nav ko normal sticky bana do,
+ jo dusre pages me already hai */
+ body[data-page="chat"] .nav {
+  position: sticky !important;
+  top: 29 !important;
+  left: 0;
+  right: 0;
+  height: var(--siteHeaderH) !important;
+}
+
+/* Jo extra margin-top upar set hua tha, usse hatao */
+body[data-page="chat"] .app-container {
+  margin-top: 0 !important;
+  height: calc(100vh - var(--siteHeaderH)) !important;
+}
+
+/* Safety: kisi bhi extra margin ko 0 kar do */
+body[data-page="chat"] .main-content,
+body[data-page="chat"] .chat-section {
+  margin-top: 0 !important;
+}
+/* Chat column ko header se thoda neeche laane ke liye */
+/* FINAL FIX: remove extra gap between global header and chat header */
+/* ==== CHAT HEADER ALIGN FIX – MAKE NAV LIKE OTHER PAGES ==== */
+/* Chat page ko bhi baaki pages jaisa header spacing do */
+.nav{
+position: sticky;    /* same feel as before */
+top: 0;
+z-index: 4000;
+}
+
+/* margin-top hatao taki gap na rahe */
+.app-container{
+display: flex;
+flex-direction: column;
+height: calc(100vh - 56px);
+margin-top: 0;
+}
+/* ==== Chat header spacing fix (keep sidebar same) ==== */
+
+/* Thoda upar se space, taaki nav se chipka na lage */
+.chat-section {
+padding-top: 12px !important;   /* ya 20px, jo tumhe acha lage */
+}
+
+/* Safety: chat-header ka khud ka margin 0 rakh do */
+.chat-header {
+margin-top: 0 !important;
+}
+
+/* ===== Global header + layout sync (Chat + sab pages) ===== */
+
+/* 1) Header ki final height fix karo (match desktop nav) */
+:root {
+--siteHeaderH: 72px;       /* <- yahi height tumhare current nav ki hai */
+}
+
+/* 2) Nav aur nav-inner dono same height pe lao */
+.nav,
+.nav-inner {
+height: var(--siteHeaderH) !important;
+}
+
+/* 3) Content ko header ke neeche proper push karo */
+.app-container {
+margin-top: var(--siteHeaderH) !important;
+height: calc(100vh - var(--siteHeaderH)) !important;
+}
+/* ===== CHAT PAGE HEADER LAYOUT (CLEAN) ===== */
+
+/* Sirf chat page ke liye layout override */
+body[data-page="chat"]{
+margin: 0;
+padding: 0;
+background: radial-gradient(120% 140% at 0% 0%, #020617 0%, #020617 40%, #020617 100%);
+}
+
+/* Top nav – glass, fixed, full width */
+.nav{
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+height: var(--siteHeaderH);   /* 56px from :root */
+z-index: 4000;
+backdrop-filter: blur(10px);
+background: rgba(3,7,18,0.96);
+border-bottom: 1px solid rgba(148,163,184,0.25);
+}
+
+/* Nav content vertically centered */
+.nav-inner{
+max-width: 1180px;
+margin: 0 auto;
+height: 100%;
+padding: 0 22px;
+display: flex;
+align-items: center;
+}
+
+/* Chat shell pushed exactly below nav */
+.app-container{
+margin-top: var(--siteHeaderH);                  /* exactly header height */
+height: calc(100vh - var(--siteHeaderH));        /* full viewport under nav */
+display: flex;
+flex-direction: column;
+}
+
+/* Main row: sidebar + chat */
+.main-content{
+flex: 1;
+display: flex;
+min-height: 0;          /* important for proper scrolling */
+}
+
+/* Left sidebar full height */
+.left-sidebar{
+height: 100%;
+}
+
+/* Chat area background + column */
+.chat-section{
+flex: 1;
+display: flex;
+flex-direction: column;
+min-height: 0;          
+background: radial-gradient(120% 140% at 0% 0%, #020617 0%, #020617 45%, #020617 100%);
+}
+
+/* ===== GROUP HEADER (room title + Q&A) ===== */
+.chat-header{
+position: sticky;
+top: 0;                         /* chipak ke rahega app-container ke top se */
+z-index: 50;
+padding: 12px 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+background: linear-gradient(
+  90deg,
+  rgba(15,23,42,0.98) 0%,
+  rgba(15,23,42,0.96) 60%,
+  rgba(15,23,42,0.92) 100%
+);
+border-bottom: 1px solid rgba(30,64,175,0.6);
+}
+
+/* Title block tighter */
+.chat-title{
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.main-title{
+font-size: 20px;
+font-weight: 700;
+letter-spacing: -0.3px;
+background: linear-gradient(135deg,#e5e7eb,#c7d2fe);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.subtitle{
+font-size: 11px;
+font-weight: 500;
+color: #9ca3af;
+text-transform: uppercase;
+letter-spacing: 0.12em;
+}
+
+/* Q&A button row */
+.chat-info{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+/* Q&A button thoda compact */
+.button-33{
+position: static;              /* ab fixed nahi, sirf header ke andar */
+box-shadow:
+  rgba(44,187,99,.15) 0 1px 2px,
+  rgba(44,187,99,.15) 0 4px 8px;
+padding: 6px 18px;
+font-size: 14px;
+}
+/* === CHAT PAGE LAYOUT FIXES (SAFE OVERRIDES) === */
+
+/* Navbar ke niche chat content ko chipka do */
+body[data-page="chat"] .app-container {
+margin-top: 0 !important;
+padding-top: 0 !important;
+}
+
+body[data-page="chat"] .main-content {
+padding-top: 0 !important;
+}
+
+body[data-page="chat"] .chat-section {
+padding-top: 0 !important;
+}
+
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+}
+
+/* Pinned bar ko bhi header ke bilkul niche rakhna */
+body[data-page="chat"] .pinned-messages {
+margin-top: 0 !important;
+}
+
+/* === Q&A BUTTON – RESTORE NICE PILL LOOK (CHAT PAGE ONLY) === */
+body[data-page="chat"] #qaToggle {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 8px 24px;
+border-radius: 999px;
+border: none;
+background: #a3e635; /* lime green chip jaisa */
+color: #020617;
+font-weight: 600;
+font-size: 14px;
+cursor: pointer;
+box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+}
+
+body[data-page="chat"] #qaToggle:hover {
+background: #bef264;
+box-shadow: 0 10px 24px rgba(22, 163, 74, 0.45);
+}
+/* ==== FIX: Q&A button ko chat header ke andar normal rakhna ==== */
+.qa-toggle,
+.button-33 {
+position: static !important;   /* fixed hata diya */
+right: auto !important;
+top: auto !important;
+z-index: auto !important;
+margin-left: 0;
+}
+/* ===== Chat column ordering ===== */
+.chat-section {
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+/* Order force kar diya – DOM se independent ho gaya */
+.chat-header {
+order: 0;
+}
+.pinned-messages {
+order: 1;
+}
+.chat-messages {
+order: 2;
+}
+.chat-input-container {
+order: 3;
+}
+
+/* ===== Pinned bar – simple, no animation ===== */
+
+/* Default: bilkul bhi space nahi lega */
+.pinned-messages {
+display: none;                  /* hidden by default */
+background: rgba(15,23,42,.85); /* dark strip, match theme */
+border-bottom: 1px solid rgba(15,23,42,.9);
+padding: 8px 14px;
+font-size: 13px;
+color: #e5e7eb;
+
+align-items: center;
+gap: 10px;
+flex-wrap: wrap;
+z-index: 1;
+}
+
+/* Jab JS `show` class lagaye tab hi visible */
+.pinned-messages.show {
+display: flex;
+}
+
+/* "Pinned" label */
+.pinned-messages > span {
+display: flex;
+align-items: center;
+gap: 6px;
+font-weight: 600;
+}
+
+/* Chips */
+.pinned-list {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin: 0;
+}
+
+.pin-chip {
+background: rgba(56,189,248,.12);
+border: 1px dashed rgba(56,189,248,.5);
+border-radius: 999px;
+padding: 4px 10px;
+font-size: 12px;
+cursor: pointer;
+}
+.pin-chip:hover {
+filter: brightness(1.08);
+}
+
+/* Mobile thoda tight */
+@media (max-width: 640px) {
+.pinned-messages.show {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.pin-chip {
+  padding: 3px 8px;
+  font-size: 11px;
+}
+}
+/* --- Pinned bar: simple & stable layout --- */
+.pinned-messages {
+background: rgba(59,130,246,.05);
+border-left: 4px solid var(--brand);
+padding: 8px 14px;
+font-size: 14px;
+color: #cbd5f5;
+
+/* layout */
+display: none;               /* default: hidden */
+align-items: center;
+gap: 10px;
+flex-wrap: wrap;
+}
+
+.pinned-messages.show {
+display: flex;               /* JS jab .show lagayega tab dikhega */
+}
+
+.pinned-messages > span {
+display: flex;
+align-items: center;
+gap: 6px;
+font-weight: 700;
+margin-right: 4px;
+}
+
+.pinned-list {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+margin: 0;
+}
+
+.pin-chip {
+background: var(--chipBg);
+border: 1px dashed rgba(59,130,246,.30);
+border-radius: 10px;
+padding: 6px 10px;
+cursor: pointer;
+}
+
+.pin-chip:hover {
+filter: brightness(1.05);
+}
+
+/* Mobile thoda compact */
+@media (max-width: 640px) {
+.pinned-messages {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.pin-chip {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+}
+
+.chat-header {
+background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(15,23,42,1));
+padding: 16px 24px;
+border-bottom: 1px solid var(--cardBorder);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.chat-section {
+position: relative;
+display: flex;
+flex-direction: column;
+}
+
+.chat-header,
+.pinned-messages {
+position: relative;
+z-index: 1;
+}
+/* ==== REAL FIX: NO MARGIN-TOP ==== */
+body[data-page="chat"] .chat-header {
+margin-top: 0 !important;
+padding-top: 0 !important;
+position: relative !important;
+order: 1 !important;   /* always first */
+}
+
+/* pinned bar just below header */
+#pinnedBar {
+order: 2 !important;
+}
+
+/* messages always below both */
+#chat-messages {
+order: 3 !important;
+}
+/* === Chat room header height tweak === */
+body[data-page="chat"] .chat-header {
+padding-top: 16px !important;
+padding-bottom: 16px !important;
+/* agar aur height chahiye toh 18–20px try kar sakta hai */
+}
+/* === Q&A Button Purple Theme (AlephLearn Style) === */
+body[data-page="chat"] #qaToggle {
+background: linear-gradient(135deg, #a855f7, #ec4899) !important;
+color: #fff !important;
+font-weight: 600;
+padding: 10px 24px;
+border-radius: 22px;
+border: none;
+cursor: pointer;
+box-shadow: 0 0 18px rgba(168, 85, 247, 0.45);
+transition: 0.25s ease-in-out;
+}
+
+/* Hover Effect */
+body[data-page="chat"] #qaToggle:hover {
+transform: translateY(-2px) scale(1.03);
+box-shadow: 0 0 26px rgba(236, 72, 153, 0.55);
+}
+
+/* Active Click Effect */
+body[data-page="chat"] #qaToggle:active {
+transform: scale(0.97);
+}
+/* Chat section should fill screen except header + input */
+body[data-page="chat"] .chat-section {
+display: flex;
+flex-direction: column;
+height: calc(100vh - 70px); /* 70px = main navbar height */
+}
+
+/* Chat header fixed at top */
+body[data-page="chat"] .chat-header {
+flex-shrink: 0;
+}
+
+/* Pinned bar fixed */
+body[data-page="chat"] #pinnedBar {
+flex-shrink: 0;
+}
+
+/* Main scrollable area */
+body[data-page="chat"] #chat-messages {
+flex: 1;                     /* take remaining space */
+overflow-y: auto !important; /* allow scrolling */
+padding-bottom: 20px;
+scroll-behavior: smooth;
+}
+
+/* Chat input fixed at bottom */
+body[data-page="chat"] .chat-input-container {
+flex-shrink: 0;
+margin-top: 8px;
+}
+.chat-messages{
+flex: 1;
+padding: 20px 24px;
+display: flex;
+flex-direction: column;
+gap: 16px;
+
+/* SCROLL IMPORTANT */
+overflow-y: auto !important;
+overflow-x: hidden;
+
+scroll-behavior: smooth;
+scrollbar-width: none;      /* Firefox */
+-ms-overflow-style: none;   /* IE/Edge old */
+}
+
+/* Chrome/Edge/Safari scrollbar hide */
+.chat-messages::-webkit-scrollbar{
+width:0;
+height:0;
+}
+
+/* === CHAT SCROLL FIX === */
+.app-container .chat-section .chat-messages{
+flex: 1 1 auto;
+min-height: 0;
+overflow-y: auto !important;
+overflow-x: hidden;
+}
+/* === FINAL CHAT SCROLL FIX === */
+
+/* Chat area flex layout pakka karo */
+.chat-section{
+display: flex;
+flex-direction: column;
+min-height: 0;
+}
+
+/* Messages ke area ko fixed height + scroll do */
+.chat-messages{
+flex: 1;
+min-height: 0;
+max-height: calc(100vh - var(--siteHeaderH) - 150px);  /* header + input bar ka space */
+overflow-y: auto;
+overflow-x: hidden;
+}
+/* ==== SCROLL FIX – chat messages ko andar scrollable bana do ==== */
+
+.chat-main,
+.chat-window {
+display: flex;
+flex-direction: column;
+height: calc(100vh - var(--siteHeaderH)); /* header ke niche ka full area */
+min-height: 0;
+}
+
+.chat-messages {
+flex: 1 1 auto;
+min-height: 0;
+overflow-y: auto;      /* yaha vertical scroll aayega */
+overflow-x: hidden;
+}
+
+/* safety: body ka scroll kabhi lock na ho (agar kahin se menu-open lag jaye) */
+body.menu-open {
+overflow-y: auto !important;
+position: static !important;
+width: 100%;
+}
+/* ==== Mobile chat height & scrolling fix ==== */
+/* ==== MOBILE CHAT FIX (<= 640px) ==== */
+@media (max-width: 640px) {
+
+/* Pure chat area ko pure viewport ke hisaab se set karo */
+html, body {
+  height: 100vh;
+  overflow: hidden;       /* page scroll band, andar scroll hoga */
+}
+
+.app-container {
+  min-height: 100vh;
+  margin-top: var(--siteHeaderH);
+}
+
+.main-content {
+  flex-direction: column;
+  height: calc(100vh - var(--siteHeaderH));
+  min-height: 0;
+}
+
+/* LEFT SIDEBAR mobile pe normally hide / collapse hoti hai, 
+   agar visible ho to bhi height issue na ho */
+.left-sidebar {
+  height: auto;
+  max-height: 40vh;
+}
+
+.chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* 🧱 Header ko compact karo */
+.chat-header {
+  padding: 10px 14px;
+}
+
+.main-title {
+  font-size: 18px;
+}
+
+.subtitle {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* 🧱 Messages area: input ke liye niche space chhod do */
+.chat-messages {
+  padding: 12px 14px 90px;   /* bottom padding ↑ input ki height + gap */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* 🧱 Input bar: fixed bottom pe, hamesha visible */
+.chat-input-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;                 /* agar niche chips bar hai to bhi isko upar rakhna */
+  padding: 8px 12px;
+  background: rgba(15,23,42,0.98);
+  border-top: 1px solid rgba(148,163,184,0.35);
+  z-index: 3600;             /* nav (4000) se kam, baaki sab se upar */
+}
+
+.chat-input-wrapper {
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.chat-input {
+  font-size: 14px;
+}
+
+.input-btn {
+  width: 30px;
+  height: 30px;
+}
+
+.send-btn {
+  width: 36px;
+  height: 36px;
+}
+}
+/* ================================
+ MOBILE CHAT LAYOUT FIX (<=640px)
+ ================================ */
+ @media (max-width: 640px) {
+
+  /* Nav + header height thoda chhota */
+  :root{
+    --siteHeaderH: 52px;
+  }
+
+  .chat-header{
+    padding: 10px 12px;
+  }
+  .main-title{
+    font-size: 18px;
+  }
+  .subtitle{
+    font-size: 10px;
+  }
+
+  /* Chat section full screen ka space le */
+  .chat-section{
+    min-height: calc(100vh - var(--siteHeaderH));
+  }
+
+  /* Messages ke niche extra space, taki input bar ke peeche naa chhupe */
+  .chat-messages{
+    padding: 12px 12px 96px;   /* ⬅ bottom padding important */
+  }
+
+  /* Typing bar – FIXED bottom, chhoti height */
+  .chat-input-container{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 8px 10px;
+    background: rgba(15,23,42,.98);
+    border-top: 1px solid rgba(148,163,184,.4);
+    z-index: 3000;             /* sabse upar, but groups ke neeche nahi, balki unse upar */
+  }
+
+  .chat-input-wrapper{
+    padding: 8px 12px;
+    border-radius: 18px;
+    gap: 8px;
+  }
+
+  .chat-input{
+    font-size: 13px;
+  }
+
+  .input-btn{
+    width: 30px;
+    height: 30px;
+  }
+
+  .send-btn{
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    box-shadow: 0 8px 18px rgba(37,99,235,.30);
+  }
+
+  /* Thoda extra bottom space overall, agar kisi aur bottom bar ki wajah se squeeze ho raha ho */
+  .app-container{
+    padding-bottom: 70px;
+  }
+}
+/* === FINAL MOBILE CHAT FIXES (Harshit phone view) === */
+
+/* Messages ke niche extra space, taaki input + bottom tabs se clip na ho */
+.chat-messages{
+padding-bottom: 120px;   /* desktop + mobile dono ke liye safe */
+}
+
+/* Mobile only tweaks */
+@media (max-width: 640px){
+
+/* Chat group header (DSA…) ko compact bana */
+.chat-header{
+  padding: 10px 14px;
+}
+.main-title{
+  font-size: 18px;
+}
+.subtitle{
+  font-size: 10px;
+}
+
+/* Typing bar ko thoda chhota + bottom chips se upar le aa */
+.chat-input-container{
+  padding: 10px 12px;
+  bottom: 56px;        /* 🔥 bottom room-chips bar ki height ke upar */
+}
+
+.chat-input-wrapper{
+  padding: 8px 10px;
+  border-radius: 20px;
+}
+
+.chat-input{
+  font-size: 13px;
+}
+
+/* Send / emoji buttons thode compact */
+.input-btn{
+  width: 30px;
+  height: 30px;
+}
+}
+/* =========================================================
+ MOBILE STRUCTURE OVERRIDE (ONLY MOBILE) — v2
+ Goal:
+ - header always visible
+ - composer (input) sits ABOVE mobile bottom groups bar
+ - messages never clip / cut on sides
+ - keep desktop untouched
+ ========================================================= */
+
+@media (max-width: 768px){
+:root{
+  --al-nav-h: 60px;            /* top navbar height (adjust if needed) */
+  --al-bottom-tabs-h: 60px;    /* mobile bottom groups bar height */
+  --al-composer-pad: 12px;
+}
+
+/* Make the chat page a clean full-height column */
+body[data-page="chat"] .app-container{
+  height: 100vh !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  padding-top: var(--al-nav-h) !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+body[data-page="chat"] .main-content{
+  height: calc(100vh - var(--al-nav-h)) !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body[data-page="chat"] .left-sidebar{
+  display: none !important;
+}
+
+body[data-page="chat"] .chat-section{
+  height: 100% !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Header: sticky under navbar so it never hides */
+body[data-page="chat"] .chat-header{
+  position: sticky !important;
+  top: 0 !important; /* within chat-section (already below navbar via app-container padding-top) */
+  z-index: 1200 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  padding: 1px 14px !important;
+}
+
+/* Pinned bar stays right under header (optional but safe) */
+body[data-page="chat"] .pinned-messages,
+body[data-page="chat"] #pinnedBar{
+  position: sticky !important;
+  top: 62px !important; /* approx chat-header height */
+  z-index: 1100 !important;
+}
+
+/* Bottom groups bar (your mobile sidebar replacement) */
+body[data-page="chat"] .mobile-bottom-bar,
+body[data-page="chat"] #mobile-bottom-bar{
+  height: var(--al-bottom-tabs-h) !important;
+  padding-bottom: env(safe-area-inset-bottom) !important;
+  z-index: 1500 !important;
+}
+
+/* Composer: fixed ABOVE bottom groups bar */
+body[data-page="chat"] .chat-input-container{
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: calc(var(--al-bottom-tabs-h) + env(safe-area-inset-bottom)) !important;
+  z-index: 2000 !important;
+  margin: 0 !important;
+  padding: var(--al-composer-pad) !important;
+  box-sizing: border-box !important;
+}
+
+/* Messages: scroll area, with enough bottom padding so last msg never hides */
+body[data-page="chat"] .chat-messages,
+body[data-page="chat"] #chat-messages{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  padding: 12px 12px calc(var(--al-bottom-tabs-h) + 96px + env(safe-area-inset-bottom)) 12px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Message rows/bubbles should NEVER overflow/cut on phone */
+body[data-page="chat"] .message,
+body[data-page="chat"] .chat-message,
+body[data-page="chat"] .message-row,
+body[data-page="chat"] .message-wrapper{
+  max-width: 100% !important;
+}
+
+body[data-page="chat"] .message-content,
+body[data-page="chat"] .message-bubble{
+  max-width: 78vw !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* Prevent accidental horizontal scroll from any child */
+body[data-page="chat"] .chat-section *{
+  max-width: 100%;
+}
+}
+
+
+/* ===========================
+   MOBILE QUICK FIX (22-Dec)
+   - Group header too low: remove any leftover top offset on mobile
+   =========================== */
+   @media (max-width: 768px) {
+    body[data-page="chat"] .app-container,
+    body[data-page="chat"] .main-content,
+    body[data-page="chat"] .chat-section,
+    body[data-page="chat"] .chat-header,
+    body[data-page="chat"] .chat-group-header {
+      margin-top: 24 !important;
+      padding-top: 26 !important;
+      top: 0 !important;
+    }
+
+  /* If any wrapper is adding extra spacing */
+  body[data-page="chat"] header.nav + .app-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+
+
+/* ==========================================================
+   MOBILE NAV + GROUP HEADER FIX (FINAL)
+   - Fix "header aadha dikh raha" by forcing real height
+   - Remove sticky top:23px gap (was pushing / clipping)
+   - Keep group header (chat-header) just below main nav
+   NOTE: kept super-specific + !important because styles.css/index.css load after chat.css
+   ========================================================== */
+@media (max-width: 640px) {
+
+  :root{
+    --siteHeaderH: 56px; /* real nav height on mobile */
+  }
+
+  body[data-page="chat"] header.nav{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: var(--siteHeaderH) !important;
+    min-height: var(--siteHeaderH) !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    z-index: 5000 !important; /* above everything */
+    overflow: visible !important;
+  }
+
+  /* If any older rule sets sticky+top:23px on .nav, override it hard */
+  body[data-page="chat"] .nav{
+    position: fixed !important;
+    top: 0 !important;
+    height: var(--siteHeaderH) !important;
+    min-height: var(--siteHeaderH) !important;
+  }
+
+  /* Ensure chat content starts AFTER the fixed nav (no hidden top) */
+  body[data-page="chat"] .app-container{
+    margin-top: 0 !important;
+    padding-top: calc(var(--siteHeaderH) + 0px) !important;
+  }
+
+  /* Make sure group header is not inside/behind nav */
+  body[data-page="chat"] .chat-header{
+    margin-top: 0 !important;
+  }
+
+  /* Safety: avoid any accidental clipping from wrappers */
+  body[data-page="chat"] .main-content{
+    padding-top: 0 !important;
+  }
+}
+/* =========================
+   AUTH PAGE BACK ARROW
+   ========================= */
+   .auth-back{
+    position: fixed;
+    top: 22px;
+    left: 22px;
+  
+    width: 42px;
+    height: 42px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border-radius: 50%;
+    text-decoration: none;
+  
+    font-size: 20px;
+    font-weight: 600;
+  
+    color: #ffffff;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(10px);
+  
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    transition: all 0.25s ease;
+  
+    z-index: 50;
+  }
+  
+  .auth-back:hover{
+    transform: translateX(-3px);
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    box-shadow: 0 12px 35px rgba(139,92,246,0.45);
+  }
+  
+  /* Mobile pe thoda aur safe spacing */
+  @media (max-width: 600px){
+    .auth-back{
+      top: 16px;
+      left: 16px;
+      width: 38px;
+      height: 38px;
+      font-size: 18px;
+    }
+  }

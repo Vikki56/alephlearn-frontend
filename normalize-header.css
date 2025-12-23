@@ -1,0 +1,22 @@
+/* --- lock header/nav/avatar across pages --- */
+:root{ --header-max:1180px; }
+
+.nav-inner{ max-width:var(--header-max); padding:10px 22px; display:flex; align-items:center; gap:16px; }
+.logo{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; font-weight:800; }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px; }
+
+.links, .nav-links{ display:flex; gap:10px; margin-left:10px; flex:1; }
+.links a, .link{
+  font-size:14px; line-height:1; padding:8px 12px; border-radius:10px;
+  color:#c7d2f5; text-decoration:none; opacity:.7;
+}
+.links a.active, .link.active{
+  opacity:1; color:#fff;
+  background:linear-gradient(90deg, rgba(157,99,255,.18), rgba(34,211,238,.18));
+  border:1px solid rgba(255,255,255,.08);
+}
+.avatar{
+  width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+  font-size:12px; line-height:1; background:#1a2035; border:1px solid rgba(255,255,255,.08);
+}
+.nav{ min-height:54px; } /* avoids tiny jumps */

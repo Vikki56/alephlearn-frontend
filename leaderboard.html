@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AlephLearn • Leaderboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="leaderboard.css" />
+</head>
+
+  <body data-page="leaderboard" class="leaderboard-page" style="background:#020617;">
+    <div class="page-transition">
+  <!-- ======= ONLY ONE THING: BACK BUTTON ======= -->
+  <div style="padding:1.5rem;">
+    <button class="back-btn" onclick="smoothBack()">
+      <span class="arrow">←</span>
+      Back to Quizzes
+    </button>
+  </div>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="container" style="max-width:1100px; margin:auto; padding-bottom:2rem;">
+
+    <!-- SECTION 1: Latest Attempt + Leaderboard -->
+    <!-- SECTION 1: Latest Attempt + Leaderboard -->
+    <section class="card improved-card" id="latestResultSection">
+      <div class="card-header">
+        <h1 class="card-title">
+          <span>📊</span>
+          <span>Latest Quiz Result</span>
+        </h1>
+        <p class="quiz-desc">
+          Your latest quiz result appears here and updates automatically after every attempt.
+        </p>
+      </div>
+
+      <div class="card-body">
+        <!-- Latest result summary -->
+        <div id="latestResultSummary" class="result-summary">
+          <p style="color:#94a3b8; font-size:0.9rem;">
+            You haven’t attempted any quiz yet. Once you attempt a quiz, the result will show up here.
+          </p>
+        </div>
+
+        <hr class="result-divider" />
+
+        <!-- Same quiz leaderboard -->
+        <div class="leaderboard-card">
+          <div class="card-header" style="padding-left:0; padding-right:0; border:none;">
+            <h2 class="card-title">
+              <span>🏁</span>
+              <span>Current Quiz Leaderboard</span>
+            </h2>
+            <p class="quiz-desc">
+              This leaderboard only shows the quiz you attempted most recently.
+            </p>
+          </div>
+
+          <div id="currentQuizLeaderboardContainer">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>User</th>
+                  <th>Score</th>
+                  <th>Time Taken</th>
+                </tr>
+              </thead>
+              <tbody id="currentQuizLeaderboardBody">
+                <tr>
+                  <td colspan="4" style="padding:0.8rem 0.75rem; color:#94a3b8;">
+                    Once the quiz is completed, the full leaderboard will appear here.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION 2: My History -->
+    <section class="card" id="historySection" style="margin-top: 1.75rem;">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span>📚</span>
+          <span>My Quiz History</span>
+        </h2>
+        <p class="quiz-desc">
+          Overview of all your past quiz attempts, including score, best rank, fastest time, and total attempts.
+        </p>
+      </div>
+
+      <div class="card-body">
+        <div class="leaderboard-card">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Quiz</th>
+                <th>Best Score</th>
+                <th>Best Rank</th>
+                <th>Fastest Time</th>
+                <th>Total Attempts</th>
+              </tr>
+            </thead>
+            <tbody id="myHistoryBody">
+              <tr>
+                <td colspan="6" style="padding:0.8rem 0.75rem; color:#94a3b8;">
+                  Abhi tak koi attempt history nahi hai.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+    </div>
+  <script>
+    // smooth fade on navigation
+    function smoothBack() {
+      const page = document.querySelector('.page-transition');
+      page.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'quizzes.html';
+      }, 300);
+    }
+  </script>
+  <!-- SCRIPTS -->
+  <script type="module" src="./js/api.js"></script>
+
+  <script type="module" src="./js/protect.js"></script>
+  <script src="role-ui.js"></script>
+  <script type="module" src="js/academicGuard.js"></script>
+  <!-- SCRIPTS -->
+  <script type="module" src="./leaderboard.js"></script>
+
+</body>
+</html>

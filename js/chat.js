@@ -3,6 +3,19 @@
 // ✅ Dev: http://localhost:8080
 // ✅ Prod: Render backend (or later api.alephlearn.com)
 window.API_BASE = window.API_BASE || 'http://localhost:8080';
+
+
+// --- BOOT/Preload unhide (prevent blank page if any init fails) ---
+function endBoot(){
+  try{
+    document.documentElement.classList.remove("al-preload");
+    document.body.classList.remove("al-boot");
+    // safety: restore pointer events if used
+    document.querySelector(".app-container")?.style.removeProperty("pointer-events");
+  }catch{}
+}
+// Fallback: never stay hidden forever
+setTimeout(endBoot, 2500);
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
@@ -5519,7 +5532,11 @@ async function start(){
   await joinRoom(currentRoom);
   setTimeout(() => loadPinned(currentRoom), 1000);
 }
-start();
+(async () => {
+  try { await start(); }
+  catch (e) { console.error('start() failed', e); }
+  finally { endBoot(); }
+})();
 async function loadRoomsFromBackend(subjectKey) {
   const subject = subjectKey || "btech_cse";
   const url = `${API_BASE}/api/rooms?subject=${encodeURIComponent(subjectKey)}&q=`;

@@ -8,7 +8,7 @@
   /* Only hide MAIN content while booting (header stays visible) */
   html.al-preload body[data-page="chat"] .app-container{
     opacity: 0 !important;
-    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   /* Hide fake default content until JS fills real data */
@@ -16,7 +16,8 @@
   body[data-page="chat"].al-boot #roomTitle,
   body[data-page="chat"].al-boot #roomSubtitle,
   body[data-page="chat"].al-boot #chat-messages{
-    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 </style>
 <script>

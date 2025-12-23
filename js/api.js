@@ -138,22 +138,26 @@ export async function authFetch(path, options = {}) {
   }
 
   // ✅ 403 => BLOCKED/BANNED => forced logout + popup
+  // ✅ 403 => DO NOT auto-logout always (can be normal "Forbidden")
   if (res.status === 403) {
-    let msg = "Your account is blocked/banned. Contact admin.";
+    let msg = "Forbidden";
     try {
       const j = text ? JSON.parse(text) : null;
-      msg = j?.message || msg;
+      msg = j?.message || j?.error || msg;
     } catch {
       if (text) msg = text;
     }
 
-    // store message for Auth.html to show
-    sessionStorage.setItem("blocked_msg", msg);
+    const m = (msg || "").toLowerCase();
+    const looksBlocked =
+      m.includes("blocked") || m.includes("banned") || m.includes("suspended");
 
-    // logout + redirect
-    clearAuth();
-    const next = encodeURIComponent(location.pathname + location.search + location.hash);
-    location.replace(`Auth.html#login?blocked=1&next=${next}`);
+    if (looksBlocked) {
+      sessionStorage.setItem("blocked_msg", msg);
+      clearAuth();
+      const next = encodeURIComponent(location.pathname + location.search + location.hash);
+      location.replace(`Auth.html#login?blocked=1&next=${next}`);
+    }
 
     throw new Error(msg);
   }

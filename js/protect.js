@@ -1,20 +1,18 @@
 // protect.js
-import { getToken, clearAuth, authFetch } from "./api.js";
+import { getToken, clearAuth, authFetch, API_BASE } from "./api.js";
 
-
-
-function parseJwt(t){ try{ return JSON.parse(atob(t.split(".")[1]||"")); }catch{return null;} }
-function isTokenValid(t){ const p=parseJwt(t); return t && (!p?.exp || Date.now()<p.exp*1000); }
-
-
+function parseJwt(t){ try{ return JSON.parse(atob((t.split(".")[1]||""))); }catch{return null;} }
+function isTokenValid(t){ const p=parseJwt(t); return !!t && (!p?.exp || Date.now() < p.exp*1000); }
 
 async function verifyWithServer(token){
   try{
-    const res = await fetch("https://alephlearn-backend.onrender.com/api/ping", {
+    const res = await fetch(`${API_BASE}/api/ping`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.ok;
-  }catch{ return false; }
+  }catch{
+    return false;
+  }
 }
 
 (async () => {
@@ -25,13 +23,16 @@ async function verifyWithServer(token){
     location.replace(`Auth.html#login?next=${next}`);
     return;
   }
+
   // expose for pages
   window.authFetch = (url, opts={}) => authFetch(url, opts);
 
   document.getElementById("logoutBtn")?.addEventListener("click", () => {
-    clearAuth(); location.replace("Auth.html#login");
+    clearAuth();
+    location.replace("Auth.html#login");
   });
 })();
+
 function getRoleFromToken(token){
   const p = parseJwt(token) || {};
   const r =
@@ -40,6 +41,7 @@ function getRoleFromToken(token){
     (Array.isArray(p.authorities) ? p.authorities[0] : null);
   return (r || "").toString().toUpperCase();
 }
+
 (function adminLinkToggle(){
   const token = getToken();
   const role = getRoleFromToken(token) || (localStorage.getItem("role")||"").toUpperCase();
@@ -48,6 +50,7 @@ function getRoleFromToken(token){
     a.style.display = (role === "ADMIN") ? "" : "none";
   });
 })();
+
 window.showBlockedModal = function(message){
   const modal = document.getElementById("blockedModal");
   const msg = document.getElementById("blockedMessage");
@@ -59,7 +62,9 @@ window.showBlockedModal = function(message){
 
 window.closeBlockedModal = function(){
   document.getElementById("blockedModal")?.classList.remove("show");
-};// ✅ Override all browser alerts -> show our custom modal instead
+};
+
+// ✅ Override all browser alerts -> show our custom modal instead
 (() => {
   const nativeAlert = window.alert;
 

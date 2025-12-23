@@ -1,17 +1,16 @@
-// ✅ Single backend origin (works in local + production)
-const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
+// --- CONFIG ---
+// Single source of truth for backend base URL.
+// - Dev:   http://localhost:8080
+// - Prod:  https://alephlearn-backend.onrender.com  (until you move to https://api.alephlearn.com)
+const isFile = location.origin === 'null' || location.protocol === 'file:';
+const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
+const looksLikeProd = /(^|\.)alephlearn\.com$/.test(location.hostname) || location.hostname.endsWith('.pages.dev');
 
-const isLocal =
-  location.hostname === "localhost" ||
-  location.hostname === "127.0.0.1" ||
-  location.protocol === "file:";
-
-export const API_BASE = ORIGIN_OVERRIDE
-  ? ORIGIN_OVERRIDE
-  : (isLocal ? "http://localhost:8080" : "https://alephlearn-backend.onrender.com");
-
-// keep for legacy scripts that read window.API_BASE
-window.API_BASE = API_BASE;
+export const API_BASE = (
+  (window.API_BASE && String(window.API_BASE).trim())
+  || (localStorage.getItem('backendOrigin') || '').trim()
+  || (isFile || looksLikeDev ? 'http://localhost:8080' : (looksLikeProd ? 'https://alephlearn-backend.onrender.com' : location.origin))
+);
 
 // --- TOAST ---
 export function showToast(message, type = "info", ms = 2200) {

@@ -261,7 +261,7 @@ if (userId) {
     } else {
       const next = new URL(location.href).hash.includes("next=")
         ? decodeURIComponent(location.hash.split("next=")[1])
-        : "index.html";
+        : "dashboard.html";
       location.replace(next);
     }
   } catch (err) {

@@ -6,7 +6,7 @@ function getNext() {
   const hash = location.hash || "";
   const q = hash.split("?")[1] || "";
   const params = new URLSearchParams(q);
-  return params.get("next") || "index.html";
+  return params.get("next") || "dashboard.html";
 }
 
 // --- Toast helper ---

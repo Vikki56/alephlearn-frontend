@@ -1,10 +1,16 @@
 
+// --- API BASE (dev vs prod) ---
+// ✅ Dev: http://localhost:8080
+// ✅ Prod: Render backend (or later api.alephlearn.com)
 window.API_BASE = window.API_BASE || 'http://localhost:8080';
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-const PROD_API_BASE = "https://alephlearn-backend.onrender.com";
-const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? "http://localhost:8080" : PROD_API_BASE);
+const looksLikeProd = /(^|\.)alephlearn\.com$/.test(location.hostname) || location.hostname.endsWith('.pages.dev');
+const PROD_BACKEND = 'https://alephlearn-backend.onrender.com';
+
+const API_BASE = ORIGIN_OVERRIDE
+  || (isFile || looksLikeDev ? 'http://localhost:8080' : (looksLikeProd ? PROD_BACKEND : location.origin));
 window.API_BASE = API_BASE;
 let currentProfileUserId = null;
 const reportModal = document.getElementById('reportModal');

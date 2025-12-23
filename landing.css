@@ -1124,3 +1124,111 @@ body::after{
       font-size: 28px;
     }
   }
+  /* =========================
+   📱 MOBILE FOOTER FIX
+   ========================= */
+
+@media (max-width: 768px) {
+
+  .lp-footer {
+    padding: 32px 16px 20px;
+    text-align: center;
+  }
+
+  /* Top CTA card spacing */
+  .lp-footer-hero {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .lp-footer-hero h2 {
+    font-size: 22px;
+  }
+
+  .lp-footer-hero p {
+    font-size: 14px;
+  }
+
+  .lp-footer-cta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .lp-footer-cta .btn {
+    width: 100%;
+  }
+
+  /* Bottom section */
+  .lp-footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  /* Brand center */
+  .lp-brand {
+    text-align: center;
+  }
+
+  .lp-logo {
+    font-size: 20px;
+  }
+
+  .lp-tag {
+    font-size: 13px;
+  }
+
+  /* Links stacked cleanly */
+  .lp-links {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .lp-links .col {
+    align-items: center;
+    text-align: center;
+  }
+
+  .lp-links .col-title {
+    font-size: 12px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  .lp-links a {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  /* Footer meta */
+  .lp-footer-meta {
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 16px;
+  }
+
+  .lp-footer-meta .dot {
+    display: none;
+  }
+}
+
+/* 📱 EXTRA SMALL PHONES */
+@media (max-width: 480px) {
+
+  .lp-footer {
+    padding: 28px 14px 18px;
+  }
+
+  .lp-footer-hero h2 {
+    font-size: 20px;
+  }
+
+  .lp-links {
+    gap: 20px;
+  }
+}

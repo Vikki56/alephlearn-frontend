@@ -3,7 +3,7 @@ window.API_BASE = window.API_BASE || 'https://alephlearn-backend.onrender.com';
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? 'http://localhost:8080' : location.origin);
+const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? 'http://localhost:8080' : 'https://alephlearn-backend.onrender.com');
 window.API_BASE = API_BASE;
 let currentProfileUserId = null;
 const reportModal = document.getElementById('reportModal');
@@ -2502,7 +2502,7 @@ window.QUESTION_CACHE = {};
     : ((() => {
         const isFile2 = location.origin === 'null' || location.protocol === 'file:';
         const looksLikeDev2 = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-        return (isFile2 || looksLikeDev2) ? 'http://localhost:8080' : location.origin;
+        return (isFile2 || looksLikeDev2) ? 'http://localhost:8080' : 'https://alephlearn-backend.onrender.com';
       })());
       window.API_BASE = (typeof API_BASE !== 'undefined' && API_BASE) ? API_BASE : API_BASE_QA;
       window.API_BASE_QA = API_BASE_QA;

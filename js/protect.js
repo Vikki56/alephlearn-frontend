@@ -10,7 +10,7 @@ function isTokenValid(t){ const p=parseJwt(t); return t && (!p?.exp || Date.now(
 
 async function verifyWithServer(token){
   try{
-    const res = await fetch("http://localhost:8080/api/ping", {
+    const res = await fetch("https://alephlearn-backend.onrender.com/api/ping", {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.ok;

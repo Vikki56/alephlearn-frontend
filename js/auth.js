@@ -1,5 +1,5 @@
 // --- CONFIG ---
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://alephlearn-backend.onrender.com";
 const $ = (id) => document.getElementById(id);
 
 // --- ELEMENTS ---

@@ -1,5 +1,5 @@
 // ==== API CONFIG (simple local helper) ====
-const API_BASE = "http://localhost:8080/api";
+const API_BASE = "https://alephlearn-backend.onrender.com/api";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");

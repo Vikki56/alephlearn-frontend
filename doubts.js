@@ -1,6 +1,6 @@
 // ---------------- GLOBAL CONFIG ----------------
 
-const API = "http://localhost:8080/api";
+const API = "https://alephlearn-backend.onrender.com/api";
 // import { authFetch } from "./api.js";   // path as per your project
 const USER_ID = Number(localStorage.getItem("userId")) || null;
 let VIEW_MODE = "ALL";   // "ALL" = Recent Doubts, "MINE" = My Doubts

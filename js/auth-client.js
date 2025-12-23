@@ -1,5 +1,5 @@
 // --- CONFIG ---
-export const API_BASE = "http://localhost:8080";
+export const API_BASE = "https://alephlearn-backend.onrender.com";
 
 // --- TOAST ---
 export function showToast(message, type = "info", ms = 2200) {
@@ -42,6 +42,7 @@ export function saveAuth(token, email) {
   localStorage.setItem("token", token);
   localStorage.setItem("user", email);
 }
+
 export function clearPasswords() {
   ["spass", "scpass", "lpass"].forEach((id) => {
     const el = document.getElementById(id);

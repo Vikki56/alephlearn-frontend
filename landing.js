@@ -61,7 +61,7 @@ document.addEventListener("keydown", (e) => {
 // ===============================
 // Support Modal: Contact + Report Bug (Backend Connected)
 // ===============================
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://alephlearn-backend.onrender.com/api";
 const token = () => localStorage.getItem("token") || localStorage.getItem("jwt") || "";
 
 async function api(path, opts = {}) {

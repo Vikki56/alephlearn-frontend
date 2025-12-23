@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8080"; // backend
+const API_BASE = "https://alephlearn-backend.onrender.com"; // backend
 
 // --- Redirect helper ---
 function getNext() {

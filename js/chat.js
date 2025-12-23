@@ -1,9 +1,9 @@
 
-window.API_BASE = window.API_BASE || 'http://localhost:8080';
+window.API_BASE = window.API_BASE || 'https://alephlearn-backend.onrender.com';
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? 'http://localhost:8080' : location.origin);
+const API_BASE = ORIGIN_OVERRIDE || (isFile || looksLikeDev ? 'http://localhost:8080' : 'https://alephlearn-backend.onrender.com');
 window.API_BASE = API_BASE;
 let currentProfileUserId = null;
 const reportModal = document.getElementById('reportModal');
@@ -82,7 +82,7 @@ async function initNotifications() {
     }
 
     // get my userId from backend
-    const meRes = await authFetch(`${API_BASE}/api/profile/me`);
+    const meRes = await authFetch(`/api/profile/me`);
     if (!meRes || !meRes.ok) {
       console.warn("Can't start notifications: /api/profile/me failed", meRes?.status, meRes?.statusText);
       return;
@@ -463,8 +463,8 @@ async function startRecording() {
       const blob = new Blob(recChunks, { type: 'audio/webm' });
       window.__voiceOnStop(blob); // show review bar
     };
-    mediaRecorder.start().catch(console.error).finally(alRevealUI);
-} catch (err) {
+    mediaRecorder.start();
+  } catch (err) {
     alert('Mic permission denied or unavailable.');
   }
 }
@@ -1131,11 +1131,6 @@ function showConfirmModal({
 window.ensureConfirmModal = ensureConfirmModal;
 window.showConfirmModal   = showConfirmModal;
 // ========= /Confirm Modal =========
-// ===== /Confirm Modal =====
-// expose to global so console/tests can call it
-window.ensureConfirmModal = ensureConfirmModal;
-window.showConfirmModal   = showConfirmModal;
-// ===== /Confirm Modal =====
 
 
 
@@ -2507,7 +2502,7 @@ window.QUESTION_CACHE = {};
     : ((() => {
         const isFile2 = location.origin === 'null' || location.protocol === 'file:';
         const looksLikeDev2 = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
-        return (isFile2 || looksLikeDev2) ? 'http://localhost:8080' : location.origin;
+        return (isFile2 || looksLikeDev2) ? 'http://localhost:8080' : 'https://alephlearn-backend.onrender.com';
       })());
       window.API_BASE = (typeof API_BASE !== 'undefined' && API_BASE) ? API_BASE : API_BASE_QA;
       window.API_BASE_QA = API_BASE_QA;
@@ -3376,7 +3371,7 @@ function setComposerVisible(visible) {
 
 
 async function qaOpen(qid){
-  try { window.__qaOpenQuestionId = id; } catch {}
+  try { window.__qaOpenQuestionId = qid; } catch {}
 
   const modal = document.getElementById('qaViewModal');
   if (!modal) { console.error('Missing #qaViewModal in chat.html'); alert('Internal error'); return; }
@@ -5470,13 +5465,6 @@ $('#sendFab')?.addEventListener('click', (e)=>{
     ro.observe(hdr);
   }
 })();
-
-// === Boot visibility helper (prevents FOUC + keeps header stable) ===
-function alRevealUI(){
-  try { document.body.classList.remove('al-boot'); } catch {}
-  try { document.documentElement.classList.remove('al-preload'); } catch {}
-}
-
 async function start(){
   bindUI();
   try {
@@ -5508,7 +5496,6 @@ async function start(){
         </div>`;
     }
     await initBackendOrSim();
-    alRevealUI();
     return;
   }
 
@@ -5518,8 +5505,6 @@ async function start(){
 
   await initBackendOrSim();
   await joinRoom(currentRoom);
-  alRevealUI(); // ✅ show UI now that initial data is ready
-
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       document.body.classList.remove("al-boot");
@@ -6131,14 +6116,3 @@ style.innerHTML = `
   to { transform: scale(1); opacity:1 }
 }`;
 document.head.appendChild(style);
-
-// Fallback: reveal UI on window load (even if boot errors)
-window.addEventListener('load', () => {
-  requestAnimationFrame(() => alRevealUI());
-});
-document.querySelectorAll('.js-logout').forEach(btn => {
-  btn.addEventListener('click', () => {
-    localStorage.removeItem("token");
-    window.location.href = "./auth.html";
-  });
-});

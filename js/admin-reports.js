@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://alephlearn-backend.onrender.com";
 
 const LOCKED_STATUSES = ["BLOCKED", "BANNED", "RESOLVED", "REJECTED"];
 const HIDE_FROM_LIST  = ["BLOCKED", "BANNED"]; // feed clean

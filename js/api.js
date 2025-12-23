@@ -1,5 +1,17 @@
-// --- CONFIG ---
-export const API_BASE = "http://localhost:8080";
+// ✅ Single backend origin (works in local + production)
+const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
+
+const isLocal =
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1" ||
+  location.protocol === "file:";
+
+export const API_BASE = ORIGIN_OVERRIDE
+  ? ORIGIN_OVERRIDE
+  : (isLocal ? "http://localhost:8080" : "https://alephlearn-backend.onrender.com");
+
+// keep for legacy scripts that read window.API_BASE
+window.API_BASE = API_BASE;
 
 // --- TOAST ---
 export function showToast(message, type = "info", ms = 2200) {

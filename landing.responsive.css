@@ -345,3 +345,47 @@ h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }
     height: 48px !important;
   }
 }
+/* ===============================
+   NAVBAR – MOBILE ONLY FIX
+   Desktop untouched
+================================ */
+
+/* ----- DESKTOP (default) ----- */
+header.nav .burger {
+  display: none; /* ❌ desktop pe burger nahi */
+}
+
+/* ----- MOBILE ONLY ----- */
+@media (max-width: 768px) {
+
+  /* Hide nav links on mobile */
+  header.nav .nav-links {
+    display: none;
+  }
+
+  /* Show hamburger on mobile */
+  header.nav .burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  /* Hamburger lines */
+  header.nav .burger span {
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    display: block;
+  }
+
+  /* Logo size – mobile only */
+  header.nav img.logo {
+    width: 48px;
+    height: 48px;
+  }
+}

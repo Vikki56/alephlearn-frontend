@@ -3,9 +3,7 @@ const API_BASE = "https://alephlearn-backend.onrender.com/api";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
-  if (!token) {
-    return {};
-  }
+  if (!token) return {};
   return {
     Authorization: "Bearer " + token,
     "Content-Type": "application/json",
@@ -17,6 +15,28 @@ function showProfileRoot() {
   if (!root) return;
   root.classList.remove("profile-hidden");
   root.classList.add("profile-visible");
+}
+
+/* =========================
+   ✅ PROFILE CACHE (FAST UI)
+========================= */
+const PROFILE_CACHE_KEY = "profile_cache_v1";
+const PROFILE_CACHE_TTL = 60 * 1000; // 60 sec
+
+function cacheRead() {
+  try {
+    const o = JSON.parse(localStorage.getItem(PROFILE_CACHE_KEY) || "null");
+    if (!o?.ts || !o?.data) return null;
+    if (Date.now() - o.ts > PROFILE_CACHE_TTL) return null;
+    return o.data;
+  } catch {
+    return null;
+  }
+}
+function cacheWrite(data) {
+  try {
+    localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
 }
 
 // 🔹 URL PARAMS → are we viewing someone else?
@@ -76,7 +96,6 @@ function renderInterests() {
     const labelSpan = document.createElement("span");
     labelSpan.textContent = interest;
 
-    // self profile pe hi label click = edit
     if (!viewingOther) {
       labelSpan.addEventListener("click", () => {
         const input = document.getElementById("interestInput");
@@ -84,7 +103,6 @@ function renderInterests() {
         input.value = interest;
         interests.splice(index, 1);
         renderInterests();
-        // user "Add" dabayega tab backend sync hoga
       });
     }
 
@@ -120,34 +138,39 @@ function renderInterests() {
 }
 
 // ------- BACKEND: INTERESTS (self only) -------
-
-async function loadInterestsFromBackend() {
-  if (viewingOther) return; // ❌ never load self interests on foreign profile
+async function loadInterestsFromBackend(returnDataOnly = false) {
+  if (viewingOther) return returnDataOnly ? [] : undefined;
 
   try {
     const headers = getAuthHeaders();
-    if (!headers.Authorization) return;
+    if (!headers.Authorization) return returnDataOnly ? [] : undefined;
 
     const res = await fetch(`${API_BASE}/profile/interests`, {
       method: "GET",
       headers,
     });
+
     if (!res.ok) {
       console.warn("Failed to load interests:", res.status);
-      return;
+      return returnDataOnly ? [] : undefined;
     }
+
     const data = await res.json();
+
     if (Array.isArray(data)) {
+      if (returnDataOnly) return data;
       interests = data;
       renderInterests();
     }
+    return returnDataOnly ? (Array.isArray(data) ? data : []) : undefined;
   } catch (err) {
     console.error("Error loading interests:", err);
+    return returnDataOnly ? [] : undefined;
   }
 }
 
 async function syncInterestsToBackend() {
-  if (viewingOther) return; // foreign profile → no sync
+  if (viewingOther) return;
 
   try {
     const headers = getAuthHeaders();
@@ -158,6 +181,7 @@ async function syncInterestsToBackend() {
       headers,
       body: JSON.stringify(interests),
     });
+
     if (!res.ok) {
       console.warn("Failed to save interests:", res.status);
     }
@@ -171,7 +195,6 @@ function setupInterests() {
   const addBtn = document.getElementById("addInterestBtn");
   if (!input || !addBtn) return;
 
-  // Agar kisi aur ka profile dekh rahe → pura row hi disable
   if (viewingOther) {
     const row = document.querySelector(".interest-input-row");
     if (row) row.style.display = "none";
@@ -192,7 +215,7 @@ function setupInterests() {
     interests.push(value);
     input.value = "";
     renderInterests();
-    await syncInterestsToBackend(); // 🔥 new
+    await syncInterestsToBackend();
   }
 
   addBtn.addEventListener("click", addInterest);
@@ -234,8 +257,7 @@ async function onConfigChange(config) {
   `;
   document.getElementById("totalPoints").textContent = totalPoints;
   document.getElementById("doubtsSolved").textContent = doubtsSolved;
-  document.getElementById("problemsAttempted").textContent =
-    problemsAttempted;
+  document.getElementById("problemsAttempted").textContent = problemsAttempted;
   document.getElementById("userRanking").textContent = userRanking;
 
   // avatar initials (2 letters)
@@ -246,15 +268,14 @@ async function onConfigChange(config) {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
   const avatarEl = document.getElementById("avatar");
-  if (avatarEl) {
-    avatarEl.textContent = initials;
-  }
+  if (avatarEl) avatarEl.textContent = initials;
 
   const headerAvatar = document.getElementById("headerAvatar");
   if (headerAvatar) {
     headerAvatar.textContent = initials;
-    headerAvatar.classList.remove("avatar-hidden"); // ✅ visible
+    headerAvatar.classList.remove("avatar-hidden");
   }
 
   renderInterests();
@@ -262,22 +283,15 @@ async function onConfigChange(config) {
   // theme
   document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${secondaryActionColor} 100%)`;
 
-  const cards = document.querySelectorAll(".card, .profile-header");
-  cards.forEach((card) => {
+  document.querySelectorAll(".card, .profile-header").forEach((card) => {
     card.style.background = cardColor;
   });
 
-  const textElements = document.querySelectorAll(
-    ".profile-name, .card-title, .stat-label"
-  );
-  textElements.forEach((el) => {
+  document.querySelectorAll(".profile-name, .card-title, .stat-label").forEach((el) => {
     el.style.color = textColor;
   });
 
-  const gradientElements = document.querySelectorAll(
-    ".points-badge, .btn-primary"
-  );
-  gradientElements.forEach((el) => {
+  document.querySelectorAll(".points-badge, .btn-primary").forEach((el) => {
     el.style.background = `linear-gradient(135deg, ${primaryActionColor}, ${secondaryActionColor})`;
   });
 
@@ -304,14 +318,15 @@ async function onConfigChange(config) {
 }
 
 // ------- BACKEND: FETCH PROFILE /me (self) -------
-async function fetchProfileAndApply() {
+async function fetchProfileAndApply(returnDataOnly = false) {
   try {
     const headers = getAuthHeaders();
     if (!headers.Authorization) {
-      console.warn("No token in localStorage, showing default profile.");
-      await onConfigChange(defaultConfig);
-      renderLoginStreakGrid([]); // 👈 guest → sab grey
-      return;
+      if (!returnDataOnly) {
+        await onConfigChange(defaultConfig);
+        renderLoginStreakGrid([]);
+      }
+      return { cfg: defaultConfig, loginDates: [] };
     }
 
     const res = await fetch(`${API_BASE}/profile/me`, {
@@ -321,9 +336,11 @@ async function fetchProfileAndApply() {
 
     if (!res.ok) {
       console.error("Failed to load profile", res.status);
-      await onConfigChange(defaultConfig);
-      renderLoginStreakGrid([]); // error case
-      return;
+      if (!returnDataOnly) {
+        await onConfigChange(defaultConfig);
+        renderLoginStreakGrid([]);
+      }
+      return { cfg: defaultConfig, loginDates: [] };
     }
 
     const data = await res.json();
@@ -331,7 +348,8 @@ async function fetchProfileAndApply() {
     const loginDates = Array.isArray(data.loginDatesThisYear)
       ? data.loginDatesThisYear
       : [];
-    renderLoginStreakGrid(loginDates);
+
+    if (!returnDataOnly) renderLoginStreakGrid(loginDates);
 
     const prettyPoints =
       typeof data.totalPoints === "number"
@@ -345,21 +363,15 @@ async function fetchProfileAndApply() {
 
     const cfgFromBackend = {
       user_name: data.name || defaultConfig.user_name,
-      username: data.email
-        ? "@" + data.email.split("@")[0]
-        : defaultConfig.username,
+      username: data.email ? "@" + data.email.split("@")[0] : defaultConfig.username,
       branch_name: data.branchLabel || defaultConfig.branch_name,
       total_points: prettyPoints,
-      doubts_solved:
-        data.doubtsSolved != null
-          ? String(data.doubtsSolved)
-          : defaultConfig.doubts_solved,
-      problems_attempted:
-        data.problemsAttempted != null
-          ? String(data.problemsAttempted)
-          : defaultConfig.problems_attempted,
+      doubts_solved: data.doubtsSolved != null ? String(data.doubtsSolved) : defaultConfig.doubts_solved,
+      problems_attempted: data.problemsAttempted != null ? String(data.problemsAttempted) : defaultConfig.problems_attempted,
       user_ranking: rankText,
     };
+
+    if (returnDataOnly) return { cfg: cfgFromBackend, loginDates, raw: data };
 
     await onConfigChange(cfgFromBackend);
 
@@ -370,32 +382,31 @@ async function fetchProfileAndApply() {
 
     const rankSubtitleEl = document.getElementById("rankSubtitle");
     if (rankSubtitleEl) {
-      if (
-        typeof data.totalUsersGlobal === "number" &&
-        data.totalUsersGlobal > 0
-      ) {
+      if (typeof data.totalUsersGlobal === "number" && data.totalUsersGlobal > 0) {
         rankSubtitleEl.textContent = `Out of ${data.totalUsersGlobal} learners`;
       } else {
         rankSubtitleEl.textContent = "Out of all AlephLearn learners";
       }
     }
+
+    return { cfg: cfgFromBackend, loginDates, raw: data };
   } catch (err) {
     console.error("Error fetching profile:", err);
-    await onConfigChange(defaultConfig);
-    renderLoginStreakGrid([]); // fallback
+    if (!returnDataOnly) {
+      await onConfigChange(defaultConfig);
+      renderLoginStreakGrid([]);
+    }
+    return { cfg: defaultConfig, loginDates: [] };
   }
 }
 
 // ------- BACKEND: FETCH OTHER USER PROFILE (by email) -------
 async function fetchOtherProfileAndApply(email) {
   try {
-    const headers = getAuthHeaders(); // may or may not have auth
+    const headers = getAuthHeaders();
     const res = await fetch(
       `${API_BASE}/profile/card?email=${encodeURIComponent(email)}`,
-      {
-        method: "GET",
-        headers,
-      }
+      { method: "GET", headers }
     );
 
     if (!res.ok) {
@@ -406,30 +417,18 @@ async function fetchOtherProfileAndApply(email) {
     }
 
     const data = await res.json();
-
-    // foreign profile: no login streak info yet → all grey
     renderLoginStreakGrid([]);
 
     const rankText =
-      typeof data.rank === "number" && data.rank > 0
-        ? `#${data.rank}`
-        : defaultConfig.user_ranking;
+      typeof data.rank === "number" && data.rank > 0 ? `#${data.rank}` : defaultConfig.user_ranking;
 
     const cfg = {
       user_name: data.name || defaultConfig.user_name,
-      username: data.email
-        ? "@" + data.email.split("@")[0]
-        : defaultConfig.username,
+      username: data.email ? "@" + data.email.split("@")[0] : defaultConfig.username,
       branch_name: data.branchLabel || defaultConfig.branch_name,
-      total_points: defaultConfig.total_points, // Mini card me nahi hai, so default
-      doubts_solved:
-        data.doubtsSolved != null
-          ? String(data.doubtsSolved)
-          : defaultConfig.doubts_solved,
-      problems_attempted:
-        data.problemsAttempted != null
-          ? String(data.problemsAttempted)
-          : defaultConfig.problems_attempted,
+      total_points: defaultConfig.total_points,
+      doubts_solved: data.doubtsSolved != null ? String(data.doubtsSolved) : defaultConfig.doubts_solved,
+      problems_attempted: data.problemsAttempted != null ? String(data.problemsAttempted) : defaultConfig.problems_attempted,
       user_ranking: rankText,
     };
 
@@ -444,7 +443,6 @@ async function fetchOtherProfileAndApply(email) {
       }
     }
 
-    // likes from mini profile
     const likeCountEl = document.getElementById("likeCount");
     if (likeCountEl && typeof data.likes === "number") {
       likeCount = data.likes;
@@ -452,11 +450,8 @@ async function fetchOtherProfileAndApply(email) {
     }
 
     const likeBtn = document.getElementById("likeBtn");
-    if (likeBtn && data.likedByMe) {
-      likeBtn.classList.add("liked");
-    }
+    if (likeBtn && data.likedByMe) likeBtn.classList.add("liked");
 
-    // interests if provided
     if (Array.isArray(data.interests)) {
       interests = data.interests;
       renderInterests();
@@ -476,7 +471,7 @@ function renderLoginStreakGrid(loginDates) {
 
   const today = new Date();
   const year = today.getFullYear();
-  const month = today.getMonth(); // 0-11
+  const month = today.getMonth();
 
   const monthName = today.toLocaleString("default", { month: "short" });
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -506,13 +501,7 @@ function renderLoginStreakGrid(loginDates) {
   for (let d = 1; d <= daysInMonth; d++) {
     const dayEl = document.createElement("div");
     dayEl.className = "streak-day";
-
-    if (activeDays.has(d)) {
-      dayEl.classList.add("active");
-    } else {
-      dayEl.classList.add("inactive");
-    }
-
+    dayEl.classList.add(activeDays.has(d) ? "active" : "inactive");
     grid.appendChild(dayEl);
   }
 
@@ -524,39 +513,45 @@ let likeCount = 0;
 let isLiked = false;
 
 // ------- BACKEND: LIKES (self only) -------
-
-async function loadLikesFromBackend() {
-  if (viewingOther) return; // foreign profile like-count mini card se aa raha
+async function loadLikesFromBackend(returnDataOnly = false) {
+  if (viewingOther) return returnDataOnly ? { likeCount: 0, isLiked: false } : undefined;
 
   try {
     const headers = getAuthHeaders();
     if (!headers.Authorization) {
-      document.getElementById("likeCount").textContent = likeCount;
-      return;
+      const lc = likeCount || 0;
+      if (!returnDataOnly) {
+        document.getElementById("likeCount") && (document.getElementById("likeCount").textContent = lc);
+      }
+      return returnDataOnly ? { likeCount: lc, isLiked } : undefined;
     }
 
     const res = await fetch(`${API_BASE}/profile/likes/me`, {
       method: "GET",
       headers,
     });
+
     if (!res.ok) {
       console.warn("Failed to load likes:", res.status);
-      return;
+      return returnDataOnly ? { likeCount: likeCount || 0, isLiked } : undefined;
     }
+
     const data = await res.json();
     likeCount = data.likes || 0;
     isLiked = !!data.likedByMe;
 
-    const likeCountEl = document.getElementById("likeCount");
-    if (likeCountEl) likeCountEl.textContent = likeCount;
+    if (!returnDataOnly) {
+      const likeCountEl = document.getElementById("likeCount");
+      if (likeCountEl) likeCountEl.textContent = likeCount;
 
-    const likeBtn = document.getElementById("likeBtn");
-    if (likeBtn) {
-      if (isLiked) likeBtn.classList.add("liked");
-      else likeBtn.classList.remove("liked");
+      const likeBtn = document.getElementById("likeBtn");
+      if (likeBtn) likeBtn.classList.toggle("liked", isLiked);
     }
+
+    return returnDataOnly ? { likeCount, isLiked } : undefined;
   } catch (err) {
     console.error("Error loading likes:", err);
+    return returnDataOnly ? { likeCount: likeCount || 0, isLiked } : undefined;
   }
 }
 
@@ -565,7 +560,6 @@ function setupLikeButton() {
   const likeCountEl = document.getElementById("likeCount");
   if (!likeBtn || !likeCountEl) return;
 
-  // Foreign profile → abhi ke liye sirf count show, no toggle
   if (viewingOther) {
     likeBtn.classList.add("like-readonly");
     likeBtn.disabled = true;
@@ -584,28 +578,23 @@ function setupLikeButton() {
         method: "POST",
         headers,
       });
+
       if (!res.ok) {
         console.warn("Failed to toggle like:", res.status);
         return;
       }
+
       const data = await res.json();
       likeCount = data.likes || 0;
       isLiked = !!data.likedByMe;
 
       likeCountEl.textContent = likeCount;
-
-      if (isLiked) {
-        likeBtn.classList.add("liked");
-      } else {
-        likeBtn.classList.remove("liked");
-      }
+      likeBtn.classList.toggle("liked", isLiked);
 
       const icon = likeBtn.querySelector(".btn-icon");
       if (!icon) return;
       icon.style.transform = "scale(1.3)";
-      setTimeout(() => {
-        icon.style.transform = "scale(1)";
-      }, 300);
+      setTimeout(() => (icon.style.transform = "scale(1)"), 300);
     } catch (err) {
       console.error("Error toggling like:", err);
     }
@@ -641,18 +630,14 @@ if (window.elementSdk) {
           },
         },
         {
-          get: () =>
-            config.primary_action_color ||
-            defaultConfig.primary_action_color,
+          get: () => config.primary_action_color || defaultConfig.primary_action_color,
           set: (value) => {
             config.primary_action_color = value;
             window.elementSdk.setConfig({ primary_action_color: value });
           },
         },
         {
-          get: () =>
-            config.secondary_action_color ||
-            defaultConfig.secondary_action_color,
+          get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
           set: (value) => {
             config.secondary_action_color = value;
             window.elementSdk.setConfig({ secondary_action_color: value });
@@ -682,10 +667,7 @@ if (window.elementSdk) {
         ["branch_name", config.branch_name || defaultConfig.branch_name],
         ["total_points", config.total_points || defaultConfig.total_points],
         ["doubts_solved", config.doubts_solved || defaultConfig.doubts_solved],
-        [
-          "problems_attempted",
-          config.problems_attempted || defaultConfig.problems_attempted,
-        ],
+        ["problems_attempted", config.problems_attempted || defaultConfig.problems_attempted],
         ["user_ranking", config.user_ranking || defaultConfig.user_ranking],
         ["interests", config.interests || defaultConfig.interests],
       ]),
@@ -699,7 +681,7 @@ setupInterests();
 async function bootProfile() {
   const token = localStorage.getItem("token");
 
-  // Guest (no token): either view other (if email given) or default
+  // Guest
   if (!token) {
     if (viewingOther && viewedEmail) {
       await fetchOtherProfileAndApply(viewedEmail);
@@ -711,26 +693,76 @@ async function bootProfile() {
     return;
   }
 
-  // Logged in
+  // Viewing other
   if (viewingOther && viewedEmail) {
-    // someone else's profile
     await fetchOtherProfileAndApply(viewedEmail);
-
-    // academic card & inputs ko hide/lock
     const academicCard = document.getElementById("academicProfileCard");
-    if (academicCard) {
-      academicCard.style.display = "none";
-    }
-
+    if (academicCard) academicCard.style.display = "none";
     showProfileRoot();
     return;
   }
 
-  // self profile
-  await fetchProfileAndApply();
-  await loadInterestsFromBackend();
-  await loadLikesFromBackend();
-  showProfileRoot();
+  // ✅ Self profile fast path:
+  const cached = cacheRead();
+  if (cached?.cfg) {
+    await onConfigChange(cached.cfg);
+    renderLoginStreakGrid(cached.loginDates || []);
+    if (Array.isArray(cached.interests)) {
+      interests = cached.interests;
+      renderInterests();
+    }
+    if (typeof cached.likeCount === "number") {
+      likeCount = cached.likeCount;
+      isLiked = !!cached.isLiked;
+      document.getElementById("likeCount") && (document.getElementById("likeCount").textContent = likeCount);
+      const likeBtn = document.getElementById("likeBtn");
+      if (likeBtn) likeBtn.classList.toggle("liked", isLiked);
+    }
+    showProfileRoot(); // show instantly
+  }
+
+  // ✅ Parallel fresh load
+  try {
+    const results = await Promise.allSettled([
+      fetchProfileAndApply(true),
+      loadInterestsFromBackend(true),
+      loadLikesFromBackend(true),
+    ]);
+
+    const rProfile = results[0].status === "fulfilled" ? results[0].value : null;
+    const rInterests = results[1].status === "fulfilled" ? results[1].value : null;
+    const rLikes = results[2].status === "fulfilled" ? results[2].value : null;
+
+    if (rProfile?.cfg) {
+      await onConfigChange(rProfile.cfg);
+      renderLoginStreakGrid(rProfile.loginDates || []);
+    }
+    if (Array.isArray(rInterests)) {
+      interests = rInterests;
+      renderInterests();
+    }
+    if (rLikes && typeof rLikes.likeCount === "number") {
+      likeCount = rLikes.likeCount;
+      isLiked = !!rLikes.isLiked;
+      const likeCountEl = document.getElementById("likeCount");
+      if (likeCountEl) likeCountEl.textContent = likeCount;
+      const likeBtn = document.getElementById("likeBtn");
+      if (likeBtn) likeBtn.classList.toggle("liked", isLiked);
+    }
+
+    cacheWrite({
+      cfg: rProfile?.cfg || cached?.cfg || null,
+      loginDates: rProfile?.loginDates || cached?.loginDates || [],
+      interests: Array.isArray(rInterests) ? rInterests : (cached?.interests || []),
+      likeCount: (rLikes?.likeCount ?? cached?.likeCount ?? 0),
+      isLiked: (rLikes?.isLiked ?? cached?.isLiked ?? false),
+    });
+
+    showProfileRoot();
+  } catch (e) {
+    console.error("bootProfile fresh load failed:", e);
+    showProfileRoot();
+  }
 }
 
 bootProfile();
@@ -741,7 +773,7 @@ function showLimitPopup() {
   popup.style.display = "flex";
 }
 
-document.getElementById("popupOkBtn").addEventListener("click", () => {
+document.getElementById("popupOkBtn")?.addEventListener("click", () => {
   document.getElementById("limitPopup").style.display = "none";
 });
 
@@ -763,25 +795,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoringCloseBtn = document.getElementById("scoringCloseBtn");
   const scoringOverlay = document.getElementById("scoringPopup");
 
-  if (scoringBtn) {
-    scoringBtn.addEventListener("click", () => {
-      showScoringPopup();
-    });
-  }
+  scoringBtn?.addEventListener("click", showScoringPopup);
+  scoringCloseBtn?.addEventListener("click", hideScoringPopup);
 
-  if (scoringCloseBtn) {
-    scoringCloseBtn.addEventListener("click", () => {
-      hideScoringPopup();
-    });
-  }
-
-  if (scoringOverlay) {
-    scoringOverlay.addEventListener("click", (e) => {
-      if (e.target === scoringOverlay) {
-        hideScoringPopup();
-      }
-    });
-  }
+  scoringOverlay?.addEventListener("click", (e) => {
+    if (e.target === scoringOverlay) hideScoringPopup();
+  });
 });
 
 function setupNavbarAvatar() {
@@ -789,18 +808,12 @@ function setupNavbarAvatar() {
   if (!avatar) return;
 
   try {
-    // 1) Try full user object
     const userJson = localStorage.getItem("user");
     let user = null;
     if (userJson) {
-      try {
-        user = JSON.parse(userJson);
-      } catch (_) {
-        user = null;
-      }
+      try { user = JSON.parse(userJson); } catch { user = null; }
     }
 
-    // 2) Try to get name from multiple possible keys
     let name =
       (user && (user.name || user.fullName || user.username)) ||
       localStorage.getItem("userName") ||
@@ -813,42 +826,29 @@ function setupNavbarAvatar() {
       localStorage.getItem("email") ||
       "";
 
-    // Agar name empty hai lekin email hai, to email se naam bana lo
-    if (!name && email) {
-      name = email.split("@")[0];
-    }
-
+    if (!name && email) name = email.split("@")[0];
     if (!name) return;
 
-    // Generate initials
     let initials = "U";
     const parts = name.trim().split(" ");
-    if (parts.length === 1) {
-      initials = parts[0][0].toUpperCase();
-    } else {
-      initials = (parts[0][0] + parts[1][0]).toUpperCase();
-    }
+    initials = parts.length === 1 ? parts[0][0].toUpperCase() : (parts[0][0] + parts[1][0]).toUpperCase();
 
-    // 🔮 Purple gradient avatar
     avatar.style.background = "linear-gradient(135deg, #8b5cf6, #ec4899)";
     avatar.style.color = "#ffffff";
     avatar.textContent = initials;
 
-    // ⭐ Avatar click → Open profile
     avatar.style.cursor = "pointer";
-    avatar.onclick = () => {
-      window.location.href = "profile.html";
-    };
-
+    avatar.onclick = () => (window.location.href = "profile.html");
   } catch (e) {
     console.error("Avatar load error:", e);
   }
 }
-document.querySelectorAll('.js-logout').forEach(btn => {
-  btn.addEventListener('click', () => {
+
+document.querySelectorAll(".js-logout").forEach((btn) => {
+  btn.addEventListener("click", () => {
     localStorage.removeItem("token");
     window.location.href = "./auth.html";
   });
 });
-// Call automatically on page load
+
 document.addEventListener("DOMContentLoaded", setupNavbarAvatar);

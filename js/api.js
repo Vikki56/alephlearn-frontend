@@ -12,6 +12,17 @@ export const API_BASE = (
   || (isFile || looksLikeDev ? 'http://localhost:8080' : (looksLikeProd ? 'https://alephlearn-backend.onrender.com' : location.origin))
 );
 
+
+// --- KEEP BACKEND AWAKE (Render cold start reduce) ---
+(function keepBackendAwake(){
+  // only in prod (alephlearn.com / pages.dev), dev me spam nahi
+  if (!looksLikeProd) return;
+
+  const ping = () => fetch(`${API_BASE}/api/ping`, { method: "GET" }).catch(()=>{});
+  ping(); // immediate warm-up on page load
+  setInterval(ping, 5 * 60 * 1000); // every 5 minutes
+})();
+
 // --- TOAST ---
 export function showToast(message, type = "info", ms = 2200) {
   let stack = document.getElementById("toast-stack");

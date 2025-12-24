@@ -254,33 +254,36 @@ if (userId) {
     localStorage.setItem("role", role);
 
     // ✅ Role-based redirect
-    if (role === "TEACHER") {
-      location.replace("quizzes.html");
-    } else if (role === "ADMIN") {
-      location.replace("admin.html");
-    } else {
-      // ✅ read next from hash query
-      const qp = location.hash.split("?")[1] || "";
-      const params = new URLSearchParams(qp);
-    
-      let next = params.get("next")
-        ? decodeURIComponent(params.get("next"))
-        : "dashboard.html";
-    
-      // ✅ never redirect to landing/auth
-      const n = (next || "").toLowerCase();
-      if (
-        n === "/" ||
-        n.endsWith("index.html") ||
-        n.endsWith("landing.html") ||
-        n.includes("auth.html") ||
-        n.includes("auth") // extra safety
-      ) {
-        next = "dashboard.html";
-      }
-    
-      location.replace(next);
-    }
+// ✅ Role-based redirect
+if (role === "TEACHER") {
+  location.replace("/quizzes");
+} else if (role === "ADMIN") {
+  location.replace("/admin");
+} else {
+  // ✅ read next from hash query
+  const qp = location.hash.split("?")[1] || "";
+  const params = new URLSearchParams(qp);
+
+  let next = params.get("next") ? decodeURIComponent(params.get("next")) : "/dashboard";
+
+  // ✅ convert old html names to routes
+  next = next
+    .replace(/\/?index\.html$/i, "/")
+    .replace(/\/?dashboard\.html$/i, "/dashboard")
+    .replace(/\/?chat\.html$/i, "/chat")
+    .replace(/\/?doubts\.html$/i, "/doubts")
+    .replace(/\/?quizzes\.html$/i, "/quizzes")
+    .replace(/\/?profile\.html$/i, "/profile");
+
+  const n = (next || "").toLowerCase();
+  if (
+    n === "/" ||
+    n.endsWith("/index.html") ||
+    n.includes("auth")
+  ) next = "/dashboard";
+
+  location.replace(next.startsWith("/") ? next : ("/" + next));
+}
   } catch (err) {
     showToast(err.message || "Invalid credentials", "error");
   }

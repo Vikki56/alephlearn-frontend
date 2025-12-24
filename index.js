@@ -1,27 +1,47 @@
-// index.js  (load as type="module")
+// index.js (dashboard)  load as type="module"
 import { API_BASE, authFetch } from "./js/api.js";
 
-/* -------------------- warm backend (no await) -------------------- */
-function warmBackend() {
+// ---------- small cache helpers ----------
+const DASH_KEY = "dash_summary_cache_v1";
+const DASH_TTL_MS = 60 * 1000; // 60s
+
+function readDashCache() {
   try {
-    // fire-and-forget warmup (Render cold start help)
-    fetch(`${API_BASE}/api/ping`, { cache: "no-store" });
-  } catch (_) {}
+    const raw = localStorage.getItem(DASH_KEY);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj?.ts || !obj?.data) return null;
+    return obj;
+  } catch {
+    return null;
+  }
+}
+function writeDashCache(data) {
+  try {
+    localStorage.setItem(DASH_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
 }
 
-/* -------------------- small format helpers -------------------- */
+// ---------- warm backend (helps cold start a bit) ----------
+async function warmBackend() {
+  try {
+    await fetch(`${API_BASE}/api/ping`, { cache: "no-store", keepalive: true });
+  } catch {}
+}
+
+// ---------- formatters ----------
 function formatRank(rank, totalUsers) {
   if (!rank || rank <= 0) return "-";
   if (!totalUsers || totalUsers <= 0) return `#${rank}`;
   return `#${rank} / ${totalUsers}`;
 }
-
 function formatQuizScore(scorePercent) {
   if (scorePercent == null || isNaN(scorePercent)) return "-";
   if (scorePercent <= 1) return Math.round(scorePercent * 100) + "%";
   return Math.round(scorePercent) + "%";
 }
 
+// ---------- render ----------
 function createTrendingItem(item) {
   const div = document.createElement("div");
   div.className = "item";
@@ -61,12 +81,12 @@ function createTrendingItem(item) {
     div.style.cursor = "pointer";
     div.addEventListener("click", () => (window.location.href = item.url));
   }
-
   return div;
 }
 
-/* -------------------- dashboard loader -------------------- */
-async function loadDashboard() {
+function renderDashboard(data) {
+  if (!data || typeof data !== "object") return;
+
   const titleEl = document.querySelector(".h1");
   const subtitleEl = document.querySelector(".sub");
 
@@ -77,76 +97,55 @@ async function loadDashboard() {
 
   const trendingContainer = document.getElementById("trendingList");
 
-  try {
-    // authFetch returns JSON already
-    const data = await authFetch(`${API_BASE}/api/dashboard/summary`, {
-      headers: { Accept: "application/json" },
-    });
+  const profile = data.profile || data.profileSummary || null;
 
-    console.log("Dashboard summary:", data);
+  if (profile?.name && titleEl) {
+    const firstName = profile.name.split(" ")[0];
+    titleEl.textContent = `Welcome back, ${firstName}! 🚀`;
+  }
 
-    if (!data || typeof data !== "object") {
-      console.error("Unexpected dashboard response:", data);
-      return;
-    }
+  if (subtitleEl && profile?.branchLabel) {
+    subtitleEl.textContent = `${profile.branchLabel} • Keep your streak going!`;
+  }
 
-    // --------- Profile / welcome text ----------
-    const profile = data.profile || data.profileSummary || null;
+  if (activeChatsEl) {
+    activeChatsEl.textContent =
+      data.activeChats ?? data.activeChatCount ?? data.liveChatRooms ?? 0;
+  }
 
-    if (profile?.name && titleEl) {
-      const firstName = profile.name.split(" ")[0];
-      titleEl.textContent = `Welcome back, ${firstName}! 🚀`;
-    }
+  if (doubtsSolvedEl) {
+    doubtsSolvedEl.textContent =
+      profile?.doubtsSolved ?? data.doubtsSolved ?? data.totalDoubtsSolved ?? 0;
+  }
 
-    if (subtitleEl && profile?.branchLabel) {
-      subtitleEl.textContent = `${profile.branchLabel} • Keep your streak going!`;
-    }
+  if (quizScoreEl) {
+    const quizScorePercent = data.quickStats?.latestQuizScorePercent ?? null;
+    quizScoreEl.textContent = formatQuizScore(quizScorePercent);
+  }
 
-    // --------- Stats cards ----------
-    if (activeChatsEl) {
-      const activeChats =
-        data.activeChats ?? data.activeChatCount ?? data.liveChatRooms ?? 0;
-      activeChatsEl.textContent = activeChats;
-    }
+  if (rankEl) {
+    const rank = profile?.rankGlobal ?? data.rankGlobal ?? data.rank ?? null;
+    const totalUsers =
+      profile?.totalUsersGlobal ?? data.totalUsers ?? data.totalUsersGlobal ?? null;
+    rankEl.textContent = formatRank(rank, totalUsers);
+  }
 
-    if (doubtsSolvedEl) {
-      const doubtsSolved =
-        profile?.doubtsSolved ?? data.doubtsSolved ?? data.totalDoubtsSolved ?? 0;
-      doubtsSolvedEl.textContent = doubtsSolved;
-    }
+  if (trendingContainer) {
+    trendingContainer.innerHTML = "";
+    const trending = data.trending || data.trendingDiscussions || [];
 
-    if (quizScoreEl) {
-      const quizScorePercent = data.quickStats?.latestQuizScorePercent ?? null;
-      quizScoreEl.textContent = formatQuizScore(quizScorePercent);
-    }
-
-    if (rankEl) {
-      const rank = profile?.rankGlobal ?? data.rankGlobal ?? data.rank ?? null;
-      const totalUsers =
-        profile?.totalUsersGlobal ??
-        data.totalUsers ??
-        data.totalUsersGlobal ??
-        null;
-      rankEl.textContent = formatRank(rank, totalUsers);
-    }
-
-    // --------- Trending ----------
-    if (trendingContainer) {
-      trendingContainer.innerHTML = "";
-
-      const trending = data.trending || data.trendingDiscussions || [];
-
-      if (!Array.isArray(trending) || trending.length === 0) {
-        const msg = document.createElement("div");
-        msg.className = "item";
-        msg.innerHTML =
-          `<div class="sub" style="margin:6px 0; color:#9ca3af;">` +
-          `No trending discussions yet. Ask doubts or join chat to start something 🔥` +
-          `</div>`;
-        trendingContainer.appendChild(msg);
-      } else {
-        trending.forEach((item) => {
-          const node = createTrendingItem({
+    if (!Array.isArray(trending) || trending.length === 0) {
+      const msg = document.createElement("div");
+      msg.className = "item";
+      msg.innerHTML =
+        `<div class="sub" style="margin:6px 0; color:#9ca3af;">` +
+        `No trending discussions yet. Ask doubts or join chat to start something 🔥` +
+        `</div>`;
+      trendingContainer.appendChild(msg);
+    } else {
+      trending.forEach((item) => {
+        trendingContainer.appendChild(
+          createTrendingItem({
             title: item.title,
             subtitle: item.subtitle,
             snippet: item.snippet,
@@ -154,20 +153,23 @@ async function loadDashboard() {
             activeCount: item.activeCount,
             lastActivityLabel: item.lastActivityLabel,
             url: item.url,
-          });
-          trendingContainer.appendChild(node);
-        });
-      }
+          })
+        );
+      });
     }
-  } catch (err) {
-    console.error("Dashboard fetch failed:", err);
-  } finally {
-    // if you use CSS to hide skeleton until loaded
-    document.body.classList.add("dashboard-loaded");
   }
 }
 
-/* -------------------- navbar avatar -------------------- */
+// ---------- main load ----------
+async function loadDashboardFresh() {
+  const data = await authFetch(`${API_BASE}/api/dashboard/summary`, {
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
+  writeDashCache(data);
+  renderDashboard(data);
+}
+
 function setupNavbarAvatar() {
   const avatar = document.getElementById("navbarAvatar");
   if (!avatar) return;
@@ -176,18 +178,14 @@ function setupNavbarAvatar() {
     const userJson = localStorage.getItem("user");
     let user = null;
     if (userJson) {
-      try {
-        user = JSON.parse(userJson);
-      } catch (_) {
-        user = null;
-      }
+      try { user = JSON.parse(userJson); } catch { user = null; }
     }
 
     let name =
       (user && (user.name || user.fullName || user.username)) ||
-      localStorage.getItem("displayName") ||
       localStorage.getItem("userName") ||
       localStorage.getItem("name") ||
+      localStorage.getItem("displayName") ||
       "";
 
     let email =
@@ -200,40 +198,35 @@ function setupNavbarAvatar() {
     if (!name) return;
 
     let initials = "U";
-    const parts = name.trim().split(" ").filter(Boolean);
-    if (parts.length === 1) initials = parts[0][0].toUpperCase();
-    else initials = (parts[0][0] + parts[1][0]).toUpperCase();
+    const parts = name.trim().split(" ");
+    initials = parts.length === 1
+      ? parts[0][0].toUpperCase()
+      : (parts[0][0] + parts[1][0]).toUpperCase();
 
     avatar.style.background = "linear-gradient(135deg, #8b5cf6, #ec4899)";
-    avatar.style.color = "#ffffff";
+    avatar.style.color = "#fff";
     avatar.textContent = initials;
 
     avatar.style.cursor = "pointer";
-    avatar.onclick = () => {
-      window.location.href = "profile.html";
-    };
+    avatar.onclick = () => (window.location.href = "profile.html");
   } catch (e) {
     console.error("Avatar load error:", e);
   }
 }
 
-/* -------------------- logout buttons -------------------- */
-function setupLogoutButtons() {
-  document.querySelectorAll(".js-logout").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      // clear token
-      localStorage.removeItem("token");
-      localStorage.removeItem("jwt");
-      // redirect (case-sensitive safe)
-      window.location.href = "Auth.html#login";
-    });
-  });
-}
-
-/* -------------------- init -------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  setupNavbarAvatar();    // UI first
-  setupLogoutButtons();   // bind logout
-  warmBackend();          // background warmup
-  loadDashboard();        // actual fetch
+  setupNavbarAvatar();
+  warmBackend(); // don't await
+
+  // ✅ 1) show cached instantly (if exists)
+  const cached = readDashCache();
+  if (cached?.data) {
+    renderDashboard(cached.data);
+    document.body.classList.add("dashboard-loaded");
+  }
+
+  // ✅ 2) refresh in background (always)
+  loadDashboardFresh()
+    .catch((e) => console.error("Dashboard fetch failed:", e))
+    .finally(() => document.body.classList.add("dashboard-loaded"));
 });

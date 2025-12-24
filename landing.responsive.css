@@ -434,3 +434,37 @@ header.nav img.logo {
     height: 56px;
   }
 }
+/* ==================================
+   MOBILE LOGO – FORCE FIX
+   Break parent constraints
+================================== */
+
+@media (max-width: 768px) {
+
+  header.nav .nav-inner {
+    align-items: center;
+  }
+
+  header.nav .brand {
+    display: flex !important;
+    align-items: center !important;
+    max-width: none !important;
+    overflow: visible !important;
+  }
+
+  header.nav .brand img.logo {
+    width: 72px !important;     /* 👈 clearly BIG on mobile */
+    height: 72px !important;
+    max-width: none !important;
+    max-height: none !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* very small phones */
+@media (max-width: 420px) {
+  header.nav .brand img.logo {
+    width: 64px !important;
+    height: 64px !important;
+  }
+}

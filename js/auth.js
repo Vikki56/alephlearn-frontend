@@ -259,9 +259,26 @@ if (userId) {
     } else if (role === "ADMIN") {
       location.replace("admin.html");
     } else {
-      const next = new URL(location.href).hash.includes("next=")
-        ? decodeURIComponent(location.hash.split("next=")[1])
+      // ✅ read next from hash query
+      const qp = location.hash.split("?")[1] || "";
+      const params = new URLSearchParams(qp);
+    
+      let next = params.get("next")
+        ? decodeURIComponent(params.get("next"))
         : "dashboard.html";
+    
+      // ✅ never redirect to landing/auth
+      const n = (next || "").toLowerCase();
+      if (
+        n === "/" ||
+        n.endsWith("index.html") ||
+        n.endsWith("landing.html") ||
+        n.includes("auth.html") ||
+        n.includes("auth") // extra safety
+      ) {
+        next = "dashboard.html";
+      }
+    
       location.replace(next);
     }
   } catch (err) {

@@ -3984,6 +3984,39 @@ if (raw.startsWith('AUDIO|')) {
 
   // iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
 
+  // ===== Mobile / Desktop Message Action Menu (shared) =====
+function buildMessageActions(message, container) {
+  if (!container) return;
+
+  const actions = [
+    { key: "reply",  label: "↩ Reply",   show: true },
+    { key: "react",  label: "😊 React",  show: true },
+    { key: "copy",   label: "📋 Copy",   show: true },
+    { key: "forward",label: "📤 Forward",show: true },
+    { key: "info",   label: "ℹ Info",    show: true },
+    { key: "pin",    label: "📌 Pin",    show: true },
+    { key: "edit",   label: "✏ Edit",    show: message.isMine },
+    { key: "delete", label: "🗑 Delete", show: message.isMine }
+  ];
+
+  container.innerHTML = "";
+
+  actions.forEach(a => {
+    if (!a.show) return;
+
+    const btn = document.createElement("div");
+    btn.className = "msg-action-item";
+    btn.textContent = a.label;
+
+    btn.onclick = () => {
+      hideMessageMenu();
+      handleMessageAction(a.key, message);
+    };
+
+    container.appendChild(btn);
+  });
+}
+
   function messageCard({ id, user, userName, userEmail, text, ts, mine, deleted, editedAt, reply, clientId }) {
     const wrap = document.createElement('div');
     wrap.className = 'message' + (mine ? ' own' : '');
@@ -4167,90 +4200,80 @@ const avatarEl = wrap.querySelector('.message-avatar');
     });
   
     // Right-click menu (includes React)
-    contentEl.addEventListener('contextmenu', (e)=>{
-      e.preventDefault();
-      const mid    = wrap.dataset.id || null;
-      const isMine = wrap.classList.contains('own'); 
-      const txt    = wrap.querySelector('.message-text')?.textContent || '';
-      const pinned = wrap.classList.contains('is-pinned');
-  
-      const actions = [
-        { icon:'↩︎', label:'Reply', onClick:()=>{ replyingTo = { id: mid, user, text: txt }; showReplyBar(); } },
-        { icon:'😊', label:'React', onClick:()=> showReactionPicker(contentEl, String(id||'')) },
-        { icon:'📋', label:'Copy',  onClick:()=> copyToClipboard(txt) },
-        { icon:'📤', label:'Forward', onClick:()=> forwardMessage(txt, user) },
-        { icon:'ℹ️', label:'Info', onClick:()=> showMessageInfo({ id: mid, user, ts, editedAt: !!editedAt, pinned }) },
-      ];
-  
-      if (mid) {
-        actions.push({ icon:'📌', label: pinned ? 'Unpin' : 'Pin', onClick:()=> togglePin(mid, !pinned) });
+// ✅ Mobile long-press => open SAME menu as right-click
+let lpTimer = null;
+let longPressed = false;
+
+const openMobileMenu = async () => {
+  const mid    = wrap.dataset.id || null;
+  const isMine = wrap.classList.contains('own');
+  const txt    = wrap.querySelector('.message-text')?.textContent || '';
+  const pinned = wrap.classList.contains('is-pinned');
+
+  const actions = [
+    { icon:'↩︎', label:'Reply', onClick:()=>{ replyingTo = { id: mid, user, text: txt }; showReplyBar(); } },
+    { icon:'😊', label:'React', onClick:()=> showReactionPicker(contentEl, String(id||'')) },
+    { icon:'📋', label:'Copy',  onClick:()=> copyToClipboard(txt) },
+    { icon:'📤', label:'Forward', onClick:()=> forwardMessage(txt, user) },
+    { icon:'ℹ️', label:'Info', onClick:()=> showMessageInfo({ id: mid, user, ts, editedAt: !!editedAt, pinned }) },
+  ];
+
+  if (mid) actions.push({ icon:'📌', label: pinned ? 'Unpin' : 'Pin', onClick:()=> togglePin(mid, !pinned) });
+
+  if (isMine) {
+    actions.push('divider');
+    actions.push({ icon:'✏️', label:'Edit', onClick:()=>{ if (!mid) return showToast('Please wait…'); promptEdit(mid, txt); } });
+    actions.push({
+      icon:'🗑️', label:'Delete…',
+      onClick: async ()=>{
+        const choice = await showChoices?.({
+          title:'Delete message',
+          message:'Choose how you want to delete this message.',
+          choices:['Delete for everyone','Delete for me','Cancel']
+        }) ?? (confirm('Delete for everyone?') ? 'Delete for everyone' : 'Cancel');
+
+        if (choice === 'Delete for everyone') {
+          if (!mid) return showToast('Please wait…');
+          confirmDelete(mid);
+        } else if (choice === 'Delete for me') {
+          if (mid) hideLocally(currentRoom, String(mid));
+          showToast('Hidden on this device');
+        }
       }
-  
-      if (isMine) {
-        actions.push('divider');
-        actions.push({
-          icon:'✏️', label:'Edit',
-          onClick:()=>{ if (!mid) { showToast('Please wait…'); return; } promptEdit(mid, txt); }
-        });
-        actions.push({
-          icon:'🗑️', label:'Delete…',
-          onClick: async ()=>{
-            const choice = await showChoices?.({
-              title:'Delete message', message:'Choose how you want to delete this message.',
-              choices:['Delete for everyone','Delete for me','Cancel']
-            }) ?? (confirm('Delete for everyone?') ? 'Delete for everyone' : 'Cancel');
-            if (choice === 'Delete for everyone') {
-              if (!mid) { showToast('Please wait…'); return; }
-              confirmDelete(mid);
-            } else if (choice === 'Delete for me') {
-              if (mid) hideLocally(currentRoom, String(mid));
-              showToast('Hidden on this device');
-            }
-          }
-        });
-      } else {
-        actions.push('divider');
-        actions.push({ icon:'🗑️', label:'Delete for me', onClick:()=>{ if (mid) hideLocally(currentRoom, String(mid)); } });
-      }
-  
-      showAnchoredMenu(contentEl, actions, { side: 'auto' });
     });
-  
-    // Mobile long-press => SAME menu as desktop right-click
-    // (User asked: hold on message should open Reply/React/Copy/Forward/Info/Pin/Edit/Delete)
-    let lpTimer = null;
-    let longPressed = false;
-    const startLongPress = (ev) => {
-      // don't block normal scroll; only prevent default once we actually long-press
-      longPressed = false;
-      lpTimer = setTimeout(() => {
-        longPressed = true;
-        try { ev.preventDefault(); } catch (_) {}
+  } else {
+    actions.push('divider');
+    actions.push({ icon:'🗑️', label:'Delete for me', onClick:()=>{ if (mid) hideLocally(currentRoom, String(mid)); } });
+  }
 
-        const actions = buildMessageActions(opts);
-        showAnchoredMenu(contentEl, actions, { side: 'auto' });
-      }, 420);
-    };
-    const cancelLongPress = () => {
-      if (lpTimer) {
-        clearTimeout(lpTimer);
-        lpTimer = null;
-      }
-    };
-    // if long-pressed, swallow the synthetic click that follows on some devices
-    const swallowClickAfterLongPress = (e) => {
-      if (longPressed) {
-        e.preventDefault();
-        e.stopPropagation();
-        longPressed = false;
-      }
-    };
+  showAnchoredMenu(contentEl, actions, { side: 'auto' });
+};
 
-    contentEl.addEventListener('touchstart', startLongPress, { passive: true });
-    contentEl.addEventListener('touchend', cancelLongPress);
-    contentEl.addEventListener('touchmove', cancelLongPress);
-    contentEl.addEventListener('touchcancel', cancelLongPress);
-    contentEl.addEventListener('click', swallowClickAfterLongPress, true);
+const startLongPress = () => {
+  longPressed = false;
+  lpTimer = setTimeout(() => {
+    longPressed = true;
+    openMobileMenu();
+  }, 450);
+};
+
+const cancelLongPress = () => {
+  if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+};
+
+const swallowClickAfterLongPress = (e) => {
+  if (longPressed) {
+    e.preventDefault();
+    e.stopPropagation();
+    longPressed = false;
+  }
+};
+
+contentEl.addEventListener('touchstart', startLongPress, { passive: true });
+contentEl.addEventListener('touchend', cancelLongPress);
+contentEl.addEventListener('touchmove', cancelLongPress);
+contentEl.addEventListener('touchcancel', cancelLongPress);
+contentEl.addEventListener('click', swallowClickAfterLongPress, true);
   
     return wrap;
   }

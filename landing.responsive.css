@@ -313,3 +313,35 @@ img, svg{ max-width:100%; height:auto; }
 /* Overflow guards */
 .glass, .feature, .module, .step, .price, .cta-wide, .pill, .kpis, .card-actions{ max-width:100%; min-width:0; }
 h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }
+/* AlephLearn Landing – Header logo override (v3)
+   Your landing.css is overriding the logo size.
+   This file forces the logo size on mobile with !important.
+   Include AFTER landing.css and AFTER your responsive file.
+*/
+
+@media (max-width: 680px){
+  header.nav .nav-inner a.brand img.logo,
+  header.nav .nav-inner img.logo{
+    width: 52px !important;
+    height: 52px !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  /* if the brand anchor is constrained */
+  header.nav .nav-inner a.brand{
+    display:flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    min-width: 0 !important;
+  }
+}
+
+/* tiny phones */
+@media (max-width: 380px){
+  header.nav .nav-inner a.brand img.logo,
+  header.nav .nav-inner img.logo{
+    width: 48px !important;
+    height: 48px !important;
+  }
+}

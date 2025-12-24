@@ -3,19 +3,6 @@
 // ✅ Dev: http://localhost:8080
 // ✅ Prod: Render backend (or later api.alephlearn.com)
 window.API_BASE = window.API_BASE || 'http://localhost:8080';
-
-
-// --- BOOT/Preload unhide (prevent blank page if any init fails) ---
-function endBoot(){
-  try{
-    document.documentElement.classList.remove("al-preload");
-    document.body.classList.remove("al-boot");
-    // safety: restore pointer events if used
-    document.querySelector(".app-container")?.style.removeProperty("pointer-events");
-  }catch{}
-}
-// Fallback: never stay hidden forever
-setTimeout(endBoot, 2500);
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
@@ -4166,68 +4153,65 @@ const avatarEl = wrap.querySelector('.message-avatar');
       tgt?.scrollIntoView({ behavior:'smooth', block:'center' });
     });
   
-    // Right-click menu (includes React)
+    // Right-click menu (includes React) + Mobile long-press (same menu)
+    function openMsgActionsMenu(){
+      const mid    = wrap.dataset.id || null;
+      const isMine = wrap.classList.contains('own');
+
+      const actions = [
+        { key:'reply',   label:'Reply',   icon:'↩️', onClick:()=> startReply(mid, msg) },
+        { key:'react',   label:'React',   icon:'😊', onClick:()=> showReactionPicker(contentEl, wrap.dataset.id, msg) },
+        { key:'copy',    label:'Copy',    icon:'📋', onClick:()=> copyText(msg?.content || msg?.text || '') },
+        { key:'forward', label:'Forward', icon:'📨', onClick:()=> startForward(mid, msg) },
+        { key:'info',    label:'Info',    icon:'ℹ️', onClick:()=> showMessageInfo(mid, msg) },
+        { key:'pin',     label:'Pin',     icon:'📌', onClick:()=> togglePin(mid) },
+      ];
+
+      if (isMine){
+        actions.push({ key:'edit',   label:'Edit',   icon:'✏️', onClick:()=> startEdit(mid, msg) });
+        actions.push({ key:'delete', label:'Delete', icon:'🗑️', danger:true, onClick:()=> deleteMessage(mid) });
+      }
+
+      showAnchoredMenu(contentEl, actions, { side: 'auto' });
+    }
+
+    // Desktop / right-click
     contentEl.addEventListener('contextmenu', (e)=>{
       e.preventDefault();
-      const mid    = wrap.dataset.id || null;
-      const isMine = wrap.classList.contains('own'); 
-      const txt    = wrap.querySelector('.message-text')?.textContent || '';
-      const pinned = wrap.classList.contains('is-pinned');
-  
-      const actions = [
-        { icon:'↩︎', label:'Reply', onClick:()=>{ replyingTo = { id: mid, user, text: txt }; showReplyBar(); } },
-        { icon:'😊', label:'React', onClick:()=> showReactionPicker(contentEl, String(id||'')) },
-        { icon:'📋', label:'Copy',  onClick:()=> copyToClipboard(txt) },
-        { icon:'📤', label:'Forward', onClick:()=> forwardMessage(txt, user) },
-        { icon:'ℹ️', label:'Info', onClick:()=> showMessageInfo({ id: mid, user, ts, editedAt: !!editedAt, pinned }) },
-      ];
-  
-      if (mid) {
-        actions.push({ icon:'📌', label: pinned ? 'Unpin' : 'Pin', onClick:()=> togglePin(mid, !pinned) });
-      }
-  
-      if (isMine) {
-        actions.push('divider');
-        actions.push({
-          icon:'✏️', label:'Edit',
-          onClick:()=>{ if (!mid) { showToast('Please wait…'); return; } promptEdit(mid, txt); }
-        });
-        actions.push({
-          icon:'🗑️', label:'Delete…',
-          onClick: async ()=>{
-            const choice = await showChoices?.({
-              title:'Delete message', message:'Choose how you want to delete this message.',
-              choices:['Delete for everyone','Delete for me','Cancel']
-            }) ?? (confirm('Delete for everyone?') ? 'Delete for everyone' : 'Cancel');
-            if (choice === 'Delete for everyone') {
-              if (!mid) { showToast('Please wait…'); return; }
-              confirmDelete(mid);
-            } else if (choice === 'Delete for me') {
-              if (mid) hideLocally(currentRoom, String(mid));
-              showToast('Hidden on this device');
-            }
-          }
-        });
-      } else {
-        actions.push('divider');
-        actions.push({ icon:'🗑️', label:'Delete for me', onClick:()=>{ if (mid) hideLocally(currentRoom, String(mid)); } });
-      }
-  
-      showAnchoredMenu(contentEl, actions, { side: 'auto' });
+      openMsgActionsMenu();
     });
-  
-    // Mobile long-press => picker
-    let rxTimer = null;
-    const startRxPress = (ev)=>{
-      ev.preventDefault();
-      rxTimer = setTimeout(()=> showReactionPicker(contentEl, String(id || '')), 420);
-    };
-    const cancelRxPress = ()=>{ if (rxTimer){ clearTimeout(rxTimer); rxTimer = null; } };
-    contentEl.addEventListener('touchstart', startRxPress, { passive:false });
-    contentEl.addEventListener('touchend',   cancelRxPress);
-    contentEl.addEventListener('touchmove',  cancelRxPress);
-    contentEl.addEventListener('touchcancel',cancelRxPress);
-  
+
+    // Mobile: long-press opens the same menu
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    let lpTimer = null;
+
+    function startLongPress(e){
+      if (!isTouch) return;
+      if (e.touches && e.touches.length > 1) return; // multi-touch => ignore
+      lpTimer = setTimeout(() => {
+        // Block the synthetic click that fires after long-press
+        contentEl.dataset.lpBlockClick = "1";
+        openMsgActionsMenu();
+        if (navigator.vibrate) navigator.vibrate(10);
+      }, 450);
+    }
+    function cancelLongPress(){
+      if (lpTimer){ clearTimeout(lpTimer); lpTimer = null; }
+    }
+
+    contentEl.addEventListener('touchstart', startLongPress, { passive: true });
+    contentEl.addEventListener('touchmove',  cancelLongPress, { passive: true });
+    contentEl.addEventListener('touchend',   cancelLongPress, { passive: true });
+    contentEl.addEventListener('touchcancel',cancelLongPress, { passive: true });
+
+    // Capture click: stop accidental open / send when long-press menu was used
+    contentEl.addEventListener('click', (ev)=>{
+      if (contentEl.dataset.lpBlockClick === "1"){
+        delete contentEl.dataset.lpBlockClick;
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+    }, true);
     return wrap;
   }
 
@@ -5532,11 +5516,7 @@ async function start(){
   await joinRoom(currentRoom);
   setTimeout(() => loadPinned(currentRoom), 1000);
 }
-(async () => {
-  try { await start(); }
-  catch (e) { console.error('start() failed', e); }
-  finally { endBoot(); }
-})();
+start();
 async function loadRoomsFromBackend(subjectKey) {
   const subject = subjectKey || "btech_cse";
   const url = `${API_BASE}/api/rooms?subject=${encodeURIComponent(subjectKey)}&q=`;

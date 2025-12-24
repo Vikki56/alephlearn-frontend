@@ -322,7 +322,7 @@ h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }
 @media (max-width: 680px){
   header.nav .nav-inner a.brand img.logo,
   header.nav .nav-inner img.logo{
-    width: 52px !important;
+    width: 119px !important;
     height: 52px !important;
     max-width: none !important;
     max-height: none !important;

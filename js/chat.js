@@ -4249,6 +4249,13 @@ const openMobileMenu = async () => {
   showAnchoredMenu(contentEl, actions, { side: 'auto' });
 };
 
+// 🖥 Desktop right-click => open same menu as mobile long-press
+contentEl.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  openMobileMenu();
+});
+
+
 const startLongPress = () => {
   longPressed = false;
   lpTimer = setTimeout(() => {
@@ -4749,11 +4756,7 @@ window.sendMessage = sendMessage;
       return;
     }
     try{
-      const r = await authFetch(`${API_BASE}/api/chat/message/${id}`,{
-        method:'DELETE',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ clientId: CLIENT_ID })
-      });
+      const r = await authFetch(`${API_BASE}/api/chat/message/${id}`,{ method:'DELETE' });
       if (!r.ok && r.status !== 204) throw 0;
       markMessageDeleted(id);
       loadPinned(currentRoom);

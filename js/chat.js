@@ -4756,11 +4756,18 @@ window.sendMessage = sendMessage;
       return;
     }
     try{
-      const r = await authFetch(`${API_BASE}/api/chat/message/${id}?clientId=${encodeURIComponent(CLIENT_ID)}`,{ method:'DELETE' });
+      // Use message's stored clientId (server requires it)
+      const wrap = document.querySelector(`.message[data-id="${id}"]`);
+      const msgClientId = (wrap?.dataset?.clientId || '').trim() || CLIENT_ID;
+      const r = await authFetch(`${API_BASE}/api/chat/message/${id}`,{
+        method:'DELETE',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ clientId: msgClientId })
+      });
       if (!r.ok && r.status !== 204) throw 0;
       markMessageDeleted(id);
       loadPinned(currentRoom);
-      wsSend({type:'delete',id,clientId:CLIENT_ID});
+      wsSend({type:'delete',id,clientId:msgClientId});
     }catch{ alert('Delete failed'); }
   }
 

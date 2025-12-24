@@ -50,7 +50,7 @@ signupForm.addEventListener("submit", async (e) => {
     const data = await apiPost("/api/auth/signup", { name, email, password: p1 });
     saveAuth(data.token, email);
     showToast("Account created. Welcome!", "success");
-    setTimeout(() => (window.location.href = "dashboard.html"), 900);
+    setTimeout(() => (window.location.href = "/dashboard"), 900);
   } catch (err) {
     showToast(err.message || "Sign up failed.", "error");
   }
@@ -68,7 +68,7 @@ loginForm.addEventListener("submit", async (e) => {
     const data = await apiPost("/api/auth/login", { email, password: pass });
     saveAuth(data.token, email);
     showToast("Logged in successfully!", "success");
-    setTimeout(() => (window.location.href = "dashboard.html"), 700);
+    setTimeout(() => (window.location.href = "/dashboard"), 700);
   } catch (err) {
     const msg = /401|unauthorized|invalid/i.test(err.message)
       ? "Invalid email or password."

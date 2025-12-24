@@ -71,3 +71,120 @@ h1, h2, h3, p, a, span { overflow-wrap: anywhere; }
 @media (max-width: 380px){
   .container{ padding-inline: 12px; }
 }
+/* AlephLearn – Responsive Fix v3 (NAV focused)
+   Include AFTER landing.css and AFTER any previous patch.
+   Goal: fix Login / Get Started / hamburger wrapping on small screens.
+*/
+
+html, body { overflow-x: hidden; }
+* { box-sizing: border-box; }
+
+/* ---- NAV: make it unbreakable on mobile ---- */
+@media (max-width: 560px){
+  /* keep header content within screen */
+  .nav-inner, .navbar, .nav, header .container{
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* Layout: logo left, actions right */
+  .nav-inner{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  /* Logo shrink a bit */
+  .brand, .logo, .nav-brand{
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+  }
+  .brand span, .logo span, .nav-brand span{
+    white-space: nowrap !important;
+  }
+  .brand img, .logo img, .nav-brand img{
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  /* Actions group */
+  .nav-actions, .nav-ctas, .right-actions{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  /* Hide long link list on mobile (keep burger) */
+  .nav-links{ display: none !important; }
+
+  /* Buttons must NOT wrap */
+  .nav-actions .btn,
+  .nav-ctas .btn,
+  .right-actions .btn,
+  .nav-inner .btn,
+  .nav-inner a.btn,
+  .nav-inner button.btn{
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    border-radius: 14px !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+  }
+
+  /* If Get Started is too wide, allow it to shrink but still no wrap */
+  .btn-primary, .cta, .get-started{
+    padding: 10px 12px !important;
+    max-width: 44vw !important;     /* key: prevents it from eating the whole row */
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Login smaller */
+  .btn-secondary, .login-btn{
+    padding: 10px 12px !important;
+    max-width: 30vw !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Burger: fixed square */
+  .burger, .menu-btn, .hamburger{
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    flex: 0 0 42px !important;
+    border-radius: 14px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Ultra small phones */
+@media (max-width: 380px){
+  .nav-inner{ gap: 8px !important; }
+
+  .nav-inner .btn,
+  .nav-inner a.btn,
+  .nav-inner button.btn{
+    padding: 9px 10px !important;
+    font-size: 13px !important;
+    border-radius: 12px !important;
+  }
+
+  .btn-primary, .cta, .get-started{ max-width: 42vw !important; }
+  .btn-secondary, .login-btn{ max-width: 28vw !important; }
+
+  .burger, .menu-btn, .hamburger{
+    width: 40px !important;
+    height: 40px !important;
+    flex-basis: 40px !important;
+  }
+}

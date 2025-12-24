@@ -1,173 +1,73 @@
-/* AlephLearn – Responsive Patch
-   Drop this file AFTER landing.css:
-   <link rel="stylesheet" href="landing.responsive.css" />
+/* AlephLearn – Responsive Fix v2 (minimal + safe)
+   Use this instead of the previous patch.
+   Include AFTER landing.css
 */
 
-/* 1) Never allow horizontal empty space / sideways scroll */
-html, body { width: 100%; overflow-x: hidden; }
+/* Stop the "empty right space" / horizontal scroll */
+html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+* { box-sizing: border-box; }
 
-/* 2) Make main container fluid on small screens */
+/* Make all major wrappers shrink correctly */
+main, header, section, div { min-width: 0; }
+
+/* Container: keep design, but add mobile padding */
 .container{
-  width: min(1100px, 100% - 32px);
+  max-width: 1100px;
+  width: 100%;
   margin-inline: auto;
+  padding-inline: 16px;
 }
 
-/* 3) Hero grid: 2-col on desktop, 1-col on tablets/phones */
+/* HERO layout */
 .hero-grid{
   display: grid;
   grid-template-columns: 1.05fr .95fr;
-  gap: 28px;
+  gap: 24px;
   align-items: start;
 }
 
-/* Card should not exceed screen */
-.preview-card{
-  max-width: 520px;
-  width: 100%;
-  margin-left: auto;
+/* Prevent right card from causing overflow */
+.hero-right, .preview, .preview-card, .glass, .card{
+  max-width: 100%;
 }
+.preview-card{ width: 100%; }
 
-/* 4) Grids that often break on mobile */
-.grid3{
+/* Any 2/3/4-column grids should not overflow */
+.grid3, .modules, .steps{
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.modules{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.steps{
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.steps{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-/* 5) Make long text wrap safely */
-*{ word-wrap: break-word; }
-h1, h2, h3, p { overflow-wrap: anywhere; }
+/* Text wrapping safety */
+h1, h2, h3, p, a, span { overflow-wrap: anywhere; }
 
-/* -----------------------------
-   BREAKPOINTS
---------------------------------*/
+/* ---------------- BREAKPOINTS ---------------- */
 
-/* <= 1024px (tablets + small laptops) */
+/* Tablet */
 @media (max-width: 1024px){
-  .hero-grid{
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .hero-right{ order: 2; }
-  .hero-left{ order: 1; }
-
-  .preview-card{
-    max-width: 720px;
-    margin-inline: auto;
-  }
-
-  .grid3{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .modules{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-grid{ grid-template-columns: 1fr; }
+  .grid3, .modules{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .steps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-  /* nav: keep spacing sane */
-  .nav-inner{
-    width: min(1100px, 100% - 24px);
-  }
 }
 
-/* <= 820px (large phones, iPad portrait) */
-@media (max-width: 820px){
-  .container{ width: min(1100px, 100% - 24px); }
+/* Mobile */
+@media (max-width: 640px){
+  .container{ padding-inline: 14px; }
 
-  /* Force hero text not to look tiny/huge */
-  h1{
-    font-size: clamp(28px, 6vw, 40px);
-    line-height: 1.15;
-  }
-  .sub{
-    font-size: clamp(14px, 3.4vw, 16px);
-    line-height: 1.55;
-  }
+  /* keep your button styles; just make them fit */
+  .hero-actions{ display: grid; gap: 12px; }
+  .hero-actions .btn{ width: 100%; }
 
-  /* Nav: collapse links, show burger */
+  .grid3, .modules, .steps{ grid-template-columns: 1fr; }
+
+  /* nav */
   .nav-links{ display: none !important; }
   .burger{ display: inline-flex !important; }
-
-  /* If landing.js toggles a class like .open on navLinks */
-  .nav-links.open{
-    display: flex !important;
-    flex-direction: column;
-    gap: 10px;
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    top: calc(100% + 10px);
-    padding: 14px;
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(10, 16, 30, .82);
-    border: 1px solid rgba(255,255,255,.08);
-    z-index: 50;
-  }
-
-  /* Actions wrap cleanly */
-  .hero-actions{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .hero-actions .btn{
-    flex: 1 1 180px;
-    text-align: center;
-  }
-
-  /* Stats should stack instead of squeezing */
-  .stats{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
 }
 
-/* <= 520px (phones) */
-@media (max-width: 520px){
-  .container{ width: min(1100px, 100% - 18px); }
-
-  .hero{ padding-top: 84px; } /* header space */
-  .pill{
-    max-width: 100%;
-  }
-
-  /* Reduce card padding if too big */
-  .preview-card .card-body,
-  .preview-card .card-foot{
-    padding-inline: 14px !important;
-  }
-
-  /* grids become 1-column */
-  .grid3{ grid-template-columns: 1fr; }
-  .modules{ grid-template-columns: 1fr; }
-  .steps{ grid-template-columns: 1fr; }
-
-  /* Footer columns should stack */
-  .lp-footer-bottom{
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 18px !important;
-  }
-
-  /* Chips wrap nicely */
-  .card-actions{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-}
-
-/* <= 360px (very small phones) */
-@media (max-width: 360px){
-  h1{ font-size: 26px; }
-  .hero-actions .btn{ flex-basis: 100%; }
+/* Very small phones */
+@media (max-width: 380px){
+  .container{ padding-inline: 12px; }
 }

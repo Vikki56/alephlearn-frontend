@@ -85,7 +85,7 @@ a, button{ -webkit-tap-highlight-color: transparent; }
 }
 
 /* ---------- HERO ---------- */
-.hero{ padding-top:84px; } /* avoids overlap with sticky nav if needed */
+.hero{ padding-top:10px; } /* avoids overlap with sticky nav if needed */
 .hero-grid{
   display:grid;
   grid-template-columns: 1.05fr .95fr;
@@ -270,7 +270,7 @@ img, svg{ max-width:100%; height:auto; }
 }
 
 /* ---------- HERO ---------- */
-.hero{ padding-top:84px; }
+.hero{ padding-top:10px; }
 .hero-grid{
   display:grid;
   grid-template-columns: 1.05fr .95fr;

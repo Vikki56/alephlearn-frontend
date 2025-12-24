@@ -414,3 +414,23 @@ header.nav img.logo {
     height: 48px;
   }
 }
+/* ===============================
+   LOGO SIZE – MOBILE BOOST ONLY
+================================ */
+
+@media (max-width: 768px) {
+  header.nav .brand img.logo {
+    width: 64px;        /* 👈 mobile logo clearly visible */
+    height: 64px;
+    max-width: none;
+    max-height: none;
+  }
+}
+
+/* very small phones */
+@media (max-width: 420px) {
+  header.nav .brand img.logo {
+    width: 56px;
+    height: 56px;
+  }
+}

@@ -4167,8 +4167,9 @@ const avatarEl = wrap.querySelector('.message-avatar');
     });
   
     // Right-click menu (includes React)
-        const openMsgMenu = () => {
-const mid    = wrap.dataset.id || null;
+    contentEl.addEventListener('contextmenu', (e)=>{
+      e.preventDefault();
+      const mid    = wrap.dataset.id || null;
       const isMine = wrap.classList.contains('own'); 
       const txt    = wrap.querySelector('.message-text')?.textContent || '';
       const pinned = wrap.classList.contains('is-pinned');
@@ -4213,26 +4214,43 @@ const mid    = wrap.dataset.id || null;
       }
   
       showAnchoredMenu(contentEl, actions, { side: 'auto' });
-    
-    };
-
-contentEl.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openMsgMenu();
     });
   
-    // Mobile long-press => picker
-    let rxTimer = null;
-    const startRxPress = (ev)=>{
-      ev.preventDefault();
-      rxTimer = setTimeout(()=> showReactionPicker(contentEl, String(id || '')), 420);
+    // Mobile long-press => SAME menu as desktop right-click
+    // (User asked: hold on message should open Reply/React/Copy/Forward/Info/Pin/Edit/Delete)
+    let lpTimer = null;
+    let longPressed = false;
+    const startLongPress = (ev) => {
+      // don't block normal scroll; only prevent default once we actually long-press
+      longPressed = false;
+      lpTimer = setTimeout(() => {
+        longPressed = true;
+        try { ev.preventDefault(); } catch (_) {}
+
+        const actions = buildMessageActions(opts);
+        showAnchoredMenu(contentEl, actions, { side: 'auto' });
+      }, 420);
     };
-    const cancelRxPress = ()=>{ if (rxTimer){ clearTimeout(rxTimer); rxTimer = null; } };
-    contentEl.addEventListener('touchstart', startRxPress, { passive:false });
-    contentEl.addEventListener('touchend',   cancelRxPress);
-    contentEl.addEventListener('touchmove',  cancelRxPress);
-    contentEl.addEventListener('touchcancel',cancelRxPress);
+    const cancelLongPress = () => {
+      if (lpTimer) {
+        clearTimeout(lpTimer);
+        lpTimer = null;
+      }
+    };
+    // if long-pressed, swallow the synthetic click that follows on some devices
+    const swallowClickAfterLongPress = (e) => {
+      if (longPressed) {
+        e.preventDefault();
+        e.stopPropagation();
+        longPressed = false;
+      }
+    };
+
+    contentEl.addEventListener('touchstart', startLongPress, { passive: true });
+    contentEl.addEventListener('touchend', cancelLongPress);
+    contentEl.addEventListener('touchmove', cancelLongPress);
+    contentEl.addEventListener('touchcancel', cancelLongPress);
+    contentEl.addEventListener('click', swallowClickAfterLongPress, true);
   
     return wrap;
   }

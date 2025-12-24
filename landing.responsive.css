@@ -176,3 +176,140 @@ a, button{ -webkit-tap-highlight-color: transparent; }
   min-width:0;
 }
 h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }
+/* AlephLearn Landing – Responsive (Final v2)
+   Fixes:
+   ✅ Logo not too small on mobile
+   ✅ Burger shows 3 stacked lines (not a single line)
+   Use AFTER landing.css (and replace previous responsive.final.css)
+*/
+
+*{ box-sizing:border-box; }
+html, body{ width:100%; max-width:100%; overflow-x:hidden; }
+img, svg{ max-width:100%; height:auto; }
+.container{ width:min(1100px, 100% - 32px); margin-inline:auto; }
+@media (max-width:520px){ .container{ width:calc(100% - 24px); } }
+
+/* ---------- NAV ---------- */
+.nav{ position: sticky; top:0; z-index:100; }
+.nav-inner{
+  width:min(1100px, 100% - 32px);
+  margin-inline:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.brand{ display:flex; align-items:center; gap:10px; min-width:0; }
+
+/* Logo size (desktop default) */
+.brand .logo{ width:36px; height:36px; flex:0 0 auto; }
+
+/* Links */
+.nav-links{ display:flex; gap:18px; align-items:center; min-width:0; }
+.nav-links a{ white-space:nowrap; }
+
+.nav-cta{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  min-width:0;
+}
+.nav-cta .btn{ white-space:nowrap; line-height:1; }
+
+/* Burger: force 3-line stacked icon */
+.burger{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px; height:44px;
+  flex:0 0 44px;
+  padding:0;
+  flex-direction:column;     /* ✅ stack spans */
+  gap:6px;                   /* ✅ space between lines */
+}
+.burger span{
+  display:block !important;
+  width:20px;
+  height:2px;
+  border-radius:2px;
+}
+
+/* Tablet tweaks */
+@media (max-width: 920px){
+  .nav-inner{ width:calc(100% - 24px); }
+  .nav-links{ gap:14px; }
+  .nav-cta{ gap:10px; }
+  .nav-cta .btn{ padding:10px 12px; font-size:14px; }
+}
+
+/* Mobile */
+@media (max-width: 680px){
+  .nav-links{ display:none; }
+
+  /* ✅ Make logo bigger on mobile */
+  .brand .logo{ width:42px; height:42px; }
+
+  .nav-cta .btn{
+    padding:10px 12px;
+    font-size:14px;
+    border-radius:14px;
+    max-width:40vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .nav-cta .btn.ghost{ max-width:28vw; }
+}
+
+/* Very small phones */
+@media (max-width: 380px){
+  .brand .logo{ width:40px; height:40px; }
+  .nav-cta .btn{ padding:9px 10px; font-size:13px; border-radius:12px; }
+  .burger{ width:42px; height:42px; flex-basis:42px; gap:5px; }
+  .burger span{ width:18px; }
+}
+
+/* ---------- HERO ---------- */
+.hero{ padding-top:84px; }
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap:28px;
+  align-items:start;
+}
+.hero-left, .hero-right{ min-width:0; }
+.preview-card{ max-width:560px; width:100%; margin-left:auto; }
+
+@media (max-width: 1024px){
+  .hero-grid{ grid-template-columns:1fr; gap:18px; }
+  .preview-card{ max-width:720px; margin-inline:auto; }
+}
+@media (max-width: 640px){
+  h1{ font-size:clamp(28px, 7vw, 40px); line-height:1.12; }
+  .sub{ font-size:15px; line-height:1.55; }
+  .hero-actions{ display:grid; grid-template-columns:1fr; gap:12px; }
+  .hero-actions .btn{ width:100%; text-align:center; }
+  .stats{ display:grid; grid-template-columns:1fr; gap:10px; }
+}
+
+/* ---------- Grids ---------- */
+.grid3{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
+.modules{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
+.steps{ display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:14px; }
+.pricing{ display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px; }
+
+@media (max-width: 1024px){
+  .grid3, .modules, .pricing{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px){
+  .grid3, .modules, .steps, .pricing{ grid-template-columns: 1fr; }
+}
+
+/* ---------- Footer ---------- */
+.lp-footer-bottom{ display:grid; grid-template-columns: 1fr 1.2fr; gap:22px; }
+@media (max-width: 900px){ .lp-footer-bottom{ grid-template-columns:1fr; } }
+
+/* Overflow guards */
+.glass, .feature, .module, .step, .price, .cta-wide, .pill, .kpis, .card-actions{ max-width:100%; min-width:0; }
+h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }

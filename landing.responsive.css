@@ -388,4 +388,29 @@ header.nav .burger {
     width: 48px;
     height: 48px;
   }
+}/* ===============================
+   LOGO SIZE – FINAL FIX
+   Desktop & Mobile separated
+================================ */
+
+/* ---- DESKTOP (default) ---- */
+header.nav img.logo {
+  width: 120px;        /* 👈 proper desktop size */
+  height: auto;
+  max-width: none;
+}
+
+/* ---- TABLET ---- */
+@media (max-width: 1024px) {
+  header.nav img.logo {
+    width: 96px;
+  }
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  header.nav img.logo {
+    width: 48px;
+    height: 48px;
+  }
 }

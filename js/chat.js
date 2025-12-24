@@ -6186,3 +6186,9 @@ style.innerHTML = `
   to { transform: scale(1); opacity:1 }
 }`;
 document.head.appendChild(style);
+document.querySelectorAll(".js-logout").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "./auth.html";
+  });
+});

@@ -3,19 +3,6 @@
 // ✅ Dev: http://localhost:8080
 // ✅ Prod: Render backend (or later api.alephlearn.com)
 window.API_BASE = window.API_BASE || 'http://localhost:8080';
-
-
-// --- BOOT/Preload unhide (prevent blank page if any init fails) ---
-function endBoot(){
-  try{
-    document.documentElement.classList.remove("al-preload");
-    document.body.classList.remove("al-boot");
-    // safety: restore pointer events if used
-    document.querySelector(".app-container")?.style.removeProperty("pointer-events");
-  }catch{}
-}
-// Fallback: never stay hidden forever
-setTimeout(endBoot, 2500);
 const ORIGIN_OVERRIDE = (localStorage.getItem('backendOrigin') || '').trim();
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
@@ -28,8 +15,30 @@ window.API_BASE = API_BASE;
 let currentProfileUserId = null;
 const reportModal = document.getElementById('reportModal');
 
+// ---- Render cold-start mitigation ----
+// Render free services often "sleep"; first request can take a few seconds.
+// We ping /api/ping ASAP (no auth) so that heavy calls (rooms/messages/profile) feel faster.
+function warmBackend() {
+  try {
+    fetch(`${API_BASE}/api/ping`, { cache: 'no-store' }).catch(()=>{});
+  } catch (_) {}
+}
+
+// fire-and-forget warmup
+warmBackend();
+
+// -----------------------------------------------------------------------------
+// Mobile long-press safety
+// Some merges can end up referencing `cancelRxPress` from handlers where it is
+// not in scope. That throws a ReferenceError and the whole chat UI goes blank.
+// Keep a harmless global fallback so the app never crashes.
+// (Per-message handlers still define their own cancel logic inside messageCard.)
+function cancelRxPress() {}
+
 // frontend/js/chat.js
-import { authFetch } from "./api.js";
+// IMPORTANT: Do NOT import authFetch from api.js here.
+// This file already defines its own authFetch() wrapper later (returns a fetch Response
+// and handles 401/403 + blocked modal). Importing would cause a duplicate identifier error.
 
 // ---- room state (single source of truth) ----
 let currentRoom = 'default';
@@ -4215,60 +4224,17 @@ const avatarEl = wrap.querySelector('.message-avatar');
   
       showAnchoredMenu(contentEl, actions, { side: 'auto' });
     });
-
-      // Mobile long-press => open the same message menu (Reply/React/Copy/Forward/Info/Pin/Edit/Delete)
-      let lpTimer = null;
-      let lpStart = null;
-      const LP_MS = 450;      // hold duration
-      const LP_MOVE = 12;     // cancel threshold (px)
-
-      function cancelLongPress() {
-        if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
-        lpStart = null;
-      }
-
-      contentEl.addEventListener('touchstart', (ev) => {
-        if (!ev.touches || ev.touches.length !== 1) return;
-
-        const t = ev.touches[0];
-        lpStart = { x: t.clientX, y: t.clientY };
-
-        // reset any previous timer
-        if (lpTimer) clearTimeout(lpTimer);
-
-        lpTimer = setTimeout(() => {
-          try { navigator.vibrate?.(10); } catch (_) {}
-
-          // prevent native text selection/scroll “grab” on long-press
-          try { ev.preventDefault(); } catch (_) {}
-
-          const x = lpStart?.x ?? t.clientX;
-          const y = lpStart?.y ?? t.clientY;
-
-          // Trigger the same handler as desktop right-click
-          const ctx = new MouseEvent('contextmenu', {
-            bubbles: true,
-            cancelable: true,
-            clientX: x,
-            clientY: y
-          });
-          contentEl.dispatchEvent(ctx);
-
-          cancelLongPress();
-        }, LP_MS);
-      }, { passive: false });
-
-      contentEl.addEventListener('touchend', cancelLongPress, { passive: true });
-      contentEl.addEventListener('touchcancel', cancelLongPress, { passive: true });
-
-      contentEl.addEventListener('touchmove', (ev) => {
-        if (!lpStart || !ev.touches || ev.touches.length !== 1) return;
-        const t = ev.touches[0];
-        const dx = t.clientX - lpStart.x;
-        const dy = t.clientY - lpStart.y;
-        if (Math.hypot(dx, dy) > LP_MOVE) cancelLongPress();
-      }, { passive: true });
-
+  
+    // Mobile long-press => picker
+    let rxTimer = null;
+    const startRxPress = (ev)=>{
+      ev.preventDefault();
+      rxTimer = setTimeout(()=> showReactionPicker(contentEl, String(id || '')), 420);
+    };
+    const cancelRxPress = ()=>{ if (rxTimer){ clearTimeout(rxTimer); rxTimer = null; } };
+    contentEl.addEventListener('touchstart', startRxPress, { passive:false });
+    contentEl.addEventListener('touchend',   cancelRxPress);
+    contentEl.addEventListener('touchmove',  cancelRxPress);
     contentEl.addEventListener('touchcancel',cancelRxPress);
   
     return wrap;
@@ -5575,11 +5541,7 @@ async function start(){
   await joinRoom(currentRoom);
   setTimeout(() => loadPinned(currentRoom), 1000);
 }
-(async () => {
-  try { await start(); }
-  catch (e) { console.error('start() failed', e); }
-  finally { endBoot(); }
-})();
+start();
 async function loadRoomsFromBackend(subjectKey) {
   const subject = subjectKey || "btech_cse";
   const url = `${API_BASE}/api/rooms?subject=${encodeURIComponent(subjectKey)}&q=`;

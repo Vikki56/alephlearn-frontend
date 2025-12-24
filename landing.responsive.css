@@ -1,190 +1,178 @@
-/* AlephLearn – Responsive Fix v2 (minimal + safe)
-   Use this instead of the previous patch.
-   Include AFTER landing.css
+/* AlephLearn Landing – Responsive (Final)
+   Works with your exact HTML classnames:
+   .nav, .nav-inner, .nav-links, .nav-cta, .brand, .burger
+   .container, .hero-grid, .hero-left, .hero-right, .stats
+   .grid3, .modules, .steps, .pricing, .lp-footer-bottom
+
+   ✅ Add AFTER landing.css
 */
 
-/* Stop the "empty right space" / horizontal scroll */
-html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
-* { box-sizing: border-box; }
+/* ---------- Global safety ---------- */
+*{ box-sizing:border-box; }
+html, body{ width:100%; max-width:100%; overflow-x:hidden; }
+img, svg{ max-width:100%; height:auto; }
+a, button{ -webkit-tap-highlight-color: transparent; }
+.container{ width:min(1100px, 100% - 32px); margin-inline:auto; }
+@media (max-width:520px){ .container{ width:calc(100% - 24px); } }
 
-/* Make all major wrappers shrink correctly */
-main, header, section, div { min-width: 0; }
+/* ---------- NAV (fix Login / Get Started / burger wrap) ---------- */
+.nav{ position: sticky; top:0; z-index:100; }
+.nav-inner{
+  width:min(1100px, 100% - 32px);
+  margin-inline:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.brand{ display:flex; align-items:center; gap:10px; min-width:0; }
+.brand .logo{ width:30px; height:30px; flex:0 0 auto; }
+.nav-links{ display:flex; gap:18px; align-items:center; min-width:0; }
+.nav-links a{ white-space:nowrap; }
 
-/* Container: keep design, but add mobile padding */
-.container{
-  max-width: 1100px;
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: 16px;
+.nav-cta{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  min-width:0;
+}
+.nav-cta .btn{
+  white-space:nowrap;
+  line-height:1;
+}
+.burger{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px; height:44px;
+  flex:0 0 44px;
+  padding:0;
+}
+.burger span{ display:block; }
+
+/* Tablet: reduce nav spacing a bit */
+@media (max-width: 920px){
+  .nav-inner{ width:calc(100% - 24px); }
+  .nav-links{ gap:14px; }
+  .nav-cta{ gap:10px; }
+  .nav-cta .btn{ padding:10px 12px; font-size:14px; }
 }
 
-/* HERO layout */
-.hero-grid{
-  display: grid;
-  grid-template-columns: 1.05fr .95fr;
-  gap: 24px;
-  align-items: start;
-}
+/* Mobile: hide links, keep CTA + burger on one row */
+@media (max-width: 680px){
+  .nav-links{ display:none; }
 
-/* Prevent right card from causing overflow */
-.hero-right, .preview, .preview-card, .glass, .card{
-  max-width: 100%;
-}
-.preview-card{ width: 100%; }
+  .nav-inner{ gap:10px; }
+  .nav-cta{ gap:10px; }
 
-/* Any 2/3/4-column grids should not overflow */
-.grid3, .modules, .steps{
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.steps{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-/* Text wrapping safety */
-h1, h2, h3, p, a, span { overflow-wrap: anywhere; }
-
-/* ---------------- BREAKPOINTS ---------------- */
-
-/* Tablet */
-@media (max-width: 1024px){
-  .hero-grid{ grid-template-columns: 1fr; }
-  .grid3, .modules{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .steps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* Mobile */
-@media (max-width: 640px){
-  .container{ padding-inline: 14px; }
-
-  /* keep your button styles; just make them fit */
-  .hero-actions{ display: grid; gap: 12px; }
-  .hero-actions .btn{ width: 100%; }
-
-  .grid3, .modules, .steps{ grid-template-columns: 1fr; }
-
-  /* nav */
-  .nav-links{ display: none !important; }
-  .burger{ display: inline-flex !important; }
+  /* Keep buttons from breaking into multiple lines */
+  .nav-cta .btn{
+    padding:10px 12px;
+    font-size:14px;
+    border-radius:14px;
+    max-width:40vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .nav-cta .btn.ghost{ max-width:28vw; }
 }
 
 /* Very small phones */
 @media (max-width: 380px){
-  .container{ padding-inline: 12px; }
+  .nav-cta .btn{ padding:9px 10px; font-size:13px; border-radius:12px; }
+  .burger{ width:42px; height:42px; flex-basis:42px; }
 }
-/* AlephLearn – Responsive Fix v3 (NAV focused)
-   Include AFTER landing.css and AFTER any previous patch.
-   Goal: fix Login / Get Started / hamburger wrapping on small screens.
-*/
 
-html, body { overflow-x: hidden; }
-* { box-sizing: border-box; }
+/* ---------- HERO ---------- */
+.hero{ padding-top:84px; } /* avoids overlap with sticky nav if needed */
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap:28px;
+  align-items:start;
+}
+.hero-left, .hero-right{ min-width:0; }
+.preview-card{ max-width:560px; width:100%; margin-left:auto; }
 
-/* ---- NAV: make it unbreakable on mobile ---- */
-@media (max-width: 560px){
-  /* keep header content within screen */
-  .nav-inner, .navbar, .nav, header .container{
-    max-width: 100%;
-    min-width: 0;
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.hero-actions .btn{ white-space:nowrap; }
+
+/* Tablet -> stack hero */
+@media (max-width: 1024px){
+  .hero-grid{ grid-template-columns:1fr; gap:18px; }
+  .preview-card{ max-width:720px; margin-inline:auto; }
+}
+
+/* Mobile hero typography + buttons */
+@media (max-width: 640px){
+  h1{ font-size:clamp(28px, 7vw, 40px); line-height:1.12; }
+  .sub{ font-size:15px; line-height:1.55; }
+
+  .hero-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
   }
+  .hero-actions .btn{ width:100%; text-align:center; }
 
-  /* Layout: logo left, actions right */
-  .nav-inner{
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-  }
-
-  /* Logo shrink a bit */
-  .brand, .logo, .nav-brand{
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
-  }
-  .brand span, .logo span, .nav-brand span{
-    white-space: nowrap !important;
-  }
-  .brand img, .logo img, .nav-brand img{
-    width: 26px !important;
-    height: 26px !important;
-  }
-
-  /* Actions group */
-  .nav-actions, .nav-ctas, .right-actions{
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    gap: 10px !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-  }
-
-  /* Hide long link list on mobile (keep burger) */
-  .nav-links{ display: none !important; }
-
-  /* Buttons must NOT wrap */
-  .nav-actions .btn,
-  .nav-ctas .btn,
-  .right-actions .btn,
-  .nav-inner .btn,
-  .nav-inner a.btn,
-  .nav-inner button.btn{
-    white-space: nowrap !important;
-    line-height: 1 !important;
-    padding: 10px 12px !important;
-    font-size: 14px !important;
-    border-radius: 14px !important;
-    flex: 0 0 auto !important;
-    min-width: 0 !important;
-  }
-
-  /* If Get Started is too wide, allow it to shrink but still no wrap */
-  .btn-primary, .cta, .get-started{
-    padding: 10px 12px !important;
-    max-width: 44vw !important;     /* key: prevents it from eating the whole row */
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  /* Login smaller */
-  .btn-secondary, .login-btn{
-    padding: 10px 12px !important;
-    max-width: 30vw !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  /* Burger: fixed square */
-  .burger, .menu-btn, .hamburger{
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    padding: 0 !important;
-    flex: 0 0 42px !important;
-    border-radius: 14px !important;
-    white-space: nowrap !important;
+  .stats{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
   }
 }
 
-/* Ultra small phones */
-@media (max-width: 380px){
-  .nav-inner{ gap: 8px !important; }
-
-  .nav-inner .btn,
-  .nav-inner a.btn,
-  .nav-inner button.btn{
-    padding: 9px 10px !important;
-    font-size: 13px !important;
-    border-radius: 12px !important;
-  }
-
-  .btn-primary, .cta, .get-started{ max-width: 42vw !important; }
-  .btn-secondary, .login-btn{ max-width: 28vw !important; }
-
-  .burger, .menu-btn, .hamburger{
-    width: 40px !important;
-    height: 40px !important;
-    flex-basis: 40px !important;
-  }
+/* ---------- Feature grids / modules / steps / pricing ---------- */
+.grid3{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
 }
+.modules{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
+}
+.steps{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:14px;
+}
+.pricing{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
+}
+
+/* Tablets */
+@media (max-width: 1024px){
+  .grid3, .modules, .pricing{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Phones */
+@media (max-width: 640px){
+  .grid3, .modules, .steps, .pricing{ grid-template-columns: 1fr; }
+}
+
+/* ---------- Footer ---------- */
+.lp-footer-bottom{
+  display:grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap:22px;
+}
+@media (max-width: 900px){
+  .lp-footer-bottom{ grid-template-columns:1fr; }
+}
+
+/* ---------- Utility: prevent any child from forcing overflow ---------- */
+.glass, .feature, .module, .step, .price, .cta-wide, .pill, .kpis, .card-actions{
+  max-width:100%;
+  min-width:0;
+}
+h1,h2,h3,p,li,summary{ overflow-wrap:anywhere; }

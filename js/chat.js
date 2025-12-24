@@ -4756,7 +4756,7 @@ window.sendMessage = sendMessage;
       return;
     }
     try{
-      const r = await authFetch(`${API_BASE}/api/chat/message/${id}`,{ method:'DELETE' });
+      const r = await authFetch(`${API_BASE}/api/chat/message/${id}?clientId=${encodeURIComponent(CLIENT_ID)}`,{ method:'DELETE' });
       if (!r.ok && r.status !== 204) throw 0;
       markMessageDeleted(id);
       loadPinned(currentRoom);

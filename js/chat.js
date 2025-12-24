@@ -4167,9 +4167,8 @@ const avatarEl = wrap.querySelector('.message-avatar');
     });
   
     // Right-click menu (includes React)
-    contentEl.addEventListener('contextmenu', (e)=>{
-      e.preventDefault();
-      const mid    = wrap.dataset.id || null;
+        const openMsgMenu = () => {
+const mid    = wrap.dataset.id || null;
       const isMine = wrap.classList.contains('own'); 
       const txt    = wrap.querySelector('.message-text')?.textContent || '';
       const pinned = wrap.classList.contains('is-pinned');
@@ -4214,6 +4213,13 @@ const avatarEl = wrap.querySelector('.message-avatar');
       }
   
       showAnchoredMenu(contentEl, actions, { side: 'auto' });
+    
+    };
+
+contentEl.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openMsgMenu();
     });
   
     // Mobile long-press => picker

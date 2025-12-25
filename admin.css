@@ -1,8 +1,4 @@
-/* =======================
-   ✅ Admin Panel Polish
-   ======================= */
 
-/* Card spacing + subtle glass */
 .card{
     border: 1px solid rgba(148,163,184,.14);
     box-shadow: 0 12px 30px rgba(0,0,0,.35);

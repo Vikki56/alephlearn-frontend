@@ -1,6 +1,4 @@
-// ===============================
-// Basic UI: burger + smooth scroll
-// ===============================
+
 const burger = document.getElementById("burger");
 const navLinks = document.getElementById("navLinks");
 
@@ -8,12 +6,10 @@ burger?.addEventListener("click", () => {
   navLinks?.classList.toggle("open");
 });
 
-// close menu on click
 navLinks?.addEventListener("click", (e) => {
   if (e.target?.tagName === "A") navLinks.classList.remove("open");
 });
 
-// smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener("click", (e) => {
     const href = a.getAttribute("href");
@@ -26,16 +22,14 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// ===============================
-// Coming Soon modal (ONLY for AI pricing buttons)
-// ===============================
+
 const comingSoonModal = document.getElementById("comingSoonModal");
 const csCloseBtn = document.getElementById("csClose");
 const csBackdrop = comingSoonModal?.querySelector(".cs-backdrop");
 
 function openComingSoon() {
   if (!comingSoonModal) return;
-  comingSoonModal.classList.add("show"); // use .show in css
+  comingSoonModal.classList.add("show");
 }
 
 function closeComingSoon() {
@@ -43,7 +37,6 @@ function closeComingSoon() {
   comingSoonModal.classList.remove("show");
 }
 
-// Only buttons/links having .js-coming-soon will open this
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".js-coming-soon");
   if (!btn) return;
@@ -58,9 +51,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeComingSoon();
 });
 
-// ===============================
-// Support Modal: Contact + Report Bug (Backend Connected)
-// ===============================
+
 const API_BASE = "https://alephlearn-backend.onrender.com/api";
 const token = () => localStorage.getItem("token") || localStorage.getItem("jwt") || "";
 
@@ -152,8 +143,7 @@ supportForm?.addEventListener("submit", async (e) => {
 
   try {
     if ((sfType?.value || "CONTACT") === "BUG") {
-      // ✅ Bug -> create report (public endpoint recommended)
-      // If your backend endpoint is different, change it here.
+
       await api("/api/reports/bug", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -170,7 +160,7 @@ supportForm?.addEventListener("submit", async (e) => {
 
       supportMsg.textContent = "Bug reported ✅ Admin will review it.";
     } else {
-      // ✅ Contact -> public contact endpoint
+  
       await api("/api/public/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

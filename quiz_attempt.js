@@ -4,11 +4,10 @@ const TOKEN_KEY = "token";
 
 const QUIZ_LOCK_PREFIX = "quizAttemptLocked_";
 
-// ===== Anti-cheat globals =====
 let violationCount = 0;
 const MAX_WARNINGS = 3;
 let lastViolationAt = 0;
-const VIOLATION_COOLDOWN_MS = 2000; // 2s: ek hi action ke multiple events ko merge
+const VIOLATION_COOLDOWN_MS = 2000; 
 
 function enterFullscreenSafe() {
   const el = document.documentElement;
@@ -20,21 +19,16 @@ function enterFullscreenSafe() {
 }
 
 
-// ---------- Text answer helpers (for fill-in-the-blank) ----------
 
-// basic normalize: trim + lowercase
 function normalizeBasic(text) {
   return (text || "").trim().toLowerCase();
 }
 
-// order-insensitive normalize (for formulas etc.)
 function normalizeOrderInsensitive(text) {
-  // saare non-alphanumeric ko space bana do
   let cleaned = (text || "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ");
 
-  // tokens leke sort kardo
   const tokens = cleaned
     .split(" ")
     .map(t => t.trim())
@@ -44,7 +38,6 @@ function normalizeOrderInsensitive(text) {
   return tokens.join(" ");
 }
 
-// Levenshtein distance (small typo allow karne ke liye)
 function levenshtein(a, b) {
   a = a || "";
   b = b || "";
@@ -71,7 +64,6 @@ function levenshtein(a, b) {
   return dp[m][n];
 }
 
-// FINAL smart compare: exact + typo + order-insensitive
 function isSmartTextMatch(givenRaw, expectedRaw) {
   if (!givenRaw || !expectedRaw) return false;
 
@@ -80,13 +72,10 @@ function isSmartTextMatch(givenRaw, expectedRaw) {
 
   if (!given || !expected) return false;
 
-  // 1) simple exact match
   if (given === expected) return true;
 
-  // 2) small typo allow (distance <= 1)
   if (levenshtein(given, expected) <= 1) return true;
 
-  // 3) order-insensitive (useful for "a + b" vs "b + a", "tcp protocol" vs "protocol tcp")
   const g2 = normalizeOrderInsensitive(givenRaw);
   const e2 = normalizeOrderInsensitive(expectedRaw);
 
@@ -100,7 +89,6 @@ function isSmartTextMatch(givenRaw, expectedRaw) {
 }
 
 function setupAntiCheatGlobalListeners() {
-  // 1) Copy / cut / right-click disable
   document.addEventListener("copy", (e) => {
     e.preventDefault();
     showToast("Copy is disabled during the quiz.", "warning");
@@ -109,14 +97,12 @@ function setupAntiCheatGlobalListeners() {
   document.addEventListener("cut", (e) => e.preventDefault());
 
   document.addEventListener("contextmenu", (e) => {
-    e.preventDefault(); // right-click & long-press menu
+    e.preventDefault(); 
   });
 
-  // 2) Common keyboard shortcuts (Ctrl/Cmd + C, X, S, U, A, P)
   document.addEventListener("keydown", async (e) => {
     const key = e.key.toLowerCase();
 
-    // Prevent F12, Ctrl+Shift+I/J on desktop
     if (
       key === "f12" ||
       ((e.ctrlKey || e.metaKey) && e.shiftKey && (key === "i" || key === "j"))
@@ -132,18 +118,16 @@ function setupAntiCheatGlobalListeners() {
       }
     }
 
-    // Best-effort: PrintScreen (PC only)
     if (key === "printscreen") {
       e.preventDefault();
       try {
-        await navigator.clipboard.writeText(""); // clear screenshot buffer
+        await navigator.clipboard.writeText(""); 
       } catch (_) {}
       showToast("Screenshots are restricted during the quiz.", "warning");
       return;
     }
   });
 
-  // 3) Tab change / window blur detect
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       handleViolation("Tab hidden");
@@ -154,7 +138,6 @@ function setupAntiCheatGlobalListeners() {
     handleViolation("Window blurred");
   });
 
-  // 4) Fullscreen exit detect
   document.addEventListener("fullscreenchange", () => {
     const inFs = !!document.fullscreenElement;
     if (!inFs) {
@@ -162,7 +145,6 @@ function setupAntiCheatGlobalListeners() {
     }
   });
 
-  // 5) When user returns to browser → force fullscreen again
   window.addEventListener("focus", () => {
     if (!document.fullscreenElement) {
       enterFullscreenSafe();
@@ -170,7 +152,6 @@ function setupAntiCheatGlobalListeners() {
   });
 }
 
-// Ek common handler: tab change / blur / fullscreen exit sab isse call karein
 function handleViolation(reason) {
   const now = Date.now();
   if (now - lastViolationAt < VIOLATION_COOLDOWN_MS) return;
@@ -195,11 +176,9 @@ function handleViolation(reason) {
         okText: "Continue",
       }
     ).then(() => {
-      // user wapas aaye → fullscreen enforce karo
       enterFullscreenSafe();
     });
   } else {
-    // 3rd time → auto submit
     const submitBtn = document.getElementById("submitAttemptBtn");
     if (submitBtn && !submitBtn.disabled) {
       showToast("Too many focus changes. Submitting your quiz.", "error");
@@ -252,8 +231,7 @@ function clearAttemptStatusPoll() {
   }
 }
 
-// ---------- AlephLearn Global Dialog Helpers ----------
-// ---- Toast helpers (shared) ----
+
 function ensureToastRoot() {
     let root = document.getElementById("alephToastRoot");
     if (!root) {
@@ -266,9 +244,7 @@ function ensureToastRoot() {
   }
   
   
-  /**
-   * type: "info" | "success" | "error"
-   */
+
   function showToast(message, type = "info") {
     const root = ensureToastRoot();
   
@@ -318,12 +294,10 @@ function openAppDialogInternal({
     const cancelBtn = document.getElementById("appDialogCancelBtn");
   
     if (!overlay || !dialog || !okBtn || !cancelBtn) {
-      // safety fallback
       window.originAlert?.(message) ?? window.alert(message);
       return Promise.resolve(false);
     }
   
-    // variant classes
     dialog.classList.remove("app-dialog--warning", "app-dialog--success");
     if (variant === "warning") dialog.classList.add("app-dialog--warning");
     if (variant === "success") dialog.classList.add("app-dialog--success");
@@ -375,14 +349,12 @@ function openAppDialogInternal({
       overlay.addEventListener("click", onOverlay);
       document.addEventListener("keydown", onKey);
   
-      // open with animation
       requestAnimationFrame(() => {
         overlay.classList.add("is-open");
       });
     });
   }
   
-  // alert-style dialog
   function appAlert(message, options = {}) {
     return openAppDialogInternal({
       title: options.title || "AlephLearn",
@@ -393,7 +365,6 @@ function openAppDialogInternal({
     });
   }
   
-  // confirm-style dialog (returns Promise<boolean>)
   function appConfirm(message, options = {}) {
     return openAppDialogInternal({
       title: options.title || "Are you sure?",
@@ -405,7 +376,6 @@ function openAppDialogInternal({
     });
   }
   
-  // native alert override -> sabhi alert() yahi style use kare
   if (!window.originAlert) {
     window.originAlert = window.alert;
   }
@@ -445,7 +415,6 @@ function startAttemptTimer(totalSeconds) {
   }, 1000);
 }
 
-// ---- placeholder (backup) ----
 function buildPlaceholderQuestionsForQuiz(quiz) {
   return [
     {
@@ -457,8 +426,7 @@ function buildPlaceholderQuestionsForQuiz(quiz) {
   ];
 }
 
-// ==== pagination state (NEW) ====
-const PAGE_SIZE = 10;             // ek page par kitne questions
+const PAGE_SIZE = 10;            
 let gQuiz = null;
 let gQuestions = [];
 let gIsRealtime = false;
@@ -477,7 +445,6 @@ function saveCurrentPageAnswers() {
   for (let idx = start; idx < end; idx++) {
     const q = gQuestions[idx];
 
-    // 🔹 Fill-in-the-blank (CODING type ko text answer treat kar rahe hain)
     if (q.type === "CODING" || q.type === "Coding") {
       const input = container.querySelector(`#fib_${idx}`);
       if (input) {
@@ -486,7 +453,6 @@ function saveCurrentPageAnswers() {
       continue;
     }
 
-    // 🔹 Baaki – MCQ / TRUE_FALSE (radio)
     const checked = container.querySelector(`input[name="q${idx}"]:checked`);
     if (checked) {
       gUserAnswers[idx] = Number(checked.value);
@@ -513,7 +479,6 @@ function renderQuestionsPage() {
     .map((q, localIdx) => {
       const idx = start + localIdx;
   
-      // 🔹 CODING => Fill in the blank (single-line input)
       if (q.type === "CODING" || q.type === "Coding") {
         return `
           <div class="question-block" style="margin-bottom:1.5rem;">
@@ -696,18 +661,16 @@ async function apiGetRealtimeStatus(quizId) {
   
     attemptStatusPollId = setInterval(async () => {
       try {
-        // 1️⃣ Quiz ka status check (tumhara purana code)
         const status = await apiGetRealtimeStatus(quizId);
   
         if (status.status === "ENDED") {
           clearAttemptStatusPoll();
           clearAttemptTimer();
   
-          // local lock – dubara join nahi kar sake
           lockQuizForUser(quizId);
   
           appAlert(
-            "Host ne quiz end kar diya. Aapka attempt ab close ho chuka hai.",
+            "The host has ended the quiz. You can no longer continue your attempt.",
             {
               title: "Quiz ended",
               variant: "warning",
@@ -716,10 +679,9 @@ async function apiGetRealtimeStatus(quizId) {
           ).then(() => {
             window.location.href = "quizzes.html";
           });
-          return; // yahi se nikal jao
+          return; 
         }
   
-        // 2️⃣ YAHAN PE KICK / BAN CHECK ADD KARO 👇
         const resp = await fetch(
           `${API_BASE}/quizzes/${quizId}/attempt/me`,
           {
@@ -729,7 +691,6 @@ async function apiGetRealtimeStatus(quizId) {
         );
   
         if (resp.status === 404) {
-          // attempt delete / realtime=false => host ne remove/ban kar diya
           clearAttemptStatusPoll();
           clearAttemptTimer();
           lockQuizForUser(quizId);
@@ -748,7 +709,6 @@ async function apiGetRealtimeStatus(quizId) {
         }
   
         if (resp.status === 401) {
-          // logged-out case
           window.location.href = "login.html";
           return;
         }
@@ -759,7 +719,6 @@ async function apiGetRealtimeStatus(quizId) {
     }, 2000);
   }
 
-// ---- quiz detail API ----
 async function fetchQuizById(quizId) {
   const res = await fetch(`${API_BASE}/quizzes/${quizId}`, {
     method: "GET",
@@ -777,7 +736,6 @@ async function fetchQuizById(quizId) {
 
 function closeQuizTakingModal() {
   clearAttemptTimer();
-  // attempt page se wapas quizzes list pe bhej do
   window.location.href = "quizzes.html";
 }
 
@@ -817,17 +775,15 @@ function showQuizResult(score, total, quizId) {
       </div>
     `;
   
-    // Back button
     document.getElementById("resultOkBtn").addEventListener("click", () => {
       closeQuizTakingModal();
     });
   
-// 🏆 Trophy icon → dedicated leaderboard page
 const lbBtn = document.getElementById("viewLeaderboardBtn");
 if (lbBtn && quizId) {
   lbBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    e.stopPropagation();      // koi aur click handler interfere na kare
+    e.stopPropagation();     
     window.location.href = `leaderboard.html?quizId=${quizId}`;
   });
 }
@@ -848,7 +804,6 @@ function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
       questions = buildPlaceholderQuestionsForQuiz(quiz);
     }
   
-    // duration handling (same as before)
     const durationSeconds =
       overrideDurationSeconds !== null &&
       overrideDurationSeconds !== undefined
@@ -860,7 +815,6 @@ function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
     const difficultyLabel = quiz.difficulty || "";
     const quizTakingContent = document.getElementById("quizTakingContent");
   
-    // ---- store globals for pagination ----
     gQuiz = quiz;
     gQuestions = questions;
     gIsRealtime = isRealtime;
@@ -945,7 +899,6 @@ function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
       clearAttemptTimer();
       clearAttemptStatusPoll();
   
-      // lock – dubara join block
       lockQuizForUser(quizId);
   
       appAlert("You left the quiz. You cannot join again.", {
@@ -977,22 +930,18 @@ function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
       .getElementById("submitAttemptBtn")
       .addEventListener("click", async () => {
     
-        // Save last page answers
         saveCurrentPageAnswers();
     
-        // calculate time taken
         const timeTaken = window.quizStartTime
           ? Date.now() - window.quizStartTime
           : null;
     
-        // selected options array
         const selectedOptions = gUserAnswers.map(v =>
           v === undefined ? null : v
         );
         const textAnswers = gTextAnswers.slice();   // NEW
     
         try {
-          // NEW API CALL
           await fetch(`${API_BASE}/quizzes/${gQuizIdGlobal}/attempt`, {
             method: "POST",
             headers: getAuthHeaders(),
@@ -1004,22 +953,18 @@ function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
             })
           });
     
-          // lock user
           lockQuizForUser(gQuizIdGlobal);
     
           clearAttemptTimer();
           clearAttemptStatusPoll();
     
-// local score (just for UI)
 let score = 0;
 gQuestions.forEach((q, i) => {
-  // 🔹 Fill-in-the-blank (CODING type)
   if (q.type === "CODING" || q.type === "Coding") {
     const givenRaw = gTextAnswers[i] || "";
     if (!givenRaw) return;
 
-    // Multiple acceptable answers: CSV in codingAnswer
-    // Example: "O(1), constant, constant time"
+
     const expectedList = (q.codingAnswer || "")
       .split(",")
       .map(s => s.trim())
@@ -1027,14 +972,14 @@ gQuestions.forEach((q, i) => {
 
     if (!expectedList.length) return;
 
-    // Agar koi bhi expected smart-compare se match ho gaya → +1
+ 
     const matched = expectedList.some(exp => isSmartTextMatch(givenRaw, exp));
     if (matched) {
       score++;
     }
 
   } else {
-    // 🔹 MCQ / TRUE_FALSE
+  
     if (gUserAnswers[i] === q.correctIndex) score++;
   }
 });
@@ -1047,25 +992,21 @@ gQuestions.forEach((q, i) => {
         }
     });
   
-    // ---- start timer as before ----
-// ---- start timer as before ----
+
 if (gDurationSeconds) {
   startAttemptTimer(gDurationSeconds);
 } else {
   clearAttemptTimer();
 }
 
-// 🔁 realtime quiz hai to status polling bhi start karo
 if (gIsRealtime) {
   startAttemptStatusPolling(quizId);
 } else {
   clearAttemptStatusPoll();
 }
 
-// pehle questions render karo
 renderQuestionsPage();
 
-// 🔒 Full-screen consent popup
 appAlert(
   "For a secure attempt, this quiz will run in FULL-SCREEN.\n\nClick 'Start quiz' to continue.",
   {
@@ -1074,7 +1015,6 @@ appAlert(
     okText: "Start quiz"
   }
 ).then(() => {
-  // yeh .then user ke OK button ke click se hi trigger hoga
   enterFullscreenSafe();
 });
   }
@@ -1093,7 +1033,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
   
-    // 🔒 already attempted / left → page pe hi block kar do (normal users)
     if (isQuizLockedForUser(quizId)) {
       alert("You have already responded to this quiz. You cannot join again.");
       window.location.href = "quizzes.html";
@@ -1103,7 +1042,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const quiz = await fetchQuizById(quizId);
   
-      // 🛑 YAHAN HOST BLOCK DAALNA HAI
       if (quiz.host === true || quiz.isHost === true) {
         alert("Hosts cannot attempt their own quiz.");
         window.location.href = "quizzes.html";

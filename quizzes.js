@@ -1,9 +1,6 @@
-// quizzes.js  (type="module")
-
-// ----------- CONFIG -------------
 
 const API_BASE = "https://alephlearn-backend.onrender.com/api";
-const TOKEN_KEY = "token"; // <- SAME as localStorage key
+const TOKEN_KEY = "token"; 
 
 function getAuthHeaders() {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -13,10 +10,9 @@ function getAuthHeaders() {
   };
 }
 
-// ---- Realtime participants (host view) ----
 let realtimeParticipantsInterval = null;
 let kickCheckInterval = null; 
-let currentWaitingRoomIsHost = false; // kis view me ho: host ya participant
+let currentWaitingRoomIsHost = false; 
 
 function stopRealtimeParticipantsPolling() {
   if (realtimeParticipantsInterval) {
@@ -35,7 +31,7 @@ function ensureToastRoot() {
   return root;
 }
 const QUIZ_LOCK_PREFIX = "quizAttemptLocked_";
-const QUIZ_LOCK_REASON_PREFIX = "quizAttemptReason_"; // NEW
+const QUIZ_LOCK_REASON_PREFIX = "quizAttemptReason_"; 
 
 function lockQuizForUser(quizId, reason = "attempted") {
   if (!quizId) return;
@@ -62,13 +58,6 @@ function isQuizLockedForUser(quizId) {
   return getQuizLockInfo(quizId).locked;
 }
 
-// export async function apiJoinRealtimeQuiz(quizId) {
-//   const res = await fetch(`${API_BASE}/quizzes/${quizId}/join`, {
-//     method: "POST",
-//     headers: getAuthHeaders(),
-//   });
-//   return res.json();   // { mode: "WAITING" | "PENDING" | "ENDED" | "BANNED" }
-// }
 
 async function apiGetPendingUsers(quizId) {
   const res = await fetch(`${API_BASE}/quizzes/${quizId}/realtime/pending`, {
@@ -95,7 +84,6 @@ async function apiApproveUser(quizId, userId) {
 }
 
 
-// ek helper jo correct dialog dikhaye
 function showQuizLockedDialog(quizId) {
   const { reason } = getQuizLockInfo(quizId);
 
@@ -110,7 +98,6 @@ function showQuizLockedDialog(quizId) {
     );
   }
 
-  // default (attempted / finished / left)
   return appAlert(
     "You already responded to this quiz. You cannot join again.",
     {
@@ -144,9 +131,7 @@ function saveHiddenPublicIds(set) {
 
 
 function ensureGlobalLeaderboardButton() {
-  // Yeh function intentionally empty rakho,
-  // kyunki tumne floating trophy hata diya hai.
-  // Isse error nahi aayega.
+
   return;
 }
 
@@ -162,12 +147,11 @@ async function loadBannedUsers(quizId) {
 
   const bannedUsers = await apiGetBannedUsers(quizId);
 
-  // ✅ HAMESHA box dikhao, chahe list empty ho
   box.classList.remove("hidden");
   list.innerHTML = "";
 
   if (!bannedUsers || bannedUsers.length === 0) {
-    // empty state text
+    
     list.innerHTML = `
       <div style="
         padding:8px 10px;
@@ -181,7 +165,6 @@ async function loadBannedUsers(quizId) {
     return;
   }
 
-  // ✅ yahan sahi property names use karo (userId, username)
   bannedUsers.forEach(u => {
     const row = document.createElement("div");
     row.style.cssText = `
@@ -219,7 +202,6 @@ function renderParticipantList(participants, quizId) {
 
   box.innerHTML = "";
 
-  // agar data array hi nahi aaya
   if (!Array.isArray(participants) || participants.length === 0) {
     box.innerHTML = `
       <div style="
@@ -239,19 +221,17 @@ function renderParticipantList(participants, quizId) {
   }
 
   participants.forEach(p => {
-    // ✅ yahan se ID ko safe tarike se nikaal rahe hain
     const participantId =
       p.userId ?? p.id ?? p.participantId ?? p.user_id ?? null;
 
     if (!participantId) {
       console.warn("Participant without id:", p);
-      return; // skip karo
+      return; 
     }
 
     const displayName =
       p.username || p.name || p.fullName || p.email || `User ${participantId}`;
 
-    // removable default: agar backend nahi bheje to true maan lo
     const removable = p.removable !== undefined ? p.removable : true;
 
     const row = document.createElement("div");
@@ -308,7 +288,6 @@ function renderParticipantList(participants, quizId) {
             }
           );
           showToast("Participant removed.", "success");
-          // list ko dobara reload karo
           refreshParticipantsOnce(quizId);
         } catch (e) {
           console.error(e);
@@ -336,17 +315,15 @@ async function refreshParticipantsOnce(quizId) {
     console.error("Failed to load participants", e);
   }
 }
-// ------ Smooth page navigation helper ------
 function navigateWithFade(url) {
   try {
     document.body.classList.add("page-fade-out");
   } catch (_) {
-    // safety fallback: normal navigation
   }
 
   setTimeout(() => {
     window.location.href = url;
-  }, 180); // 150–200ms is ideal
+  }, 180); 
 }
 
 
@@ -386,7 +363,7 @@ function showToast(message, type = "info") {
 function openAppDialogInternal({
   title = "AlephLearn",
   message = "",
-  variant = "info", // "info" | "warning" | "success"
+  variant = "info", 
   okText = "OK",
   cancelText = "Cancel",
   showCancel = false,
@@ -475,7 +452,6 @@ function appAlert(message, options = {}) {
   });
 }
 
-// confirm-style dialog (returns Promise<boolean>)
 function appConfirm(message, options = {}) {
   return openAppDialogInternal({
     title: options.title || "Are you sure?",
@@ -487,7 +463,6 @@ function appConfirm(message, options = {}) {
   });
 }
 
-// native alert override -> sabhi alert() yahi style use kare
 if (!window.originAlert) {
   window.originAlert = window.alert;
 }
@@ -497,8 +472,8 @@ window.alert = function (message) {
 
 // ----------- DOM ELEMENTS -------------
 
-const quizGrid = document.getElementById("quizGrid");           // public quizzes listing
-const myQuizzesGrid = document.getElementById("myQuizzesGrid"); // "My Created Quizzes" section
+const quizGrid = document.getElementById("quizGrid");           
+const myQuizzesGrid = document.getElementById("myQuizzesGrid"); 
 const quizTitleInput = document.getElementById("quizTitle");
 const quizDescInput = document.getElementById("quizDescription");
 const quizDifficultySelect = document.getElementById("quizDifficulty");
@@ -511,7 +486,6 @@ const quizShareLink = document.getElementById("quizShareLink");
 const modeButtons = document.querySelectorAll(".tab-button")
 const contentSections = document.querySelectorAll(".content-section");
 
-// private-link modal elements
 const quizTakingModal = document.getElementById("quizTakingModal");
 const quizTakingContent = document.getElementById("quizTakingContent");
 const visibilityLabel = document.getElementById("visibilityLabel");
@@ -521,7 +495,6 @@ const bulkSelectedCountSpan = document.getElementById("bulkSelectedCount");
 const bulkDeleteConfirmBtn = document.getElementById("bulkDeleteConfirmBtn");
 const bulkDeleteCancelBtn = document.getElementById("bulkDeleteCancelBtn");
 const questionsList = document.getElementById("questionsList");
-// const addQuestionBtn = document.getElementById("addQuestionBtn");
 
 
 async function loadLeaderboard(quizId) {
@@ -544,7 +517,7 @@ async function loadLeaderboard(quizId) {
       return;
     }
 
-    const data = await res.json(); // array of LeaderboardEntryDto
+    const data = await res.json(); 
 
     if (!data.length) {
       body.innerHTML = `<p style="color:#a0aec0;">No attempts yet.</p>`;
@@ -590,7 +563,7 @@ function updateBulkSelectedCount() {
   bulkSelectedCountSpan.textContent = `${bulkSelectedIds.size} selected`;
 }
 
-let isPublicQuiz = true;  // default – toggle se change hoga
+let isPublicQuiz = true;  
 let currentAttemptTimerId = null;
 let currentAttemptSecondsLeft = 0;
 const quizDurationInput = document.getElementById("quizDuration");
@@ -599,12 +572,9 @@ let bulkDeleteMode = false;
 let bulkSelectedIds = new Set();
 
 
-// Host must start quiz within 10 minutes
 let hostStartCountdown = null;
 const HOST_START_LIMIT = 10 * 60; 
 const HOST_DEADLINE_PREFIX = "quizHostDeadline_";
-// ---------- QUESTION BUILDER ----------
-// ==== Nice popup / toast helper (quizzes page) ====
 
 let quizToastHideTimer = null;
 
@@ -612,19 +582,17 @@ function showQuizToast(message, variant = "info") {
   let toast = document.getElementById("quizToast");
   if (!toast) {
     console.warn("quizToast element not found");
-    alert(message); // emergency fallback
+    alert(message); 
     return;
   }
-// ---------- AlephLearn Global Dialog Helpers ----------
 
-// ---- Toast helpers (shared) ----
 
   const iconEl = document.getElementById("quizToastIcon");
   const titleEl = document.getElementById("quizToastTitle");
   const msgEl = document.getElementById("quizToastMessage");
   const closeBtn = document.getElementById("quizToastClose");
 
-  // variant → icon & title
+
   let title = "Notice";
   let icon = "🔔";
 
@@ -677,8 +645,7 @@ if (addQuestionBtn && questionsContainer) {
     createQuestionCard();
   });
 
-  // pehle se ek empty card de sakte ho (optional)
-  // createQuestionCard();
+
 }
 
 
@@ -698,7 +665,7 @@ function collectQuestionsFromUI() {
   let hasError = false;
   if (!cards.length) {
     showToast("Please add at least one question before publishing.");
-    return null;           // publish flow yahin se ruk jayega
+    return null;          
   }
 
   cards.forEach((card, idx) => {
@@ -732,7 +699,7 @@ if (type === "MULTIPLE_CHOICE") {
     return;
   }
 
-// 🔒 MCQ: All options required
+
 if (filled.length < optionInputs.length) {
   showToast(`Q${qNum}: Please fill all options.`);
   bodyMcq.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -748,7 +715,7 @@ if (filled.length < optionInputs.length) {
   }
 
   questions.push({
-    type: "MULTIPLE_CHOICE",   // 🔥 backend enum
+    type: "MULTIPLE_CHOICE",   
     text,
     options,
     correctIndex,
@@ -807,7 +774,7 @@ if (filled.length < optionInputs.length) {
   });
 
   if (hasError) {
-    return null; // publishing stop
+    return null; 
   }
 
   return questions;
@@ -820,7 +787,7 @@ function createQuestionCard(initial = {}, index = questionsContainer.children.le
   card.className = "question-card";
   const qNumber = index + 1;
 
-  const type = initial.type || "MULTIPLE_CHOICE"; // MCQ | TF | CODE
+  const type = initial.type || "MULTIPLE_CHOICE"; 
 
   const existingText = initial.text || "";
   const existingOptions = initial.options || ["", "", "", ""];
@@ -970,9 +937,7 @@ const dragHandle = card.querySelector(".question-drag-handle");
     codeAnswerInput.value = existingAnswerKey;
   }
 
-  // type switch helper
   function applyQuestionType(t) {
-    // t ab backend enum hoga: MULTIPLE_CHOICE / TRUE_FALSE / CODING
     card.dataset.type = t;
   
     card.querySelectorAll(".question-body").forEach((body) => {
@@ -1009,7 +974,6 @@ const dragHandle = card.querySelector(".question-drag-handle");
     renumberQuestionPills();
   });
 
-  // drag behaviour (tumhara existing helper)
   setupQuestionDrag(card);
 
   questionsContainer.appendChild(card);
@@ -1025,9 +989,7 @@ function renumberQuestionPills() {
   });
 }
 
-/* Drag & drop between cards */
 
-/* Drag & drop between cards */
 
 function setupQuestionDrag(card) {
   card.setAttribute("draggable", "true");
@@ -1074,65 +1036,6 @@ function getDragAfterQuestion(container, y) {
 
   return closest.element;
 }
-// function reorderQuestions() {
-//   const cards = [...questionsContainer.querySelectorAll(".question-card:not(.dragging)")];
-//   const dragging = questionsContainer.querySelector(".question-card.dragging");
-
-//   const afterElement = getDragAfterElement(questionsContainer, window.dragY);
-
-//   if (!afterElement) {
-//     questionsContainer.appendChild(dragging);
-//   } else {
-//     questionsContainer.insertBefore(dragging, afterElement);
-//   }
-// }
-// function getDragAfterElement(container, y) {
-//   const cards = [...container.querySelectorAll(".question-card:not(.dragging)")];
-
-//   return cards.reduce((closest, child) => {
-//     const box = child.getBoundingClientRect();
-//     const offset = y - box.top - box.height / 2;
-//     if (offset < 0 && offset > closest.offset) {
-//       return { offset: offset, element: child };
-//     } else {
-//       return closest;
-//     }
-//   }, { offset: Number.NEGATIVE_INFINITY }).element;
-// }
-
-// if (questionsContainer) {
-//   questionsContainer.addEventListener("dragover", (e) => {
-//     e.preventDefault();
-//     const afterElement = getDragAfterQuestion(questionsContainer, e.clientY);
-//     const dragging = questionsContainer.querySelector(".question-card.dragging");
-//     if (!dragging) return;
-
-//     if (afterElement == null) {
-//       questionsContainer.appendChild(dragging);
-//     } else {
-//       questionsContainer.insertBefore(dragging, afterElement);
-//     }
-//   });
-// }
-
-// function getDragAfterQuestion(container, y) {
-//   const cards = [
-//     ...container.querySelectorAll(".question-card:not(.dragging)"),
-//   ];
-
-//   let closest = { offset: Number.NEGATIVE_INFINITY, element: null };
-
-//   cards.forEach((child) => {
-//     const box = child.getBoundingClientRect();
-//     const offset = y - box.top - box.height / 2;
-//     if (offset < 0 && offset > closest.offset) {
-//       closest = { offset, element: child };
-//     }
-//   });
-
-//   return closest.element;
-// }
-
 
 
 modeButtons.forEach((btn) => {
@@ -1140,7 +1043,7 @@ modeButtons.forEach((btn) => {
     modeButtons.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
-    const mode = btn.dataset.mode; // "participate" | "create"
+    const mode = btn.dataset.mode; 
     contentSections.forEach(sec => sec.classList.remove("active"));
 
     if (mode === "participate") {
@@ -1177,89 +1080,6 @@ function updateWaitingRoomMessage(statusValue, isHost) {
 
   msgEl.textContent = msg;
 }
-// function renderQuestions() {
-//   questionsList.innerHTML = "";
-
-//   if (!questions.length) {
-//     questionsList.innerHTML = `
-//       <p style="color:#6b7280; font-size:0.9rem; margin-bottom:0.75rem;">
-//         No questions added yet. Click <strong>"+ Add Question"</strong> to start.
-//       </p>`;
-//     return;
-//   }
-
-//   questions.forEach((q, index) => {
-//     const card = document.createElement("div");
-//     card.className = "question-card";
-
-//     card.innerHTML = `
-//       <div class="question-card-header">
-//         <span class="question-index">Q${index + 1}</span>
-//         <button class="question-remove-btn" data-index="${index}">Remove</button>
-//       </div>
-
-//       <div class="form-group">
-//         <label class="form-label">Question Text</label>
-//         <textarea class="form-input q-text" rows="2" data-index="${index}"></textarea>
-//       </div>
-
-//       <div class="options-grid">
-//         ${["A","B","C","D"].map((label, optIdx) => `
-//           <div class="option-item">
-//             <label class="form-label small-label">Option ${label}</label>
-//             <input type="text"
-//                    class="form-input q-option"
-//                    data-index="${index}"
-//                    data-opt="${optIdx}" />
-//             <label class="correct-pill">
-//               <input type="radio"
-//                      name="correct-${index}"
-//                      class="q-correct"
-//                      data-index="${index}"
-//                      value="${optIdx}" />
-//               Correct
-//             </label>
-//           </div>
-//         `).join("")}
-//       </div>
-//     `;
-
-//     questionsList.appendChild(card);
-
-//     // populate values
-//     card.querySelector(".q-text").value = q.text;
-//     card.querySelectorAll(".q-option").forEach(input => {
-//       const optIdx = Number(input.dataset.opt);
-//       input.value = q.options[optIdx] ?? "";
-//     });
-//     card.querySelectorAll(".q-correct").forEach(r => {
-//       r.checked = Number(r.value) === q.correctIndex;
-//     });
-
-//     // listeners
-//     card.querySelector(".q-text").addEventListener("input", (e) => {
-//       questions[index].text = e.target.value;
-//     });
-
-//     card.querySelectorAll(".q-option").forEach(input => {
-//       input.addEventListener("input", (e) => {
-//         const optIdx = Number(e.target.dataset.opt);
-//         questions[index].options[optIdx] = e.target.value;
-//       });
-//     });
-
-//     card.querySelectorAll(".q-correct").forEach(radio => {
-//       radio.addEventListener("change", (e) => {
-//         questions[index].correctIndex = Number(e.target.value);
-//       });
-//     });
-
-//     card.querySelector(".question-remove-btn").addEventListener("click", () => {
-//       questions.splice(index, 1);
-//       renderQuestions();
-//     });
-//   });
-// }
 
 
 if (visibilityToggle && visibilityLabel) {
@@ -1301,10 +1121,6 @@ function startRealtimeStatusPolling(quiz, isHost) {
   realtimePollHandle = setInterval(async () => {
     try {
       const status = await apiGetRealtimeStatus(quizId);
-      // backend se: { quizStatus, joinedCount, remainingSeconds } ya similar
-      // tumhare RealtimeStatusResponse ke fields ke naam check kar lena:
-      // yaha assume kar raha hoon: { status, joinedCount, remainingSeconds }
-
       const statusTextEl = document.getElementById("realtimeStatusText");
       const joinedTextEl = document.getElementById("realtimeJoinedText");
 
@@ -1315,11 +1131,9 @@ function startRealtimeStatusPolling(quiz, isHost) {
         joinedTextEl.textContent = `Participants joined: ${status.joinedCount}`;
       }
       updateWaitingRoomMessage(status.status, isHost);
-      // QUIZ LIVE ho gayi
-       // QUIZ LIVE ho gayi
-// QUIZ LIVE ho gayi
+
 if (status.status === "LIVE") {
-  // host ka countdown band
+
   if (isHost && hostStartCountdown) {
     clearInterval(hostStartCountdown);
     hostStartCountdown = null;
@@ -1327,7 +1141,7 @@ if (status.status === "LIVE") {
     if (tEl) tEl.style.display = "none";
   }
 
-  // ⭐ Participant ke liye: sirf APPROVED hone par hi redirect
+
   if (!isHost) {
     try {
       const stateRes = await fetch(
@@ -1336,14 +1150,13 @@ if (status.status === "LIVE") {
       );
 
       if (stateRes.ok) {
-        const data = await stateRes.json(); // { state: "NONE" | "PENDING" | "APPROVED" | "BANNED" }
+        const data = await stateRes.json(); 
 
         if (data.state === "APPROVED") {
-          // ab attempt ready hai → quiz page
+
           clearInterval(realtimePollHandle);
           navigateWithFade(`quiz_attempt.html?id=${quizId}&realtime=true`);
         }else if (data.state === "PENDING") {
-          // ✅ Quiz LIVE hai, par host ne abhi allow nahi kiya
           const msgEl = document.querySelector(
             "#quizTakingContent .quiz-modal-subtext"
           );
@@ -1352,7 +1165,7 @@ if (status.status === "LIVE") {
               "🔴 Quiz is LIVE. You’re in waiting room now. Host will approve you soon...";
           }
         }
-        // PENDING / NONE / BANNED => waiting room me hi rehne do
+
       }
     } catch (e) {
       console.error("Failed to check join-state while LIVE:", e);
@@ -1360,7 +1173,6 @@ if (status.status === "LIVE") {
   }
 }
 
-// QUIZ ENDED ya COMPLETED (expire)
 if (status.status === "ENDED" || status.status === "COMPLETED") {
   clearInterval(realtimePollHandle);
 
@@ -1385,11 +1197,10 @@ if (status.status === "ENDED" || status.status === "COMPLETED") {
     } catch (err) {
       console.error("Realtime poll error:", err);
     }
-  }, 2000); // har 2 sec me poll
+  }, 2000); 
 }
 
 
-// ----------- CREATE QUIZ (PUBLIC / PRIVATE) -------------
 
 publishQuizBtn.addEventListener("click", async () => {
   const title = quizTitleInput.value.trim();
@@ -1448,31 +1259,25 @@ publishQuizBtn.addEventListener("click", async () => {
     const data = await res.json();
     console.log("Quiz created:", data);
 
-    // 🔥 Backend kabhi `id` kabhi `quizId` bhej sakta hai
     const createdQuizId =
       data.id != null ? data.id : data.quizId != null ? data.quizId : null;
 
-    // 🔥 joinCode ke sab possible naam cover karo
     const createdJoinCode =
       data.joinCode || data.code || data.privateCode || data.quizCode || null;
 
     if (createdQuizId != null) {
-      // host deadline storage (realtime)
       localStorage.setItem(`quizHostCreatedAt_${createdQuizId}`, String(Date.now()));
     }
 
     if (createdQuizId != null && createdJoinCode) {
-      // sahi key se store karo -> quizJoinCode_<quizId>
       localStorage.setItem(`quizJoinCode_${createdQuizId}`, createdJoinCode);
     }
 
-    // reset form inputs
     quizTitleInput.value = "";
     quizDescInput.value = "";
     quizDifficultySelect.value = "easy";
     if (quizDurationInput) quizDurationInput.value = "";
 
-    // questions UI clear
     if (questionsContainer) {
       questionsContainer.innerHTML = "";
       questionCounter = 0;
@@ -1481,7 +1286,6 @@ publishQuizBtn.addEventListener("click", async () => {
     const isPublicCreated = data.public === true || data.isPublic === true;
 
     if (isPublicCreated) {
-      // 🔹 PUBLIC + REALTIME QUIZ → directly open waiting room
       quizLinkBox.style.display = "none";
       quizShareLink.textContent = "";
     
@@ -1508,7 +1312,6 @@ publishQuizBtn.addEventListener("click", async () => {
     
       await loadPublicQuizzes();
     } else {
-      // 🔹 PRIVATE + REALTIME QUIZ
     
       quizLinkBox.style.display = "none";
       quizShareLink.textContent = "";
@@ -1690,7 +1493,6 @@ async function checkKickStatus(quizId) {
     });
 
     if (res.status === 404) {
-      // ✅ host ne remove kar diya (banned)
       if (kickCheckInterval) {
         clearInterval(kickCheckInterval);
         kickCheckInterval = null;
@@ -1710,7 +1512,6 @@ async function checkKickStatus(quizId) {
       return;
     }
 
-    // 200 OK -> attempt still exists, kuch mat karo
   } catch (err) {
     console.error("Kick-check failed", err);
   }
@@ -1783,7 +1584,6 @@ function renderPublicQuizzes(quizzes) {
     quizGrid.appendChild(card);
   });
 
-  // bulk–selection mode
   quizGrid.querySelectorAll(".quiz-card").forEach(cardEl => {
     const id = cardEl.dataset.id;
 
@@ -1803,7 +1603,6 @@ function renderPublicQuizzes(quizzes) {
     });
   });
 
-  // normal buttons jab bulk mode OFF ho
   if (!bulkDeleteMode) {
     quizGrid.querySelectorAll(".manage-realtime-btn").forEach(btn => {
       btn.addEventListener("click", async () => {
@@ -2056,12 +1855,10 @@ async function handlePrivateLinkOpen() {
     const isRealtime = quiz.realtime === true || quiz.isRealtime === true;
     const quizId = quiz.id || quiz.quizId;
     
-    // 🛑 NEW: realtime private quiz already LIVE/ENDED ho to join block
     if (isRealtime) {
       try {
         const status = await apiGetRealtimeStatus(quizId);
     
-        // ✅ LIVE allowed, sirf ended/completed pe block
         if (status.status === "ENDED" || status.status === "COMPLETED") {
           await appAlert(
             "This quiz has already ended.",
@@ -2086,7 +1883,6 @@ async function handlePrivateLinkOpen() {
     }
 
     if (isRealtime) {
-      // realtime + link -> directly join + go to waiting room
       try {
         await apiJoinRealtimeQuiz(quiz.id || quiz.quizId);
         const fullQuiz = await fetchQuizById(quiz.id || quiz.quizId);
@@ -2096,7 +1892,6 @@ async function handlePrivateLinkOpen() {
         showToast("Unable to join realtime quiz. Please login first.");
       }
     } else {
-      // normal private (non-realtime) -> old modal flow
       showPrivateQuizModal(quiz);
     }
 
@@ -2109,7 +1904,6 @@ async function handlePrivateLinkOpen() {
 function showPrivateQuizModal(quiz) {
   const isRealtime = quiz.realtime === true || quiz.isRealtime === true;
 
-  // participate tab ko active rakhna
   modeButtons.forEach((b) => b.classList.remove("active"));
   contentSections.forEach((sec) => sec.classList.remove("active"));
   document.querySelector('[data-mode="participate"]').classList.add("active");
@@ -2166,7 +1960,6 @@ function showPrivateQuizModal(quiz) {
 
   quizTakingModal.style.display = "flex";
 
-  // handlers
   document
     .getElementById("closePrivateQuizBtn")
     .addEventListener("click", () => closeQuizTakingModal());
@@ -2246,7 +2039,6 @@ async function apiJoinRealtimeQuiz(quizId) {
   }
 }
 
-// ---- Realtime status API ----
 async function apiGetRealtimeStatus(quizId) {
   const res = await fetch(`${API_BASE}/quizzes/${quizId}/status`, {
     method: "GET",
@@ -2259,7 +2051,7 @@ async function apiGetRealtimeStatus(quizId) {
     throw new Error("Failed to get realtime status");
   }
 
-  return await res.json(); // { status, joinedCount, remainingSeconds }
+  return await res.json(); 
 }
 async function apiStartRealtimeQuiz(quizId) {
   ensureLoggedInForRealtime();
@@ -2288,17 +2080,6 @@ async function apiEndRealtimeQuiz(quizId) {
   }
 }
 
-// async function apiGetRealtimeStatus(quizId) {
-//   const res = await fetch(`${API_BASE}/quizzes/${quizId}/status`, {
-//     method: "GET"
-//   });
-//   if (!res.ok) {
-//     const t = await res.text();
-//     console.error("Status realtime failed:", t);
-//     throw new Error(t);
-//   }
-//   return res.json();
-// }
 function closeQuizTakingModal() {
   clearAttemptTimer();
 
@@ -2320,8 +2101,7 @@ function closeQuizTakingModal() {
   quizTakingModal.style.display = "none";
   quizTakingContent.innerHTML = "";
 }
-// Format seconds as mm:ss
-// ==== Attempt timer (global) ====
+
 let attemptTimerId = null;
 
 function clearAttemptTimer() {
@@ -2331,7 +2111,7 @@ function clearAttemptTimer() {
   }
 }
 
-// HH:MM:SS format helper (agar already hai to isko skip kar sakta hai)
+
 function formatSeconds(total) {
   const m = Math.floor(total / 60);
   const s = total % 60;
@@ -2367,7 +2147,6 @@ function startAttemptTimer(totalSeconds) {
   }, 1000);
 }
 
-// Phase-1: dummy questions (front-end only)
 function buildPlaceholderQuestionsForQuiz(quiz) {
   return [
     {
@@ -2398,18 +2177,15 @@ function normalizeBackendQuestions(rawQuestions) {
   }
 
   return rawQuestions.map((q, idx) => {
-    // options array agar already mila ho
     let options = [];
     if (Array.isArray(q.options) && q.options.length) {
       options = q.options;
     } else {
-      // nahi to option1..4 se bana lo (DB style)
       options = [q.option1, q.option2, q.option3, q.option4].filter(
         (o) => o && o.length
       );
     }
 
-    // True/False ke liye agar options empty hain to default
     if (q.type === "TRUE_FALSE" && options.length === 0) {
       options = ["True", "False"];
     }
@@ -2428,7 +2204,6 @@ function normalizeBackendQuestions(rawQuestions) {
   });
 }
 
-// Backend submit call: /api/quizzes/{quizId}/submit?isRealtime=false&score=..
 async function submitQuizScore(quizId, isRealtime, score) {
   const params = new URLSearchParams();
   params.set("isRealtime", isRealtime ? "true" : "false");
@@ -2462,208 +2237,10 @@ async function fetchQuizById(quizId) {
     throw new Error("Failed to load quiz details");
   }
 
-  return await res.json();   // yaha se full quiz + questions aayega
+  return await res.json(); 
 }
 
-// function renderQuizAttemptUI(quiz, overrideDurationSeconds = null) {
-//   const quizId = quiz.id || quiz.quizId;
-//   if (!quizId) {
-//     alert("Quiz ID missing in response.");
-//     return;
-//   }
-  
-//   const isRealtime = quiz.realtime === true || quiz.isRealtime === true;
-  
-//   // Pehle backend wale questions try karo
-//   let questions = normalizeBackendQuestions(quiz.questions);
-  
-//   // Agar backend se questions nahi aaye to fallback placeholder
-//   if (!questions || !questions.length) {
-//     questions = buildPlaceholderQuestionsForQuiz(quiz);
-//   }
 
-//   // 🔥 IMPORTANT: duration override support for realtime-sync
-//   const durationSeconds =
-//     overrideDurationSeconds !== null && overrideDurationSeconds !== undefined
-//       ? overrideDurationSeconds
-//       : quiz.durationSeconds !== undefined && quiz.durationSeconds !== null
-//       ? quiz.durationSeconds
-//       : null;
-
-//   const difficultyLabel = quiz.difficulty || "";
-
-//   const questionsHtml = questions
-//     .map((q, idx) => {
-//       const opts = q.options
-//         .map(
-//           (opt, oi) => `
-//         <label class="option-row" style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.25rem;">
-//           <input type="radio" name="q${idx}" value="${oi}">
-//           <span>${opt}</span>
-//         </label>
-//       `
-//         )
-//         .join("");
-
-//       return `
-//         <div class="question-block" style="margin-bottom:1.25rem;">
-//           <div class="question-text" style="font-weight:600;margin-bottom:0.35rem;">
-//             ${idx + 1}. ${q.text}
-//           </div>
-//           <div class="options">
-//             ${opts}
-//           </div>
-//         </div>
-//       `;
-//     })
-//     .join("");
-
-//   quizTakingContent.innerHTML = `
-//     <div class="card">
-//       <div class="card-header attempt-header" style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">
-//         <div>
-//           <h2 class="card-title">
-//             <span>🧠</span> <span>${quiz.title}</span>
-//           </h2>
-//           <p class="quiz-desc" style="color:#718096;margin-top:0.25rem;">
-//             ${quiz.description || ""}
-//           </p>
-//         </div>
-//         <div class="attempt-meta" style="text-align:right;font-size:0.9rem;">
-//           <div>
-//             <span class="badge difficulty-${difficultyLabel.toLowerCase()}">
-//               ${difficultyLabel}
-//             </span>
-//           </div>
-//           <div style="margin-top:0.35rem;">
-//             Time:
-//             <strong id="quizTimerLabel">
-//               ${durationSeconds ? formatSeconds(durationSeconds) : "No limit"}
-//             </strong>
-//           </div>
-//         </div>
-//       </div>
-//       <div class="attempt-body" style="padding:1.5rem 1.5rem 1rem;">
-//         ${questionsHtml}
-//       </div>
-//       <div class="attempt-footer" style="display:flex;justify-content:flex-end;gap:0.75rem;padding:0 1.5rem 1.5rem;">
-//         <button class="btn btn-secondary" id="cancelAttemptBtn">
-//           <span>✕</span> <span>Cancel</span>
-//         </button>
-//         <button class="btn btn-primary" id="submitAttemptBtn">
-//           <span>✅</span> <span>Submit Quiz</span>
-//         </button>
-//       </div>
-//     </div>
-//   `;
-
-//   quizTakingModal.style.display = "block";
-
-//   // Cancel
-//   document
-//     .getElementById("cancelAttemptBtn")
-//     .addEventListener("click", () => {
-//       closeQuizTakingModal();
-//     });
-
-//   // Submit
-//   document
-//     .getElementById("submitAttemptBtn")
-//     .addEventListener("click", async () => {
-//       clearAttemptTimer();
-//       // collect answers
-//       const chosen = [];
-//       questions.forEach((q, idx) => {
-//         const checked = quizTakingContent.querySelector(
-//           `input[name="q${idx}"]:checked`
-//         );
-//         chosen.push(checked ? Number(checked.value) : null);
-//       });
-
-//       let score = 0;
-//       questions.forEach((q, idx) => {
-//         if (chosen[idx] === q.correctIndex) score++;
-//       });
-
-//       try {
-//         await submitQuizScore(quizId, isRealtime, score);
-//         showQuizResult(score, questions.length); // ⬅️ next section ka function
-//         if (quiz.public === true || quiz.isPublic === true) {
-//           await loadPublicQuizzes();
-//         }
-//         // closeQuizTakingModal();
-//       } catch (e) {
-//         console.error(e);
-//         alert("Failed to submit quiz.");
-//       }
-//     });
-
-//   if (durationSeconds) {
-//     startAttemptTimer(durationSeconds);
-//   } else {
-//     clearAttemptTimer();
-//   }
-// }
-
-// ----------- INIT ON PAGE LOAD -------------
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   loadPublicQuizzes();
-//   loadMyQuizzes();
-//   handlePrivateLinkOpen();
-
-//   initLeaderboardFromQuery();
-//   ensureGlobalLeaderboardButton();   // ⬅️ NEW LINE
-
-//   const closeBtn = document.getElementById("closeLeaderboardBtn");
-//   if (closeBtn) {
-//     closeBtn.addEventListener("click", () => {
-//       const section = document.getElementById("leaderboardSection");
-//       if (section) section.style.display = "none";
-//     });
-//   }
-// });
-
-
-// enterBulkDeleteBtn.addEventListener("click", () => {
-//   bulkDeleteMode = true;
-//   bulkSelectedIds = new Set();
-//   bulkDeleteControls.style.display = "flex";
-//   enterBulkDeleteBtn.style.display = "none";
-//   updateBulkSelectedCount();
-//   loadMyQuizzes();   // re-render with selection styling
-// });
-
-// bulkDeleteCancelBtn.addEventListener("click", () => {
-//   bulkDeleteMode = false;
-//   bulkSelectedIds = new Set();
-//   bulkDeleteControls.style.display = "none";
-//   enterBulkDeleteBtn.style.display = "inline-flex";
-//   loadMyQuizzes();   // normal mode
-// });
-
-// bulkDeleteConfirmBtn.addEventListener("click", async () => {
-//   if (!bulkSelectedIds.size) {
-//     alert("No quizzes selected.");
-//     return;
-//   }
-
-//   const ok = confirm(`Delete ${bulkSelectedIds.size} selected quizzes?`);
-//   if (!ok) return;
-
-//   try {
-//     const ids = Array.from(bulkSelectedIds);
-//     await Promise.all(ids.map(id => apiEndQuizForCard(id)));
-//     bulkDeleteMode = false;
-//     bulkSelectedIds = new Set();
-//     bulkDeleteControls.style.display = "none";
-//     enterBulkDeleteBtn.style.display = "inline-flex";
-//     await loadMyQuizzes();
-//   } catch (e) {
-//     console.error(e);
-//     alert("Failed to delete some quizzes.");
-//   }
-// });
 if (enterBulkDeleteBtn && bulkDeleteControls && bulkDeleteConfirmBtn && bulkDeleteCancelBtn) {
   enterBulkDeleteBtn.addEventListener("click", () => {
     bulkDeleteMode = true;
@@ -2671,7 +2248,7 @@ if (enterBulkDeleteBtn && bulkDeleteControls && bulkDeleteConfirmBtn && bulkDele
     bulkDeleteControls.style.display = "flex";
     enterBulkDeleteBtn.style.display = "none";
     updateBulkSelectedCount();
-    loadMyQuizzes();   // selection styling ke saath re-render
+    loadMyQuizzes();   
   });
 
   bulkDeleteCancelBtn.addEventListener("click", () => {
@@ -2679,7 +2256,7 @@ if (enterBulkDeleteBtn && bulkDeleteControls && bulkDeleteConfirmBtn && bulkDele
     bulkSelectedIds = new Set();
     bulkDeleteControls.style.display = "none";
     enterBulkDeleteBtn.style.display = "inline-flex";
-    loadMyQuizzes();   // normal mode wapas
+    loadMyQuizzes();   
   });
 
   bulkDeleteConfirmBtn.addEventListener("click", async () => {
@@ -2700,15 +2277,13 @@ if (enterBulkDeleteBtn && bulkDeleteControls && bulkDeleteConfirmBtn && bulkDele
     try {
       const ids = Array.from(bulkSelectedIds);
   
-      // 1) local hide list update (public list se hatane ke liye)
       const hiddenIds = loadHiddenPublicIds();
       ids.forEach(id => hiddenIds.add(String(id)));
       saveHiddenPublicIds(hiddenIds);
   
-      // 2) backend pe delete / end koshish karo (sirf apne quizzes pe succeed hoga)
       await Promise.all(
         ids.map(id =>
-          apiEndQuizForCard(id).catch(() => null) // agar error aaye to ignore
+          apiEndQuizForCard(id).catch(() => null) 
         )
       );
   
@@ -2717,7 +2292,6 @@ if (enterBulkDeleteBtn && bulkDeleteControls && bulkDeleteConfirmBtn && bulkDele
       bulkDeleteControls.style.display = "none";
       enterBulkDeleteBtn.style.display = "inline-flex";
   
-      // 3) dono lists reload
       await loadMyQuizzes();
       await loadPublicQuizzes();
     } catch (e) {
@@ -2733,7 +2307,6 @@ function openRealtimeWaitingRoom(quiz) {
 
   const title = quiz.title || "Realtime Quiz";
 
-  // ---- joinCode nikaalo (object + localStorage fallback) ----
   let code =
     quiz.joinCode ||
     quiz.code ||
@@ -2748,7 +2321,6 @@ function openRealtimeWaitingRoom(quiz) {
     }
   }
 
-  // sirf PRIVATE realtime quiz ke liye share link chahiye
   const shouldShowShareBox = isHost && quiz.realtime && !quiz.public;
 
   const shareUrl =
@@ -2787,7 +2359,6 @@ function openRealtimeWaitingRoom(quiz) {
 
   const participants = quiz.joinedCount ?? quiz.participants ?? 0;
 
-  // pichla participants polling band karo
   stopRealtimeParticipantsPolling();
 
   const actionsHtml = isHost
@@ -2814,7 +2385,6 @@ function openRealtimeWaitingRoom(quiz) {
       </button>
    `;
 
-  // ------------ UI ------------
   quizTakingContent.innerHTML = `
     <div class="card waiting-room-card">
       <!-- HEADER -->
@@ -2943,7 +2513,6 @@ function openRealtimeWaitingRoom(quiz) {
 
   quizTakingModal.style.display = "flex";
 
-  // ---- Copy link ----
   const copyBtn = document.getElementById("copyWaitingLinkBtn");
   const linkEl  = document.getElementById("waitingRoomShareLink");
   if (copyBtn && linkEl) {
@@ -2955,13 +2524,11 @@ function openRealtimeWaitingRoom(quiz) {
     });
   }
 
-  // ---- Back button ----
   document.getElementById("backToQuizzesBtn")?.addEventListener("click", () => {
     stopRealtimeParticipantsPolling();
     navigateWithFade("quizzes.html");
   });
 
-  // ===== HOST / PARTICIPANT BUTTON LOGIC =====
   if (isHost) {
     const startBtn = document.getElementById("startRealtimeQuizBtn");
     const hostTimerEl = document.getElementById("hostStartTimerText");
@@ -3054,7 +2621,6 @@ function openRealtimeWaitingRoom(quiz) {
     }
   }
 
-  // 🔁 Participant kick-check
   if (!isHost) {
     if (kickCheckInterval) {
       clearInterval(kickCheckInterval);
@@ -3072,7 +2638,6 @@ function openRealtimeWaitingRoom(quiz) {
     });
   }
 
-  // --------- PARTICIPANTS / PENDING / BANNED (HOST ONLY) ---------
   async function loadParticipantsOnce() {
     if (!isHost) return;
 
@@ -3168,7 +2733,6 @@ function openRealtimeWaitingRoom(quiz) {
     }, 5000);
   }
 
-  // -------- realtime status + host countdown (same logic as pehle) --------
   startRealtimeStatusPolling(quiz, isHost);
 
   if (isHost) {
@@ -3287,7 +2851,7 @@ async function apiGetBannedUsers(quizId) {
     return [];
   }
 
-  return await res.json(); // [{userId, username, email, removable}]
+  return await res.json();
 }
 
 async function apiUnbanUser(quizId, userId) {
@@ -3314,7 +2878,6 @@ function setupNavbarAvatar() {
       }
     }
 
-    // 2) Try to get name from multiple possible keys
     let name =
       (user && (user.name || user.fullName || user.username)) ||
       localStorage.getItem("userName") ||
@@ -3327,14 +2890,12 @@ function setupNavbarAvatar() {
       localStorage.getItem("email") ||
       "";
 
-    // Agar name empty hai lekin email hai, to email se naam bana lo
     if (!name && email) {
       name = email.split("@")[0];
     }
 
     if (!name) return;
 
-    // Generate initials
     let initials = "U";
     const parts = name.trim().split(" ");
     if (parts.length === 1) {
@@ -3343,12 +2904,10 @@ function setupNavbarAvatar() {
       initials = (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
-    // 🔮 Purple gradient avatar
     avatar.style.background = "linear-gradient(135deg, #8b5cf6, #ec4899)";
     avatar.style.color = "#ffffff";
     avatar.textContent = initials;
 
-    // ⭐ Avatar click → Open profile
     avatar.style.cursor = "pointer";
     avatar.onclick = () => {
       window.location.href = "profile.html";
@@ -3359,7 +2918,6 @@ function setupNavbarAvatar() {
   }
 }
 
-// Call automatically on page load
 document.addEventListener("DOMContentLoaded", setupNavbarAvatar);
 document.querySelectorAll('.js-logout').forEach(btn => {
   btn.addEventListener('click', () => {

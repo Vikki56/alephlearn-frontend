@@ -69,7 +69,6 @@ function rowHtml(r) {
     ? `<button class="btn btn-secondary" data-proof="${r.id}" type="button">View</button>`
     : `<span style="opacity:.6;">No</span>`;
 
-  // ✅ STATUS CELL
   const statusCell = locked
     ? `<span class="status-pill locked">${escapeHtml(stUpper)}</span>`
     : `
@@ -81,7 +80,7 @@ function rowHtml(r) {
         placeholder="Block days (e.g. 3)" type="number" min="1" />
     `;
 
-  // ✅ NOTES CELL
+  // NOTES CELL
   const notesCell = locked
     ? `<span style="opacity:.75;">Locked</span>`
     : `
@@ -91,7 +90,7 @@ function rowHtml(r) {
         placeholder="action reason (optional)" />
     `;
 
-  // ✅ ACTION CELL
+  // ACTION CELL
   const actionCell = locked
     ? `<span style="opacity:.7;">—</span>`
     : `<button class="btn btn-primary" data-save="${r.id}" type="button">Save</button>`;
@@ -132,7 +131,7 @@ async function loadReports() {
       return;
     }
 
-    // ✅ hide already punished reports (feed clean)
+    //  hide already punished reports (feed clean)
     const filtered = list.filter(r => {
       const st = String(r.status || "").toUpperCase();
       return !HIDE_FROM_LIST.includes(st);
@@ -151,13 +150,12 @@ async function saveStatus(reportId) {
   const row = document.querySelector(`tr[data-status-row="${reportId}"]`);
   const serverStatus = String(row?.getAttribute("data-server-status") || "").toUpperCase();
 
-  // ✅ IMPORTANT: lock check server-status pe (not dropdown)
+  
   if (LOCKED_STATUSES.includes(serverStatus)) {
     el("reportsMsg").textContent = `Report #${reportId} is locked (${serverStatus}).`;
     return;
   }
 
-  // ✅ Now allow saving to BLOCKED/BANNED (THIS WAS THE BUG)
   const st = document.querySelector(`[data-status="${reportId}"]`)?.value;
   const stUpper = String(st || "").toUpperCase();
 
@@ -176,11 +174,9 @@ async function saveStatus(reportId) {
     })
   });
 
-  // ✅ refresh reports (so hide/lock rules apply immediately)
   await loadReports();
-  el("reportsMsg").textContent = `Report #${reportId} updated ✅`;
+  el("reportsMsg").textContent = `Report #${reportId} updated `;
 
-  // ✅ refresh blocked/banned cards too (if present)
   document.getElementById("refreshBlocked")?.click();
   document.getElementById("refreshBanned")?.click();
 }

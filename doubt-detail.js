@@ -1,5 +1,4 @@
-// Logged-in user
-// const USER_ID = Number(localStorage.getItem("userId")) || null;
+
 
 let currentDoubtId = null;
 let isAsker = false; 
@@ -20,7 +19,6 @@ function goBackToDoubts() {
 }
 let answerAttachmentUrl = null;
 
-// when image selected
 document.addEventListener("change", async (e) => {
   if (e.target.id === "answerImageInput") {
     const file = e.target.files[0];
@@ -36,7 +34,7 @@ document.addEventListener("change", async (e) => {
       });
       const data = await res.json();
 
-      answerAttachmentUrl = data.url;  // backend returns URL
+      answerAttachmentUrl = data.url;  
 
       document.getElementById("answerImagePreview").innerHTML =
         `<img src="${answerAttachmentUrl}" style="max-width:200px;border-radius:8px;margin-top:6px;" />`;
@@ -134,7 +132,6 @@ function renderQuestion(d) {
     </div>
   `;
 
-  // initial liked state (localStorage se)
   if (USER_ID) {
     const likeKey = `doubt_like_${d.id}_${USER_ID}`;
     const btn = document.getElementById("question-like-btn");
@@ -162,7 +159,6 @@ async function toggleQuestionLike(evt) {
 
   const method = alreadyLiked ? "DELETE" : "POST";
 
-  // chhota sa bounce effect
   if (btn) {
     btn.classList.add("like-bounce");
     btn.addEventListener(
@@ -185,11 +181,9 @@ async function toggleQuestionLike(evt) {
     const likeCount =
       data?.likeCount ?? data?.like_count ?? currentDoubt.likeCount ?? 0;
 
-    // 🔹 UI par count update
     if (countSpan) countSpan.textContent = likeCount;
     currentDoubt.likeCount = likeCount;
 
-    // 🔹 state + label update
     if (alreadyLiked) {
       localStorage.removeItem(likeKey);
       if (btn) btn.classList.remove("liked");
@@ -203,7 +197,6 @@ async function toggleQuestionLike(evt) {
     console.error("Failed to toggle question like:", err);
   }
 }
-// --------- Load all answers for this doubt ---------
 async function loadAnswers() {
   const box = document.getElementById("answerList");
   if (!box || !currentDoubtId) return;
@@ -226,12 +219,10 @@ async function loadAnswers() {
 
       const mine = USER_ID && a.solver && a.solver.id === USER_ID;
 
-      // local like (front-end only for now)
       const likeKey = `answer_like_${a.id}_${USER_ID || "guest"}`;
       const likedLocal = localStorage.getItem(likeKey) === "1";
       let likeCount = a.likeCount ?? 0;
       if (likedLocal && likeCount === 0) {
-        // if backend has no likeCount yet, at least show user like
         likeCount = 1;
       }
 
@@ -277,7 +268,7 @@ async function loadAnswers() {
               data-liked="${likedLocal ? "true" : "false"}"
               onclick="toggleAnswerLike(${a.id})"
             >
-              👍 <span id="answer-like-count-${a.id}">${likeCount}</span>
+               <span id="answer-like-count-${a.id}">${likeCount}</span>
             </button>
 
             ${
@@ -314,7 +305,6 @@ async function loadAnswers() {
         </div>
       `;
 
-      // load replies (front-end only)
       loadReplies(a.id);
 
     });
@@ -351,7 +341,6 @@ async function postAnswer() {
         }),
       });
       
-      // clear preview
       answerAttachmentUrl = null;
       document.getElementById("answerImagePreview").innerHTML = "";
       document.getElementById("answerImageInput").value = "";
@@ -377,7 +366,6 @@ async function acceptAnswer(answerId) {
       body: JSON.stringify({ userId: USER_ID }),
     });
 
-    // Reload doubt + answers so status, badges update
     await initDoubtDetail();
   } catch (err) {
     console.error(err);
@@ -393,7 +381,7 @@ function startEditAnswer(answerId) {
   const current = bodyEl.textContent || "";
   const updated = prompt("Edit your solution:", current);
 
-  if (updated === null) return; // cancelled
+  if (updated === null) return; 
 
   const trimmed = updated.trim();
   if (!trimmed) {
@@ -450,7 +438,6 @@ function toggleAnswerLike(answerId) {
   if (countEl) countEl.textContent = String(count);
 }
 
-// --------- Reply box toggle (front-end only for now) ---------
 function toggleReplyBox(answerId, hideOnly = false) {
   const box = document.getElementById(`reply-box-${answerId}`);
   if (!box) return;
@@ -463,7 +450,6 @@ function toggleReplyBox(answerId, hideOnly = false) {
   box.style.display = box.style.display === "none" ? "block" : "none";
 }
 
-// --------- Load replies from localStorage ---------
 function loadReplies(answerId) {
     const listEl = document.getElementById(`reply-list-${answerId}`);
     if (!listEl) return;
@@ -496,7 +482,6 @@ function loadReplies(answerId) {
       });
   }
 
-// --------- Post a reply (front-end only for now) ---------
 function loadReplies(answerId) {
     const listEl = document.getElementById(`reply-list-${answerId}`);
     const countEl = document.getElementById(`reply-count-${answerId}`);
@@ -530,7 +515,6 @@ function loadReplies(answerId) {
         )
         .join("");
   
-        // 🔢 Update reply count badge
         if (countEl) {
           countEl.textContent = replies.length;
           countEl.style.display = "inline-flex";
@@ -541,7 +525,6 @@ function loadReplies(answerId) {
       });
   }
 
-// --------- Init doubt detail (called on load & after accept) ---------
 async function initDoubtDetail() {
   const id = getDoubtIdFromUrl();
   if (!id) {
@@ -573,17 +556,14 @@ async function initDoubtDetail() {
   }
 }
 
-// --------- Initial load ---------
 document.addEventListener("DOMContentLoaded", () => {
   initDoubtDetail();
 });
-// ---- IMAGE MODAL PREVIEW ----
 function enableImagePreview() {
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("imageModalContent");
     const closeBtn = document.querySelector(".image-modal-close");
   
-    // Add click listener to all answer images
     document.querySelectorAll(".answer-image").forEach((img) => {
       img.style.cursor = "pointer";
       img.addEventListener("click", () => {
@@ -592,32 +572,25 @@ function enableImagePreview() {
       });
     });
   
-    // Close on X
     closeBtn.onclick = () => {
       modal.style.display = "none";
     };
   
-    // Click outside to close
     modal.onclick = (e) => {
       if (e.target === modal) {
         modal.style.display = "none";
       }
     };
   }
-  // Allow notifications.js to force-refresh replies in real time
   window.refreshRepliesFromNotification = function (answerId) {
     console.log("[REALTIME] Refreshing replies for answer:", answerId);
   
-    // 1) Reply section ko force-open karo
     const section = document.getElementById(`reply-section-${answerId}`);
     if (section) {
-      // agar tum 'hidden' class use kar rahe ho
       section.classList.remove("hidden");
-      // agar inline style se hide kiya tha
       section.style.display = "block";
     }
   
-    // 2) Replies reload karo
     loadReplies(answerId);
   };
 
@@ -626,7 +599,6 @@ function enableImagePreview() {
     if (!avatar) return;
   
     try {
-      // 1) Try full user object
       const userJson = localStorage.getItem("user");
       let user = null;
       if (userJson) {
@@ -637,7 +609,6 @@ function enableImagePreview() {
         }
       }
   
-      // 2) Try to get name from multiple possible keys
       let name =
         (user && (user.name || user.fullName || user.username)) ||
         localStorage.getItem("userName") ||
@@ -650,14 +621,12 @@ function enableImagePreview() {
         localStorage.getItem("email") ||
         "";
   
-      // Agar name empty hai lekin email hai, to email se naam bana lo
       if (!name && email) {
         name = email.split("@")[0];
       }
   
       if (!name) return;
   
-      // Generate initials
       let initials = "U";
       const parts = name.trim().split(" ");
       if (parts.length === 1) {
@@ -666,12 +635,10 @@ function enableImagePreview() {
         initials = (parts[0][0] + parts[1][0]).toUpperCase();
       }
   
-      // 🔮 Purple gradient avatar
       avatar.style.background = "linear-gradient(135deg, #8b5cf6, #ec4899)";
       avatar.style.color = "#ffffff";
       avatar.textContent = initials;
   
-      // ⭐ Avatar click → Open profile
       avatar.style.cursor = "pointer";
       avatar.onclick = () => {
         window.location.href = "profile.html";
@@ -682,5 +649,4 @@ function enableImagePreview() {
     }
   }
   
-  // Call automatically on page load
   document.addEventListener("DOMContentLoaded", setupNavbarAvatar);

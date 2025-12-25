@@ -90,7 +90,7 @@ function bannedRow(u){
 async function loadBlocked(){
   if (!blockedTbody) return;
 
-  if (blockedMsg) blockedMsg.textContent = "Loading blocked…"; // ✅ yaha
+  if (blockedMsg) blockedMsg.textContent = "Loading blocked…"; 
   blockedTbody.innerHTML =
     `<tr><td colspan="6" style="padding:10px 6px; opacity:.7;">Loading…</td></tr>`;
 
@@ -112,7 +112,7 @@ async function loadBlocked(){
 async function loadBanned(){
   if (!bannedTbody) return;
 
-  if (bannedMsg) bannedMsg.textContent = "Loading banned…"; // ✅ yaha
+  if (bannedMsg) bannedMsg.textContent = "Loading banned…";
   bannedTbody.innerHTML =
     `<tr><td colspan="5" style="padding:10px 6px; opacity:.7;">Loading…</td></tr>`;
 
@@ -124,7 +124,7 @@ async function loadBanned(){
       return;
     }
     bannedTbody.innerHTML = list.map(bannedRow).join("");
-    bannedMsg.textContent = `✅ Loaded ${list.length} banned users.`;
+    bannedMsg.textContent = ` Loaded ${list.length} banned users.`;
   }catch(e){
     bannedTbody.innerHTML = `<tr><td colspan="5" style="padding:10px 6px; color:#fca5a5;">${escapeHtml(e.message)}</td></tr>`;
     bannedMsg.textContent = "Failed.";
@@ -142,7 +142,7 @@ document.addEventListener("click", async (e) => {
   
   try{
     await unbanUser(id);
-    toast(`✅ User #${id} unbanned/unblocked`, "success");
+    toast(` User #${id} unbanned/unblocked`, "success");
     await loadBlocked();
     await loadBanned();
   }catch(err){
@@ -190,7 +190,6 @@ const btnRefresh = $("refreshTeachers");
 
 // ---------- API calls ----------
 async function createTeacher({ name, email, password }) {
-  // Swagger: POST /api/admin/users/teacher
   return authFetch("/api/admin/users/teacher", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -198,9 +197,7 @@ async function createTeacher({ name, email, password }) {
   });
 }
 
-// Optional: only works if backend has GET endpoint
 async function listTeachers() {
-  // If you add this endpoint later, this will work:
   return authFetch("/api/admin/users/teachers", { method: "GET" });
 }
 
@@ -245,7 +242,6 @@ form?.addEventListener("submit", async (e) => {
     show(msgCreate, "✅ Teacher created successfully.", "success");
     form.reset();
 
-    // If list endpoint doesn't exist, show locally added row
     if (tbody) {
       const hasPlaceholder = tbody.querySelector("td[colspan='3']");
       if (hasPlaceholder) tbody.innerHTML = "";
@@ -278,9 +274,8 @@ async function loadTeachers() {
       return;
     }
     tbody.innerHTML = teachers.map(rowHtml).join("");
-    show(msgList, `✅ Loaded ${teachers.length} teachers.`, "success");
+    show(msgList, ` Loaded ${teachers.length} teachers.`, "success");
   } catch (err) {
-    // endpoint missing is OK
     setEmpty("Teacher list API not available yet.");
     show(
       msgList,
@@ -290,7 +285,6 @@ async function loadTeachers() {
   }
 }
 
-// init
 loadTeachers();
 loadBlocked();
 loadBanned();

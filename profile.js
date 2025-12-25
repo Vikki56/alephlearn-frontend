@@ -1,4 +1,3 @@
-// ==== API CONFIG (simple local helper) ====
 const API_BASE = "https://alephlearn-backend.onrender.com/api";
 
 function getAuthHeaders() {
@@ -17,9 +16,6 @@ function showProfileRoot() {
   root.classList.add("profile-visible");
 }
 
-/* =========================
-   ✅ PROFILE CACHE (FAST UI)
-========================= */
 const PROFILE_CACHE_KEY = "profile_cache_v1";
 const PROFILE_CACHE_TTL = 60 * 1000; // 60 sec
 
@@ -39,18 +35,15 @@ function cacheWrite(data) {
   } catch {}
 }
 
-// 🔹 URL PARAMS → are we viewing someone else?
 const urlParams = new URLSearchParams(window.location.search);
 const viewedEmail = urlParams.get("email"); // profile.html?email=...
 const myEmail = (localStorage.getItem("email") || "").toLowerCase();
 
-// true when we are on SOMEONE ELSE's profile page
 const viewingOther =
   viewedEmail &&
   viewedEmail.trim() !== "" &&
   viewedEmail.toLowerCase() !== myEmail;
 
-// ==== DEFAULT UI CONFIG (fallback) ====
 const defaultConfig = {
   user_name: "Aleph User",
   username: "@aleph_user",
@@ -69,10 +62,8 @@ const defaultConfig = {
   font_size: 16,
 };
 
-// ------- INTERESTS STATE -------
 let interests = [];
 
-// render interests chips
 function renderInterests() {
   const container = document.getElementById("interestsContainer");
   const hint = document.getElementById("interestHint");
@@ -137,7 +128,6 @@ function renderInterests() {
   }
 }
 
-// ------- BACKEND: INTERESTS (self only) -------
 async function loadInterestsFromBackend(returnDataOnly = false) {
   if (viewingOther) return returnDataOnly ? [] : undefined;
 
@@ -249,7 +239,6 @@ async function onConfigChange(config) {
   const baseFontStack = "Inter, sans-serif";
   const baseSize = merged.font_size;
 
-  // text bindings
   document.getElementById("userName").textContent = userName;
   document.getElementById("username").textContent = username;
   document.getElementById("branchName").innerHTML = `
@@ -260,7 +249,6 @@ async function onConfigChange(config) {
   document.getElementById("problemsAttempted").textContent = problemsAttempted;
   document.getElementById("userRanking").textContent = userRanking;
 
-  // avatar initials (2 letters)
   const initials = userName
     .split(" ")
     .filter(Boolean)
@@ -400,7 +388,6 @@ async function fetchProfileAndApply(returnDataOnly = false) {
   }
 }
 
-// ------- BACKEND: FETCH OTHER USER PROFILE (by email) -------
 async function fetchOtherProfileAndApply(email) {
   try {
     const headers = getAuthHeaders();
@@ -512,7 +499,6 @@ function renderLoginStreakGrid(loginDates) {
 let likeCount = 0;
 let isLiked = false;
 
-// ------- BACKEND: LIKES (self only) -------
 async function loadLikesFromBackend(returnDataOnly = false) {
   if (viewingOther) return returnDataOnly ? { likeCount: 0, isLiked: false } : undefined;
 
@@ -693,7 +679,6 @@ async function bootProfile() {
     return;
   }
 
-  // Viewing other
   if (viewingOther && viewedEmail) {
     await fetchOtherProfileAndApply(viewedEmail);
     const academicCard = document.getElementById("academicProfileCard");
@@ -702,7 +687,6 @@ async function bootProfile() {
     return;
   }
 
-  // ✅ Self profile fast path:
   const cached = cacheRead();
   if (cached?.cfg) {
     await onConfigChange(cached.cfg);
@@ -718,10 +702,9 @@ async function bootProfile() {
       const likeBtn = document.getElementById("likeBtn");
       if (likeBtn) likeBtn.classList.toggle("liked", isLiked);
     }
-    showProfileRoot(); // show instantly
+    showProfileRoot(); 
   }
 
-  // ✅ Parallel fresh load
   try {
     const results = await Promise.allSettled([
       fetchProfileAndApply(true),
@@ -777,7 +760,6 @@ document.getElementById("popupOkBtn")?.addEventListener("click", () => {
   document.getElementById("limitPopup").style.display = "none";
 });
 
-// ===== Scoring popup =====
 function showScoringPopup() {
   const popup = document.getElementById("scoringPopup");
   if (!popup) return;

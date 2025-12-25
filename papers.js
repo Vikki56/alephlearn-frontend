@@ -22,15 +22,6 @@ const defaultConfig = {
   font_size: 16
 };
 
-
-// const ICONS = {
-//   paper: "assets/icons/paper-svgrepo-com.jpeg",
-//   view: "assets/icons/view-svgrepo-com.jpeg",
-//   like: "assets/icons/like-svgrepo-com.jpeg",
-//   delete: "assets/icons/delete-2-svgrepo-com.jpeg",
-//   // optional: agar alag download icon hai
-//   download: "assets/icons/download-svgrepo-com.jpeg"
-// };
 const ICONS = {
   paper: "assets/icons/paper.svg",
   view: "assets/icons/view.svg",

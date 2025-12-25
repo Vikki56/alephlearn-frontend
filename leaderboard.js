@@ -1,22 +1,17 @@
-// leaderboard.js
-// Ye file leaderboard.html ke liye latest result + leaderboard + history load karti hai.
 
-import "./js/protect.js";           // auth check
-import { authFetch } from "./js/api.js";  // JWT wala fetch
+import "./js/protect.js";           
+import { authFetch } from "./js/api.js";  
 
-// --- DOM refs ---
 
 const latestSummaryEl = document.getElementById("latestResultSummary");
 const currentLbBodyEl = document.getElementById("currentQuizLeaderboardBody");
 const historyBodyEl = document.getElementById("myHistoryBody");
 
-// optional right-side metrics (agar kabhi add kare)
 const scoreEl = document.getElementById("latestScoreValue");
 const accEl   = document.getElementById("latestAccuracyValue");
 const rankEl  = document.getElementById("latestRankValue");
 const timeEl  = document.getElementById("latestTimeValue");
 
-// --- helpers ---
 
 function formatDate(isoString) {
   if (!isoString) return "-";
@@ -48,7 +43,6 @@ function setText(el, value) {
 
 async function loadLatestAttemptAndLeaderboard() {
   try {
-    // authFetch already JSON return karta hai + token laga deta hai
     const attempt = await authFetch("/api/quizzes/attempts/latest");
 
     if (!attempt || !attempt.id) {
@@ -141,11 +135,9 @@ function renderLatestSummary(attempt) {
     </div>
   `;
 
-  // optional metric spans
   setText(scoreEl, `${score} / ${total}`);
   setText(accEl, accuracy);
   setText(timeEl, timeStr);
-  // rankEl abhi "-" rehne do (backend se rank nahi aa raha)
 }
 
 
@@ -156,7 +148,6 @@ async function loadCurrentQuizLeaderboard(quizId) {
     try {
       const entries = await authFetch(`/api/quizzes/${quizId}/leaderboard`);
   
-      // 🔒 Jab tak host END nahi karega, backend empty list dega → yahan custom msg dikhega
       if (!Array.isArray(entries) || entries.length === 0) {
         currentLbBodyEl.innerHTML = `
           <tr>
@@ -190,8 +181,7 @@ async function loadCurrentQuizLeaderboard(quizId) {
     }
   }
   
-  /* 🔥 NEW: specific quizId se leaderboard load (host view ke liye) */
-/* 🔥 specific quizId se leaderboard load (host view ke liye) */
+
 async function loadLeaderboardForQuizId(quizId) {
     let quizTitle = `Quiz #${quizId}`;
     try {
@@ -226,7 +216,6 @@ async function loadMyHistory() {
     if (!historyBodyEl) return;
   
     try {
-      // 🔥 Ab yaha AttemptHistoryItem[] aa raha hai
       const rows = await authFetch("/api/quizzes/attempts/history");
   
       if (!Array.isArray(rows) || rows.length === 0) {
@@ -239,7 +228,6 @@ async function loadMyHistory() {
         return;
       }
   
-      // Latest quizzes upar dikhane ke liye – higher quizId first
       rows.sort((a, b) => (b.quizId || 0) - (a.quizId || 0));
   
       historyBodyEl.innerHTML = rows
@@ -300,10 +288,8 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = `leaderboard.html?quizId=${quizId}`;
       });
   
-    // 👉 Agar URL me ?quizId=123 hai (host ne "View Results" se khola)
     if (quizIdFromUrl) {
   
-      // 🔥 My Quiz History section hide karo
       if (historyBodyEl) {
         const historyCard =
           historyBodyEl.closest(".dashboard-card") ||
@@ -317,10 +303,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   
       loadLeaderboardForQuizId(quizIdFromUrl);
-      return; // latest attempt + history skip
+      return; 
     }
   
-    // normal user flow (latest attempt + usi quiz ka leaderboard)
     loadLatestAttemptAndLeaderboard();
     loadMyHistory();
   });

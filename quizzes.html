@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AlephLearn Quiz Platform</title>
-  <!-- <link rel="stylesheet" href="styles.css"> -->
 
-  <!-- <link rel="stylesheet" href="Hamberger.css"> -->
   <link rel="stylesheet" href="quizzes.css">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="papers.css">
@@ -21,21 +19,18 @@
   <header class="nav">
     <div class="nav-inner">
   
-      <!-- LEFT: Burger (same as dashboard) -->
       <button id="al-burger" class="al-burger" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
   
-      <!-- CENTER: Logo (same as dashboard) -->
       <div class="brand">
         <a href="dashboard.html">
           <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
         </a>
       </div>
   
-      <!-- CENTER: Desktop links (same order as dashboard) -->
       <nav class="links">
         <a href="dashboard.html">Dashboard</a>
         <a href="doubts.html">Doubts</a>
@@ -52,11 +47,9 @@
             class="global-leader-btn header-trophy">
       🏆
     </button>
-      <!-- RIGHT: Avatar (same as dashboard) -->
       <div class="navbar-avatar" id="navbarAvatar">?</div>
     </div>
   
-    <!-- EXTRA: Trophy button (quizzes special) -->
 
   </header>
 
@@ -71,10 +64,8 @@
       <a href="chat.html"> Chat</a>
       <a href="quizzes.html"> Quizzes</a>
       <a href="previous-papers.html"> Previous Papers</a>
-      <!-- <a href="leaderboard.html"> Leaderboard</a> -->
       <a href="profile.html"> Profile</a>
       <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
-      <!-- Mobile logout button -->
       <button class="logout-btn js-logout" type="button">
         <span class="icon"></span>
         <span class="text">Logout</span>
@@ -82,10 +73,9 @@
     </div>
   </nav>
 
-<!-- Backdrop for mobile drawer -->
 <div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
 
-  <div class="container"><!-- Hero Section -->
+  <div class="container">
 
     <div class="page-header">
       <h1 class="page-title">AlephLearn Quiz Platform</h1>
@@ -99,7 +89,6 @@
 
 <div class="content-section active" id="participate-section">
 
-  <!-- ===== Public Quizzes card ===== -->
   <section class="quizzes-section">
     <div class="card">
       <div class="card-header">
@@ -109,12 +98,10 @@
       </div>
 
       <div class="quiz-grid" id="quizGrid">
-        <!-- Quiz cards will be generated here -->
       </div>
     </div>
   </section>
 
-  <!-- ===== My Created Quizzes card (as it is) ===== -->
   <section class="quizzes-section" style="margin-top: 2.5rem;">
     <div class="card">
       <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
@@ -147,20 +134,11 @@
       </div>
 
       <div id="myQuizzesGrid" class="quiz-grid" style="padding:1rem;">
-        <!-- JS fills here -->
       </div>
 
     </div>
   </section>
-  <!-- <section id="leaderboardSection" class="quiz-card" style="display:none; margin-top: 1.5rem;">
-    <div class="quiz-card-header" style="display:flex;justify-content:space-between;align-items:center;">
-      <h3 style="margin:0;">🏆 Leaderboard</h3>
-      <button id="closeLeaderboardBtn" class="btn btn-secondary" style="padding:0.25rem 0.75rem;font-size:0.8rem;">
-        ✕
-      </button>
-    </div>
-    <div id="leaderboardBody" style="margin-top:0.75rem;"></div>
-  </section> -->
+
 
 </div>
    <div class="content-section" id="create-section">
@@ -180,7 +158,6 @@
      </div>
      <div class="form-group"><label class="form-label">Difficulty Level</label> <select id="quizDifficulty" class="form-input"> <option value="easy">Easy</option> <option value="medium">Medium</option> <option value="hard">Hard</option> </select>
      </div>
-<!-- Difficulty already present -->
 
 <div class="form-group">
   <label class="form-label" for="quizDuration">Duration (minutes, optional)</label>
@@ -204,7 +181,6 @@
 </div>
     </div>
     <div class="card">
-<!-- Questions -->
 <div class="questions-header-row">
   <div class="questions-title">
     <span class="questions-dot">?</span>
@@ -217,12 +193,10 @@
 </div>
 
 <div id="questionsContainer" class="questions-container">
-  <!-- Question cards JS se aayenge -->
 </div>
     </div>
     <div style="text-align: center;"><button class="btn btn-primary hidden-publish" id="publishQuizBtn" style="font-size: 1.1rem; padding: 1rem 3rem;"> <span>🚀</span> <span>Publish Quiz</span> </button>
     </div>
-    <!-- Private quiz share link (shown only for private quizzes) -->
 <div class="card" id="quizLinkBox" style="display:none; margin-top:1rem;">
   <div class="card-header">
     <h2 class="card-title">
@@ -234,16 +208,7 @@
     <code id="quizShareLink" style="word-break:break-all;"></code>
   </div>
 </div>
-   </div><!-- Leaderboard Section -->
-   <!-- <div class="content-section" id="leaderboard-section">
-    <div class="card">
-     <div class="card-header">
-      <h2 class="card-title"><span>🏆</span> <span>Top Performers</span></h2>
-     </div>
-     <div id="leaderboardContainer">
-     </div>
-    </div>
-   </div> -->
+   </div>
 
    <div class="content-section" id="profile-section">
     <div class="card">
@@ -285,7 +250,7 @@
      </div>
     </div>
    </div>
-  </div><!-- Success Modal -->
+  </div>
   <div class="modal" id="successModal">
    <div class="modal-content">
     <div class="modal-icon">
@@ -294,13 +259,12 @@
     <h2 class="modal-title">Quiz Published!</h2>
     <p class="modal-text">Your quiz has been successfully published and is now available for students to take.</p><button class="btn btn-primary" id="closeModalBtn">Got it!</button>
    </div>
-  </div><!-- Quiz Taking Modal -->
+  </div>
   <div class="modal" id="quizTakingModal">
    <div class="modal-content" style="max-width: 900px; max-height: 90%; overflow-y: auto;">
     <div id="quizTakingContent"></div>
    </div>
   </div>
-  <!-- Global toast / popup for quizzes page -->
 <div id="quizToast" class="quiz-toast">
   <div class="quiz-toast-inner">
     <span id="quizToastIcon" class="quiz-toast-icon">🔔</span>
@@ -311,7 +275,6 @@
     <button id="quizToastClose" class="quiz-toast-close">✕</button>
   </div>
 </div>
-<!-- Global AlephLearn dialog -->
 <div id="appDialogOverlay" class="app-dialog-overlay">
   <div class="app-dialog" id="appDialog">
     <div class="app-dialog-header">

@@ -6,7 +6,6 @@
   
     <title>AlephLearn • Dashboard</title>
   
-    <!-- Favicon: preload + PNG + SVG -->
     <link rel="preload" as="image" href="assets/alephlearn-icon-32.png">
   
     <link rel="icon" type="image/png" sizes="32x32" href="assets/alephlearn-icon-32.png">
@@ -17,7 +16,6 @@
     <link rel="stylesheet" href="Hamberger.css">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="header-unified.css">
-    <!-- <link rel="stylesheet" href="quizzes.css"> -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   </head>
 <body data-page="index">
@@ -25,21 +23,17 @@
   <header class="nav">
     <div class="nav-inner">
   
-      <!-- MOBILE: Burger (LEFT) -->
       <button id="al-burger" class="al-burger" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-  
-      <!-- CENTER: Logo -->
-      <div class="brand">
+        <div class="brand">
         <a href="dashboard.html">
           <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
         </a>
       </div>
   
-      <!-- DESKTOP: Links (mobile pe hide ho jayenge) -->
       <nav class="links">
         <a href="dashboard.html">Dashboard</a>
         <a href="doubts.html">Doubts</a>
@@ -69,10 +63,8 @@
     <a href="chat.html"> Chat</a>
     <a href="quizzes.html"> Quizzes</a>
     <a href="previous-papers.html"> Previous Papers</a>
-    <!-- <a href="leaderboard.html"> Leaderboard</a> -->
     <a href="profile.html"> Profile</a>
     <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
-    <!-- Mobile logout button -->
     <button class="logout-btn js-logout" type="button">
       <span class="icon"></span>
       <span class="text">Logout</span>
@@ -80,7 +72,6 @@
   </div>
 </nav>
 
-<!-- Backdrop for mobile drawer -->
 <div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
 
 <main class="container">
@@ -110,7 +101,6 @@
     <div class="card list">
       <h3>🔥 Trending Discussions</h3>
       <div id="trendingList">
-        <!-- JS se items aayenge, fallback ke liye ek simple message -->
         <div class="item" id="trendingEmpty">
           <div class="sub" style="margin:6px 0; color:#9ca3af;">
             No trending discussions yet. Solve doubts, join chats and this will light up! ✨
@@ -133,10 +123,6 @@
 <script src="role-ui.js"></script>
 <script type="module" src="index.js"></script>
 <script type="module" src="H1.js"></script>
-<!-- <script type="module" src="app.js"></script> -->
-<!-- Page-specific code that may also use imports -->
-
-
 </body>
 </html>
 

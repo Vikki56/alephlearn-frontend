@@ -14,7 +14,6 @@
   }
 
 
-  /* ==== Dashboard page = body[data-page="index"] ==== */
 body[data-page="index"] {
     box-sizing: border-box;
     margin: 0;

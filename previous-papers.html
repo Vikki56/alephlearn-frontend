@@ -10,8 +10,7 @@
   <link rel="stylesheet" href="papers.css">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="header-unified.css">
-   <!-- <link rel="stylesheet" href="Hamberger.css"> -->
-   <!-- <link rel="stylesheet" href="quizzes.css"> -->
+
    <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
@@ -21,21 +20,18 @@
   <header class="nav">
     <div class="nav-inner">
   
-      <!-- MOBILE: Burger (LEFT) -->
       <button id="al-burger" class="al-burger" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
   
-      <!-- CENTER: Logo -->
       <div class="brand">
         <a href="dashboard.html">
           <img src="./alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
         </a>
       </div>
   
-      <!-- DESKTOP: Links (mobile pe hide ho jayenge) -->
       <nav class="links">
         <a href="dashboard.html">Dashboard</a>
         <a href="doubts.html">Doubts</a>
@@ -46,7 +42,6 @@
         <button class="logout-btn-desktop js-logout">Logout</button>
       </nav>
   
-      <!-- RIGHT: Avatar -->
       <div class="navbar-avatar" id="navbarAvatar">?</div>
   
     </div>
@@ -64,10 +59,8 @@
       <a href="chat.html"> Chat</a>
       <a href="quizzes.html"> Quizzes</a>
       <a href="previous-papers.html"> Previous Papers</a>
-      <!-- <a href="leaderboard.html"> Leaderboard</a> -->
       <a href="profile.html"> Profile</a>
       <a href="admin.html" id="adminTabMobile" style="display:none;"> Admin</a>
-      <!-- Mobile logout button -->
       <button class="logout-btn logout-btn-mobile js-logout" type="button">
         <span class="icon"></span>
         <span class="text">Logout</span>
@@ -75,15 +68,13 @@
     </div>
   </nav>
 
-<!-- Backdrop for mobile drawer -->
 <div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
 
   <div class="container">
-    <!-- tumhara pura papers ka content yahan se neeche same rahega -->
    <div class="hero">
     <h1>AlephLearn Library</h1>
     <p>Share and access academic resources from colleges and companies</p>
-   </div><!-- Upload Section -->
+   </div>
    <div class="card">
     <div class="card-header">
      <h2 class="card-title"><span>📤</span> <span id="uploadTitle">Upload Previous Year Papers</span></h2>
@@ -218,7 +209,6 @@
   
     <div class="papers-grid" id="papersGrid"></div>
   
-    <!-- ✅ ye hi button expandable / scroll waale kaam karega -->
     <div class="load-more papers-load-more">
       <button id="papersLoadMoreBtn" class="btn btn-secondary">
         <span>⬇️</span> <span>Load More Papers</span>
@@ -226,10 +216,10 @@
     </div>
   </div>
 
-   <div class="section-divider"></div><!-- Company Assessment Papers Section -->
+   <div class="section-divider"></div>
   <div class="toast" id="toast">
    <div class="toast-icon">
-    ✅
+    
    </div>
    <div class="toast-message" id="toastMessage">
     Paper uploaded successfully!

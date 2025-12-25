@@ -77,11 +77,9 @@ function showAcademicModal() {
   });
 }
 
-// page load hote hi check
 document.addEventListener("DOMContentLoaded", () => {
   const page = document.body?.getAttribute("data-page");
 
-  // ❌ profile aur dashboard pe guard mat chalana
   if (page === "profile" || page === "dashboard") return;
 
   checkAcademicProfile();

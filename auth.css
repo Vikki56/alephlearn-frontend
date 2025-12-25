@@ -1,7 +1,4 @@
-/* ================================
-   AlephLearn Auth Theme (Glass)
-   Only CSS — NO JS/HTML changes
-================================== */
+
 
 :root{
   --bg0:#070A14;
@@ -13,7 +10,6 @@
   --text:#EAF0FF;
   --muted: rgba(234,240,255,.72);
 
-  /* AlephLearn Accent (purple-magenta, not blue) */
   --a1:#7C3AED;
   --a2:#EC4899;
 

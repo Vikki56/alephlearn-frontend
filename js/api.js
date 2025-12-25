@@ -1,7 +1,4 @@
-// --- CONFIG ---
-// Single source of truth for backend base URL.
-// - Dev:   http://localhost:8080
-// - Prod:  https://alephlearn-backend.onrender.com  (until you move to https://api.alephlearn.com)
+
 const isFile = location.origin === 'null' || location.protocol === 'file:';
 const looksLikeDev = /:\d+$/.test(location.origin) && !location.origin.endsWith(':8080');
 const looksLikeProd = /(^|\.)alephlearn\.com$/.test(location.hostname) || location.hostname.endsWith('.pages.dev');
@@ -13,14 +10,13 @@ export const API_BASE = (
 );
 
 
-// --- KEEP BACKEND AWAKE (Render cold start reduce) ---
+
 (function keepBackendAwake(){
-  // only in prod (alephlearn.com / pages.dev), dev me spam nahi
   if (!looksLikeProd) return;
 
   const ping = () => fetch(`${API_BASE}/api/ping`, { method: "GET" }).catch(()=>{});
-  ping(); // immediate warm-up on page load
-  setInterval(ping, 5 * 60 * 1000); // every 5 minutes
+  ping(); 
+  setInterval(ping, 5 * 60 * 1000); 
 })();
 
 // --- TOAST ---
@@ -47,7 +43,7 @@ export function showToast(message, type = "info", ms = 2200) {
   t.addEventListener("click", remove);
 }
 
-// --- ERROR NORMALIZER ---
+
 function normalizeError(statusText, text) {
   try {
     const j = JSON.parse(text);
@@ -117,7 +113,7 @@ export function authHeader() {
   return t ? { Authorization: `Bearer ${t}` } : {};
 }
 
-/* 🔹 NEW: fetchWithAuth usable from non-module scripts (like leaderboard.js) */
+
 export async function fetchWithAuth(input, options = {}) {
   const url = typeof input === "string" ? input : input;
   const headers = { ...(options.headers || {}), ...authHeader() };
@@ -125,12 +121,12 @@ export async function fetchWithAuth(input, options = {}) {
   return fetch(url, { ...options, headers });
 }
 
-// expose globally so <script src="leaderboard.js"> can see it
+
 if (typeof window !== "undefined") {
   window.fetchWithAuth = fetchWithAuth;
 }
 
-// Auth-aware fetch you can reuse anywhere
+
 export async function authFetch(path, options = {}) {
   const url = path.startsWith("http") ? path : `${API_BASE}${path}`;
   const headers = { ...(options.headers || {}), ...authHeader() };
@@ -140,7 +136,7 @@ export async function authFetch(path, options = {}) {
   // read body once
   const text = await res.text();
 
-  // ✅ 401 => normal logout (already)
+
   if (res.status === 401) {
     clearAuth();
     const next = encodeURIComponent(location.pathname + location.search + location.hash);
@@ -148,8 +144,7 @@ export async function authFetch(path, options = {}) {
     throw new Error("Unauthorized");
   }
 
-  // ✅ 403 => BLOCKED/BANNED => forced logout + popup
-  // ✅ 403 => DO NOT auto-logout always (can be normal "Forbidden")
+
   if (res.status === 403) {
     let msg = "Forbidden";
     try {
@@ -173,12 +168,12 @@ export async function authFetch(path, options = {}) {
     throw new Error(msg);
   }
 
-  // other errors
+
   if (!res.ok) throw new Error(text || res.statusText || "Request failed");
   return text ? JSON.parse(text) : {};
 }
 
-// POST helper with JWT
+
 export function apiAuthPost(path, data) {
   return authFetch(path, {
     method: "POST",

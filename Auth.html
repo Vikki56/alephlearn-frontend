@@ -9,7 +9,6 @@
   </script>
   
   <style>
-    /* Page pehle hide rahe, route apply hone ke baad show */
     html.al-preload-auth body .auth-card{
       opacity: 0 !important;
       visibility: hidden !important;
@@ -19,7 +18,6 @@
   <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
 </head>
 <body>
-  <!-- 🔙 Back to Landing -->
   <a href="index.html" class="auth-back" aria-label="Back to home">←</a>
   <div class="auth-card">
     <aside class="auth-hero">
@@ -29,13 +27,11 @@
 
     <main class="auth-main">
       
-     <!-- 🔹 Tab buttons -->
 <div class="tab-buttons">
   <button id="tab-sign" class="active">Sign up</button>
   <button id="tab-log">Log in</button>
 </div>
 
-<!-- 🔹 Panels container -->
 <section class="form-container">
 
 
@@ -49,7 +45,6 @@
       <label for="fullName">Full name</label>
       <input id="fullName" name="fullName" type="text" placeholder="Your full name" required />
     </div>
-<!-- decoys to satisfy autofill -->
 <input type="text"  autocomplete="username"          hidden>
 <input type="password" autocomplete="current-password" hidden>
 
@@ -74,9 +69,7 @@
     <input id="spass" class="input" type="password" placeholder="Password" minlength="6"
            autocomplete="new-password" required>
     <button class="pw-toggle" type="button" data-target="spass" aria-pressed="false" aria-label="Toggle password visibility">
-  <!-- Open Eye -->
   <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-  <!-- Closed Eye -->
   <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
 </button>
   </div>
@@ -95,9 +88,7 @@
       autocomplete="new-password"
     />
 <button class="pw-toggle" type="button" data-target="scpass" aria-pressed="false" aria-label="Toggle password visibility">
-  <!-- Open Eye -->
   <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-  <!-- Closed Eye -->
   <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
 </button>
   </div>
@@ -124,9 +115,7 @@
       <div class="pw-wrap">
         <input id="lpass" type="password" placeholder="••••••" required />
         <button class="pw-toggle" type="button" data-target="lpass" aria-pressed="false" aria-label="Toggle password visibility">
-  <!-- Open Eye -->
   <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-  <!-- Closed Eye -->
   <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
 </button>
       </div>
@@ -164,9 +153,7 @@
     <div class="pw-wrap">
       <input id="rpPass" class="input" type="password" minlength="6" placeholder="New password" required />
     <button class="pw-toggle" type="button" data-target="rpPass" aria-pressed="false" aria-label="Toggle password visibility">
-  <!-- Open Eye -->
   <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-  <!-- Closed Eye -->
   <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
 </button>
     </div>
@@ -174,9 +161,7 @@
     <div class="pw-wrap">
       <input id="rpPass2" class="input" type="password" minlength="6" placeholder="Confirm password" required />
     <button class="pw-toggle" type="button" data-target="rpPass2" aria-pressed="false" aria-label="Toggle password visibility">
-  <!-- Open Eye -->
   <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-  <!-- Closed Eye -->
   <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2l20 20-1.5 1.5L17.7 19C15.9 19.6 14 20 12 20c-7 0-11-7-11-7a20.7 20.7 0 0 1 4.3-5.2L1 3.5 2 2zM12 5c7 0 11 7 11 7a20.7 20.7 0 0 1-2.7 3.5l-1.4-1.4A17.1 17.1 0 0 0 21 12s-4-6-9-6c-1 0-2 .2-2.9.5L7.5 5.9C8.7 5.3 10.3 5 12 5z"/></svg>
 </button>
     </div>
@@ -184,7 +169,6 @@
     <button id="backToLoginReset" type="button" class="btn-ghost"><span class="icon-arrow-left" aria-hidden="true"></span>Back to log in</button>
   </form>
 
-  <!-- Success card (after reset) -->
   <div id="resetSuccess" class="success-card hidden" aria-hidden="true">
     <div class="success-icon">✔</div>
     <h3>Password updated</h3>
@@ -195,7 +179,6 @@
 </section>
        </main>
    </div>
-   <!-- ✅ Blocked Modal -->
 <div id="blockedModal" class="blocked-backdrop" aria-hidden="true">
   <div class="blocked-card" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
     <h2 id="blockedTitle">🚫 Access Temporarily Blocked</h2>
@@ -205,7 +188,6 @@
 </div>
   <div id="toast-stack" aria-live="polite" aria-atomic="true"></div>
 
-<!-- <script type="module" src="./js/api.js"></script> -->
 <script type="module" src="./js/auth.js" defer></script>
 <script>
   window.showBlockedModal = function(message){
@@ -224,7 +206,6 @@
     modal?.setAttribute("aria-hidden", "true");
   };
 
-  // ✅ override alert on Auth page too
   (function(){
     const nativeAlert = window.alert;
     window.alert = (message) => {
@@ -236,7 +217,6 @@
     };
   })();
 
-  // ✅ on page load: if redirected with blocked message, show it
   (function(){
     const params = new URLSearchParams(location.search);
     const hash = location.hash || "";

@@ -9,7 +9,7 @@ function connectNotifications() {
   console.log("[NOTIF] SockJS created");
 
   stompClient = Stomp.over(socket);
-  stompClient.debug = (msg) => console.log("[STOMP]", msg); // logs on
+  stompClient.debug = (msg) => console.log("[STOMP]", msg); 
 
   stompClient.connect(
     {},
@@ -36,17 +36,14 @@ if (notif.type === "ANSWER_REPLIED") {
     const currentDoubtId = Number(params.get("id"));
 
     if (!Number.isNaN(currentDoubtId) && notif.doubtId === currentDoubtId) {
-      // 1) Us answer ka REPLY button dhoondo
       const replyBtn = document.querySelector(
         `[data-role="reply-btn"][data-answer-id="${notif.answerId}"]`
       );
 
       if (replyBtn) {
-        // 2) Programmatically click karo (jaise user ne click kiya ho)
         replyBtn.click();
       }
 
-      // 3) Fir replies ko reload bhi kar do (safety)
       if (typeof window.refreshRepliesFromNotification === "function") {
         window.refreshRepliesFromNotification(notif.answerId);
       }
@@ -54,7 +51,6 @@ if (notif.type === "ANSWER_REPLIED") {
   }
 }
   
-      // 2) Normal toast + badge sab ke liye
       showNotificationToast(notif);
       incrementNotificationBadge();
     } catch (e) {

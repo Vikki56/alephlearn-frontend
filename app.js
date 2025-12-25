@@ -1,8 +1,6 @@
-const API_BASE = "https://alephlearn-backend.onrender.com"; // backend
+const API_BASE = "https://alephlearn-backend.onrender.com"; 
 
-// --- Redirect helper ---
 function getNext() {
-  // Example: Auth.html#login?next=/Fronted/index.html
   const hash = location.hash || "";
   const q = hash.split("?")[1] || "";
   const params = new URLSearchParams(q);
@@ -39,12 +37,7 @@ export function showToast(message, type = "info", ms = 2200) {
     remove();
   });
 }
-
-// --- Tabs ---
-// app.js — same logic, only wrapped for safety
-
 document.addEventListener("DOMContentLoaded", () => {
-  // grab all elements
   const tabSign = document.getElementById("tab-sign");
   const tabLog = document.getElementById("tab-log");
   const signupForm = document.getElementById("signupForm");
@@ -102,19 +95,18 @@ signupForm?.addEventListener("submit", async (e) => {
 
 
 
-  // ✅ check if elements exist before using them
   if (tabSign && tabLog && signupForm && loginForm) {
-    // handle Sign up tab click
+
     tabSign.addEventListener("click", () => {
       tabSign.classList.add("active");
       tabLog.classList.remove("active");
       signupForm.classList.remove("hidden");
       loginForm.classList.add("hidden");
       loginForm.reset();
-      clearPasswords?.(); // optional safeguard if you use clearPasswords()
+      clearPasswords?.(); 
     });
 
-    // handle Log in tab click
+  
     tabLog.addEventListener("click", () => {
       tabLog.classList.add("active");
       tabSign.classList.remove("active");
@@ -125,7 +117,7 @@ signupForm?.addEventListener("submit", async (e) => {
     });
   }
 
-  // ✅ password visibility toggle
+
   document.querySelectorAll(".pw-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const input = document.getElementById(btn.dataset.target);
@@ -135,7 +127,7 @@ signupForm?.addEventListener("submit", async (e) => {
     });
   });
 
-  // ✅ You can keep any other form logic (submit, validation, etc.) below this line.
+
 });
 
 // --- API helper ---
@@ -158,7 +150,7 @@ async function apiPost(path, data) {
   return JSON.parse(text || "{}");
 }
 
-// --- Auth storage ---
+
 function saveAuth(token, email, role) {
   localStorage.setItem("token", token);
   localStorage.setItem("user", email);
@@ -170,50 +162,6 @@ function clearPasswords() {
     if (el) { el.value = ""; el.type = "password"; }
   });
 }
-
-// --- SIGNUP ---
-// signupForm.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const name  = document.getElementById("fullName").value.trim();
-//   const email = document.getElementById("email").value.trim();
-//   const p1    = document.getElementById("spass").value;
-//   const p2    = document.getElementById("scpass").value;
-
-//   if (!name || !email || !p1 || !p2) return showToast("Please fill all fields.", "info");
-//   if (p1.length < 6) return showToast("Password must be at least 6 characters.", "info");
-//   if (p1 !== p2) return showToast("Passwords do not match.", "info");
-
-//   try {
-//     const data = await apiPost("/api/auth/signup", { name, email, password: p1 });
-//     saveAuth(data.token, email);
-//     showToast("🎉 Account created successfully!", "success");
-//     setTimeout(() => (window.location.href = getNext()), 900);
-//   } catch (err) {
-//     showToast(err.message || "Signup failed.", "error");
-//   }
-// });
-
-// // --- LOGIN ---
-// loginForm.addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const email = document.getElementById("lemail").value.trim();
-//   const pass  = document.getElementById("lpass").value;
-
-//   if (!email || !pass) return showToast("Please enter email and password.", "info");
-
-//   try {
-//     const data = await apiPost("/api/auth/login", { email, password: pass });
-//     saveAuth(data.token, email);
-//     showToast("✅ Logged in successfully!", "success");
-//     setTimeout(() => (window.location.href = getNext()), 700);
-//   } catch (err) {
-//     const msg = /401|unauthorized|invalid/i.test(err.message)
-//       ? "Invalid email or password."
-//       : (err.message || "Login failed.");
-//     showToast(msg, "error");
-//   }
-// });
-
 window.addEventListener("pageshow", clearPasswords);
 
 // --- Prevent autofill on login ---
@@ -237,7 +185,6 @@ window.addEventListener("pageshow", clearPasswords);
   email.addEventListener("focus", unlock, { once: true });
 })();
 
-// ✅ Mobile nav toggle (copied from chat.js — universal version)
 (function initFxBurgerDrawer() {
   const checkbox = document.getElementById('fx-burger-check');
   const drawer = document.getElementById('fx-drawer');

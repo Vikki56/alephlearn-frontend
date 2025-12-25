@@ -1,4 +1,3 @@
-// Fronted/js/questions.js
 import { authFetch } from "./api.js";
 
 async function loadQuestions() {

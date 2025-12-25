@@ -25,7 +25,6 @@ function showLogin() {
 tabSign.addEventListener("click", showSignup);
 tabLog .addEventListener("click", showLogin);
 
-// Show/hide password
 document.querySelectorAll(".pw-toggle").forEach((btn) => {
   btn.addEventListener("click", () => {
     const input = document.getElementById(btn.dataset.target);
@@ -34,7 +33,6 @@ document.querySelectorAll(".pw-toggle").forEach((btn) => {
   });
 });
 
-// Signup submit
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name  = document.getElementById("fullName").value.trim();
@@ -56,7 +54,6 @@ signupForm.addEventListener("submit", async (e) => {
   }
 });
 
-// Login submit
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = document.getElementById("lemail").value.trim();
@@ -77,10 +74,8 @@ loginForm.addEventListener("submit", async (e) => {
   }
 });
 
-// Clear fields on page show
 window.addEventListener("pageshow", clearPasswords);
 
-// Hard-stop email autofill in login
 (function hardStopEmailAutofill() {
   const form  = document.getElementById("loginForm");
   const email = document.getElementById("lemail");

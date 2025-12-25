@@ -1,4 +1,4 @@
-// index.js (dashboard)  load as type="module"
+
 import { API_BASE, authFetch } from "./js/api.js";
 
 // ---------- small cache helpers ----------
@@ -216,16 +216,14 @@ function setupNavbarAvatar() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbarAvatar();
-  warmBackend(); // don't await
+  warmBackend(); 
 
-  // ✅ 1) show cached instantly (if exists)
   const cached = readDashCache();
   if (cached?.data) {
     renderDashboard(cached.data);
     document.body.classList.add("dashboard-loaded");
   }
 
-  // ✅ 2) refresh in background (always)
   loadDashboardFresh()
     .catch((e) => console.error("Dashboard fetch failed:", e))
     .finally(() => document.body.classList.add("dashboard-loaded"));

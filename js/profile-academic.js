@@ -6,7 +6,6 @@ let OPTIONS = null;
 let PROFILE_LOCKED = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Sirf profile page pe chalna chahiye
   const body = document.body;
   if (!body || body.getAttribute("data-page") !== "profile") return;
 
@@ -25,16 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function initAcademicProfile() {
   try {
-    // 1) Backend se catalog options lao
     await loadOptions();
 
-    // 2) Existing profile ho to usse prefill + lock karo
     await loadExistingProfile();
 
-    // 3) Dropdown listeners
     setupListeners();
 
-    // 4) Save button handler
     const btn = document.getElementById("saveAcademicProfileBtn");
     if (btn) {
       btn.addEventListener("click", (e) => {
@@ -57,12 +52,10 @@ async function loadOptions() {
       method: "GET"
     });
 
-    // Expected: { educationLevels, mainStreams, specializations, validCombos }
     if (!OPTIONS || !Array.isArray(OPTIONS.educationLevels)) {
       throw new Error("Invalid options payload");
     }
 
-    // Sirf education level dropdown fill
     populate(levelsBox, OPTIONS.educationLevels, "Select level");
   } catch (err) {
     console.error("Error loading academic options:", err);
@@ -88,7 +81,6 @@ async function loadExistingProfile() {
     });
 
     if (!hasProfile) {
-      // profile nahi hai
       if (statusEl) {
         statusEl.textContent =
           "No academic profile yet. Please fill your details and save.";
@@ -96,8 +88,6 @@ async function loadExistingProfile() {
       }
       return;
     }
-
-    // profile already set hai → LOCK
     PROFILE_LOCKED = true;
 
     const data = await authFetch("/api/profile/academic/me", {
@@ -127,19 +117,16 @@ function prefillDropdowns(existing) {
 
   const { educationLevel, mainStream, specialization } = existing;
 
-  // Level set
   if (educationLevel) {
     levelsBox.value = educationLevel;
   }
 
-  // Streams according to level
   const streams = educationLevel ? getStreamsByLevel(educationLevel) : [];
   populate(streamsBox, streams, "Select stream");
   if (mainStream) {
     streamsBox.value = mainStream;
   }
 
-  // Specs according to level + stream
   const specs =
     educationLevel && mainStream
       ? getSpecsByCombo(educationLevel, mainStream)
@@ -242,7 +229,6 @@ function confirmAcademicLock() {
       resolve(true);
     };
 
-    // Click outside → cancel
     backdrop.addEventListener("click", (e) => {
       if (e.target === backdrop) {
         backdrop.remove();
@@ -260,7 +246,6 @@ async function saveAcademicProfile() {
   const statusEl = document.getElementById("academicProfileStatus");
   const btn = document.getElementById("saveAcademicProfileBtn");
 
-  // 🔒 If already locked → simply return
   if (PROFILE_LOCKED) {
     showStatus(
       "Academic profile is locked 🔒. You cannot change it.",
@@ -282,7 +267,6 @@ async function saveAcademicProfile() {
     return;
   }
 
-  // 🔔 Custom confirmation modal
   const sure = await confirmAcademicLock();
   if (!sure) {
     showStatus(
@@ -384,14 +368,11 @@ function populate(select, list, placeholder = "Select") {
   });
 }
 
-// ✅ Fallback + filtering
 function getStreamsByLevel(level) {
   if (!OPTIONS) return [];
 
   const allStreams = OPTIONS.mainStreams || [];
 
-  // Agar backend se validCombos nahi aaye (ya empty hain)
-  // → fallback: saare streams dikha do
   if (!Array.isArray(OPTIONS.validCombos) || OPTIONS.validCombos.length === 0) {
     return [...allStreams];
   }
@@ -416,7 +397,6 @@ function getSpecsByCombo(level, stream) {
 
   const allSpecs = OPTIONS.specializations || [];
 
-  // Agar validCombos nahi hain → sab specs dikha do
   if (!Array.isArray(OPTIONS.validCombos) || OPTIONS.validCombos.length === 0) {
     return [...allSpecs];
   }

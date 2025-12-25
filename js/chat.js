@@ -2518,7 +2518,7 @@ function enhanceAudioBubbles(root = document) {
 
 
   
-// Cache minimal info from the list so detail view can use it if API omits fields
+
 window.QUESTION_CACHE = {};
 
   /* ---------- Q&A Drawer ---------- */
@@ -2613,7 +2613,7 @@ window.openMiniProfile = async function (userInfo) {
     const data = await res.json();
     console.log('[miniProfile] data:', data);
 
-    // overwrite name if backend ne diya
+
     name = data.name || name;
     const initials2 = (data.initials || name.slice(0, 2) || 'U').toUpperCase();
 
@@ -2752,7 +2752,7 @@ window.openReportModal = function (targetEmail, targetName) {
         return;
       }
 
-      // TODO: yahan baad me backend POST /api/report-user wire karenge
+
       console.log('[REPORT DEMO]', {
         targetEmail: modal.dataset.targetEmail,
         targetName : modal.dataset.targetName,
@@ -2947,20 +2947,19 @@ if (!viewer) {
     if (r.ok) {
       const q = await r.json();
   
-      // Clear fields
-      // Clear fields
+
       qaTitleIn.value = '';
       qaBodyIn.value  = '';
       qaMaxIn.value   = '3';
       const qaImgEl = document.getElementById('qaImage');
       if (qaImgEl) qaImgEl.value = '';
 
-      // 🔥 PRIVATE ROOM OPEN RIGHT AWAY (asker)
+
       if (typeof openDoubtRoomForQuestion === 'function') {
         openDoubtRoomForQuestion(q);
       }
 
-      // 🔥 SIDEBAR REFRESH IMMEDIATELY
+
       if (typeof window.refreshRooms === 'function') {
         window.refreshRooms();
       }
@@ -3029,7 +3028,7 @@ function slotsOpen(q){
 }
 
 async function qaClaim(qid){
-  // adjust to your API if it expects body instead of query
+
   const url = `${API_BASE_QA}/api/questions/${qid}/claim?user=${identityParam()}`;
   const r = await authFetch(url, { method: 'POST' });
   if (!r.ok){
@@ -3038,7 +3037,7 @@ async function qaClaim(qid){
     return false;
   }
   alert('You claimed this question successfully. Now you can answer.');
-  // refresh modal and list so composer shows and counts update
+
   qaOpen(qid);
   qaLoadList();
   return true;
@@ -3097,7 +3096,7 @@ async function qaRenderVisibilityAndBar({ q, amAsker, amClaimer }) {
       
         const updated = await r.json();
       
-        // 🔥 Solver ko guided popup
+
         try {
           if (typeof showConfirmModal === 'function' && typeof openDoubtRoomForQuestion === 'function') {
             const ok = await showConfirmModal({
@@ -3117,7 +3116,7 @@ async function qaRenderVisibilityAndBar({ q, amAsker, amClaimer }) {
               openDoubtRoomForQuestion(updated);
             }
           } else if (typeof openDoubtRoomForQuestion === 'function') {
-            // fallback: directly open room
+
             openDoubtRoomForQuestion(updated);
           }
         } catch (e) {
@@ -3136,8 +3135,8 @@ async function qaRenderVisibilityAndBar({ q, amAsker, amClaimer }) {
     }
   }
 
-  // Composer visibility: only for claimers & not locked
-  setComposerVisible(false); // ⛔ answers are posted in private doubt-room, not here
+
+  setComposerVisible(false); 
 }
 
 // -------- List --------
@@ -3145,7 +3144,7 @@ async function qaLoadList(){
   const list = QE('#qaListNew') || QE('#qaList');
 if(!list) return;
   list.innerHTML = '<div style="opacity:.7">Loading…</div>';
-const room = currentRoom || 'default'; // ✅ use your active group variable
+const room = currentRoom || 'default'; 
 const r = await authFetch(`${API_BASE_QA}/api/questions?room=${encodeURIComponent(room)}`);
   const items = r.ok ? await r.json() : [];
   list.innerHTML = '';
@@ -3154,20 +3153,18 @@ const r = await authFetch(`${API_BASE_QA}/api/questions?room=${encodeURIComponen
 }
 
 function isClaimerOnList(q){
-  // Best-effort: different DTOs may use different flags
+
   return !!(
     q._amClaimer || q.amClaimer || q.isClaimer || q.claimer ||
     q.claimedByMe || q.myClaim || q.meClaimer ||
-    // if accepted answer author info exists, treat as solver
+
     (q.acceptedByEmail && (String(q.acceptedByEmail).trim().toLowerCase() === String((window.USER_EMAIL||'')).trim().toLowerCase()))
   );
 }
 
 function qaCard(q){
 
-  // Show "Explain with AI" only for RESOLVED posts and only to users who are
-  // neither the asker nor the claimer/solver.
-  // NOTE: backend/status sometimes arrives with accidental spaces; trim before compare.
+
   const isResolved = String(q?.status || '').trim().toUpperCase() === 'RESOLVED';
   const allowExplainAi = isResolved && !isAsker(q) && !isClaimerOnList(q);
 
@@ -3206,16 +3203,14 @@ if (!ok) return;
   return card;
 }
 
-// ✅ Explain with AI for RESOLVED doubt-room questions (uses /api/aiqa/explain)
 async function openAiExplainForQuestion(questionId, title){
   try {
-    // Our AI modal is injected on demand and is shown via style.display.
-    // Do NOT rely on a global `aiModal` variable or class-based toggles.
+
     const modal = ensureAiModal();
     if (modal) modal.style.display = 'flex';
 
     const chat = document.getElementById('aiChat');
-    // This modal template doesn't use aiHint; keep code defensive.
+
     const hint = document.getElementById('aiHint');
     if (hint) hint.style.display = 'none';
     if (chat) chat.innerHTML = `<div class="ai-msg ai"><div class="bubble">Generating AI explanation…</div></div>`;
@@ -3239,14 +3234,12 @@ async function openAiExplainForQuestion(questionId, title){
     const head = title ? `**${String(title)}**\n\n` : '';
     const finalText = head + exp;
 
-    // Render attachments inline (hide raw link). Supports emoji prefix like "🖼 Attachment:".
+
     if (chat) {
       chat.innerHTML = `<div class="ai-msg ai"><div class="bubble">${renderAiqaTextWithAttachment(finalText)}</div></div>`;
       chat.scrollTop = chat.scrollHeight;
     }
 
-    // Follow-up chat is not supported for AIQA one-shot explain.
-    // Show a friendly popup if user tries to type/send.
     const inputEl = document.getElementById('aiChatInput');
     const sendBtn = document.getElementById('aiChatSend');
     if (inputEl) {
@@ -3267,7 +3260,7 @@ async function openAiExplainForQuestion(questionId, title){
   }
 }
 
-// AIQA helper: render "Attachment: <url>" as inline preview and hide the raw link.
+
 function renderAiqaTextWithAttachment(text) {
   const s = String(text || '');
   // Match: optional emoji + spaces + Attachment: URL
@@ -3334,8 +3327,7 @@ async function qaGetAcceptedAnswer(qid) {
   const answers = await r.json();
   if (!Array.isArray(answers) || answers.length === 0) return null;
 
-  // look for accepted flag by common shapes
-  // supports: {accepted:true} OR {isAccepted:true} OR {status:'ACCEPTED'}
+
   const accepted = answers.find(a =>
     a.accepted === true || a.isAccepted === true || String(a.status).toUpperCase() === 'ACCEPTED'
   );
@@ -3361,13 +3353,9 @@ async function qaShareToChat(qid, q) {
   // Optional: include attachment link(s)
   if (img) msg += `\n(attachment) ${img}`;
 
-  // Try sending through your existing chat send API; fall back to pasting
-  try {
-    // If you already have a function that sends chat messages, call it here:
-    // await sendChatMessage(msg); // <-- replace with your actual function if present
 
-    // Fallback: insert into the chat input if available and focus it,
-    // so user can just press Enter.
+  try {
+
     const input = document.querySelector('#message-input, #chatInput, textarea[name="message"], .chat-input');
     if (input) {
       input.value = msg;
@@ -3453,12 +3441,12 @@ shareBtn.className = 'qa-asker-btn qa-chip';
 shareBtn.textContent = 'Share to chat';
 
 shareBtn.onclick = async () => {
-  // If there’s an accepted answer, share that; otherwise share the question
+
   const acc = await qaGetAcceptedAnswer(qid);
   if (acc) {
-    await qaShareAccepted(qid, q);   // sends an HTML card via WS + local echo
+    await qaShareAccepted(qid, q);   
   } else {
-    qaShareQuestion(q);               // sends a “Question” HTML card
+    qaShareQuestion(q);         
   }
 };
 bar.appendChild(shareBtn);
@@ -3488,15 +3476,7 @@ bar.appendChild(shareBtn);
   bar.appendChild(delQBtn);
 }
 
-// …in qaOpen, AFTER you compute amAsker & amClaimer and set _currentQid/_currentQ:
 renderAskerActions(qid, q, amAsker);
-
-//   const status = String(q.status || 'OPEN').toUpperCase();
-// setComposerVisible(amClaimer && status !== 'LOCKED');
-//   wireAnswerComposerOnce(
-//   () => window._currentQid,
-//   () => window._currentQ
-// );
   await qaRenderVisibilityAndBar({ q, amAsker, amClaimer });
 
   // 5) Header/meta
@@ -3524,7 +3504,7 @@ renderAskerActions(qid, q, amAsker);
     await qaRenderVisibilityAndBar({ q, amAsker, amClaimer });
   }
 
-  // 8) Load answers (pass amClaimer if your loader needs it)
+
   
   await qaLoadAnswers(qid, q, amClaimer);
 
@@ -3691,7 +3671,6 @@ const iAmAsker = isAskerOf(q);
   const locked   = status === 'LOCKED';
   const resolved = status === 'RESOLVED';
 
-  // ✅ If viewer is NOT the asker, don't show accepted solution on RESOLVED posts (use Explain with AI instead)
   if (!iAmAsker && resolved) {
     list.innerHTML = '<div style="opacity:.8;padding:12px;border-radius:10px;background:#0f2136;">This doubt is resolved. Use <b>Explain with AI</b> to view explanation.</div>';
     return;
@@ -3735,10 +3714,6 @@ for (const a of answers) {
 
 
 
-//   const locked   = String(q.status || '').toUpperCase() === 'LOCKED';
-// const accepted = !!q.acceptedAnswerId && q.acceptedAnswerId === a.id;
-
-// ASKER-only ACCEPT (visible when OPEN and this answer not accepted yet)
 if (iAmAsker && !locked && !accepted) {
   const acceptBtn = document.createElement('button');
   acceptBtn.className = 'qa-chip qa-chip--success';
@@ -3760,7 +3735,6 @@ if (iAmAsker && !locked && !accepted) {
   };
   actions.appendChild(acceptBtn);
 }
-  // ACCEPT (asker only, when not locked/accepted)
   if (!locked && !accepted && (
       (q.askedByEmail || '').toLowerCase() === meEmail ||
       (q.askedBy || '').toLowerCase() === meName
@@ -3821,7 +3795,6 @@ function setComposerVisible(visible) {
 
 
 
-// Build the composer card (image + text + submit)
 function buildComposerCard(qid) {
   const card = document.createElement('div');
   card.className = 'qa-card qa-card--composer';
@@ -3856,7 +3829,6 @@ function buildComposerCard(qid) {
     preview.appendChild(img);
   });
 
-  // send logic (multipart if file chosen, else JSON)
   compose.querySelector('#qaSolSend').addEventListener('click', async () => {
     const txt = (compose.querySelector('#qaSolText').value || '').trim();
     const file = fileEl.files?.[0];
@@ -3978,12 +3950,6 @@ if (raw.startsWith('AUDIO|')) {
     return `<div class="reply-inline" data-reply="${rep.id||''}"><b>${escapeHTML(rep.user||'User')}</b> — <span>${escapeHTML(short)}</span></div>`;
   }
 
-
-  // card changeeeeeeeeeeeeeieeeeieeeeeieieeieeeeeieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-
-
-  // iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-
   // ===== Mobile / Desktop Message Action Menu (shared) =====
 function buildMessageActions(message, container) {
   if (!container) return;
@@ -4026,20 +3992,16 @@ function buildMessageActions(message, container) {
     // 🔹 Decide what to show in bubble header
     let display = userName || user || userEmail || 'User';
   
-    // Agar yeh mera message hai -> hamesha mera DISPLAY_NAME dikhana
     if (mine && window.DISPLAY_NAME) {
       display = window.DISPLAY_NAME;
     }
   
     const looksLikeEmail = (s) => !!s && s.includes('@');
   
-    // 👉 Agar email jaisa dikhta hai:
     if (looksLikeEmail(display)) {
       if (userName && !looksLikeEmail(userName)) {
-        // Backend ne proper userName bheja hai, to woh use karo
         display = userName;
       } else {
-        // sirf '@' se pehle ka part dikhाओ
         display = display.split('@')[0];
       }
     }
@@ -4067,7 +4029,6 @@ function buildMessageActions(message, container) {
     `;
   
     
-    // ✅ Private doubt room: show ACCEPT button directly under solution message (asker-only)
     try {
       const sol = wrap.querySelector('.solution-wrap');
       if (sol) {
@@ -4079,7 +4040,6 @@ function buildMessageActions(message, container) {
           actionsRow.className = 'solution-actions';
           sol.appendChild(actionsRow);
 
-          // lazy-fetch question to check asker + resolved state
           const baseQA = (window.API_BASE_QA || window.API_BASE || location.origin);
           const meQ = (window.USER_EMAIL || window.DISPLAY_NAME || '').toString().trim().toLowerCase();
 
@@ -4137,7 +4097,7 @@ function buildMessageActions(message, container) {
           }
         }
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) { }
 const avatarEl = wrap.querySelector('.message-avatar');
 
     if (avatarEl) {
@@ -4173,17 +4133,16 @@ const avatarEl = wrap.querySelector('.message-avatar');
           });
     
           if (choice === 'View profile') {
-            openMiniProfile(userInfo);        // ✅ object
+            openMiniProfile(userInfo);        
           } else if (choice === 'Report') {
             openReportModal(uid, uname);
           }
         } else {
-          openMiniProfile(userInfo);          // ✅ object
+          openMiniProfile(userInfo);          
         }
       });
     
-      // (optional) agar double-click ke bajay single click chahiye:
-      // avatarEl.addEventListener('click', ...same handler...);
+
     }
   
     const contentEl = wrap.querySelector('.message-content');
@@ -4199,8 +4158,7 @@ const avatarEl = wrap.querySelector('.message-avatar');
       tgt?.scrollIntoView({ behavior:'smooth', block:'center' });
     });
   
-    // Right-click menu (includes React)
-// ✅ Mobile long-press => open SAME menu as right-click
+
 let lpTimer = null;
 let longPressed = false;
 
@@ -4249,7 +4207,7 @@ const openMobileMenu = async () => {
   showAnchoredMenu(contentEl, actions, { side: 'auto' });
 };
 
-// 🖥 Desktop right-click => open same menu as mobile long-press
+
 contentEl.addEventListener('contextmenu', (e) => {
   e.preventDefault();
   openMobileMenu();
@@ -4477,7 +4435,6 @@ if (raw.startsWith('HTML|')) {
       };
       pinnedList.appendChild(chip);
 
-      // 🔹 corresponding message bubble ko bhi pinned mark karo
       const msgNode = document.querySelector(`.message[data-id="${CSS.escape(String(m.id))}"]`);
       if (msgNode) msgNode.classList.add('is-pinned');
     }
@@ -4536,7 +4493,6 @@ function getDoubtRoomId(qOrId) {
   return `${subject}/doubt-q-${id}`;
 }
 
-  // roomId already declared above
   let currentSubject = 'General';
   let currentChatSubjectKey = 'btech_cse';
   let replyingTo = null;
@@ -4602,10 +4558,8 @@ const r = await authFetch(`${API_BASE}/api/chat/history/${subject}/${slug}?limit
           if (wrap) renderReactionsRow(wrap);
         }
       });
-      // append any locally cached (unsynced) messages we created on this device
 const pending = lhLoad(roomId);
 if (Array.isArray(pending) && pending.length) {
-  // avoid duping: if server already sent the same ts, skip
   const seenTs = new Set(arr.map(m => new Date(m.ts).getTime()));
   for (const m of pending) {
     if (seenTs.has(m.ts)) continue;
@@ -4641,16 +4595,14 @@ function sendMessage(text){
   const replyToId  = replyingTo?.id || null;
   const preview    = replyToId ? buildReplyFromDom(replyToId) : null;
 
-  // ✅ real identity (never "You" in the payload)
   const name  = window.DISPLAY_NAME || 'Anonymous';
   const email = window.USER_EMAIL   || '';
 
-  // Local optimistic echo (do NOT mutate to "You")
   const node = addMessageToList({
     id: null,
-    user: name,            // keep for backward-compat if renderer reads 'user'
-    userName: name,        // preferred
-    userEmail: email,      // stable id for ownership
+    user: name,            
+    userName: name,    
+    userEmail: email,      
     text,
     ts,
     mine: true,
@@ -4663,7 +4615,6 @@ function sendMessage(text){
   scrollToBottom(true);
 
 
-  // keep a local copy so it survives refresh if server save fails
 lhPush(currentRoom, {
   ts,
   text,
@@ -4672,7 +4623,6 @@ lhPush(currentRoom, {
   clientId: CLIENT_ID,
   replyToId
 });
-  // Send (simulation or WebSocket)
   if (SIMULATION) {
     const id = 'sim-' + ts + '-' + Math.random().toString(36).slice(2,6);
     node.dataset.id = id;
@@ -4689,7 +4639,7 @@ lhPush(currentRoom, {
       type: 'message',
       room: currentRoom,
       text,
-      user: name,             // ✅ same identity as local echo
+      user: name,             
       userName: name,
       userEmail: email,
       ts,
@@ -4756,7 +4706,6 @@ window.sendMessage = sendMessage;
       return;
     }
     try{
-      // Use message's stored clientId (server requires it)
       const wrap = document.querySelector(`.message[data-id="${id}"]`);
       const msgClientId = (wrap?.dataset?.clientId || '').trim() || CLIENT_ID;
       const r = await authFetch(`${API_BASE}/api/chat/message/${id}`,{
@@ -4794,10 +4743,8 @@ async function forwardMessage(originalText, originalUser){
   const email    = window.USER_EMAIL   || '';
   const fromUser = originalUser || 'Anonymous';
 
-  // plain-text wrapper so receivers can render a "forwarded" badge
   const payload = `FWD|${fromUser}|${originalText || ''}`;
 
-  // local echo if same room
   if (target === currentRoom) {
     addMessageToList({
       id:null, user:name, userName:name, userEmail:email,
@@ -4805,7 +4752,6 @@ async function forwardMessage(originalText, originalUser){
     });
   }
 
-  // send to target room
   if (ws && ws.readyState === 1) {
     wsSend({
       type:'message', room: target, text: payload,
@@ -4983,7 +4929,6 @@ if (subjEl) subjEl.textContent = subj;
 
   }
 
-// ====== Doubt Room Moderation UI (Members + Kick) ======
 let __moderationBtn = null;
 let __moderationModal = null;
 
@@ -5001,7 +4946,6 @@ async function setupDoubtRoomModerationUI(roomId){
 
   let q;
   try {
-    // Question API lives under API_BASE_QA in this file
     const qRes = await authFetch(`${API_BASE_QA}/api/questions/${qid}`);
     if (!qRes.ok) throw new Error(`question ${qRes.status}`);
     q = await qRes.json();
@@ -5034,7 +4978,6 @@ function ensureModerationBtn(roomId, qid){
     __moderationBtn.style.cursor = 'pointer';
   }
 
-  // attach next to room title (safe minimal DOM change)
   if(!__moderationBtn.parentElement){
     titleEl.parentElement?.appendChild(__moderationBtn);
   }
@@ -5195,15 +5138,12 @@ function openKickModal(roomId, qid, userEmail){
         const t = await kickRes.text().catch(()=> '');
         throw new Error(`Kick failed ${kickRes.status}: ${t}`);
       }
-      // ✅ UX: refresh members list + rooms + question panel (claim slot now free)
       try { showToast('Member kicked'); } catch {}
       await openMembersModal(roomId, qid);
       try { loadRoomsFromBackend(subject); } catch {}
 
-      // If QA drawer is open for same question, refresh it so claim count updates
       try { if(window.__qaOpenQuestionId === qid) qaOpen(qid); } catch {}
     } catch (e) {
-      // if reason enum mismatch -> backend returns 400
       try { showToast('Kick failed. Check reason enum values.'); } catch { alert('Kick failed. Check reason enum values.'); }
       console.error(e);
     }
@@ -5620,7 +5560,7 @@ async function loadRoomsFromBackend(subjectKey) {
       });
     });
 
-    return rooms; // 👈 NEW
+    return rooms; 
   } catch (err) {
     console.error("Room load failed", err);
     return [];
@@ -5671,15 +5611,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🔥 author check
   const author = isAuthorUser();
 
-  const searchWrapper = document.getElementById("chatSearchWrapper"); // upar HTML mein wrap kiya h
-  const newGroupBtn   = document.getElementById("newRoomBtn");        // already hai
+  const searchWrapper = document.getElementById("chatSearchWrapper"); 
+  const newGroupBtn   = document.getElementById("newRoomBtn");      
 
   if (!author) {
-    // normal user -> hide search + New Study Group
     if (searchWrapper) searchWrapper.style.display = "none";
     if (newGroupBtn)   newGroupBtn.style.display   = "none";
   } else {
-    // tumhara / author account -> sab visible
     if (searchWrapper) searchWrapper.style.display = "";
     if (newGroupBtn)   newGroupBtn.style.display   = "";
   }
@@ -5733,7 +5671,6 @@ function setupNavbarAvatar() {
   if (!avatar) return;
 
   try {
-    // 1) Try full user object
     const userJson = localStorage.getItem("user");
     let user = null;
     if (userJson) {
@@ -5744,7 +5681,6 @@ function setupNavbarAvatar() {
       }
     }
 
-    // 2) Try to get name from multiple possible keys
     let name =
       (user && (user.name || user.fullName || user.username)) ||
       localStorage.getItem("userName") ||
@@ -5757,7 +5693,6 @@ function setupNavbarAvatar() {
       localStorage.getItem("email") ||
       "";
 
-    // Agar name empty hai lekin email hai, to email se naam bana lo
     if (!name && email) {
       name = email.split("@")[0];
     }
@@ -5792,39 +5727,17 @@ function setupNavbarAvatar() {
 // Call automatically on page load
 document.addEventListener("DOMContentLoaded", setupNavbarAvatar);
 
-
-
-
-
-
-
-
-
-// 53823rt37guyjfgjsdhcvasjhvascasvchjascvskupaopouwyqwiu ewqri crg wv rci89y4r  
-// hgfdbhjavbkrjegfhbreiuvyc 4owlbv rey vibkrhvueirgc  
-
-
-
-
-
-// 78364817216274217468172647182217868126182
-
-
 // ===== Scroll fix for chat message list =====
 document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('chat-messages');
   if (!list) return;
 
-  // In many layouts the message list sits inside a flex column.
-  // These styles make sure it can actually scroll.
   list.style.overflowY = 'auto';
   list.style.overflowX = 'hidden';
   list.style.webkitOverflowScrolling = 'touch';
   list.style.overscrollBehavior = 'contain';
   list.style.minHeight = '0';
   list.style.flex = list.style.flex || '1 1 auto';
-
-  // Also help the immediate parent in case it's a flex container.
   const p = list.parentElement;
   if (p) {
     if (!p.style.minHeight) p.style.minHeight = '0';
@@ -6007,13 +5920,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  // ---------------------------------------------------------------------------
-  // ✅ AI for resolved private doubt-rooms (question-based rooms)
-  // Your private room slug is: subject + "/doubt-q-" + questionId (Questions module)
-  // The /api/ai/* endpoints are Doubts-module based (need doubtId), so calling them
-  // with questionId gives "Doubt not found". For room-based AI, we must use:
-  // POST /api/aiqa/explain  { questionId }
-  // ---------------------------------------------------------------------------
   function extractQuestionIdFromRoom(room){
     if (!room) return null;
     const i = room.indexOf('doubt-q-');
@@ -6033,12 +5939,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function openAiForRoom(room){
-    // Always open modal UI (so user sees chat pane)
     try { openAiModal(); } catch(e) { /* ignore */ }
 
     const qid = extractQuestionIdFromRoom(room);
     if (!qid){
-      // fallback to old library mode
       try { await loadResolved(); } catch(e) {}
       switchTab('resolved');
       return;
@@ -6054,8 +5958,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = resp?.explanation || '';
       const safe = escapeHtml(text).replace(/\n/g,'<br>');
       if (box) box.innerHTML = `<div class="ai-msg ai-ai">${safe || '<i>No explanation returned</i>'}</div>`;
-
-      // disable follow-up input in this mode (no endpoint yet)
       const inp = Q('aiChatInput');
       const btn = Q('aiChatSendBtn');
       if (inp) { inp.value=''; inp.disabled = true; inp.placeholder = 'Follow-ups coming soon (AIQA mode)…'; }
@@ -6068,11 +5970,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Wire up once DOM ready
   document.addEventListener('DOMContentLoaded', () => {
-    // Ensure button + modal exist (HTML structure differs across pages)
     try { ensureAiModal(); } catch (e) {}
-    // ✅ Global AI button removed: only show "Explain with AI" on RESOLVED posts.
     try { removeGlobalAiButtons(); } catch (e) {}
-    // (removed) chat header AI button
 Q('aiCloseBtn')?.addEventListener('click', closeModal);
     Q('aiModal')?.addEventListener('click', (e) => {
       const t = e.target;
@@ -6088,7 +5987,7 @@ Q('aiCloseBtn')?.addEventListener('click', closeModal);
   });
 })();
 window.forceTestAI = async function () {
-  const room = window.currentRoom; // eg: professional_design_ui_ux_design/dsa
+  const room = window.currentRoom; 
   if (!room || !room.includes("doubt-q-")) {
     alert("Not a doubt room");
     return;
@@ -6111,7 +6010,6 @@ window.forceTestAI = async function () {
 };
 // ===== Premium Confirm Modal =====
 function showPremiumConfirm({ title, message, onConfirm }) {
-  // remove if already exists
   const old = document.getElementById("premium-confirm-overlay");
   if (old) old.remove();
 

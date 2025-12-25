@@ -24,7 +24,6 @@ async function verifyWithServer(token){
     return;
   }
 
-  // expose for pages
   window.authFetch = (url, opts={}) => authFetch(url, opts);
 
   document.getElementById("logoutBtn")?.addEventListener("click", () => {
@@ -64,7 +63,6 @@ window.closeBlockedModal = function(){
   document.getElementById("blockedModal")?.classList.remove("show");
 };
 
-// ✅ Override all browser alerts -> show our custom modal instead
 (() => {
   const nativeAlert = window.alert;
 

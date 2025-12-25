@@ -1,10 +1,9 @@
 // ---------------- GLOBAL CONFIG ----------------
 
 const API = "https://alephlearn-backend.onrender.com/api";
-// import { authFetch } from "./api.js";   // path as per your project
 const USER_ID = Number(localStorage.getItem("userId")) || null;
-let VIEW_MODE = "ALL";   // "ALL" = Recent Doubts, "MINE" = My Doubts
-let currentDoubts = [];  // last loaded list – edit ke liye
+let VIEW_MODE = "ALL";  
+let currentDoubts = []; 
 let currentAttachmentUrl = null;
 let currentAttachmentName = null;
 let currentSearchText = "";
@@ -45,10 +44,8 @@ async function openMiniProfile(email) {
     solvedEl.innerText = data.doubtsSolved ?? 0;
     likesEl.innerText  = data.likes ?? 0;
 
-    // --- remember whose card is open ---
     currentMiniProfileEmail = data.email;
 
-    // --- View profile button (opens proper profile) ---
     const viewBtn = document.getElementById("mpViewBtn");
     if (viewBtn) {
       viewBtn.onclick = (e) => {
@@ -74,11 +71,9 @@ async function openMiniProfile(email) {
       likeBtn.onclick = (e) => toggleMiniProfileLike(e);
     }
 
-    // Show card
     card.classList.remove('hidden');
     requestAnimationFrame(() => card.classList.add('show'));
 
-    // Close on outside click
     function handleOutside(e) {
       if (!card.contains(e.target)) {
         card.classList.remove('show');
@@ -114,7 +109,6 @@ async function toggleMiniProfileLike(e) {
       { method: "POST" }
     );
 
-    // res = { likes: number, likedByMe: boolean }
     likesSpan.textContent = res.likes ?? 0;
 
     btn.setAttribute("data-liked", res.likedByMe ? "true" : "false");
@@ -127,20 +121,13 @@ async function toggleMiniProfileLike(e) {
     console.error("Mini profile like toggle error:", err);
   }
 }
-// 🔹 Common tag suggestions for auto-complete
-// 🔹 Subject-wise tag suggestions
-// ---------- Tag Suggestions (subject-wise) ----------
 
-// ===== TAGS STATE =====
 let currentTags = [];
 
-// ---------------- SUBJECT CATALOG (per stream) ----------------
-// Yaha tum apne hisaab se streams/subjects badha sakte ho
-// ---------------- SUBJECT CATALOG (per stream) ----------------
-// Har stream ke liye subjects – yaha freely add / edit kar sakte ho
+
 
 const SUBJECT_CATALOG = {
-  // Default fallback (agar kuch bhi match na ho)
+
   default_cs: [
     "Data Structures",
     "Algorithms",
@@ -481,9 +468,7 @@ function resolveStreamKey(profile) {
   const spec = (profile.specialization || "").toLowerCase();
   const both = `${main} ${spec}`;
 
-  // 0️⃣ PROFESSIONAL TRACKS (industry)
   if (lvl.includes("professional")) {
-    // UI / UX / Design
     if (
       main.includes("design") ||
       spec.includes("design") ||
@@ -493,7 +478,6 @@ function resolveStreamKey(profile) {
       return "ui_ux_design";
     }
 
-    // Product / Management
     if (
       main.includes("management") ||
       spec.includes("management") ||
@@ -565,7 +549,6 @@ function resolveStreamKey(profile) {
     }
   }
 
-  // 4️⃣ BSc / BCA / BCom / BA
   if (lvl.includes("bsc") || main.includes("b.sc")) {
     if (spec.includes("computer") || spec.includes("cs")) return "ug_bsc_cs";
     if (spec.includes("physics")) return "ug_bsc_physics";
@@ -582,7 +565,6 @@ function resolveStreamKey(profile) {
     return "ug_ba";
   }
 
-  // 5️⃣ PG / Masters
   if (lvl.includes("mca")) return "pg_mca";
 
   if (lvl.includes("m.tech") || lvl.includes("mtech") || lvl.includes("m.e") || lvl.includes("me")) {
@@ -596,10 +578,8 @@ function resolveStreamKey(profile) {
 
   if (lvl.includes("mba")) return "pg_mba";
 
-  // 6️⃣ PhD / Doctorate
   if (lvl.includes("phd") || lvl.includes("ph.d") || lvl.includes("doctorate")) {
 
-    // PhD Data Science / AI / ML
     if (
       both.includes("data science") ||
       spec.includes("machine learning") ||
@@ -636,7 +616,6 @@ function resolveStreamKey(profile) {
   return "default_cs";
 }
 
-// Helper: given profile, return subject list
 function getSubjectsForProfile(profile) {
   const key = resolveStreamKey(profile);
   return SUBJECT_CATALOG[key] || SUBJECT_CATALOG.default_cs;
@@ -646,14 +625,12 @@ function getTagsForProfile(profile) {
 
   return TAG_SUGGESTIONS_STREAM[key] || TAG_SUGGESTIONS_STREAM.default;
 }
-// Dropdown me actual <option> inject karega
 function applySubjectsToDropdown(subjects) {
   const sel = document.getElementById("subject");
   if (!sel) return;
 
   const previousValue = sel.value;
 
-  // Clear and add "Select Subject"
   sel.innerHTML = "";
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -667,46 +644,37 @@ function applySubjectsToDropdown(subjects) {
     sel.appendChild(opt);
   });
 
-  // agar pehle koi value select thi aur still available hai, use restore karo
   if (previousValue && subjects.includes(previousValue)) {
     sel.value = previousValue;
   }
 }
-// subject wise suggestions
 const TAG_SUGGESTIONS_STREAM = {
-  // 🌟 DEFAULT (fallback)
   default: ["general", "notes", "help", "beginner"],
 
-  // ⭐ CSE / IT
   btech_cse: [
     "java", "c++", "python", "debugging", "recursion", "dp",
     "binary-tree", "graph", "oops", "sql", "dsa", "webdev"
   ],
 
-  // ⭐ ECE / EEE
   btech_ece: [
     "circuits", "signals", "network-theory", "semiconductors",
     "amplifiers", "communication", "vlsi"
   ],
 
-  // ⭐ MECHANICAL
   btech_mech: [
     "thermodynamics", "fluid-mechanics", "somm", "manufacturing",
     "ic-engines", "design"
   ],
 
-  // ⭐ 11-12th PCM
   school_pcm: [
     "physics", "chemistry", "maths", "jee", "mains", "advanced",
     "numericals", "formula", "shortcuts"
   ],
 
-  // ⭐ 11-12th PCB
   school_pcb: [
     "botany", "zoology", "neet", "biology", "physics", "chemistry"
   ],
 
-  // ⭐ PHd Computer Science
   phd_cs: [
     "research", "paper-review", "methodology",
     "deep-learning", "distributed-systems"
@@ -724,7 +692,6 @@ function addTagFromSuggestion(tagName) {
 
   input.value = tagName;
 
-  // tumhara existing handleTagInput reuse kar rahe hain
   const fakeEvent = {
     key: "Enter",
     target: input,
@@ -748,15 +715,12 @@ function showTagSuggestions() {
 
   if (!suggestionsBox || !inputEl || !subjectEl) return;
 
-  // Base tags → default
   let list = getTagsForProfile(currentAcademicProfile);
-
-  // Selected subject tags merge
   const subjectVal = subjectEl.value;
   if (subjectVal && TAG_SUGGESTIONS[subjectVal]) {
     list = [
       ...getTagsForProfile(currentAcademicProfile),
-      ...TAG_SUGGESTIONS[subjectVal]   // subject specific
+      ...TAG_SUGGESTIONS[subjectVal]   
     ];
   }
 
@@ -766,7 +730,6 @@ function showTagSuggestions() {
     list = list.filter((t) => t.toLowerCase().includes(q));
   }
 
-  // Hide if none
   if (!list.length) {
     suggestionsBox.style.display = "none";
     suggestionsBox.innerHTML = "";
@@ -788,7 +751,6 @@ function showTagSuggestions() {
   suggestionsBox.style.display = "block";
 }
 
-// suggestion click → tag add
 document.addEventListener("click", (e) => {
   const pill = e.target.closest(".tag-suggestion-pill");
   if (!pill) return;
@@ -802,7 +764,6 @@ document.addEventListener("click", (e) => {
   showTagSuggestions();
 });
 
-// tags-area ke bahar click → dropdown hide
 document.addEventListener("click", (e) => {
   const area = document.querySelector(".tags-area");
   const wrapper = document.getElementById("tagSuggestions");
@@ -825,7 +786,6 @@ function selectSuggestedTag(tag) {
   const input = document.getElementById("tagsInput");
   if (!tagsContainer || !input) return;
 
-  // duplicate mat add karo
   const exists = Array.from(
     document.querySelectorAll("#tagsContainer .tag")
   ).some((el) =>
@@ -846,7 +806,6 @@ function selectSuggestedTag(tag) {
   hideTagSuggestions();
 }
 
-// Page ke kahin bhi click karoge to suggestions band
 document.addEventListener("click", (e) => {
   const box = document.getElementById("tagSuggestions");
   const input = document.getElementById("tagsInput");
@@ -866,12 +825,10 @@ function clearAttachment() {
   if (attachmentName) attachmentName.textContent = "";
   if (attachmentPreview) attachmentPreview.style.display = "none";
 
-  // Optional: clear actual file input too
   const attachmentInput = document.getElementById("attachmentInput");
   if (attachmentInput) attachmentInput.value = "";
 }
 
-// Always returns parsed JSON (or null) – throws on error
 async function authFetch(url, options = {}) {
   const token = localStorage.getItem("token");
 
@@ -923,11 +880,9 @@ async function loadActivityStats() {
 }
 async function loadMyAcademicProfile() {
   try {
-    // ✅ ALWAYS use API base
     const has = await authFetch(`${API}/profile/academic/has`, { method: "GET" });
 
     if (!has) {
-      // profile nahi hai → default subjects dikhado
       applySubjectsToDropdown(getSubjectsForProfile(null));
       return;
     }
@@ -935,15 +890,12 @@ async function loadMyAcademicProfile() {
     const data = await authFetch(`${API}/profile/academic/me`, { method: "GET" });
     currentAcademicProfile = data;
 
-    // Top par stream badge (agar tumne HTML me add kiya ho)
     updateDoubtStreamBadge(data);
 
-    // 🔥 Stream ke hisaab se subjects set karo
     const subjects = getSubjectsForProfile(data);
     applySubjectsToDropdown(subjects);
   } catch (err) {
     console.error("Failed to load academic profile for doubts:", err);
-    // error hua toh bhi at least default CS list de do
     applySubjectsToDropdown(getSubjectsForProfile(null));
   }
 }
@@ -969,7 +921,6 @@ function updateDoubtStreamBadge(p) {
 }
 
 
-// --- EXPOSE FUNCTIONS FOR INLINE HTML HANDLERS ---
 window.showTagSuggestions = showTagSuggestions;
 window.handleTagInput    = handleTagInput;
 window.postDoubt         = postDoubt;
@@ -977,7 +928,6 @@ window.setVisibility     = setVisibility;
 window.openPreview       = openPreview;
 window.removeTag         = removeTag;
 
-// ---------------- UI CONFIG ----------------
 const defaultConfig = {
   platform_name: "AlephLearn",
   page_title: "Doubts & Solutions",
@@ -1007,17 +957,14 @@ function showToast(message) {
   setTimeout(() => toast.classList.remove("active"), 3000);
 }
 
-// container helper
 function getTagsContainer() {
   return document.getElementById("tagsContainer");
 }
 
-// UI pe chips redraw
 function renderTagChips() {
   const container = getTagsContainer();
   if (!container) return;
 
-  // sirf input ko bacha ke baaki chips hatao
   const input = document.getElementById("tagsInput");
   container.innerHTML = "";
   currentTags.forEach((tag) => {
@@ -1032,7 +979,6 @@ function renderTagChips() {
   container.appendChild(input);
 }
 
-// new tag add
 function addTag(rawTag) {
   const t = rawTag.trim().toLowerCase();
   if (!t) return;
@@ -1044,7 +990,6 @@ function addTag(rawTag) {
   }
 }
 
-// chip remove click (event delegation ko use kar rahe)
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("tag-remove")) {
     const tag = e.target.getAttribute("data-tag");
@@ -1097,11 +1042,8 @@ function closePreview() {
   const modal = document.getElementById("previewModal");
   if (modal) modal.style.display = "none";
 }
-// ========== CREATE DOUBT ==========
 
-// ========== CREATE DOUBT ==========
 async function postDoubt(e) {
-  // Form submit se page refresh na ho
   if (e && e.preventDefault) e.preventDefault();
 
   const subject     = document.getElementById("subject").value.trim();
@@ -1137,7 +1079,6 @@ async function postDoubt(e) {
   console.log("Posting doubt payload:", payload);
 
   try {
-    // authFetch already parses JSON automatically
     const saved = await authFetch(`${API}/doubts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1146,19 +1087,16 @@ async function postDoubt(e) {
 
     console.log("Saved doubt:", saved);
 
-    // ✅ Success actions
     showToast("Doubt posted successfully!");
     document.getElementById("doubtForm")?.reset();
     document.getElementById("tagsContainer").innerHTML = "";
 
-    // ✅ Attachment ko reset karo
     currentAttachmentUrl = null;
     currentAttachmentName = null;
 
     const attachmentInfoEl = document.getElementById("attachmentInfo");
     if (attachmentInfoEl) attachmentInfoEl.textContent = "";
 
-    // ✅ Feed reload
     await loadDoubtsFeed();
 
   } catch (err) {
@@ -1167,7 +1105,6 @@ async function postDoubt(e) {
   }
 }
 
-// ========== LIST DOUBTS ==========
 
 async function loadDoubtsFeed(opts = {}) {
   const onlyMine = opts.onlyMine || false;
@@ -1180,10 +1117,8 @@ async function loadDoubtsFeed(opts = {}) {
   try {
     let url;
     if (onlyMine && USER_ID) {
-      // /api/doubts/mine?userId=...
       url = `${API}/doubts/mine?userId=${USER_ID}&page=0&size=10`;
     } else {
-      // filters (if present in HTML)
       const fSubject = document.getElementById("filterSubject");
       const fStatus  = document.getElementById("filterStatus");
       const fSort    = document.getElementById("filterSort");
@@ -1204,11 +1139,9 @@ async function loadDoubtsFeed(opts = {}) {
         sort,
       });
 
-      // ✅ yahan se extra filters
       if (subject) params.append("subject", subject);
       if (status) params.append("status", status);
 
-      // ✅ sabse important – userId ALWAYS bhejo
       if (USER_ID) {
         params.append("userId", USER_ID);
       }
@@ -1290,9 +1223,9 @@ async function loadDoubtsFeed(opts = {}) {
           }
 
           <div class="doubt-stats" onclick="event.stopPropagation()">
-            <!-- Yaha ab LIKE NAHI hai, sirf answers & views -->
+            
               <span class="stat-item">
-    <span>👍</span>
+    <span></span>
     <span id="like-count-${d.id}">${d.likeCount || 0}</span>
   </span>
             <span class="stat-item">
@@ -1324,23 +1257,6 @@ async function loadDoubtsFeed(opts = {}) {
   }
 }
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   loadDoubtsFeed();
-
-//   // 🔍 Search box wiring
-//   const searchInput = document.getElementById("searchInput");
-//   if (searchInput) {
-//     searchInput.addEventListener("input", () => {
-//       currentSearchText = searchInput.value.trim();
-//       loadDoubtsFeed();        // search text change → list refresh
-//     });
-//   }
-
-//   const attachBtn = document.getElementById("attachBtn");
-//   const attachmentInput = document.getElementById("attachmentInput");
-//   const attachmentInfo = document.getElementById("attachmentInfo");
-// });
-// Filter events (if controls exist)
 document.getElementById("filterSubject")?.addEventListener("change", () =>
   loadDoubtsFeed()
 );
@@ -1360,14 +1276,12 @@ document.getElementById("btnAllDoubts")?.addEventListener("click", () =>
 
 // --------- Edit doubt (My Doubts only) ---------
 async function editDoubt(ev, id) {
-  // card click par detail page open na ho isliye
   if (ev && ev.stopPropagation) ev.stopPropagation();
 
   currentEditingDoubtId = id;
   if (!editOverlay) return;
 
   try {
-    // latest data le lo
     const doubt = await authFetch(`${API}/doubts/${id}`);
 
     editTitleInput.value = doubt.title || "";
@@ -1403,16 +1317,13 @@ async function applyEditFromModal() {
         title: newTitle,
         description: newDesc,
         subject: newSubject || null,
-        // tags ko abhi yahi rehne do, tum future me modal se bhi bhej sakte ho
       }),
     });
 
     hideEditModal();
 
-    // My Doubts tab pe ho toh sirf mine load karo,
-    // warna normal feed load kar do — ye logic tumhare paas pehle se hoga,
-    // simplest: hamesha normal reload:
-    loadDoubtsFeed({ onlyMine: true });// ya jo bhi flag tum use kar rahe ho
+
+    loadDoubtsFeed({ onlyMine: true });
   } catch (err) {
     console.error("Failed to update doubt", err);
     alert("Failed to update doubt.");
@@ -1432,7 +1343,6 @@ function hideEditModal() {
 }
 
 
-// ========== LIKE DOUBT (only once per user) ==========
 async function toggleLike(doubtId, e) {
   if (e) e.stopPropagation();
 
@@ -1472,7 +1382,6 @@ async function toggleLike(doubtId, e) {
       btn.classList.remove("liked");
     }
 
-    // count update karo
     const feedSpan   = document.getElementById(`like-count-${doubtId}`);
     const detailSpan = document.getElementById("detail-like-count");
 
@@ -1521,9 +1430,7 @@ async function unlikeDoubt(id, e) {
 
 // ========== DOUBT DETAIL + ANSWERS ==========
 
-// just above bottom of file, replace old openDoubtDetail
 function openDoubtDetail(id) {
-  // go to separate detail page with ?id=...
   window.location.href = `doubt-detail.html?id=${id}`;
 }
 
@@ -1596,7 +1503,6 @@ async function postAnswer(id) {
   }
 }
 
-// Accept answer (mark doubt resolved)
 async function acceptAnswer(answerId, doubtId) {
   if (!USER_ID) {
     showToast("Login first.");
@@ -1609,7 +1515,7 @@ async function acceptAnswer(answerId, doubtId) {
     });
     showToast("Answer accepted!");
     loadAnswers(doubtId, true);
-    loadDoubtsFeed(); // status badge update
+    loadDoubtsFeed(); 
   } catch (err) {
     console.error(err);
     showToast("Failed to accept answer");
@@ -1617,7 +1523,6 @@ async function acceptAnswer(answerId, doubtId) {
 }
 
 
-// ✅ Add a single tag chip to UI (if not already present)
 function addTagChip(label) {
   const value = (label || "").trim();
   if (!value) return;
@@ -1646,7 +1551,6 @@ function addTagChip(label) {
 }
 
 
-// ✅ Get suggestions based on current subject selection
 
 
 // ========== TAGS, VISIBILITY, MODAL CLOSE ==========
@@ -1781,7 +1685,6 @@ if (window.elementSdk) {
 onConfigChange(defaultConfig);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 🔹 initial data load
   loadDoubtsFeed();
   loadActivityStats();
   loadMyAcademicProfile();
@@ -1833,7 +1736,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔍 search box
   const searchInput = document.getElementById("searchInput");
   if (searchInput) {
     searchInput.addEventListener("input", () => {
@@ -1842,7 +1744,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔹 TAG INPUT → SUGGESTIONS
   const tagInput = document.getElementById("tagsInput");
   if (tagInput) {
     tagInput.addEventListener("focus", showTagSuggestions);
@@ -1857,7 +1758,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showTagSuggestions();
     });
   }
-  // 📎 file attachment
   const attachBtn       = document.getElementById("attachBtn");
   const attachmentInput = document.getElementById("attachmentInput");
   const attachmentInfo  = document.getElementById("attachmentInfo");

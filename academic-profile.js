@@ -11,11 +11,7 @@ function getAuthHeaders() {
   };
 }
 
-/**
- * Dropdown data
- */
 
-// Education levels
 const EDUCATION_LEVELS = [
   "10th",
   "11th",
@@ -25,7 +21,6 @@ const EDUCATION_LEVELS = [
   "Higher Studies"
 ];
 
-// For each education level, allowed main streams
 const MAIN_STREAMS_BY_LEVEL = {
   "10th": ["General"],
   "11th": ["Science", "Arts", "Biology"],
@@ -35,12 +30,9 @@ const MAIN_STREAMS_BY_LEVEL = {
   "Higher Studies": ["Engineering", "Medical", "Science", "Commerce", "Arts", "Other"]
 };
 
-// For each main stream, specializations
 const SPECIALIZATIONS_BY_STREAM = {
-  // 10th / generic
   "General": ["General"],
 
-  // 11th / 12th
   "Science": ["PCM", "PCB", "PCMB", "Computer Science", "Other"],
   "Biology": ["PCB", "Biology + Math", "Other"],
   "Arts": ["Humanities", "Political Science", "History", "Sociology", "Other"],
@@ -71,9 +63,7 @@ function $(id) {
   return document.getElementById(id);
 }
 
-/**
- * Dropdown helpers
- */
+
 function populateSelect(selectEl, options, placeholder = "Select") {
   if (!selectEl) return;
   selectEl.innerHTML = "";
@@ -98,20 +88,16 @@ function initDropdowns(existing) {
 
   if (!eduSelect || !streamSelect || !specSelect) return;
 
-  // Education level options
   populateSelect(eduSelect, EDUCATION_LEVELS, "Select level");
 
-  // If existing data hai to usko set karo, warna blank
   if (existing) {
     eduSelect.value = existing.educationLevel || "";
   }
 
-  // Based on current edu level, stream options
   function updateStreams() {
     const level = eduSelect.value;
     const streams = MAIN_STREAMS_BY_LEVEL[level] || [];
     populateSelect(streamSelect, streams, streams.length ? "Select stream" : "No options");
-    // Clear / recalc specialization also
     updateSpecializations();
   }
 
@@ -133,7 +119,6 @@ function initDropdowns(existing) {
     updateSpecializations();
   });
 
-  // Agar existing profile hai to uske hisaab se bhi set karo
   if (existing) {
     if (existing.educationLevel) {
       eduSelect.value = existing.educationLevel;
@@ -147,18 +132,15 @@ function initDropdowns(existing) {
       specSelect.value = existing.specialization;
     }
   } else {
-    updateStreams(); // initial empty
+    updateStreams(); 
   }
 }
 
-/**
- * Backend calls
- */
+
 
 async function loadExistingProfile() {
   const statusEl = $("academicProfileStatus");
   try {
-    // Pehle /has se check karein
     const hasRes = await fetch(`${API_BASE}/api/profile/academic/has`, {
       method: "GET",
       headers: getAuthHeaders()
@@ -179,7 +161,6 @@ async function loadExistingProfile() {
       return;
     }
 
-    // Ab actual profile load karo
     const res = await fetch(`${API_BASE}/api/profile/academic/me`, {
       method: "GET",
       headers: getAuthHeaders()
@@ -194,7 +175,7 @@ async function loadExistingProfile() {
 
     if (statusEl) {
       statusEl.textContent = "Academic profile already saved. You can update it here.";
-      statusEl.style.color = "#9AE6B4"; // light green
+      statusEl.style.color = "#9AE6B4"; 
     }
   } catch (e) {
     console.error("Failed to load academic profile:", e);
@@ -202,7 +183,7 @@ async function loadExistingProfile() {
     if (statusEl) {
       statusEl.textContent =
         "Could not load academic profile. You can still fill and try saving.";
-      statusEl.style.color = "#F6E05E"; // yellow
+      statusEl.style.color = "#F6E05E"; 
     }
   }
 }
@@ -217,7 +198,7 @@ async function saveAcademicProfile() {
   if (!edu || !stream || !spec) {
     if (statusEl) {
       statusEl.textContent = "Please select all three: level, stream and specialization.";
-      statusEl.style.color = "#FEB2B2"; // soft red
+      statusEl.style.color = "#FEB2B2"; 
     }
     return;
   }
@@ -273,7 +254,6 @@ async function saveAcademicProfile() {
  * Init
  */
 document.addEventListener("DOMContentLoaded", () => {
-  // Agar ye profile.html nahi hai to kuch mat karo
   const body = document.body;
   if (!body || body.getAttribute("data-page") !== "profile") return;
 

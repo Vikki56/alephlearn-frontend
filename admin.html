@@ -12,8 +12,6 @@
 </head>
 
 <body data-page="admin">
-
-  <!-- Same navbar (copy/paste from your pages) -->
   <header class="nav">
     <div class="nav-inner">
 
@@ -35,7 +33,6 @@
         <a href="previous-papers.html">Library</a>
         <a href="profile.html">Profile</a>
 
-        <!-- ADMIN ONLY link -->
         <a href="admin.html" class="js-admin-link">Admin</a>
 
         <button class="logout-btn-desktop js-logout">Logout</button>
@@ -67,13 +64,13 @@
   <div id="al-drawer-backdrop" class="al-drawer-backdrop"></div>
 
   <main class="container" style="padding-top:18px;">
-    <h1 class="h1">🛡 Admin Panel</h1>
+    <h1 class="h1"> Admin Panel</h1>
     <p class="sub">Create Teacher accounts and manage them.</p>
 
     <section class="grid" style="grid-template-columns: 1fr 1fr; gap:16px; margin-top:14px;">
       <!-- Create Teacher -->
       <div class="card" style="padding:16px;">
-        <h3 style="margin:0 0 10px;">➕ Create Teacher</h3>
+        <h3 style="margin:0 0 10px;"> Create Teacher</h3>
 
         <form id="createTeacherForm" style="display:grid; gap:10px;">
           <div class="form-group">
@@ -206,7 +203,6 @@
         <small id="reportsMsg" style="display:block; margin-top:10px; opacity:.75;"></small>
       </section>
   </main>
-<!-- ✅ Pretty Modal + Toast (add before </body>) -->
 <div id="al-modal" class="al-modal" aria-hidden="true">
     <div class="al-modal-backdrop" data-close="1"></div>
     <div class="al-modal-card" role="dialog" aria-modal="true" aria-labelledby="al-modal-title">
@@ -221,7 +217,6 @@
   </div>
   
   <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
-  <!-- Blocked User Modal -->
   <div id="blockedModal" class="blocked-backdrop">
     <div class="blocked-card">
     <h2>🚫 Access Temporarily Blocked</h2>
@@ -231,7 +226,6 @@
     <button class="blocked-btn" onclick="closeBlockedModal()">OK</button>
   </div>
 </div>
-<!-- ✅ Blocked Modal (Auth page) -->
 <div id="blockedModal" class="blocked-backdrop" aria-hidden="true">
   <div class="blocked-card" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
     <h2 id="blockedTitle">🚫 Access Temporarily Blocked</h2>

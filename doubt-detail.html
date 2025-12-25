@@ -11,13 +11,11 @@
   <link rel="icon" type="image/svg+xml" href="assets/alephlearn-icon.svg">
 </head>
 <body data-page="doubt-detail">
-  <!-- Top navbar -->
   <header class="nav">
     <div class="nav-inner">
       <a href="index.html" class="brand">
         <img src="alephlearn-logo.svg" alt="AlephLearn" class="brand-logo-svg">
       </a>
-      <!-- FX Animated Hamburger (mobile only) -->
   <button id="fx-burger" class="fx-burger" aria-label="Toggle menu" aria-expanded="false">
     <input id="fx-burger-check" type="checkbox" />
     <div id="fx-wrap">
@@ -32,7 +30,6 @@
         <a href="chat.html">Chat</a>
         <a href="quizzes.html">Quizzes</a>
         <a href="previous-papers.html">Previous Papers</a>
-        <!-- <a href="leaderboard.html">Leaderboard</a> -->
         <a href="profile.html">Profile</a>
               <button id="logoutBtn" class="logout-btn">
     <span class="icon"></span>
@@ -43,7 +40,6 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <div class="detail-page">
 
     <div class="detail-header">
@@ -52,12 +48,9 @@
       </button>
     </div>
 
-    <!-- Question + stats -->
     <div class="question-card" id="questionBlock">
-      <!-- Filled by doubt-detail.js -->
     </div>
 
-    <!-- Solutions attached just below question -->
     <div class="solutions-card">
       <h2 class="solutions-title">💡 Solutions</h2>
       <div id="answerList">Loading...</div>
@@ -70,7 +63,6 @@
         ></textarea>
 
         <div class="answer-actions">
-          <!-- hidden file input -->
           <input
             type="file"
             id="answerImageInput"
@@ -97,12 +89,10 @@
     </div>
 
   </div>
-<!-- Image Preview Modal -->
 <div id="imageModal" class="image-modal">
     <span class="image-modal-close">&times;</span>
     <img id="imageModalContent" class="image-modal-content" />
   </div>
-  <!-- Scripts -->
   <script src="doubts.js"></script>
   <script src="doubt-detail.js"></script>
 </body>

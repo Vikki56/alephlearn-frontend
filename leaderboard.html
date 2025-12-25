@@ -22,11 +22,9 @@
   </div>
 
 
-  <!-- MAIN CONTENT -->
   <main class="container" style="max-width:1100px; margin:auto; padding-bottom:2rem;">
 
-    <!-- SECTION 1: Latest Attempt + Leaderboard -->
-    <!-- SECTION 1: Latest Attempt + Leaderboard -->
+
     <section class="card improved-card" id="latestResultSection">
       <div class="card-header">
         <h1 class="card-title">
@@ -39,7 +37,6 @@
       </div>
 
       <div class="card-body">
-        <!-- Latest result summary -->
         <div id="latestResultSummary" class="result-summary">
           <p style="color:#94a3b8; font-size:0.9rem;">
             You haven’t attempted any quiz yet. Once you attempt a quiz, the result will show up here.
@@ -48,7 +45,6 @@
 
         <hr class="result-divider" />
 
-        <!-- Same quiz leaderboard -->
         <div class="leaderboard-card">
           <div class="card-header" style="padding-left:0; padding-right:0; border:none;">
             <h2 class="card-title">
@@ -84,7 +80,6 @@
     </section>
 
 
-    <!-- SECTION 2: My History -->
     <section class="card" id="historySection" style="margin-top: 1.75rem;">
       <div class="card-header">
         <h2 class="card-title">
@@ -124,7 +119,6 @@
   </main>
     </div>
   <script>
-    // smooth fade on navigation
     function smoothBack() {
       const page = document.querySelector('.page-transition');
       page.classList.add('fade-out');
@@ -133,13 +127,11 @@
       }, 300);
     }
   </script>
-  <!-- SCRIPTS -->
   <script type="module" src="./js/api.js"></script>
 
   <script type="module" src="./js/protect.js"></script>
   <script src="role-ui.js"></script>
   <script type="module" src="js/academicGuard.js"></script>
-  <!-- SCRIPTS -->
   <script type="module" src="./leaderboard.js"></script>
 
 </body>

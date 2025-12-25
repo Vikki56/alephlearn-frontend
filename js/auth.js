@@ -46,9 +46,8 @@ function showToast(msg, type = "info", ms = 2200) {
   setTimeout(()=>{ t.style.opacity="0"; t.style.transform="translateY(10px)"; setTimeout(()=>t.remove(),250); }, ms);
 }
 
-// gologin
 function goLogin() {
-  history.replaceState(null, "", "Auth.html#login"); // cleans ?token from URL
+  history.replaceState(null, "", "Auth.html#login"); 
   setView("login");
 }
 
@@ -62,7 +61,7 @@ function applyRoute() {
   if (hash.startsWith("#reset")) {
     const t = getHashParam("token");
     if (t) {
-      $("rpToken").value = t;        // fill hidden input
+      $("rpToken").value = t;       
       setView("reset");
     } else {
       showToast("Reset link is invalid or expired.", "error");
@@ -76,12 +75,6 @@ function applyRoute() {
   return setView("login");
 }
 
-
-
-
-// initialize
-
-
 async function apiPost(path, data) {
   const res = await fetch(`${API_BASE}${path}`, {
     method: "POST",
@@ -91,7 +84,6 @@ async function apiPost(path, data) {
 
   const text = await res.text();
 
-  // ✅ message extractor (JSON or plain)
   const msg = (() => {
     try {
       const j = text ? JSON.parse(text) : null;
@@ -101,10 +93,8 @@ async function apiPost(path, data) {
     }
   })();
 
-  // ✅ BLOCKED/BANNED => force logout + show popup on Auth.html
   if (res.status === 403) {
     sessionStorage.setItem("blocked_msg", msg || "Account blocked/banned. Contact admin.");
-    // login page hi hai, bas toast/alert + stop
     throw new Error(msg || "Blocked");
   }
 
@@ -126,22 +116,18 @@ function setView(view) {
   const showForgot = view === "forgot";
   const showReset  = view === "reset";
 
-  // high-level panels
   toggleHidden(signupPanel, !showSignup);
   toggleHidden(loginPanel,  !(showLogin || showForgot || showReset));
 
-  // sub-forms inside loginPanel
   toggleHidden(loginForm,  !showLogin);
   toggleHidden(forgotForm, !showForgot);
   toggleHidden(resetForm,  !showReset);
-  // Always hide success card unless we are explicitly showing it
+
 toggleHidden($("resetSuccess"), true);
 
-  // tabs
   tabSign?.classList.toggle("active", showSignup);
   tabLog ?.classList.toggle("active", !showSignup);
 
-  // focus
   if (showSignup) $("fullName")?.focus();
   if (showLogin)  $("lemail")?.focus();
   if (showForgot) $("fpEmail")?.focus();
@@ -151,17 +137,14 @@ toggleHidden($("resetSuccess"), true);
 
 
 
-// expose for any legacy calls
 function switchLoginView(which) { setView(which); }
 
-// tabs
 tabSign?.addEventListener("click", (e) => { e.preventDefault(); setView("signup"); });
 tabLog ?.addEventListener("click", (e) => { e.preventDefault(); setView("login");  });
 
 
 
 
-// remember email
 (function rememberEmailInit(){
   const box = $("remember");
   const em  = $("lemail");
@@ -173,7 +156,6 @@ tabLog ?.addEventListener("click", (e) => { e.preventDefault(); setView("login")
   });
 })();
 
-// prevent aggressive autofill on login email
 (function preventEmailAutofill(){
   const form = $("loginForm"), email = $("lemail");
   if (!form || !email) return;
@@ -188,7 +170,6 @@ tabLog ?.addEventListener("click", (e) => { e.preventDefault(); setView("login")
   email.addEventListener("focus", unlock, {once:true});
 })();
 
-// --- submit: signup
 signupForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = $("fullName").value.trim();
@@ -219,17 +200,14 @@ if (userId) {
   }
 });
 
-// --- submit: login
-// --- LOGIN (updated, field names match backend)
+
 $("loginForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = $("lemail").value.trim();
   const password = $("lpass").value;
   try {
     const data = await apiPost("/api/auth/login", { email, password });
-    // store the token
     localStorage.setItem("token", data.token);
-    // optional: compatibility
     localStorage.setItem("jwt", data.token);
 
 const userId = data.user?.id ?? data.id ?? data.userId;
@@ -249,24 +227,20 @@ if (userId) {
 
     showToast("Login successful", "success");
 
-    // ✅ Save role
     const role = data.user?.role || "USER";
     localStorage.setItem("role", role);
 
-    // ✅ Role-based redirect
-// ✅ Role-based redirect
+
 if (role === "TEACHER") {
   location.replace("/quizzes");
 } else if (role === "ADMIN") {
   location.replace("/admin");
 } else {
-  // ✅ read next from hash query
   const qp = location.hash.split("?")[1] || "";
   const params = new URLSearchParams(qp);
 
   let next = params.get("next") ? decodeURIComponent(params.get("next")) : "/dashboard";
 
-  // ✅ convert old html names to routes
   next = next
     .replace(/\/?index\.html$/i, "/")
     .replace(/\/?dashboard\.html$/i, "/dashboard")
@@ -289,10 +263,8 @@ if (role === "TEACHER") {
   }
 });
 
-// --- forgot/reset flow
 $("forgotBtn")  ?.addEventListener("click", () => setView("forgot"));
 $("cancelReset")?.addEventListener("click", () => setView("login"));
-// Back buttons (for both forms)
 const backForgot = $("backToLoginForgot");
 if (backForgot) backForgot.onclick = () => setView("login");
 
@@ -350,12 +322,10 @@ function initPasswordToggles() {
 
 // --- LOGOUT (global) ---
 function logout() {
-  // 1) chat cache clean
   Object.keys(localStorage)
     .filter(k => k.startsWith("hidden_") || k.startsWith("lh_"))
     .forEach(k => localStorage.removeItem(k));
 
-  // 2) auth + user info clear
   localStorage.removeItem("token");
   localStorage.removeItem("jwt");
   localStorage.removeItem("user");
@@ -365,11 +335,9 @@ function logout() {
   localStorage.removeItem("displayName");
   localStorage.removeItem("role");
 
-  // 3) back to login page
   window.location.href = "Auth.html#login";
 }
 
-// optionally: make it available globally
 window.logout = logout;
 document.addEventListener("DOMContentLoaded", initPasswordToggles);
 
@@ -378,7 +346,6 @@ requestAnimationFrame(() => {
   document.documentElement.classList.remove("al-preload-auth");
 });
 
-// optional fallback (JS error ho to bhi page show ho jaye)
 setTimeout(() => {
   document.documentElement.classList.remove("al-preload-auth");
 }, 1500);
